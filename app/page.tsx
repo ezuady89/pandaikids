@@ -2,568 +2,316 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+type Screen = "intro" | "welcome" | "story" | "quiz" | "reward" | "box" | "boxResult" | "map" | "parent";
+
 type Question = {
-  subject: string;
-  level: string;
   question: string;
-  options: string[];
   answer: string;
-  hint: string;
+  options: string[];
+  teach: string;
 };
 
-type SaveData = {
-  xp: number;
-  coins: number;
-  level: number;
-  streak: number;
-  bestScore: number;
-  badges: string[];
-  avatar: string;
-  chestReady: boolean;
+const stateThemes: Record<string, { flag: string; line: string; costume: string }> = {
+  Kelantan: { flag: "🏴", line: "Pandi bawa semangat Kelantan.", costume: "Tema Negeri" },
+  Terengganu: { flag: "🏳️", line: "Pandi bawa semangat Terengganu.", costume: "Tema Negeri" },
+  Selangor: { flag: "🔴", line: "Pandi bawa semangat Selangor.", costume: "Tema Negeri" },
+  Johor: { flag: "🔵", line: "Pandi bawa semangat Johor.", costume: "Tema Negeri" },
+  Sabah: { flag: "🌺", line: "Pandi bawa semangat Sabah.", costume: "Tema Negeri" },
+  Sarawak: { flag: "🪶", line: "Pandi bawa semangat Sarawak.", costume: "Tema Negeri" },
+  Kedah: { flag: "🌾", line: "Pandi bawa semangat Kedah.", costume: "Tema Negeri" },
+  Pahang: { flag: "🌿", line: "Pandi bawa semangat Pahang.", costume: "Tema Negeri" },
 };
 
 const questions: Question[] = [
-  { subject: "Matematik", level: "Tahun 1", question: "Berapakah 4 + 3?", options: ["5", "6", "7", "8"], answer: "7", hint: "Kira 4 jari, kemudian tambah 3 jari lagi." },
-  { subject: "Bahasa Melayu", level: "Ejaan", question: "Pilih ejaan yang betul.", options: ["Sekolah", "Skolah", "Sekula", "Sikolah"], answer: "Sekolah", hint: "Perkataan ini bermula dengan 'Se' dan berakhir dengan 'lah'." },
-  { subject: "Sains", level: "Alam Sekitar", question: "Haiwan manakah yang boleh terbang?", options: ["Kucing", "Burung", "Ikan", "Kambing"], answer: "Burung", hint: "Haiwan ini ada sayap dan suka hinggap di pokok." },
-  { subject: "Matematik", level: "Nombor", question: "Nombor selepas 9 ialah?", options: ["8", "10", "11", "7"], answer: "10", hint: "Selepas 9, kita mula nombor dua digit pertama." },
-  { subject: "Sains", level: "Tubuh Badan", question: "Kita guna apa untuk melihat?", options: ["Telinga", "Mata", "Kaki", "Mulut"], answer: "Mata", hint: "Organ ini berada di muka dan kita kelip setiap hari." },
-  { subject: "Bahasa Melayu", level: "Perkataan", question: "Pilih perkataan lawan bagi 'besar'.", options: ["Tinggi", "Kecil", "Panjang", "Bulat"], answer: "Kecil", hint: "Lawan besar ialah sesuatu yang tidak besar." },
+  { question: "5 + 3 = ?", answer: "8", options: ["6", "7", "8", "9"], teach: "Bayangkan 5 epal ditambah 3 epal. Kita kira semua epal itu menjadi 8." },
+  { question: "Nombor selepas 9 ialah?", answer: "10", options: ["8", "10", "11", "12"], teach: "Kita ikut turutan nombor. Selepas 9, kita sebut 10." },
+  { question: "3 + 1 = ?", answer: "4", options: ["3", "4", "5", "6"], teach: "Ada 3 objek. Tambah 1 lagi. Semuanya jadi 4." },
+  { question: "Mana nombor paling besar?", answer: "7", options: ["2", "4", "7", "5"], teach: "7 paling besar kerana nilainya lebih tinggi daripada 2, 4 dan 5." },
+  { question: "2 + 2 = ?", answer: "4", options: ["3", "4", "5", "6"], teach: "2 tambah 2 sama dengan 4. Cuba bayangkan dua pasang jari." },
+  { question: "7 - 2 = ?", answer: "5", options: ["4", "5", "6", "7"], teach: "Mula dengan 7. Ambil keluar 2. Tinggal 5." },
+  { question: "1 + 6 = ?", answer: "7", options: ["6", "7", "8", "9"], teach: "1 ditambah 6 menjadi 7. Kita gabungkan semua objek." },
+  { question: "Mana nombor sebelum 6?", answer: "5", options: ["4", "5", "7", "8"], teach: "Sebelum 6 ialah 5. Cuba kira: 4, 5, 6." },
+  { question: "4 + 4 = ?", answer: "8", options: ["6", "7", "8", "9"], teach: "4 tambah 4 ialah 8. Bayangkan dua kumpulan yang sama banyak." },
+  { question: "10 - 3 = ?", answer: "7", options: ["6", "7", "8", "9"], teach: "Mula dengan 10. Tolak 3. Tinggal 7." },
+  { question: "6 + 2 = ?", answer: "8", options: ["7", "8", "9", "10"], teach: "6 tambah 2 menjadi 8. Tambah dua langkah selepas 6." },
+  { question: "Nombor antara 3 dan 5 ialah?", answer: "4", options: ["2", "4", "6", "7"], teach: "Turutan nombor ialah 3, 4, 5. Jadi nombor di tengah ialah 4." },
+  { question: "9 - 4 = ?", answer: "5", options: ["4", "5", "6", "7"], teach: "Mula dengan 9. Keluarkan 4. Kita akan tinggal 5." },
+  { question: "3 + 3 = ?", answer: "6", options: ["5", "6", "7", "8"], teach: "3 tambah 3 ialah 6. Ini dua kumpulan yang sama banyak." },
+  { question: "Mana nombor paling kecil?", answer: "1", options: ["1", "3", "6", "9"], teach: "1 paling kecil kerana nilainya paling rendah." },
+  { question: "8 - 1 = ?", answer: "7", options: ["6", "7", "8", "9"], teach: "Mula dengan 8. Ambil keluar 1. Tinggal 7." },
+  { question: "5 + 5 = ?", answer: "10", options: ["8", "9", "10", "11"], teach: "5 tambah 5 menjadi 10. Dua tangan ada 10 jari." },
+  { question: "Nombor selepas 14 ialah?", answer: "15", options: ["13", "14", "15", "16"], teach: "Selepas 14, kita sebut 15." },
+  { question: "12 - 2 = ?", answer: "10", options: ["9", "10", "11", "12"], teach: "Mula dengan 12. Tolak 2. Tinggal 10." },
+  { question: "4 + 6 = ?", answer: "10", options: ["8", "9", "10", "11"], teach: "4 tambah 6 menjadi 10. Kita gabungkan dua kumpulan nombor." },
 ];
 
-const defaultSave: SaveData = {
-  xp: 40,
-  coins: 120,
-  level: 1,
-  streak: 3,
-  bestScore: 0,
-  badges: ["Murid Ceria"],
-  avatar: "/pandi-main.png",
-  chestReady: false,
-};
-
-const rewardShop = [
-  { name: "Pandi Wave", img: "/pandi-wave.png", price: 80 },
-  { name: "Pandi Focus", img: "/pandi-focus.png", price: 120 },
-  { name: "Pandi Happy", img: "/pandi-happy.png", price: 160 },
+const visualRewards = [
+  { at: 5, icon: "🎒", title: "Pandi dapat beg belajar!", text: "Setiap 5 soalan, Pandi akan nampak semakin bersedia mengembara." },
+  { at: 10, icon: "🎓", title: "Pandi dapat topi pintar!", text: "Bagus! Hutan Matematik semakin hidup." },
+  { at: 15, icon: "🧭", title: "Pandi dapat kompas!", text: "Pandi kini lebih berani meneroka jalan baru." },
+  { at: 20, icon: "🏆", title: "Hutan Matematik berjaya diselamatkan!", text: "Sekarang barulah Pandi tunjuk dunia lain yang masih menunggu." },
 ];
 
-const badgeRules = ["Murid Ceria", "Jawapan Tepat", "Streak Hebat", "Pemburu XP", "Juara Mini", "Murid Faham" ];
-
-const aiNotes: Record<string, { explain: string; miniLesson: string; review: string }> = {
-  "7": {
-    explain: "4 + 3 bermaksud mula dengan 4, kemudian tambah 3 lagi. Jadi kiraannya 5, 6, 7.",
-    miniLesson: "Cara mudah: lukis 4 bulatan, kemudian tambah 3 bulatan. Kira semua bulatan itu.",
-    review: "Latihan ulang kaji: cuba kira 5 + 2 pula. Jawapannya juga 7."
-  },
-  "Sekolah": {
-    explain: "Ejaan yang betul ialah 'Sekolah'. Bunyi awalnya 'Se', bukan 'Sko'.",
-    miniLesson: "Pandi cadang baca perlahan-lahan: Se-ko-lah. Pecahkan kepada suku kata supaya anak lebih mudah ingat.",
-    review: "Latihan ulang kaji: sebut dan tulis 'sekolah' sebanyak 3 kali."
-  },
-  "Burung": {
-    explain: "Burung boleh terbang kerana mempunyai sayap. Tidak semua haiwan ada sayap.",
-    miniLesson: "Perhatikan ciri haiwan: sayap membantu terbang, sirip membantu berenang, kaki membantu berjalan.",
-    review: "Latihan ulang kaji: namakan 2 haiwan lain yang boleh terbang."
-  },
-  "10": {
-    explain: "Nombor selepas 9 ialah 10. Selepas 9, nombor mula menjadi dua digit.",
-    miniLesson: "Susunan nombor ialah 7, 8, 9, 10, 11. Jadi selepas 9 datang 10.",
-    review: "Latihan ulang kaji: sebut nombor 1 hingga 10 dengan kuat."
-  },
-  "Mata": {
-    explain: "Kita menggunakan mata untuk melihat. Telinga untuk mendengar, kaki untuk berjalan dan mulut untuk bercakap atau makan.",
-    miniLesson: "Padankan anggota badan dengan fungsi: mata-melihat, telinga-mendengar, hidung-menghidu.",
-    review: "Latihan ulang kaji: sentuh mata, telinga dan hidung sambil sebut fungsinya."
-  },
-  "Kecil": {
-    explain: "Lawan bagi besar ialah kecil. Perkataan lawan mempunyai maksud bertentangan.",
-    miniLesson: "Contoh lain: tinggi lawannya rendah, panjang lawannya pendek, banyak lawannya sedikit.",
-    review: "Latihan ulang kaji: cari 3 benda besar dan 3 benda kecil di rumah."
-  }
-};
-
-function getAiCoach(question: Question, picked: string) {
-  const note = aiNotes[question.answer];
-  if (!note) return "Pandi akan bantu pecahkan soalan kepada langkah kecil supaya lebih mudah faham.";
-  if (picked === question.answer) return `Betul! ${note.explain} ${note.review}`;
-  return `Jawapan kamu ialah '${picked}'. Jawapan sebenar ialah '${question.answer}'. ${note.explain} ${note.miniLesson}`;
-}
-
+const boxPrizes = ["Pandi Explorer", "Pandi Saintis", "Pandi Chef", "Pandi Guru", "Pandi Bomba", "Pandi Rahsia Legenda"];
 
 export default function Home() {
-  const [save, setSave] = useState<SaveData>(defaultSave);
-  const [step, setStep] = useState(0);
-  const [selected, setSelected] = useState("");
-  const [score, setScore] = useState(0);
-  const [hearts, setHearts] = useState(3);
-  const [combo, setCombo] = useState(0);
-  const [feedback, setFeedback] = useState("Hai! Pandi dah buka Command Center belajar hari ini 🐼");
-  const [pandiMood, setPandiMood] = useState("/pandi-wave.png");
-  const [showHint, setShowHint] = useState(false);
-  const [showResult, setShowResult] = useState(false);
-  const [levelUp, setLevelUp] = useState(false);
-  const [chestOpen, setChestOpen] = useState(false);
-  const [aiCoach, setAiCoach] = useState("Pilih jawapan. Lepas itu Pandi akan terangkan kenapa jawapan betul atau salah.");
-  const [reviewList, setReviewList] = useState<string[]>([]);
-  const [focusSkill, setFocusSkill] = useState("Belum ada kelemahan dikesan");
-  const [parentUnlocked, setParentUnlocked] = useState(false);
-  const [parentPin, setParentPin] = useState("");
-  const [activeChild, setActiveChild] = useState("Aisyah");
-  const [dailyGoal, setDailyGoal] = useState(20);
-  const [reportReady, setReportReady] = useState(false);
-  const [premiumPlan, setPremiumPlan] = useState("Free");
-  const [trialActive, setTrialActive] = useState(false);
-  const [checkoutMessage, setCheckoutMessage] = useState("Belum aktif. Pilih trial atau plan premium untuk simulasi.");
-  const [installReady, setInstallReady] = useState(false);
-  const [launchItems, setLaunchItems] = useState<string[]>(["UI Premium", "Mobile Ready", "Parent Portal", "Premium MVP", "Quiz Game", "PWA Install"]);
+  const [screen, setScreen] = useState<Screen>("intro");
+  const [childName, setChildName] = useState("");
+  const [stateName, setStateName] = useState("Kelantan");
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [coachText, setCoachText] = useState("");
+  const [showCoach, setShowCoach] = useState(false);
+  const [reward, setReward] = useState(visualRewards[0]);
+  const [owned, setOwned] = useState<string[]>([]);
+  const [lastPrize, setLastPrize] = useState("");
+  const [isWalking, setIsWalking] = useState(false);
+  const [pandiMood, setPandiMood] = useState<"happy" | "teach" | "celebrate">("happy");
+
+  const current = questions[questionIndex];
+  const answered = questionIndex;
+  const theme = stateThemes[stateName] ?? stateThemes.Kelantan;
+  const rewardIcons = useMemo(() => {
+    return {
+      bag: answered >= 5,
+      hat: answered >= 10,
+      compass: answered >= 15,
+    };
+  }, [answered]);
 
   useEffect(() => {
-    const raw = window.localStorage.getItem("pandaikids-sprint9-save");
-    if (raw) {
-      try { setSave({ ...defaultSave, ...JSON.parse(raw) }); } catch {}
+    const savedName = window.localStorage.getItem("pk_child_name");
+    const savedState = window.localStorage.getItem("pk_state_name");
+    const savedOwned = window.localStorage.getItem("pk_owned_prizes");
+    if (savedName) {
+      setChildName(savedName);
+      setStateName(savedState || "Kelantan");
+      setScreen("welcome");
+    }
+    if (savedOwned) {
+      try { setOwned(JSON.parse(savedOwned)); } catch {}
     }
   }, []);
 
-  useEffect(() => {
-    window.localStorage.setItem("pandaikids-sprint9-save", JSON.stringify(save));
-  }, [save]);
+  function begin() {
+    const clean = childName.trim() || "Adam";
+    setChildName(clean);
+    window.localStorage.setItem("pk_child_name", clean);
+    window.localStorage.setItem("pk_state_name", stateName);
+    setScreen("welcome");
+  }
 
-  const current = questions[step];
-  const missionProgress = useMemo(() => Math.round(((step + (selected ? 1 : 0)) / questions.length) * 100), [step, selected]);
-  const levelProgress = save.xp % 100;
-  const accuracy = questions.length ? Math.round((score / (questions.length * 10)) * 100) : 0;
-  const weeklyMinutes = [12, 18, 15, 22, 28, 20, Math.max(10, step * 6 + score / 5)];
-  const weeklyLabels = ["Isn", "Sel", "Rab", "Kha", "Jum", "Sab", "Ahd"];
-  const launchScore = Math.round((launchItems.length / 6) * 100);
-  const parentSummary = useMemo(() => {
-    const weak = reviewList.length ? reviewList.join(", ") : "Belum dikesan";
-    const status = accuracy >= 70 ? "Sangat baik" : selected ? "Perlu bimbingan lembut" : "Sedang belajar";
-    return { weak, status, minutes: weeklyMinutes.reduce((a, b) => a + b, 0) };
-  }, [accuracy, reviewList, selected]);
-
-  function awardBadge(next: SaveData, badge: string) {
-    if (!next.badges.includes(badge)) next.badges = [...next.badges, badge];
+  function startQuiz() {
+    setQuestionIndex(0);
+    setShowCoach(false);
+    setPandiMood("happy");
+    setScreen("quiz");
   }
 
   function choose(option: string) {
-    if (selected || showResult || hearts <= 0) return;
-    setSelected(option);
-    const coachText = getAiCoach(current, option);
-    setAiCoach(coachText);
-
     if (option === current.answer) {
-      const bonus = combo >= 2 ? 5 : 0;
-      const xpGain = 15 + bonus;
-      const coinGain = 10 + bonus;
-      const nextXp = save.xp + xpGain;
-      const newLevel = Math.floor(nextXp / 100) + 1;
-      const nextCombo = combo + 1;
-      const nextScore = score + 10;
-
-      setScore(nextScore);
-      setCombo(nextCombo);
-      setPandiMood("/pandi-excited.png");
-      setFeedback(bonus ? `Combo x${nextCombo}! +${xpGain} XP dan +${coinGain} coin 🎉` : `Betul! +${xpGain} XP dan +${coinGain} coin 🎉`);
-
-      setSave((old) => {
-        const next: SaveData = {
-          ...old,
-          xp: nextXp,
-          coins: old.coins + coinGain,
-          level: newLevel,
-          streak: old.streak + 1,
-          bestScore: Math.max(old.bestScore, nextScore),
-          chestReady: nextScore >= 40 || old.chestReady,
-        };
-        if (nextScore >= 20) awardBadge(next, "Jawapan Tepat");
-        if (nextCombo >= 3) awardBadge(next, "Streak Hebat");
-        if (next.xp >= 150) awardBadge(next, "Pemburu XP");
-        if (nextScore >= 50) awardBadge(next, "Juara Mini");
-        if (nextScore >= 30 && nextCombo >= 2) awardBadge(next, "Murid Faham");
-        if (newLevel > old.level) {
-          setLevelUp(true);
-          setTimeout(() => setLevelUp(false), 1800);
-        }
-        return next;
-      });
+      const nextCount = questionIndex + 1;
+      setPandiMood("celebrate");
+      const hitReward = visualRewards.find((item) => item.at === nextCount);
+      if (hitReward) {
+        setReward(hitReward);
+        setScreen("reward");
+      } else if (nextCount === 10 || nextCount === 20) {
+        setScreen("box");
+      } else {
+        moveNext(nextCount);
+      }
     } else {
-      const nextHearts = hearts - 1;
-      setHearts(nextHearts);
-      setCombo(0);
-      setPandiMood("/pandi-think.png");
-      setFeedback(nextHearts > 0 ? "Tak apa. Pandi bagi hint, cuba lagi misi seterusnya 💪" : "Nyawa habis. Rehat sekejap, kemudian main semula ❤️");
-      setReviewList((old) => Array.from(new Set([...old, current.subject])).slice(-3));
-      setFocusSkill(`${current.subject} • ${current.level}`);
-      setSave((old) => ({ ...old, streak: 0 }));
+      setPandiMood("teach");
+      setCoachText(`Tak apa ${childName || "kawan"} 😊 ${current.teach} Jom cuba sekali lagi.`);
+      setShowCoach(true);
     }
   }
 
-  function nextQuestion() {
-    setSelected("");
-    setShowHint(false);
-    setPandiMood("/pandi-focus.png");
-    setFeedback("Soalan baru sudah muncul. Fokus ya! ✨");
-    setAiCoach("Baca soalan perlahan-lahan. Pandi akan beri penerangan selepas kamu jawab.");
-
-    if (step >= questions.length - 1 || hearts <= 0) {
-      setShowResult(true);
+  function moveNext(nextCount = questionIndex + 1) {
+    setShowCoach(false);
+    setIsWalking(true);
+    window.setTimeout(() => setIsWalking(false), 850);
+    if (nextCount >= questions.length) {
+      setScreen("map");
       return;
     }
-    setStep((value) => value + 1);
+    setQuestionIndex(nextCount);
+    setPandiMood("happy");
+    setScreen("quiz");
   }
 
-  function restart() {
-    setStep(0);
-    setSelected("");
-    setScore(0);
-    setHearts(3);
-    setCombo(0);
-    setShowHint(false);
-    setShowResult(false);
-    setChestOpen(false);
-    setPandiMood("/pandi-wave.png");
-    setFeedback("Misi baru bermula. Pandi yakin kamu boleh! 🚀");
-    setAiCoach("Pilih jawapan. Lepas itu Pandi akan terangkan kenapa jawapan betul atau salah.");
-    setReviewList([]);
-    setFocusSkill("Belum ada kelemahan dikesan");
-  }
-
-  function buyAvatar(item: typeof rewardShop[number]) {
-    if (save.coins < item.price) {
-      setFeedback("Coin belum cukup. Jawab lebih banyak soalan untuk kumpul coin 🪙");
-      setPandiMood("/pandi-sad.png");
+  function claimReward() {
+    if (reward.at === 10 || reward.at === 20) {
+      setScreen("box");
       return;
     }
-    setSave((old) => ({ ...old, coins: old.coins - item.price, avatar: item.img }));
-    setPandiMood(item.img);
-    setFeedback(`${item.name} berjaya dibuka! Avatar Pandi sudah bertukar ✨`);
+    moveNext(reward.at);
   }
 
-  function openChest() {
-    if (!save.chestReady) return;
-    setChestOpen(true);
-    setSave((old) => {
-      const next = { ...old, coins: old.coins + 50, xp: old.xp + 35, chestReady: false };
-      if (!next.badges.includes("Pembuka Hadiah")) next.badges = [...next.badges, "Pembuka Hadiah"];
-      next.level = Math.floor(next.xp / 100) + 1;
-      return next;
-    });
-    setFeedback("Hadiah dibuka! +50 coin dan +35 XP 🎁");
-    setPandiMood("/pandi-goodjob.png");
+  function openBox() {
+    const remaining = boxPrizes.filter((item) => !owned.includes(item));
+    const pool = remaining.length ? remaining : boxPrizes;
+    const prize = pool[Math.floor(Math.random() * pool.length)];
+    const nextOwned = Array.from(new Set([...owned, prize]));
+    setOwned(nextOwned);
+    window.localStorage.setItem("pk_owned_prizes", JSON.stringify(nextOwned));
+    setLastPrize(prize);
+    setScreen("boxResult");
   }
 
-  function unlockParentPortal() {
-    if (parentPin.trim() === "1234") {
-      setParentUnlocked(true);
-      setFeedback("Portal ibu bapa dibuka. Semua progress anak boleh disemak 📊");
-      setPandiMood("/pandi-goodjob.png");
-    } else {
-      setFeedback("PIN demo ialah 1234. Nanti versi sebenar kita sambung login Google.");
-      setPandiMood("/pandi-think.png");
-    }
+  function continueAfterBox() {
+    const nextCount = questionIndex + 1;
+    if (nextCount >= questions.length) setScreen("map");
+    else moveNext(nextCount);
   }
 
-  function generateReport() {
-    setReportReady(true);
-    setSave((old) => {
-      const next = { ...old };
-      if (!next.badges.includes("Laporan Pertama")) next.badges = [...next.badges, "Laporan Pertama"];
-      return next;
-    });
-    setFeedback("Laporan mingguan sudah dijana untuk ibu bapa 📄");
-    setPandiMood("/pandi-goodjob.png");
-  }
-
-  function toggleLaunchItem(item: string) {
-    setLaunchItems((old) => old.includes(item) ? old.filter((x) => x !== item) : [...old, item]);
-  }
-
-  function activateInstallMode() {
-    setInstallReady(true);
-    setFeedback("PWA mode demo aktif. Sprint seterusnya boleh tambah manifest & service worker sebenar 📱");
-    setPandiMood("/pandi-goodjob.png");
-  }
-
-  function startTrial() {
-    setTrialActive(true);
-    setPremiumPlan("Trial 7 Hari");
-    setCheckoutMessage("Trial 7 hari aktif. Versi sebenar nanti boleh sambung payment gateway.");
-    setFeedback("Trial Premium aktif! Kandungan tambahan sudah dibuka 💎");
-    setPandiMood("/pandi-excited.png");
-  }
-
-  function choosePremium(plan: string) {
-    setPremiumPlan(plan);
-    setTrialActive(false);
-    setCheckoutMessage(`${plan} dipilih. Ini simulasi checkout untuk fasa MVP.`);
-    setSave((old) => ({ ...old, coins: old.coins + 25 }));
-    setFeedback(`${plan} dipilih. Pandi bagi bonus +25 coin 🪙`);
-    setPandiMood("/pandi-goodjob.png");
+  function resetProfile() {
+    window.localStorage.removeItem("pk_child_name");
+    window.localStorage.removeItem("pk_state_name");
+    setChildName("");
+    setStateName("Kelantan");
+    setScreen("intro");
   }
 
   return (
-    <main className="pk-page">
+    <main className="pk-app">
+      <div className="sky sun" />
       <div className="cloud cloud-a" />
       <div className="cloud cloud-b" />
-      <div className="cloud cloud-c" />
-      <div className="sun">☀️</div>
-      {levelUp && <div className="level-up">LEVEL UP! 🎉</div>}
+      <div className="bird bird-a">🐦</div>
+      <div className="bird bird-b">🕊️</div>
+      <div className="mountain" />
+      <div className="river" />
+      <div className="ground" />
+      <div className="path" />
+      <div className="tree tree-a" />
+      <div className="tree tree-b" />
+      <div className={`flower flower-a ${answered >= 3 ? "show" : ""}`}>🌸</div>
+      <div className={`flower flower-b ${answered >= 8 ? "show" : ""}`}>🌼</div>
+      <div className={`flower flower-c ${answered >= 14 ? "show" : ""}`}>🌺</div>
 
-      <nav className="topbar">
-        <div className="brand">
-          <div className="brand-logo">P</div>
-          <div><strong>PandaiKids</strong><span>Premium Launch</span></div>
+      {screen !== "intro" && screen !== "welcome" && screen !== "story" && (
+        <div className="topbar">
+          <span>❤️❤️❤️</span>
+          <span>🌱 Soalan {Math.min(questionIndex + 1, 20)}/20</span>
+          <span>{theme.flag} {stateName}</span>
         </div>
-        <div className="top-actions">
-          <span>❤️ {hearts}</span><span>⭐ Level {save.level}</span><span>🪙 {save.coins}</span><span>🔥 {save.streak}</span>
-        </div>
-      </nav>
+      )}
 
-      <section className="hero sprint8-hero">
-        <div className="hero-copy">
-          <span className="tag">💎 Sprint 11 • Premium Plan</span>
-          <h1>PandaiKids masuk fasa release candidate.</h1>
-          <p>Sprint 12 fokus polish akhir: mobile ready, launch checklist, PWA install demo, status produk dan persediaan untuk live testing.</p>
-          <div className="hero-actions">
-            <a className="primary-btn" href="#quiz">Mula Misi</a>
-            <a className="ghost-btn" href="#launch">Launch Center</a>
+      <section className={`pandi-stage ${isWalking ? "walk" : ""} mood-${pandiMood}`}>
+        {rewardIcons.hat && <div className="pandi-hat">🎓</div>}
+        <img src="/pandi-official.png" alt="Pandi Official" className="pandi-official" />
+        <div className="pandi-flag">{theme.flag}</div>
+        {rewardIcons.bag && <div className="pandi-bag">🎒</div>}
+        {rewardIcons.compass && <div className="pandi-compass">🧭</div>}
+      </section>
+
+      {screen === "intro" && (
+        <section className="panel center intro-panel">
+          <img src="/pandaikids-logo-official.png" alt="PandaiKids" className="brand-logo-img" />
+          <h1>Assalamualaikum 👋</h1>
+          <p>Pandi nak kenal kawan baru sebelum mula belajar.</p>
+          <input value={childName} onChange={(e) => setChildName(e.target.value)} placeholder="Nama anak" />
+          <select value={stateName} onChange={(e) => setStateName(e.target.value)}>
+            {Object.keys(stateThemes).map((state) => <option key={state}>{state}</option>)}
+          </select>
+          <button onClick={begin}>Jom Kenal Pandi</button>
+        </section>
+      )}
+
+      {screen === "welcome" && (
+        <section className="panel center">
+          <span className="tag">{theme.line}</span>
+          <h1>Hai {childName}! 😊</h1>
+          <p>Saya Pandi, kawan belajar awak. Hari ini kita nak hidupkan Hutan Matematik.</p>
+          <button onClick={() => setScreen("story")}>Mula Pengembaraan</button>
+          <button className="ghost" onClick={resetProfile}>Tukar Nama / Negeri</button>
+        </section>
+      )}
+
+      {screen === "story" && (
+        <section className="panel story-card">
+          <span className="tag">🌳 Hutan Matematik</span>
+          <h1>Pokok nombor semakin layu...</h1>
+          <p>Pandi perlukan bantuan {childName}. Jawab soalan dengan tenang. Kalau keliru, Pandi akan ajar.</p>
+          <button onClick={startQuiz}>Bantu Pandi</button>
+        </section>
+      )}
+
+      {screen === "quiz" && current && (
+        <section className="panel quiz-card">
+          <div className="progress-seeds">
+            {Array.from({ length: 20 }).map((_, index) => <i key={index} className={index < questionIndex ? "on" : ""} />)}
           </div>
-          <div className="reward-row">
-            <span>📱 PWA Demo</span><span>✅ Launch Checklist</span><span>⚡ Polish UI</span><span>🚀 Ready Test</span>
+          <span className="tag">🌱 Pokok Nombor</span>
+          <h2>{current.question}</h2>
+          <div className="answers">
+            {current.options.map((option) => <button key={option} onClick={() => choose(option)}>{option}</button>)}
           </div>
-        </div>
-
-        <div className="hero-stage">
-          <div className="stage-card main-pandi-card">
-            <div className="spark star-one">⭐</div><div className="spark star-two">✨</div>
-            <img src={save.avatar} alt="Pandi mascot" className="pandi-main" />
-            <div className="speech-bubble">Sedia untuk launch!</div>
-          </div>
-          <div className="mini-panel xp-panel"><span>XP Terkumpul</span><strong>{save.xp} XP</strong></div>
-          <div className="mini-panel coin-panel"><span>Wallet</span><strong>{save.coins}</strong></div>
-        </div>
-      </section>
-
-      <section className="mission-strip">
-        <div><span>Misi Sprint 12</span><strong>Polish akhir sebelum PandaiKids diuji oleh pengguna sebenar</strong></div>
-        <div className="mission-progress"><div style={{ width: `${missionProgress}%` }} /></div>
-        <b>{missionProgress}%</b>
-      </section>
-
-
-
-      <section id="launch" className="launch-zone">
-        <div className="section-title"><span>🚀 Launch Center</span><h2>Release Candidate Sprint 12</h2></div>
-        <div className="launch-grid">
-          <article className="launch-card launch-main">
-            <span>Status Produk</span>
-            <strong>{launchScore}% Ready</strong>
-            <p>PandaiKids kini ada homepage premium, Pandi, quiz, gamification, AI Coach, parent portal dan premium MVP. Sprint ini fokus kemaskan pengalaman sebelum test pengguna sebenar.</p>
-            <div className="launch-meter"><div style={{ width: `${launchScore}%` }} /></div>
-          </article>
-          <article className="launch-card">
-            <span>PWA Install Demo</span>
-            <strong>{installReady ? "Aktif" : "Belum Aktif"}</strong>
-            <p>Demo mode untuk paparan “install app”. Versi production nanti tambah manifest dan service worker.</p>
-            <button onClick={activateInstallMode}>{installReady ? "Mode Aktif ✅" : "Aktifkan Demo"}</button>
-          </article>
-          <article className="launch-card">
-            <span>Mobile Polish</span>
-            <strong>Responsive</strong>
-            <p>Layout sudah disusun supaya nampak lebih kemas di telefon, tablet dan desktop.</p>
-            <div className="device-row"><b>📱</b><b>💻</b><b>🧒</b></div>
-          </article>
-        </div>
-        <div className="launch-checklist">
-          {["UI Premium", "Mobile Ready", "Parent Portal", "Premium MVP", "Quiz Game", "PWA Install"].map((item) => (
-            <button key={item} onClick={() => toggleLaunchItem(item)} className={launchItems.includes(item) ? "done" : ""}>
-              {launchItems.includes(item) ? "✅" : "⬜"} {item}
-            </button>
-          ))}
-        </div>
-        <div className="next-release-card">
-          <div><span>Next After Sprint 12</span><strong>Beta Test</strong><p>Selepas upload Sprint 12, langkah seterusnya ialah uji flow dengan 3–5 orang ibu bapa dan catat komen mereka.</p></div>
-          <a className="primary-btn" href="#quiz">Uji Quiz Sekarang</a>
-        </div>
-      </section>
-
-      <section id="dashboard" className="game-dashboard">
-        <article className="dash-card big"><span>Level Progress</span><strong>Level {save.level}</strong><div className="level-meter"><div style={{ width: `${levelProgress}%` }} /></div><p>{levelProgress}/100 XP ke level seterusnya</p></article>
-        <article className="dash-card"><span>Best Score</span><strong>{save.bestScore}</strong><p>Rekod markah tertinggi</p></article>
-        <article className="dash-card"><span>Combo</span><strong>x{combo}</strong><p>Jawapan betul berturut-turut</p></article>
-        <article className={`dash-card chest ${save.chestReady ? "ready" : ""}`} onClick={openChest}><span>Reward Chest</span><strong>{chestOpen ? "Dibuka!" : save.chestReady ? "Buka 🎁" : "Terkunci"}</strong><p>{save.chestReady ? "Klik untuk ambil hadiah" : "Capai 40 markah untuk buka"}</p></article>
-      </section>
-
-      <section className="ai-learning-zone">
-        <div className="section-title"><span>🤖 Pandi AI Coach</span><h2>Penerangan pintar selepas setiap jawapan</h2></div>
-        <div className="ai-grid">
-          <article className="ai-card coach">
-            <div className="ai-orb">AI</div>
-            <div>
-              <span>Coach Response</span>
-              <p>{aiCoach}</p>
-            </div>
-          </article>
-          <article className="ai-card">
-            <span>Fokus Ulang Kaji</span>
-            <strong>{focusSkill}</strong>
-            <p>{reviewList.length ? `Subjek perlu ulang: ${reviewList.join(", ")}` : "Pandi akan kesan topik yang anak kerap salah."}</p>
-          </article>
-          <article className="ai-card">
-            <span>Tahap Soalan</span>
-            <strong>{accuracy >= 70 ? "Naik Tahap" : selected ? "Kekal Mudah" : "Menunggu"}</strong>
-            <p>{accuracy >= 70 ? "Pandi boleh beri soalan lebih mencabar." : "Soalan masih mesra beginner supaya anak tak cepat putus asa."}</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="parent" className="parent-portal-zone">
-        <div className="section-title"><span>👨‍👩‍👧 Parent Portal</span><h2>Command Center untuk ibu bapa</h2></div>
-        {!parentUnlocked ? (
-          <div className="parent-lock-card">
-            <div>
-              <span>PIN Demo</span>
-              <h3>Buka dashboard ibu bapa</h3>
-              <p>Masukkan PIN <strong>1234</strong> untuk lihat laporan, sasaran harian dan topik yang anak perlu ulang kaji.</p>
-            </div>
-            <div className="pin-box">
-              <input value={parentPin} onChange={(e) => setParentPin(e.target.value)} placeholder="Masukkan PIN" inputMode="numeric" />
-              <button onClick={unlockParentPortal}>Buka Portal</button>
-            </div>
-          </div>
-        ) : (
-          <div className="parent-grid">
-            <article className="parent-card profile-card">
-              <span>Profil Anak</span>
-              <div className="child-tabs">
-                {["Aisyah", "Maryam", "Sofia"].map((child) => <button key={child} onClick={() => setActiveChild(child)} className={activeChild === child ? "active" : ""}>{child}</button>)}
-              </div>
-              <h3>{activeChild}</h3>
-              <p>Status minggu ini: <strong>{parentSummary.status}</strong></p>
-              <p>Topik ulang kaji: <strong>{parentSummary.weak}</strong></p>
-            </article>
-
-            <article className="parent-card report-card">
-              <span>Laporan Ringkas</span>
-              <strong>{accuracy}%</strong>
-              <p>Ketepatan semasa • Best score {save.bestScore} • Level {save.level}</p>
-              <button onClick={generateReport}>{reportReady ? "Laporan Siap ✅" : "Jana Laporan"}</button>
-            </article>
-
-            <article className="parent-card goal-card">
-              <span>Sasaran Harian</span>
-              <strong>{dailyGoal} minit</strong>
-              <input type="range" min="10" max="60" step="5" value={dailyGoal} onChange={(e) => setDailyGoal(Number(e.target.value))} />
-              <p>Sasaran ini akan jadi panduan sesi belajar harian.</p>
-            </article>
-
-            <article className="parent-card chart-card">
-              <span>Graf Mingguan</span>
-              <div className="bar-chart">
-                {weeklyMinutes.map((value, index) => <div key={weeklyLabels[index]}><b style={{ height: `${Math.min(100, value * 3)}px` }} /><small>{weeklyLabels[index]}</small></div>)}
-              </div>
-              <p>Jumlah minggu ini: <strong>{Math.round(parentSummary.minutes)} minit</strong></p>
-            </article>
-          </div>
-        )}
-      </section>
-
-
-      <section id="premium" className="premium-zone">
-        <div className="section-title"><span>💎 Premium Center</span><h2>Model langganan PandaiKids</h2></div>
-        <div className="premium-grid">
-          <article className="premium-card free">
-            <span>Free</span>
-            <h3>RM0</h3>
-            <p>Untuk cuba asas PandaiKids: quiz ringkas, XP, coin dan Pandi Coach demo.</p>
-            <ul><li>✅ 6 soalan harian</li><li>✅ XP & coin asas</li><li>✅ Parent portal demo</li></ul>
-            <button onClick={() => choosePremium("Free Plan")}>Kekal Free</button>
-          </article>
-          <article className="premium-card popular">
-            <div className="popular-ribbon">Cadangan MVP</div>
-            <span>Premium Kids</span>
-            <h3>RM9.90<span>/bulan</span></h3>
-            <p>Untuk keluarga yang mahu soalan lebih banyak, laporan mingguan dan latihan ikut tahap anak.</p>
-            <ul><li>✅ Soalan tanpa had</li><li>✅ AI Coach lebih lengkap</li><li>✅ Laporan ibu bapa</li><li>✅ Badge & sijil</li></ul>
-            <button onClick={() => choosePremium("Premium Kids RM9.90")}>Pilih Premium</button>
-          </article>
-          <article className="premium-card family">
-            <span>Family</span>
-            <h3>RM19.90<span>/bulan</span></h3>
-            <p>Untuk 3 anak, dashboard keluarga dan kandungan tambahan Bahasa Melayu, Matematik dan Sains.</p>
-            <ul><li>✅ Hingga 3 profil anak</li><li>✅ Graf progress keluarga</li><li>✅ Reward premium</li></ul>
-            <button onClick={() => choosePremium("Family Plan RM19.90")}>Pilih Family</button>
-          </article>
-        </div>
-        <div className="checkout-panel">
-          <div><span>Status Akaun</span><strong>{premiumPlan}</strong><p>{checkoutMessage}</p></div>
-          <button onClick={startTrial}>🎁 Aktifkan Trial 7 Hari</button>
-        </div>
-        <div className="premium-content">
-          <article><b>{premiumPlan === "Free" && !trialActive ? "🔒" : "✅"}</b><strong>Bank Soalan Premium</strong><p>{premiumPlan === "Free" && !trialActive ? "Terkunci untuk pengguna Free." : "Dibuka: 50+ set latihan boleh ditambah selepas ini."}</p></article>
-          <article><b>{premiumPlan === "Free" && !trialActive ? "🔒" : "✅"}</b><strong>Sijil Automatik</strong><p>{premiumPlan === "Free" && !trialActive ? "Akan dibuka dalam pelan Premium." : "Sedia untuk Sprint seterusnya: jana sijil PDF."}</p></article>
-          <article><b>{premiumPlan === "Free" && !trialActive ? "🔒" : "✅"}</b><strong>AI Tutor Pro</strong><p>{premiumPlan === "Free" && !trialActive ? "Demo sahaja untuk plan Free." : "Penerangan lebih lengkap ikut tahap anak."}</p></article>
-        </div>
-      </section>
-
-      <section className="badge-zone">
-        <div className="section-title"><span>🏅 Badge Pencapaian</span><h2>Koleksi anak hari ini</h2></div>
-        <div className="badges">
-          {badgeRules.map((badge) => <div key={badge} className={`badge ${save.badges.includes(badge) ? "active" : "locked"}`}>{save.badges.includes(badge) ? "🏅" : "🔒"}<strong>{badge}</strong></div>)}
-        </div>
-      </section>
-
-      <section className="shop-zone">
-        <div className="section-title"><span>🛍️ Kedai Pandi</span><h2>Unlock avatar dengan coin</h2></div>
-        <div className="shop-grid">
-          {rewardShop.map((item) => (
-            <article className="shop-card" key={item.name}>
-              <img src={item.img} alt={item.name} />
-              <h3>{item.name}</h3>
-              <button onClick={() => buyAvatar(item)}>🪙 {item.price} Unlock</button>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="quiz" className="quiz-zone">
-        <div className="pandi-chat-card">
-          <img src={pandiMood} alt="Pandi reaction" />
-          <div><span>Pandi kata</span><p>{feedback}</p></div>
-        </div>
-
-        <div className="quiz-card">
-          {!showResult ? (
-            <>
-              <div className="quiz-header">
-                <div><span className="mini-label">{current.subject} • {current.level}</span><h2>{current.question}</h2></div>
-                <div className="level-pill">Misi {step + 1}/{questions.length}</div>
-              </div>
-              {showHint && <div className="hint-box">💡 {current.hint}<br/><small>Strategi Pandi: buang pilihan yang memang salah, kemudian pilih jawapan paling tepat.</small></div>}
-              <div className="answers">
-                {current.options.map((option) => {
-                  const isCorrect = selected && option === current.answer;
-                  const isWrong = selected === option && option !== current.answer;
-                  return <button key={option} onClick={() => choose(option)} className={`answer-btn ${isCorrect ? "correct" : ""} ${isWrong ? "wrong" : ""}`}><span>{option}</span></button>;
-                })}
-              </div>
-              <div className="quiz-actions">
-                <button onClick={() => setShowHint(true)} className="hint-btn">💡 Hint Pintar</button>
-                <button onClick={nextQuestion} className="next-btn">{step >= questions.length - 1 ? "Lihat Result" : "Teruskan Misi →"}</button>
-              </div>
-            </>
-          ) : (
-            <div className="result-card">
-              <img src="/pandi-goodjob.png" alt="Pandi good job" />
-              <span>Result Misi</span>
-              <h2>{accuracy >= 70 ? "Hebat!" : "Bagus, terus cuba!"}</h2>
-              <p>Skor: <strong>{score}/{questions.length * 10}</strong> • Ketepatan: <strong>{accuracy}%</strong></p>
-              <button onClick={restart} className="next-btn">Main Semula</button>
+          {showCoach && (
+            <div className="coach-card">
+              <b>🐼 Pandi mengajar</b>
+              <p>{coachText}</p>
+              <button className="ghost" onClick={() => setShowCoach(false)}>Saya faham, cuba lagi</button>
             </div>
           )}
-        </div>
-      </section>
+        </section>
+      )}
+
+      {screen === "reward" && (
+        <section className="modal-card">
+          <div className="big-icon">{reward.icon}</div>
+          <h1>{reward.title}</h1>
+          <p>{reward.text}</p>
+          <button onClick={claimReward}>Teruskan</button>
+        </section>
+      )}
+
+      {screen === "box" && (
+        <section className="modal-card">
+          <div className="big-icon shake">🎁</div>
+          <h1>Kotak Kejutan Pandi</h1>
+          <p>Pilih kotak. Hadiah ini hanya diperoleh melalui pembelajaran, bukan dibeli.</p>
+          <div className="box-grid">
+            {Array.from({ length: 6 }).map((_, index) => <button key={index} onClick={openBox}>🐼❓</button>)}
+          </div>
+        </section>
+      )}
+
+      {screen === "boxResult" && (
+        <section className="modal-card">
+          <div className="big-icon">🐼✨</div>
+          <h1>{lastPrize}</h1>
+          <p>Hadiah masuk ke Album Pandi. Tiada hadiah berulang selagi koleksi belum lengkap.</p>
+          <button onClick={continueAfterBox}>Sambung Belajar</button>
+        </section>
+      )}
+
+      {screen === "map" && (
+        <section className="modal-card wide">
+          <div className="big-icon">🗺️</div>
+          <h1>Eh, ada dunia lain!</h1>
+          <p>{childName} sudah merasai pengalaman belajar bersama Pandi. Sekarang baru Pandi tunjuk dunia lain yang menunggu.</p>
+          <div className="world-map">
+            <div>🌳 Hutan Matematik ✅</div>
+            <div className="locked">🏰 Istana BM 🔒</div>
+            <div className="locked">🚀 Planet Sains 🔒</div>
+            <div className="locked">🌊 Pulau English 🔒</div>
+            <div className="locked">🕌 Taman Akhlak 🔒</div>
+            <div className="locked">🎨 Studio Kreatif 🔒</div>
+          </div>
+          <button onClick={() => setScreen("parent")}>Ringkasan Ibu Bapa</button>
+        </section>
+      )}
+
+      {screen === "parent" && (
+        <section className="panel center">
+          <h1>Untuk Ibu Bapa ❤️</h1>
+          <p>{childName} menyelesaikan 20 soalan pertama, menerima bimbingan bila keliru, dan membuka ganjaran visual melalui pembelajaran.</p>
+          <p className="parent-note">Fokus PandaiKids: bina keyakinan belajar, bukan sekadar kejar markah.</p>
+          <button onClick={() => setScreen("welcome")}>Kembali</button>
+        </section>
+      )}
     </main>
   );
 }
