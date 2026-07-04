@@ -1,9 +1,8 @@
 import './globals.css';
-import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'PandaiKids Build 09',
-  description: 'PandaiKids Premium Homepage'
+export const metadata = {
+  title: 'PandaiKids Build 10',
+  description: 'Premium homepage fix'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
