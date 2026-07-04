@@ -1,18 +1,23 @@
-# PandaiKids Sprint 3
+# PandaiKids Sprint 5
 
-Sprint 3 menukar PandaiKids daripada landing page kepada mini app flow.
+Premium UI + Game Feel update.
 
-## Ada dalam update
-- Landing page ringkas
-- Onboarding nama anak
-- Pilih tahun
-- Dashboard anak
-- Pilih subjek
-- Kuiz Matematik pertama
-- Result betul/salah
-- Reward Pip
-- Peta Pengembaraan
-- Profil anak
+## Files
+- index.html
+- style.css
+- script.js
 
-## Upload ke GitHub
-Replace/upload semua folder dan fail ini ke root repo pandaikids.
+## Cara upload ke GitHub
+1. Buka repo PandaiKids di GitHub.
+2. Upload/replace 3 fail ini.
+3. Commit changes.
+4. Refresh website selepas deploy siap.
+
+## Ciri Sprint 5
+- Hero section premium
+- Pandi animasi blink & wave
+- Sistem XP
+- Bintang, syiling, streak
+- Kuiz interaktif
+- Confetti bila jawapan betul
+- UI mesra telefon

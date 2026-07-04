@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PandaiKids - Belajar Sambil Bermain</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="sky-bg">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-face">🐼</div>
+      <div>
+        <h1>PandaiKids</h1>
+        <p>Belajar seronok untuk anak-anak</p>
+      </div>
+    </div>
+    <div class="parent-pill">Untuk Ibu Bapa</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="badge">Sprint 5 • Premium Game Feel</span>
+        <h2>Belajar, jawab kuiz dan kumpul bintang bersama Pandi!</h2>
+        <p>
+          PandaiKids bantu anak belajar dengan cara lebih ceria, interaktif dan mudah digunakan di telefon.
+        </p>
+        <div class="hero-actions">
+          <button onclick="startGame()" class="btn-primary">Mula Belajar</button>
+          <button onclick="scrollToQuiz()" class="btn-soft">Cuba Kuiz</button>
+        </div>
+      </div>
+
+      <div class="pandi-card">
+        <div class="pandi">
+          <div class="ear left"></div>
+          <div class="ear right"></div>
+          <div class="face">
+            <div class="eye left-eye"></div>
+            <div class="eye right-eye"></div>
+            <div class="nose"></div>
+            <div class="mouth"></div>
+            <div class="blush left-blush"></div>
+            <div class="blush right-blush"></div>
+          </div>
+          <div class="hand">👋</div>
+        </div>
+        <div class="speech" id="pandiSpeech">Hai! Jom belajar sama-sama.</div>
+      </div>
+    </section>
+
+    <section class="stats-panel">
+      <div class="stat-card">
+        <span>⭐</span>
+        <strong id="stars">0</strong>
+        <p>Bintang</p>
+      </div>
+      <div class="stat-card">
+        <span>🪙</span>
+        <strong id="coins">0</strong>
+        <p>Syiling</p>
+      </div>
+      <div class="stat-card">
+        <span>🔥</span>
+        <strong id="streak">0</strong>
+        <p>Streak</p>
+      </div>
+    </section>
+
+    <section class="xp-box">
+      <div class="xp-top">
+        <strong>Progress XP</strong>
+        <span id="xpText">0%</span>
+      </div>
+      <div class="xp-bar">
+        <div id="xpFill"></div>
+      </div>
+    </section>
+
+    <section class="quiz-section" id="quiz">
+      <div class="quiz-card" id="quizCard">
+        <div class="quiz-header">
+          <span class="lesson-chip">Matematik Asas</span>
+          <span id="questionCount">Soalan 1/5</span>
+        </div>
+        <h3 id="question">2 + 3 = ?</h3>
+        <div class="answers" id="answers"></div>
+        <div id="feedback" class="feedback"></div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div>
+        <h3>Kenapa PandaiKids?</h3>
+        <p>Direka supaya anak rasa seperti bermain game, tetapi masih fokus kepada pembelajaran.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature">🎮 Game-like learning</div>
+        <div class="feature">🏆 Ganjaran & XP</div>
+        <div class="feature">📱 Mesra telefon</div>
+        <div class="feature">👨‍👩‍👧 Untuk ibu bapa</div>
+      </div>
+    </section>
+  </main>
+
+  <div id="confetti"></div>
+  <script src="script.js"></script>
+</body>
+</html>
