@@ -1,0 +1,10 @@
+{
+  "name": "PandaiKids",
+  "short_name": "PandaiKids",
+  "description": "Belajar dengan Sahabat Pandai.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EAF5FF",
+  "theme_color": "#4F8EF7",
+  "icons": []
+}
