@@ -1,15 +1,19 @@
-PandaiKids Sprint 6 - Quiz Game Progress
+PandaiKids V1 Build 01 - Pandi Alive Onboarding + Hutan Matematik
 
-Upload/replace fail ini sahaja:
+Upload/replace ke GitHub:
 1. app/page.tsx
 2. app/globals.css
+3. public/pandi-official.png
+4. public/pandaikids-logo-official.png
 
-Pastikan fail gambar Pandi masih ada dalam folder public:
-- pandi-main.png
-- pandi-wave.png
-- pandi-focus.png
-- pandi-excited.png
-- pandi-think.png
-- pandi-goodjob.png
+Selepas commit, tunggu Vercel deploy sampai Ready.
 
-Lepas commit, tunggu Vercel deploy sampai Ready.
+Build ini mengandungi:
+- Onboarding nama anak + negeri
+- Pandi ikut tema negeri
+- Hutan Matematik Tahun 1
+- 20 soalan percuma
+- Salah -> Pandi ajar
+- Ganjaran visual setiap 5 soalan
+- Kotak Kejutan setiap 10/20 soalan
+- Peta dunia hanya muncul selepas 20 soalan
