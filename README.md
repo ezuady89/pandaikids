@@ -1,25 +1,17 @@
-# PandaiKids Build 07 — Next.js Version
+# PandaiKids Build 08 - Premium Homepage
 
-Ini build untuk projek Vercel yang dikesan sebagai Next.js.
+Build ini ialah versi Next.js sebenar untuk Vercel/GitHub.
 
-## Penting
-Jika laman masih tidak berubah, maksudnya Vercel masih build fail lama seperti `app/page.tsx` lama atau `src/app/page.tsx` lama.
+Perubahan utama:
+- Homepage premium menggunakan dunia Pandi yang lebih cantik.
+- Tiada nama/negeri preset seperti Adam/Kelantan.
+- Pandi akan tanya nama dan negeri dahulu sebelum masuk Home.
+- Ada badge `BUILD 08 • PREMIUM HOME ACTIVE` untuk sahkan file baru aktif.
+- UI lebih game-like: misi harian, blind box, quiz, parent dashboard, button besar dan animasi.
 
-## Cara upload ke GitHub
-1. Buka ZIP ini.
-2. Upload isi di dalam folder `pandaikids_build_07_next` ke root repository GitHub.
-3. Pastikan folder ini ada di root:
-   - `app/page.tsx`
-   - `app/globals.css`
-   - `app/layout.tsx`
-   - `public/assets/...`
-   - `package.json`
-4. Kalau repo lama ada folder `src/app`, sila padam atau gantikan juga fail `src/app/page.tsx` kerana Next.js mungkin sedang guna folder itu.
-5. Deploy semula di Vercel.
-
-## Cara sahkan build baru aktif
-Di laman utama mesti nampak badge:
-
-`NEXT BUILD 07 • NEW FILE ACTIVE`
-
-Kalau badge ini tidak muncul, maksudnya fail Build 07 belum digunakan oleh Vercel.
+Cara upload:
+1. Extract ZIP.
+2. Upload semua isi folder ini ke root repo GitHub.
+3. Pastikan struktur root ada `app/page.tsx`, `app/globals.css`, `package.json`, dan `public/assets`.
+4. Commit dan tunggu Vercel deploy.
+5. Bila buka website, cari badge `BUILD 08 • PREMIUM HOME ACTIVE`.
