@@ -115,6 +115,8 @@ export default function Home() {
   const [premiumPlan, setPremiumPlan] = useState("Free");
   const [trialActive, setTrialActive] = useState(false);
   const [checkoutMessage, setCheckoutMessage] = useState("Belum aktif. Pilih trial atau plan premium untuk simulasi.");
+  const [installReady, setInstallReady] = useState(false);
+  const [launchItems, setLaunchItems] = useState<string[]>(["UI Premium", "Mobile Ready", "Parent Portal", "Premium MVP", "Quiz Game", "PWA Install"]);
 
   useEffect(() => {
     const raw = window.localStorage.getItem("pandaikids-sprint9-save");
@@ -133,6 +135,7 @@ export default function Home() {
   const accuracy = questions.length ? Math.round((score / (questions.length * 10)) * 100) : 0;
   const weeklyMinutes = [12, 18, 15, 22, 28, 20, Math.max(10, step * 6 + score / 5)];
   const weeklyLabels = ["Isn", "Sel", "Rab", "Kha", "Jum", "Sab", "Ahd"];
+  const launchScore = Math.round((launchItems.length / 6) * 100);
   const parentSummary = useMemo(() => {
     const weak = reviewList.length ? reviewList.join(", ") : "Belum dikesan";
     const status = accuracy >= 70 ? "Sangat baik" : selected ? "Perlu bimbingan lembut" : "Sedang belajar";
@@ -272,6 +275,16 @@ export default function Home() {
     setPandiMood("/pandi-goodjob.png");
   }
 
+  function toggleLaunchItem(item: string) {
+    setLaunchItems((old) => old.includes(item) ? old.filter((x) => x !== item) : [...old, item]);
+  }
+
+  function activateInstallMode() {
+    setInstallReady(true);
+    setFeedback("PWA mode demo aktif. Sprint seterusnya boleh tambah manifest & service worker sebenar 📱");
+    setPandiMood("/pandi-goodjob.png");
+  }
+
   function startTrial() {
     setTrialActive(true);
     setPremiumPlan("Trial 7 Hari");
@@ -310,14 +323,14 @@ export default function Home() {
       <section className="hero sprint8-hero">
         <div className="hero-copy">
           <span className="tag">💎 Sprint 11 • Premium Plan</span>
-          <h1>PandaiKids mula ada pelan percuma dan premium.</h1>
-          <p>Sprint 11 tambah paparan langganan, kandungan premium, trial 7 hari dan simulasi checkout supaya model bisnes PandaiKids mula jelas.</p>
+          <h1>PandaiKids masuk fasa release candidate.</h1>
+          <p>Sprint 12 fokus polish akhir: mobile ready, launch checklist, PWA install demo, status produk dan persediaan untuk live testing.</p>
           <div className="hero-actions">
             <a className="primary-btn" href="#quiz">Mula Misi</a>
-            <a className="ghost-btn" href="#premium">Lihat Premium</a>
+            <a className="ghost-btn" href="#launch">Launch Center</a>
           </div>
           <div className="reward-row">
-            <span>💎 Premium Plan</span><span>🔒 Kandungan Premium</span><span>🧾 Checkout Demo</span><span>🎁 Trial 7 Hari</span>
+            <span>📱 PWA Demo</span><span>✅ Launch Checklist</span><span>⚡ Polish UI</span><span>🚀 Ready Test</span>
           </div>
         </div>
 
@@ -325,7 +338,7 @@ export default function Home() {
           <div className="stage-card main-pandi-card">
             <div className="spark star-one">⭐</div><div className="spark star-two">✨</div>
             <img src={save.avatar} alt="Pandi mascot" className="pandi-main" />
-            <div className="speech-bubble">Jom unlock badge!</div>
+            <div className="speech-bubble">Sedia untuk launch!</div>
           </div>
           <div className="mini-panel xp-panel"><span>XP Terkumpul</span><strong>{save.xp} XP</strong></div>
           <div className="mini-panel coin-panel"><span>Wallet</span><strong>{save.coins}</strong></div>
@@ -333,9 +346,46 @@ export default function Home() {
       </section>
 
       <section className="mission-strip">
-        <div><span>Misi Sprint 11</span><strong>Belajar, pantau progres dan cuba ciri premium</strong></div>
+        <div><span>Misi Sprint 12</span><strong>Polish akhir sebelum PandaiKids diuji oleh pengguna sebenar</strong></div>
         <div className="mission-progress"><div style={{ width: `${missionProgress}%` }} /></div>
         <b>{missionProgress}%</b>
+      </section>
+
+
+
+      <section id="launch" className="launch-zone">
+        <div className="section-title"><span>🚀 Launch Center</span><h2>Release Candidate Sprint 12</h2></div>
+        <div className="launch-grid">
+          <article className="launch-card launch-main">
+            <span>Status Produk</span>
+            <strong>{launchScore}% Ready</strong>
+            <p>PandaiKids kini ada homepage premium, Pandi, quiz, gamification, AI Coach, parent portal dan premium MVP. Sprint ini fokus kemaskan pengalaman sebelum test pengguna sebenar.</p>
+            <div className="launch-meter"><div style={{ width: `${launchScore}%` }} /></div>
+          </article>
+          <article className="launch-card">
+            <span>PWA Install Demo</span>
+            <strong>{installReady ? "Aktif" : "Belum Aktif"}</strong>
+            <p>Demo mode untuk paparan “install app”. Versi production nanti tambah manifest dan service worker.</p>
+            <button onClick={activateInstallMode}>{installReady ? "Mode Aktif ✅" : "Aktifkan Demo"}</button>
+          </article>
+          <article className="launch-card">
+            <span>Mobile Polish</span>
+            <strong>Responsive</strong>
+            <p>Layout sudah disusun supaya nampak lebih kemas di telefon, tablet dan desktop.</p>
+            <div className="device-row"><b>📱</b><b>💻</b><b>🧒</b></div>
+          </article>
+        </div>
+        <div className="launch-checklist">
+          {["UI Premium", "Mobile Ready", "Parent Portal", "Premium MVP", "Quiz Game", "PWA Install"].map((item) => (
+            <button key={item} onClick={() => toggleLaunchItem(item)} className={launchItems.includes(item) ? "done" : ""}>
+              {launchItems.includes(item) ? "✅" : "⬜"} {item}
+            </button>
+          ))}
+        </div>
+        <div className="next-release-card">
+          <div><span>Next After Sprint 12</span><strong>Beta Test</strong><p>Selepas upload Sprint 12, langkah seterusnya ialah uji flow dengan 3–5 orang ibu bapa dan catat komen mereka.</p></div>
+          <a className="primary-btn" href="#quiz">Uji Quiz Sekarang</a>
+        </div>
       </section>
 
       <section id="dashboard" className="game-dashboard">
