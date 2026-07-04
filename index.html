@@ -1,119 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PandaiKids - Belajar Sambil Bermain</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PandaiKids Build 02</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="sky-scene">
-    <div class="blob blob-one"></div>
-    <div class="blob blob-two"></div>
-    <div class="cloud cloud-a">☁️</div>
-    <div class="cloud cloud-b">☁️</div>
-    <div class="cloud cloud-c">☁️</div>
-
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-icon">🐼</div>
-        <div>
-          <strong>PandaiKids</strong>
-          <span>Belajar sambil bermain</span>
-        </div>
+  <main class="phone">
+    <section id="screen-home" class="screen active">
+      <div class="topbar">
+        <div class="profile">👦 <span><b>Hai, Adam!</b><small>Level <b id="level">3</b></small></span></div>
+        <div class="wallet"><span>⭐ <b id="stars">125</b></span><span>🪙 <b id="coins">850</b></span></div>
       </div>
-      <button class="parent-btn">👨‍👩‍👧 Parent Mode</button>
-    </header>
-
-    <main class="hero">
-      <section class="hero-copy">
-        <div class="badge">✨ Platform pembelajaran kanak-kanak</div>
-        <h1>Jom belajar dengan <span>Pandi</span>!</h1>
-        <p>
-          Aktiviti warna-warni, kuiz interaktif, ganjaran bintang dan pengalaman seperti game supaya anak lebih seronok belajar setiap hari.
-        </p>
-
-        <div class="hero-actions">
-          <button class="primary-btn" id="startBtn">🚀 Mula Belajar</button>
-          <button class="secondary-btn" id="demoBtn">🎮 Cuba Demo</button>
-        </div>
-
-        <div class="stats-row">
-          <div><strong>12+</strong><span>Modul</span></div>
-          <div><strong>250+</strong><span>Soalan</span></div>
-          <div><strong>⭐</strong><span>Reward</span></div>
-        </div>
-      </section>
-
-      <section class="game-card" aria-label="PandaiKids game preview">
-        <div class="game-hud">
-          <div>⭐ <b id="stars">3</b></div>
-          <div>🪙 <b id="coins">25</b></div>
-          <div>❤️❤️❤️</div>
-        </div>
-
-        <div class="pandi-wrap">
-          <div class="sparkle s1">✦</div>
-          <div class="sparkle s2">✧</div>
-          <div class="pandi">
-            <div class="ear left"></div>
-            <div class="ear right"></div>
-            <div class="face">
-              <div class="eye left-eye"><span></span></div>
-              <div class="eye right-eye"><span></span></div>
-              <div class="nose"></div>
-              <div class="smile"></div>
-              <div class="cheek left-cheek"></div>
-              <div class="cheek right-cheek"></div>
-            </div>
-            <div class="arm left-arm"></div>
-            <div class="arm right-arm"></div>
-            <div class="body"></div>
-          </div>
-        </div>
-
-        <div class="xp-box">
-          <div class="xp-top"><span>Level 1</span><strong>70%</strong></div>
-          <div class="xp-bar"><div></div></div>
-        </div>
-
-        <div class="mini-question">
-          <p>2 + 3 = ?</p>
-          <div class="answers">
-            <button data-answer="wrong">4</button>
-            <button data-answer="correct">5</button>
-            <button data-answer="wrong">6</button>
-          </div>
-          <small id="feedback">Pilih jawapan yang betul ✨</small>
-        </div>
-      </section>
-    </main>
-
-    <section class="modules">
-      <div class="module-card yellow"><span>🔢</span><h3>Matematik</h3><p>Kira mudah & cepat.</p></div>
-      <div class="module-card pink"><span>📖</span><h3>Membaca</h3><p>Kenal huruf dan suku kata.</p></div>
-      <div class="module-card green"><span>🧠</span><h3>Kuiz Pintar</h3><p>Soalan fun setiap hari.</p></div>
-      <div class="module-card blue"><span>🏆</span><h3>Ganjaran</h3><p>Bintang, syiling dan level.</p></div>
+      <div class="brand">
+        <div class="pandi big"><span>🐼</span></div>
+        <h1>Pandai<span>Kids</span></h1>
+        <p>Belajar Sambil Bermain</p>
+      </div>
+      <button class="btn green" onclick="go('quiz')">▶ Mula Belajar</button>
+      <button class="btn purple" onclick="go('collection')">🎁 Koleksi</button>
+      <button class="btn yellow" onclick="toast('Ranking akan masuk Build 03 🏆')">🏆 Ranking</button>
+      <button class="btn blue" onclick="go('parent')">👨‍👩‍👧 Ibu Bapa</button>
+      <div class="dock"><button>⚙️<small>Tetapan</small></button><button>🎁<small>Misi</small></button><button>📅<small>Kalendar</small></button></div>
     </section>
 
-    <div class="ground">
-      <div class="hill hill-one"></div>
-      <div class="hill hill-two"></div>
-    </div>
-  </div>
+    <section id="screen-quiz" class="screen">
+      <div class="gamebar"><span>Soalan <b id="qnum">1</b>/10</span><span>⏱️ 00:<b id="timer">18</b></span><span>❤️ 3</span></div>
+      <div class="quiz-card"><h2 id="question">5 + 3 = ?</h2></div>
+      <div class="pandi thinking"><span>🐼</span><p id="hint">Pandi fikir... pilih jawapan yang betul!</p></div>
+      <div class="answers" id="answers"></div>
+      <div class="progress"><i id="progressFill"></i></div>
+    </section>
 
-  <div class="modal" id="modal">
-    <div class="modal-card">
-      <button class="close" id="closeModal">×</button>
-      <h2>🎉 Sprint 5.1 Aktif!</h2>
-      <p>Homepage Premium V1 sudah dipasang. Lepas ni kita boleh sambung bahagian quiz sebenar dan dashboard ibu bapa.</p>
-      <button class="primary-btn" id="okBtn">Terbaik!</button>
-    </div>
-  </div>
+    <section id="screen-correct" class="screen win">
+      <h2>✨ BETUL! ✨</h2>
+      <div class="pandi jump"><span>🐼</span></div>
+      <div class="reward"><b>⭐ +10 XP</b><b>🪙 +5 Coin</b></div>
+      <button class="btn green" onclick="nextQuestion()">Teruskan ➜</button>
+    </section>
 
-  <script src="script.js"></script>
+    <section id="screen-wrong" class="screen wrong">
+      <h2>Tak apa, jom Pandi tunjuk cara!</h2>
+      <div class="teach-card"><b>5 + 3 = 8</b><p>5 epal tambah 3 epal sama dengan 8 epal.</p></div>
+      <div class="pandi"><span>🐼</span></div>
+      <button class="btn red" onclick="go('quiz')">Ya, cuba lagi 💪</button>
+    </section>
+
+    <section id="screen-box" class="screen box-screen">
+      <h2>🎉 Tahniah!</h2>
+      <p>Kamu dapat item baru!</p>
+      <div class="box" onclick="openBox()"><div id="boxLid">🎁</div><div id="boxItem">🧢</div></div>
+      <h3 id="itemName">Tekan kotak untuk buka</h3>
+      <button class="btn green" onclick="go('home')">Wow! Terima kasih 🎉</button>
+    </section>
+
+    <section id="screen-collection" class="screen collection">
+      <button class="back" onclick="go('home')">←</button><h2>Koleksi Pandi</h2>
+      <div class="tabs"><b>Semua</b><b>Pakaian</b><b>Topi</b><b>Aksesori</b></div>
+      <div class="grid">
+        <article>🐼<span>Pakaian Hijau ✅</span></article><article>👕<span>Pakaian Biru 🔒</span></article><article>🧑‍🍳<span>Chef 🔒</span></article><article>🧢<span>Topi Merah ✅</span></article><article>🎩<span>Detective 🔒</span></article><article>🤓<span>Cermin Mata 🔒</span></article><article>🎒<span>Beg Sekolah 🔒</span></article><article>🚀<span>Angkasawan 🔒</span></article>
+      </div>
+    </section>
+
+    <section id="screen-parent" class="screen parent">
+      <button class="back" onclick="go('home')">←</button><h2>Untuk Ibu Bapa</h2>
+      <div class="panel"><h3>Prestasi Hari Ini</h3><div class="stats"><b>30<small>Soalan</small></b><b>27<small>Betul</small></b><b class="bad">3<small>Salah</small></b><b>8m<small>Masa</small></b></div><h3>Topik Lemah</h3><p>Tolak <meter min="0" max="100" value="60"></meter> 60%</p><p>Wang <meter min="0" max="100" value="70"></meter> 70%</p><p>Masa <meter min="0" max="100" value="90"></meter> 90%</p><div class="suggest">💡 Adam perlu lebih latihan dalam topik Tolak.</div></div>
+    </section>
+  </main>
+  <div id="toast"></div>
+  <script src="app.js"></script>
 </body>
 </html>

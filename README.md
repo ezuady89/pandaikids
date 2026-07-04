@@ -1,23 +1,18 @@
-# PandaiKids Sprint 5
+# PandaiKids Build 02
 
-Premium UI + Game Feel update.
-
-## Files
-- index.html
-- style.css
-- script.js
+Static web app untuk GitHub Pages.
 
 ## Cara upload ke GitHub
-1. Buka repo PandaiKids di GitHub.
-2. Upload/replace 3 fail ini.
-3. Commit changes.
-4. Refresh website selepas deploy siap.
+1. Download zip dan unzip.
+2. Upload semua fail dalam folder ini ke repo GitHub.
+3. Pergi Settings > Pages.
+4. Pilih Branch: main, Folder: /root.
+5. Save dan tunggu link GitHub Pages keluar.
 
-## Ciri Sprint 5
-- Hero section premium
-- Pandi animasi blink & wave
-- Sistem XP
-- Bintang, syiling, streak
-- Kuiz interaktif
-- Confetti bila jawapan betul
-- UI mesra telefon
+## Fail penting
+- index.html
+- style.css
+- app.js
+- assets/
+
+Build ini sudah ada Home, Quiz, Reward, Blind Box, Koleksi dan Parent Dashboard.
