@@ -107,6 +107,11 @@ export default function Home() {
   const [aiCoach, setAiCoach] = useState("Pilih jawapan. Lepas itu Pandi akan terangkan kenapa jawapan betul atau salah.");
   const [reviewList, setReviewList] = useState<string[]>([]);
   const [focusSkill, setFocusSkill] = useState("Belum ada kelemahan dikesan");
+  const [parentUnlocked, setParentUnlocked] = useState(false);
+  const [parentPin, setParentPin] = useState("");
+  const [activeChild, setActiveChild] = useState("Aisyah");
+  const [dailyGoal, setDailyGoal] = useState(20);
+  const [reportReady, setReportReady] = useState(false);
 
   useEffect(() => {
     const raw = window.localStorage.getItem("pandaikids-sprint9-save");
@@ -123,6 +128,13 @@ export default function Home() {
   const missionProgress = useMemo(() => Math.round(((step + (selected ? 1 : 0)) / questions.length) * 100), [step, selected]);
   const levelProgress = save.xp % 100;
   const accuracy = questions.length ? Math.round((score / (questions.length * 10)) * 100) : 0;
+  const weeklyMinutes = [12, 18, 15, 22, 28, 20, Math.max(10, step * 6 + score / 5)];
+  const weeklyLabels = ["Isn", "Sel", "Rab", "Kha", "Jum", "Sab", "Ahd"];
+  const parentSummary = useMemo(() => {
+    const weak = reviewList.length ? reviewList.join(", ") : "Belum dikesan";
+    const status = accuracy >= 70 ? "Sangat baik" : selected ? "Perlu bimbingan lembut" : "Sedang belajar";
+    return { weak, status, minutes: weeklyMinutes.reduce((a, b) => a + b, 0) };
+  }, [accuracy, reviewList, selected]);
 
   function awardBadge(next: SaveData, badge: string) {
     if (!next.badges.includes(badge)) next.badges = [...next.badges, badge];
@@ -235,6 +247,28 @@ export default function Home() {
     setPandiMood("/pandi-goodjob.png");
   }
 
+  function unlockParentPortal() {
+    if (parentPin.trim() === "1234") {
+      setParentUnlocked(true);
+      setFeedback("Portal ibu bapa dibuka. Semua progress anak boleh disemak 📊");
+      setPandiMood("/pandi-goodjob.png");
+    } else {
+      setFeedback("PIN demo ialah 1234. Nanti versi sebenar kita sambung login Google.");
+      setPandiMood("/pandi-think.png");
+    }
+  }
+
+  function generateReport() {
+    setReportReady(true);
+    setSave((old) => {
+      const next = { ...old };
+      if (!next.badges.includes("Laporan Pertama")) next.badges = [...next.badges, "Laporan Pertama"];
+      return next;
+    });
+    setFeedback("Laporan mingguan sudah dijana untuk ibu bapa 📄");
+    setPandiMood("/pandi-goodjob.png");
+  }
+
   return (
     <main className="pk-page">
       <div className="cloud cloud-a" />
@@ -246,7 +280,7 @@ export default function Home() {
       <nav className="topbar">
         <div className="brand">
           <div className="brand-logo">P</div>
-          <div><strong>PandaiKids</strong><span>AI Learning Coach</span></div>
+          <div><strong>PandaiKids</strong><span>Parent Portal</span></div>
         </div>
         <div className="top-actions">
           <span>❤️ {hearts}</span><span>⭐ Level {save.level}</span><span>🪙 {save.coins}</span><span>🔥 {save.streak}</span>
@@ -255,15 +289,15 @@ export default function Home() {
 
       <section className="hero sprint8-hero">
         <div className="hero-copy">
-          <span className="tag">🎮 Sprint 8 • AI Learning Coach</span>
-          <h1>Belajar dengan Pandi AI Coach.</h1>
-          <p>Sprint 9 tambah penerangan pintar, hint bertahap, ulang kaji automatik dan soalan adaptif supaya anak bukan sekadar jawab, tapi faham kenapa jawapan itu betul.</p>
+          <span className="tag">👨‍👩‍👧 Sprint 10 • Parent Portal</span>
+          <h1>Dashboard ibu bapa untuk pantau progres anak.</h1>
+          <p>Sprint 10 tambah portal ibu bapa, laporan mingguan, sasaran belajar, graf progres dan ringkasan topik lemah supaya ibu bapa tahu perkembangan anak dengan cepat.</p>
           <div className="hero-actions">
             <a className="primary-btn" href="#quiz">Mula Misi</a>
-            <a className="ghost-btn" href="#dashboard">Lihat Dashboard</a>
+            <a className="ghost-btn" href="#parent">Portal Ibu Bapa</a>
           </div>
           <div className="reward-row">
-            <span>🤖 Pandi AI Coach</span><span>💡 Hint Pintar</span><span>📚 Ulang Kaji</span><span>🎯 Adaptive Quiz</span>
+            <span>👨‍👩‍👧 Parent Portal</span><span>📊 Graf Progress</span><span>📄 Laporan</span><span>🎯 Sasaran Harian</span>
           </div>
         </div>
 
@@ -279,7 +313,7 @@ export default function Home() {
       </section>
 
       <section className="mission-strip">
-        <div><span>Misi Sprint 9</span><strong>Jawab soalan, baca penerangan Pandi dan naikkan tahap kefahaman</strong></div>
+        <div><span>Misi Sprint 10</span><strong>Belajar, kumpul data progres dan semak laporan ibu bapa</strong></div>
         <div className="mission-progress"><div style={{ width: `${missionProgress}%` }} /></div>
         <b>{missionProgress}%</b>
       </section>
@@ -312,6 +346,57 @@ export default function Home() {
             <p>{accuracy >= 70 ? "Pandi boleh beri soalan lebih mencabar." : "Soalan masih mesra beginner supaya anak tak cepat putus asa."}</p>
           </article>
         </div>
+      </section>
+
+      <section id="parent" className="parent-portal-zone">
+        <div className="section-title"><span>👨‍👩‍👧 Parent Portal</span><h2>Command Center untuk ibu bapa</h2></div>
+        {!parentUnlocked ? (
+          <div className="parent-lock-card">
+            <div>
+              <span>PIN Demo</span>
+              <h3>Buka dashboard ibu bapa</h3>
+              <p>Masukkan PIN <strong>1234</strong> untuk lihat laporan, sasaran harian dan topik yang anak perlu ulang kaji.</p>
+            </div>
+            <div className="pin-box">
+              <input value={parentPin} onChange={(e) => setParentPin(e.target.value)} placeholder="Masukkan PIN" inputMode="numeric" />
+              <button onClick={unlockParentPortal}>Buka Portal</button>
+            </div>
+          </div>
+        ) : (
+          <div className="parent-grid">
+            <article className="parent-card profile-card">
+              <span>Profil Anak</span>
+              <div className="child-tabs">
+                {["Aisyah", "Maryam", "Sofia"].map((child) => <button key={child} onClick={() => setActiveChild(child)} className={activeChild === child ? "active" : ""}>{child}</button>)}
+              </div>
+              <h3>{activeChild}</h3>
+              <p>Status minggu ini: <strong>{parentSummary.status}</strong></p>
+              <p>Topik ulang kaji: <strong>{parentSummary.weak}</strong></p>
+            </article>
+
+            <article className="parent-card report-card">
+              <span>Laporan Ringkas</span>
+              <strong>{accuracy}%</strong>
+              <p>Ketepatan semasa • Best score {save.bestScore} • Level {save.level}</p>
+              <button onClick={generateReport}>{reportReady ? "Laporan Siap ✅" : "Jana Laporan"}</button>
+            </article>
+
+            <article className="parent-card goal-card">
+              <span>Sasaran Harian</span>
+              <strong>{dailyGoal} minit</strong>
+              <input type="range" min="10" max="60" step="5" value={dailyGoal} onChange={(e) => setDailyGoal(Number(e.target.value))} />
+              <p>Sasaran ini akan jadi panduan sesi belajar harian.</p>
+            </article>
+
+            <article className="parent-card chart-card">
+              <span>Graf Mingguan</span>
+              <div className="bar-chart">
+                {weeklyMinutes.map((value, index) => <div key={weeklyLabels[index]}><b style={{ height: `${Math.min(100, value * 3)}px` }} /><small>{weeklyLabels[index]}</small></div>)}
+              </div>
+              <p>Jumlah minggu ini: <strong>{Math.round(parentSummary.minutes)} minit</strong></p>
+            </article>
+          </div>
+        )}
       </section>
 
       <section className="badge-zone">
