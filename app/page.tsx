@@ -112,6 +112,9 @@ export default function Home() {
   const [activeChild, setActiveChild] = useState("Aisyah");
   const [dailyGoal, setDailyGoal] = useState(20);
   const [reportReady, setReportReady] = useState(false);
+  const [premiumPlan, setPremiumPlan] = useState("Free");
+  const [trialActive, setTrialActive] = useState(false);
+  const [checkoutMessage, setCheckoutMessage] = useState("Belum aktif. Pilih trial atau plan premium untuk simulasi.");
 
   useEffect(() => {
     const raw = window.localStorage.getItem("pandaikids-sprint9-save");
@@ -269,6 +272,23 @@ export default function Home() {
     setPandiMood("/pandi-goodjob.png");
   }
 
+  function startTrial() {
+    setTrialActive(true);
+    setPremiumPlan("Trial 7 Hari");
+    setCheckoutMessage("Trial 7 hari aktif. Versi sebenar nanti boleh sambung payment gateway.");
+    setFeedback("Trial Premium aktif! Kandungan tambahan sudah dibuka 💎");
+    setPandiMood("/pandi-excited.png");
+  }
+
+  function choosePremium(plan: string) {
+    setPremiumPlan(plan);
+    setTrialActive(false);
+    setCheckoutMessage(`${plan} dipilih. Ini simulasi checkout untuk fasa MVP.`);
+    setSave((old) => ({ ...old, coins: old.coins + 25 }));
+    setFeedback(`${plan} dipilih. Pandi bagi bonus +25 coin 🪙`);
+    setPandiMood("/pandi-goodjob.png");
+  }
+
   return (
     <main className="pk-page">
       <div className="cloud cloud-a" />
@@ -280,7 +300,7 @@ export default function Home() {
       <nav className="topbar">
         <div className="brand">
           <div className="brand-logo">P</div>
-          <div><strong>PandaiKids</strong><span>Parent Portal</span></div>
+          <div><strong>PandaiKids</strong><span>Premium Launch</span></div>
         </div>
         <div className="top-actions">
           <span>❤️ {hearts}</span><span>⭐ Level {save.level}</span><span>🪙 {save.coins}</span><span>🔥 {save.streak}</span>
@@ -289,15 +309,15 @@ export default function Home() {
 
       <section className="hero sprint8-hero">
         <div className="hero-copy">
-          <span className="tag">👨‍👩‍👧 Sprint 10 • Parent Portal</span>
-          <h1>Dashboard ibu bapa untuk pantau progres anak.</h1>
-          <p>Sprint 10 tambah portal ibu bapa, laporan mingguan, sasaran belajar, graf progres dan ringkasan topik lemah supaya ibu bapa tahu perkembangan anak dengan cepat.</p>
+          <span className="tag">💎 Sprint 11 • Premium Plan</span>
+          <h1>PandaiKids mula ada pelan percuma dan premium.</h1>
+          <p>Sprint 11 tambah paparan langganan, kandungan premium, trial 7 hari dan simulasi checkout supaya model bisnes PandaiKids mula jelas.</p>
           <div className="hero-actions">
             <a className="primary-btn" href="#quiz">Mula Misi</a>
-            <a className="ghost-btn" href="#parent">Portal Ibu Bapa</a>
+            <a className="ghost-btn" href="#premium">Lihat Premium</a>
           </div>
           <div className="reward-row">
-            <span>👨‍👩‍👧 Parent Portal</span><span>📊 Graf Progress</span><span>📄 Laporan</span><span>🎯 Sasaran Harian</span>
+            <span>💎 Premium Plan</span><span>🔒 Kandungan Premium</span><span>🧾 Checkout Demo</span><span>🎁 Trial 7 Hari</span>
           </div>
         </div>
 
@@ -313,7 +333,7 @@ export default function Home() {
       </section>
 
       <section className="mission-strip">
-        <div><span>Misi Sprint 10</span><strong>Belajar, kumpul data progres dan semak laporan ibu bapa</strong></div>
+        <div><span>Misi Sprint 11</span><strong>Belajar, pantau progres dan cuba ciri premium</strong></div>
         <div className="mission-progress"><div style={{ width: `${missionProgress}%` }} /></div>
         <b>{missionProgress}%</b>
       </section>
@@ -397,6 +417,44 @@ export default function Home() {
             </article>
           </div>
         )}
+      </section>
+
+
+      <section id="premium" className="premium-zone">
+        <div className="section-title"><span>💎 Premium Center</span><h2>Model langganan PandaiKids</h2></div>
+        <div className="premium-grid">
+          <article className="premium-card free">
+            <span>Free</span>
+            <h3>RM0</h3>
+            <p>Untuk cuba asas PandaiKids: quiz ringkas, XP, coin dan Pandi Coach demo.</p>
+            <ul><li>✅ 6 soalan harian</li><li>✅ XP & coin asas</li><li>✅ Parent portal demo</li></ul>
+            <button onClick={() => choosePremium("Free Plan")}>Kekal Free</button>
+          </article>
+          <article className="premium-card popular">
+            <div className="popular-ribbon">Cadangan MVP</div>
+            <span>Premium Kids</span>
+            <h3>RM9.90<span>/bulan</span></h3>
+            <p>Untuk keluarga yang mahu soalan lebih banyak, laporan mingguan dan latihan ikut tahap anak.</p>
+            <ul><li>✅ Soalan tanpa had</li><li>✅ AI Coach lebih lengkap</li><li>✅ Laporan ibu bapa</li><li>✅ Badge & sijil</li></ul>
+            <button onClick={() => choosePremium("Premium Kids RM9.90")}>Pilih Premium</button>
+          </article>
+          <article className="premium-card family">
+            <span>Family</span>
+            <h3>RM19.90<span>/bulan</span></h3>
+            <p>Untuk 3 anak, dashboard keluarga dan kandungan tambahan Bahasa Melayu, Matematik dan Sains.</p>
+            <ul><li>✅ Hingga 3 profil anak</li><li>✅ Graf progress keluarga</li><li>✅ Reward premium</li></ul>
+            <button onClick={() => choosePremium("Family Plan RM19.90")}>Pilih Family</button>
+          </article>
+        </div>
+        <div className="checkout-panel">
+          <div><span>Status Akaun</span><strong>{premiumPlan}</strong><p>{checkoutMessage}</p></div>
+          <button onClick={startTrial}>🎁 Aktifkan Trial 7 Hari</button>
+        </div>
+        <div className="premium-content">
+          <article><b>{premiumPlan === "Free" && !trialActive ? "🔒" : "✅"}</b><strong>Bank Soalan Premium</strong><p>{premiumPlan === "Free" && !trialActive ? "Terkunci untuk pengguna Free." : "Dibuka: 50+ set latihan boleh ditambah selepas ini."}</p></article>
+          <article><b>{premiumPlan === "Free" && !trialActive ? "🔒" : "✅"}</b><strong>Sijil Automatik</strong><p>{premiumPlan === "Free" && !trialActive ? "Akan dibuka dalam pelan Premium." : "Sedia untuk Sprint seterusnya: jana sijil PDF."}</p></article>
+          <article><b>{premiumPlan === "Free" && !trialActive ? "🔒" : "✅"}</b><strong>AI Tutor Pro</strong><p>{premiumPlan === "Free" && !trialActive ? "Demo sahaja untuk plan Free." : "Penerangan lebih lengkap ikut tahap anak."}</p></article>
+        </div>
       </section>
 
       <section className="badge-zone">
