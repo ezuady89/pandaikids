@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "PandaiKids",
-  description: "Aplikasi pembelajaran interaktif untuk kanak-kanak.",
+  title: 'PandaiKids Build 07',
+  description: 'PandaiKids Production UI Build 07 - Next.js'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
