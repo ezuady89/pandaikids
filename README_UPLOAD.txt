@@ -1,17 +1,15 @@
-PandaiKids Sprint 5 Next.js Premium Homepage
+PandaiKids Sprint 6 - Quiz Game Progress
 
-Upload ikut struktur folder ini:
+Upload/replace fail ini sahaja:
+1. app/page.tsx
+2. app/globals.css
 
-app/page.tsx
-app/globals.css
-app/layout.tsx
+Pastikan fail gambar Pandi masih ada dalam folder public:
+- pandi-main.png
+- pandi-wave.png
+- pandi-focus.png
+- pandi-excited.png
+- pandi-think.png
+- pandi-goodjob.png
 
-Cara upload GitHub:
-1. Extract ZIP ini.
-2. Buka folder app dalam ZIP.
-3. Di GitHub, masuk folder app.
-4. Upload/replace page.tsx, globals.css dan layout.tsx.
-5. Commit changes.
-6. Tunggu Vercel deploy semula.
-
-Ini bukan index.html. Ini versi Next.js sebenar.
+Lepas commit, tunggu Vercel deploy sampai Ready.
