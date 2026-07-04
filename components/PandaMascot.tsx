@@ -1,25 +1,24 @@
-type Tone = "pandi" | "amani" | "auliyaa" | "aisyah";
+type PandiMascotProps = {
+  mood?: "main" | "wave" | "happy" | "excited" | "focus" | "think" | "sad" | "surprised" | "goodjob";
+  className?: string;
+};
 
-export function PandaMascot({
-  name,
-  tone,
-  size = "small",
-}: {
-  name: string;
-  tone: Tone;
-  size?: "small" | "large";
-}) {
-  return (
-    <div className={`pandaMascot ${tone} ${size}`}>
-      <div className="ear left" />
-      <div className="ear right" />
-      <div className="pandaFace">
-        <div className="eye left" />
-        <div className="eye right" />
-        <div className="smile" />
-      </div>
-      <div className="belly">{name[0]}</div>
-      {size === "large" && <span>{name}</span>}
-    </div>
-  );
+const moodMap: Record<NonNullable<PandiMascotProps["mood"]>, string> = {
+  main: "/pandi-main.png",
+  wave: "/pandi-wave.png",
+  happy: "/pandi-happy.png",
+  excited: "/pandi-excited.png",
+  focus: "/pandi-focus.png",
+  think: "/pandi-think.png",
+  sad: "/pandi-sad.png",
+  surprised: "/pandi-surprised.png",
+  goodjob: "/pandi-goodjob.png",
+};
+
+export function PandiMascot({ mood = "main", className = "" }: PandiMascotProps) {
+  return <img className={className} src={moodMap[mood]} alt="Pandi mascot" />;
+}
+
+export function PandaMascot({ mood = "main", className = "" }: PandiMascotProps) {
+  return <PandiMascot mood={mood} className={className} />;
 }
