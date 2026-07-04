@@ -1,5 +1,18 @@
-# PandaiKids Sprint 2.1
+# PandaiKids Sprint 3
 
-Premium homepage update.
+Sprint 3 menukar PandaiKids daripada landing page kepada mini app flow.
 
-Upload/replace semua fail ini ke GitHub repo pandaikids. Selepas commit, Vercel akan auto deploy ke pandaikids.com.
+## Ada dalam update
+- Landing page ringkas
+- Onboarding nama anak
+- Pilih tahun
+- Dashboard anak
+- Pilih subjek
+- Kuiz Matematik pertama
+- Result betul/salah
+- Reward Pip
+- Peta Pengembaraan
+- Profil anak
+
+## Upload ke GitHub
+Replace/upload semua folder dan fail ini ke root repo pandaikids.
