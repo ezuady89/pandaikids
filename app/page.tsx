@@ -48,7 +48,48 @@ const rewardShop = [
   { name: "Pandi Happy", img: "/pandi-happy.png", price: 160 },
 ];
 
-const badgeRules = ["Murid Ceria", "Jawapan Tepat", "Streak Hebat", "Pemburu XP", "Juara Mini" ];
+const badgeRules = ["Murid Ceria", "Jawapan Tepat", "Streak Hebat", "Pemburu XP", "Juara Mini", "Murid Faham" ];
+
+const aiNotes: Record<string, { explain: string; miniLesson: string; review: string }> = {
+  "7": {
+    explain: "4 + 3 bermaksud mula dengan 4, kemudian tambah 3 lagi. Jadi kiraannya 5, 6, 7.",
+    miniLesson: "Cara mudah: lukis 4 bulatan, kemudian tambah 3 bulatan. Kira semua bulatan itu.",
+    review: "Latihan ulang kaji: cuba kira 5 + 2 pula. Jawapannya juga 7."
+  },
+  "Sekolah": {
+    explain: "Ejaan yang betul ialah 'Sekolah'. Bunyi awalnya 'Se', bukan 'Sko'.",
+    miniLesson: "Pandi cadang baca perlahan-lahan: Se-ko-lah. Pecahkan kepada suku kata supaya anak lebih mudah ingat.",
+    review: "Latihan ulang kaji: sebut dan tulis 'sekolah' sebanyak 3 kali."
+  },
+  "Burung": {
+    explain: "Burung boleh terbang kerana mempunyai sayap. Tidak semua haiwan ada sayap.",
+    miniLesson: "Perhatikan ciri haiwan: sayap membantu terbang, sirip membantu berenang, kaki membantu berjalan.",
+    review: "Latihan ulang kaji: namakan 2 haiwan lain yang boleh terbang."
+  },
+  "10": {
+    explain: "Nombor selepas 9 ialah 10. Selepas 9, nombor mula menjadi dua digit.",
+    miniLesson: "Susunan nombor ialah 7, 8, 9, 10, 11. Jadi selepas 9 datang 10.",
+    review: "Latihan ulang kaji: sebut nombor 1 hingga 10 dengan kuat."
+  },
+  "Mata": {
+    explain: "Kita menggunakan mata untuk melihat. Telinga untuk mendengar, kaki untuk berjalan dan mulut untuk bercakap atau makan.",
+    miniLesson: "Padankan anggota badan dengan fungsi: mata-melihat, telinga-mendengar, hidung-menghidu.",
+    review: "Latihan ulang kaji: sentuh mata, telinga dan hidung sambil sebut fungsinya."
+  },
+  "Kecil": {
+    explain: "Lawan bagi besar ialah kecil. Perkataan lawan mempunyai maksud bertentangan.",
+    miniLesson: "Contoh lain: tinggi lawannya rendah, panjang lawannya pendek, banyak lawannya sedikit.",
+    review: "Latihan ulang kaji: cari 3 benda besar dan 3 benda kecil di rumah."
+  }
+};
+
+function getAiCoach(question: Question, picked: string) {
+  const note = aiNotes[question.answer];
+  if (!note) return "Pandi akan bantu pecahkan soalan kepada langkah kecil supaya lebih mudah faham.";
+  if (picked === question.answer) return `Betul! ${note.explain} ${note.review}`;
+  return `Jawapan kamu ialah '${picked}'. Jawapan sebenar ialah '${question.answer}'. ${note.explain} ${note.miniLesson}`;
+}
+
 
 export default function Home() {
   const [save, setSave] = useState<SaveData>(defaultSave);
@@ -63,16 +104,19 @@ export default function Home() {
   const [showResult, setShowResult] = useState(false);
   const [levelUp, setLevelUp] = useState(false);
   const [chestOpen, setChestOpen] = useState(false);
+  const [aiCoach, setAiCoach] = useState("Pilih jawapan. Lepas itu Pandi akan terangkan kenapa jawapan betul atau salah.");
+  const [reviewList, setReviewList] = useState<string[]>([]);
+  const [focusSkill, setFocusSkill] = useState("Belum ada kelemahan dikesan");
 
   useEffect(() => {
-    const raw = window.localStorage.getItem("pandaikids-sprint8-save");
+    const raw = window.localStorage.getItem("pandaikids-sprint9-save");
     if (raw) {
       try { setSave({ ...defaultSave, ...JSON.parse(raw) }); } catch {}
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("pandaikids-sprint8-save", JSON.stringify(save));
+    window.localStorage.setItem("pandaikids-sprint9-save", JSON.stringify(save));
   }, [save]);
 
   const current = questions[step];
@@ -87,6 +131,8 @@ export default function Home() {
   function choose(option: string) {
     if (selected || showResult || hearts <= 0) return;
     setSelected(option);
+    const coachText = getAiCoach(current, option);
+    setAiCoach(coachText);
 
     if (option === current.answer) {
       const bonus = combo >= 2 ? 5 : 0;
@@ -116,6 +162,7 @@ export default function Home() {
         if (nextCombo >= 3) awardBadge(next, "Streak Hebat");
         if (next.xp >= 150) awardBadge(next, "Pemburu XP");
         if (nextScore >= 50) awardBadge(next, "Juara Mini");
+        if (nextScore >= 30 && nextCombo >= 2) awardBadge(next, "Murid Faham");
         if (newLevel > old.level) {
           setLevelUp(true);
           setTimeout(() => setLevelUp(false), 1800);
@@ -128,6 +175,8 @@ export default function Home() {
       setCombo(0);
       setPandiMood("/pandi-think.png");
       setFeedback(nextHearts > 0 ? "Tak apa. Pandi bagi hint, cuba lagi misi seterusnya 💪" : "Nyawa habis. Rehat sekejap, kemudian main semula ❤️");
+      setReviewList((old) => Array.from(new Set([...old, current.subject])).slice(-3));
+      setFocusSkill(`${current.subject} • ${current.level}`);
       setSave((old) => ({ ...old, streak: 0 }));
     }
   }
@@ -137,6 +186,7 @@ export default function Home() {
     setShowHint(false);
     setPandiMood("/pandi-focus.png");
     setFeedback("Soalan baru sudah muncul. Fokus ya! ✨");
+    setAiCoach("Baca soalan perlahan-lahan. Pandi akan beri penerangan selepas kamu jawab.");
 
     if (step >= questions.length - 1 || hearts <= 0) {
       setShowResult(true);
@@ -156,6 +206,9 @@ export default function Home() {
     setChestOpen(false);
     setPandiMood("/pandi-wave.png");
     setFeedback("Misi baru bermula. Pandi yakin kamu boleh! 🚀");
+    setAiCoach("Pilih jawapan. Lepas itu Pandi akan terangkan kenapa jawapan betul atau salah.");
+    setReviewList([]);
+    setFocusSkill("Belum ada kelemahan dikesan");
   }
 
   function buyAvatar(item: typeof rewardShop[number]) {
@@ -193,7 +246,7 @@ export default function Home() {
       <nav className="topbar">
         <div className="brand">
           <div className="brand-logo">P</div>
-          <div><strong>PandaiKids</strong><span>Gamification Pro</span></div>
+          <div><strong>PandaiKids</strong><span>AI Learning Coach</span></div>
         </div>
         <div className="top-actions">
           <span>❤️ {hearts}</span><span>⭐ Level {save.level}</span><span>🪙 {save.coins}</span><span>🔥 {save.streak}</span>
@@ -202,15 +255,15 @@ export default function Home() {
 
       <section className="hero sprint8-hero">
         <div className="hero-copy">
-          <span className="tag">🎮 Sprint 8 • Gamification Pro</span>
-          <h1>Belajar, naik level, buka hadiah.</h1>
-          <p>Sprint 8 tambah nyawa, streak, level, reward chest, badge dan kedai avatar supaya PandaiKids rasa lebih macam app game pendidikan sebenar.</p>
+          <span className="tag">🎮 Sprint 8 • AI Learning Coach</span>
+          <h1>Belajar dengan Pandi AI Coach.</h1>
+          <p>Sprint 9 tambah penerangan pintar, hint bertahap, ulang kaji automatik dan soalan adaptif supaya anak bukan sekadar jawab, tapi faham kenapa jawapan itu betul.</p>
           <div className="hero-actions">
             <a className="primary-btn" href="#quiz">Mula Misi</a>
             <a className="ghost-btn" href="#dashboard">Lihat Dashboard</a>
           </div>
           <div className="reward-row">
-            <span>❤️ 3 Nyawa</span><span>🔥 Daily Streak</span><span>🎁 Reward Chest</span><span>🏅 Badge</span>
+            <span>🤖 Pandi AI Coach</span><span>💡 Hint Pintar</span><span>📚 Ulang Kaji</span><span>🎯 Adaptive Quiz</span>
           </div>
         </div>
 
@@ -226,7 +279,7 @@ export default function Home() {
       </section>
 
       <section className="mission-strip">
-        <div><span>Misi Sprint 8</span><strong>Lengkapkan quiz untuk buka chest dan badge baru</strong></div>
+        <div><span>Misi Sprint 9</span><strong>Jawab soalan, baca penerangan Pandi dan naikkan tahap kefahaman</strong></div>
         <div className="mission-progress"><div style={{ width: `${missionProgress}%` }} /></div>
         <b>{missionProgress}%</b>
       </section>
@@ -236,6 +289,29 @@ export default function Home() {
         <article className="dash-card"><span>Best Score</span><strong>{save.bestScore}</strong><p>Rekod markah tertinggi</p></article>
         <article className="dash-card"><span>Combo</span><strong>x{combo}</strong><p>Jawapan betul berturut-turut</p></article>
         <article className={`dash-card chest ${save.chestReady ? "ready" : ""}`} onClick={openChest}><span>Reward Chest</span><strong>{chestOpen ? "Dibuka!" : save.chestReady ? "Buka 🎁" : "Terkunci"}</strong><p>{save.chestReady ? "Klik untuk ambil hadiah" : "Capai 40 markah untuk buka"}</p></article>
+      </section>
+
+      <section className="ai-learning-zone">
+        <div className="section-title"><span>🤖 Pandi AI Coach</span><h2>Penerangan pintar selepas setiap jawapan</h2></div>
+        <div className="ai-grid">
+          <article className="ai-card coach">
+            <div className="ai-orb">AI</div>
+            <div>
+              <span>Coach Response</span>
+              <p>{aiCoach}</p>
+            </div>
+          </article>
+          <article className="ai-card">
+            <span>Fokus Ulang Kaji</span>
+            <strong>{focusSkill}</strong>
+            <p>{reviewList.length ? `Subjek perlu ulang: ${reviewList.join(", ")}` : "Pandi akan kesan topik yang anak kerap salah."}</p>
+          </article>
+          <article className="ai-card">
+            <span>Tahap Soalan</span>
+            <strong>{accuracy >= 70 ? "Naik Tahap" : selected ? "Kekal Mudah" : "Menunggu"}</strong>
+            <p>{accuracy >= 70 ? "Pandi boleh beri soalan lebih mencabar." : "Soalan masih mesra beginner supaya anak tak cepat putus asa."}</p>
+          </article>
+        </div>
       </section>
 
       <section className="badge-zone">
@@ -271,7 +347,7 @@ export default function Home() {
                 <div><span className="mini-label">{current.subject} • {current.level}</span><h2>{current.question}</h2></div>
                 <div className="level-pill">Misi {step + 1}/{questions.length}</div>
               </div>
-              {showHint && <div className="hint-box">💡 {current.hint}</div>}
+              {showHint && <div className="hint-box">💡 {current.hint}<br/><small>Strategi Pandi: buang pilihan yang memang salah, kemudian pilih jawapan paling tepat.</small></div>}
               <div className="answers">
                 {current.options.map((option) => {
                   const isCorrect = selected && option === current.answer;
@@ -280,7 +356,7 @@ export default function Home() {
                 })}
               </div>
               <div className="quiz-actions">
-                <button onClick={() => setShowHint(true)} className="hint-btn">💡 Hint</button>
+                <button onClick={() => setShowHint(true)} className="hint-btn">💡 Hint Pintar</button>
                 <button onClick={nextQuestion} className="next-btn">{step >= questions.length - 1 ? "Lihat Result" : "Teruskan Misi →"}</button>
               </div>
             </>
