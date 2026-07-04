@@ -3,14 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PandaiKids - Belajar Sambil Bermain</title>
+  <title>PandaiKids - Belajar Jadi Seronok</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="sky-bg">
-    <div class="cloud cloud-1"></div>
-    <div class="cloud cloud-2"></div>
-    <div class="cloud cloud-3"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="bubble b1">A</div>
+    <div class="bubble b2">1</div>
+    <div class="bubble b3">ب</div>
   </div>
 
   <header class="topbar">
@@ -18,99 +24,87 @@
       <div class="logo-face">🐼</div>
       <div>
         <h1>PandaiKids</h1>
-        <p>Belajar seronok untuk anak-anak</p>
+        <p>Belajar sambil bermain</p>
       </div>
     </div>
-    <div class="parent-pill">Untuk Ibu Bapa</div>
+    <div class="stats">
+      <div class="stat-card"><span>⭐</span><strong id="starCount">0</strong></div>
+      <div class="stat-card"><span>🪙</span><strong id="coinCount">0</strong></div>
+      <div class="stat-card"><span>🔥</span><strong id="streakCount">0</strong></div>
+    </div>
   </header>
 
-  <main>
-    <section class="hero">
+  <main class="app-shell">
+    <section class="hero-card">
       <div class="hero-copy">
-        <span class="badge">Sprint 5 • Premium Game Feel</span>
-        <h2>Belajar, jawab kuiz dan kumpul bintang bersama Pandi!</h2>
-        <p>
-          PandaiKids bantu anak belajar dengan cara lebih ceria, interaktif dan mudah digunakan di telefon.
-        </p>
+        <div class="badge">Sprint 5.1 Premium</div>
+        <h2>Hai, saya Pandi!</h2>
+        <p>Jom belajar nombor, huruf dan kuiz ringkas dengan cara yang lebih ceria.</p>
         <div class="hero-actions">
-          <button onclick="startGame()" class="btn-primary">Mula Belajar</button>
-          <button onclick="scrollToQuiz()" class="btn-soft">Cuba Kuiz</button>
+          <button class="primary-btn" onclick="startGame()">Mula Belajar 🚀</button>
+          <button class="soft-btn" onclick="showReward()">Lihat Ganjaran 🎁</button>
         </div>
       </div>
 
-      <div class="pandi-card">
-        <div class="pandi">
+      <div class="pandi-stage">
+        <div class="spark s1">✨</div>
+        <div class="spark s2">🌈</div>
+        <div class="pandi" id="pandi">
           <div class="ear left"></div>
           <div class="ear right"></div>
-          <div class="face">
-            <div class="eye left-eye"></div>
-            <div class="eye right-eye"></div>
+          <div class="head">
+            <div class="eye-patch left"><div class="eye"></div></div>
+            <div class="eye-patch right"><div class="eye"></div></div>
             <div class="nose"></div>
             <div class="mouth"></div>
-            <div class="blush left-blush"></div>
-            <div class="blush right-blush"></div>
+            <div class="cheek left"></div>
+            <div class="cheek right"></div>
           </div>
-          <div class="hand">👋</div>
+          <div class="body">
+            <div class="hand left">👋</div>
+            <div class="hand right"></div>
+            <div class="belly">PK</div>
+          </div>
         </div>
-        <div class="speech" id="pandiSpeech">Hai! Jom belajar sama-sama.</div>
       </div>
     </section>
 
-    <section class="stats-panel">
-      <div class="stat-card">
-        <span>⭐</span>
-        <strong id="stars">0</strong>
-        <p>Bintang</p>
-      </div>
-      <div class="stat-card">
-        <span>🪙</span>
-        <strong id="coins">0</strong>
-        <p>Syiling</p>
-      </div>
-      <div class="stat-card">
-        <span>🔥</span>
-        <strong id="streak">0</strong>
-        <p>Streak</p>
-      </div>
+    <section class="level-strip">
+      <div class="level active">1<br><small>Huruf</small></div>
+      <div class="level">2<br><small>Nombor</small></div>
+      <div class="level">3<br><small>Jawi</small></div>
+      <div class="level locked">🔒<br><small>Bonus</small></div>
     </section>
 
-    <section class="xp-box">
-      <div class="xp-top">
-        <strong>Progress XP</strong>
-        <span id="xpText">0%</span>
-      </div>
-      <div class="xp-bar">
-        <div id="xpFill"></div>
-      </div>
-    </section>
-
-    <section class="quiz-section" id="quiz">
-      <div class="quiz-card" id="quizCard">
-        <div class="quiz-header">
-          <span class="lesson-chip">Matematik Asas</span>
-          <span id="questionCount">Soalan 1/5</span>
+    <section class="game-card" id="gameCard">
+      <div class="game-head">
+        <div>
+          <p class="mini-label">Kuiz Hari Ini</p>
+          <h3 id="questionTitle">Huruf apakah ini?</h3>
         </div>
-        <h3 id="question">2 + 3 = ?</h3>
-        <div class="answers" id="answers"></div>
-        <div id="feedback" class="feedback"></div>
+        <div class="xp-box">
+          <span>XP</span>
+          <div class="xp-bar"><div id="xpFill"></div></div>
+        </div>
       </div>
+
+      <div class="question-box" id="questionBox">A</div>
+      <div class="answer-grid" id="answerGrid"></div>
+      <p class="feedback" id="feedback">Pilih jawapan yang betul.</p>
     </section>
 
-    <section class="features">
+    <section class="parent-card">
       <div>
-        <h3>Kenapa PandaiKids?</h3>
-        <p>Direka supaya anak rasa seperti bermain game, tetapi masih fokus kepada pembelajaran.</p>
+        <h3>Untuk Ibu Bapa</h3>
+        <p>Mod akan datang: simpan markah anak, laporan mingguan dan sijil kecil.</p>
       </div>
-      <div class="feature-grid">
-        <div class="feature">🎮 Game-like learning</div>
-        <div class="feature">🏆 Ganjaran & XP</div>
-        <div class="feature">📱 Mesra telefon</div>
-        <div class="feature">👨‍👩‍👧 Untuk ibu bapa</div>
-      </div>
+      <button class="soft-btn" onclick="alert('Dashboard ibu bapa akan masuk Sprint 6!')">Coming Soon</button>
     </section>
   </main>
 
-  <div id="confetti"></div>
+  <div class="toast" id="toast">Hebat! Ganjaran dibuka 🎉</div>
+  <div class="confetti" id="confetti"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
