@@ -1,238 +1,193 @@
-'use client';
+"use client";
 
 import { useMemo, useState } from "react";
-import { ArrowRight, BookOpen, Gift, Home, Map, Sparkles, Star, Trophy, UserRound } from "lucide-react";
-import { PandiMascot } from "@/components/PandiMascot";
-import { mapPlaces, questions, subjects, years } from "@/data/content";
 
-type Screen = "landing" | "onboarding" | "year" | "dashboard" | "learn" | "quiz" | "result" | "reward" | "map" | "profile";
+const questions = [
+  {
+    subject: "Matematik",
+    level: "Tahun 1",
+    question: "Berapakah 4 + 3?",
+    options: ["5", "6", "7", "8"],
+    answer: "7",
+  },
+  {
+    subject: "Bahasa Melayu",
+    level: "Ejaan",
+    question: "Pilih ejaan yang betul.",
+    options: ["Sekolah", "Skolah", "Sekula", "Sikolah"],
+    answer: "Sekolah",
+  },
+  {
+    subject: "Sains",
+    level: "Alam Sekitar",
+    question: "Haiwan manakah yang boleh terbang?",
+    options: ["Kucing", "Burung", "Ikan", "Kambing"],
+    answer: "Burung",
+  },
+];
 
-export default function PandaiKidsApp() {
-  const [screen, setScreen] = useState<Screen>("landing");
-  const [childName, setChildName] = useState("Aisyah");
-  const [selectedYear, setSelectedYear] = useState("Tahun 1");
-  const [qIndex, setQIndex] = useState(0);
-  const [xp, setXp] = useState(120);
-  const [lastCorrect, setLastCorrect] = useState<boolean | null>(null);
+const subjects = [
+  { icon: "🔢", title: "Matematik", text: "Kira nombor dengan cara menyeronokkan." },
+  { icon: "📚", title: "Bahasa Melayu", text: "Belajar ejaan, perkataan dan ayat mudah." },
+  { icon: "🌱", title: "Sains", text: "Kenali dunia, haiwan dan alam sekitar." },
+];
 
-  const question = questions[qIndex];
+export default function Home() {
+  const [step, setStep] = useState(0);
+  const [selected, setSelected] = useState("");
+  const [score, setScore] = useState(0);
+  const [coins, setCoins] = useState(120);
+  const [streak, setStreak] = useState(3);
+  const [feedback, setFeedback] = useState("Pandi sedia bantu kamu belajar! 🐼");
 
-  const go = (next: Screen) => {
-    setScreen(next);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const current = questions[step];
+  const progress = useMemo(() => Math.round(((step + 1) / questions.length) * 100), [step]);
 
-  const answer = (value: string) => {
-    const correct = value === question.correct;
-    setLastCorrect(correct);
-    if (correct) setXp((n) => n + 10);
-    setTimeout(() => go("result"), 300);
-  };
+  function choose(option: string) {
+    if (selected) return;
+    setSelected(option);
 
-  const nextQuestion = () => {
-    if (qIndex < questions.length - 1) {
-      setQIndex((n) => n + 1);
-      setLastCorrect(null);
-      go("quiz");
+    if (option === current.answer) {
+      setScore((value) => value + 10);
+      setCoins((value) => value + 5);
+      setStreak((value) => value + 1);
+      setFeedback("Hebat! Jawapan betul. +10 XP 🎉");
     } else {
-      go("reward");
+      setStreak(0);
+      setFeedback("Tak apa, cuba lagi. Pandi percaya kamu boleh! 💪");
     }
-  };
+  }
 
-  const level = useMemo(() => Math.max(1, Math.floor(xp / 100)), [xp]);
+  function nextQuestion() {
+    setSelected("");
+    setFeedback("Soalan baru! Fokus ya ✨");
+    setStep((value) => (value + 1) % questions.length);
+  }
 
   return (
-    <main className="app">
-      {screen === "landing" && (
-        <section className="heroScreen">
-          <div className="cloud c1" />
-          <div className="cloud c2" />
-          <div className="sun" />
+    <main className="pk-page">
+      <div className="sky-bubble bubble-one" />
+      <div className="sky-bubble bubble-two" />
+      <div className="sky-bubble bubble-three" />
 
-          <div className="brand"><div>🐼</div><span>PandaiKids</span></div>
+      <nav className="topbar">
+        <div className="brand">
+          <div className="brand-mark">🐼</div>
+          <div>
+            <strong>PandaiKids</strong>
+            <span>Belajar sambil bermain</span>
+          </div>
+        </div>
+        <div className="nav-pills">
+          <span>⭐ Level 1</span>
+          <span>🪙 {coins}</span>
+          <span>🔥 {streak}</span>
+        </div>
+      </nav>
 
-          <div className="heroGrid">
-            <div className="heroText">
-              <div className="tag"><Sparkles size={16}/> Sprint 3 Mini App</div>
-              <h1>Masuk dunia belajar bersama Pandi.</h1>
-              <p>Bukan sekadar landing page. Sekarang anak boleh isi nama, pilih tahun, masuk dashboard, jawab kuiz dan dapat XP.</p>
-              <button className="btn primary" onClick={() => go("onboarding")}>Mula Sekarang <ArrowRight size={18}/></button>
+      <section className="hero">
+        <div className="hero-copy">
+          <div className="tag">✨ Sprint 5 Premium UI</div>
+          <h1>Belajar jadi seronok bersama Pandi.</h1>
+          <p>
+            Latihan interaktif untuk kanak-kanak dengan markah, syiling, XP dan animasi yang buat mereka rasa macam bermain game.
+          </p>
+          <div className="hero-actions">
+            <a href="#quiz" className="primary-btn">Mula Belajar</a>
+            <a href="#subjects" className="secondary-btn">Lihat Subjek</a>
+          </div>
+          <div className="trust-row">
+            <span>✅ Mesra kanak-kanak</span>
+            <span>✅ Mobile friendly</span>
+            <span>✅ Gaya aplikasi</span>
+          </div>
+        </div>
+
+        <div className="pandi-stage" aria-label="Pandi mascot">
+          <div className="sparkle sparkle-a">⭐</div>
+          <div className="sparkle sparkle-b">✨</div>
+          <div className="pandi">
+            <div className="ear left" />
+            <div className="ear right" />
+            <div className="face">
+              <div className="eye left-eye" />
+              <div className="eye right-eye" />
+              <div className="nose" />
+              <div className="smile" />
+              <div className="badge">P</div>
             </div>
-            <div className="heroMascot"><PandiMascot /></div>
+            <div className="paw left-paw" />
+            <div className="paw right-paw" />
           </div>
-        </section>
-      )}
+          <div className="speech">Jom jawab soalan! 🚀</div>
+        </div>
+      </section>
 
-      {screen === "onboarding" && (
-        <section className="screen">
-          <Header title="Selamat datang" subtitle="Biar rasa macam game, bukan login." onBack={() => go("landing")} />
-          <div className="centerCard">
-            <PandiMascot small />
-            <h2>Siapa nama awak?</h2>
-            <p>Pandi akan panggil nama ini sepanjang pengembaraan.</p>
-            <input value={childName} onChange={(e) => setChildName(e.target.value)} className="input" />
-            <button className="btn primary full" onClick={() => go("year")}>Seterusnya 🌈</button>
-          </div>
-        </section>
-      )}
+      <section className="stats-panel">
+        <div>
+          <span>XP Hari Ini</span>
+          <strong>{score} XP</strong>
+        </div>
+        <div>
+          <span>Progress</span>
+          <strong>{progress}%</strong>
+        </div>
+        <div>
+          <span>Syiling</span>
+          <strong>{coins}</strong>
+        </div>
+        <div>
+          <span>Streak</span>
+          <strong>{streak}🔥</strong>
+        </div>
+      </section>
 
-      {screen === "year" && (
-        <section className="screen">
-          <Header title="Pilih Tahun" subtitle="Untuk alpha, kita fokus Tahun 1 dahulu." onBack={() => go("onboarding")} />
-          <div className="yearGrid">
-            {years.map((year, index) => (
-              <button key={year} className={`yearCard ${index > 0 ? "locked" : ""}`} onClick={() => {
-                if (index === 0) {
-                  setSelectedYear(year);
-                  go("dashboard");
-                }
-              }}>
-                <span>{index === 0 ? "📘" : "🔒"}</span>
-                <h3>{year}</h3>
-                <p>{index === 0 ? "Aktif untuk percubaan awal." : "Coming soon"}</p>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      <section id="subjects" className="subjects">
+        {subjects.map((item) => (
+          <article className="subject-card" key={item.title}>
+            <div className="subject-icon">{item.icon}</div>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </section>
 
-      {screen === "dashboard" && (
-        <section className="screen withNav">
-          <Header title={`Hai ${childName || "Adik"} 👋`} subtitle={`${selectedYear} • Level ${level}`} right={`⭐ ${xp} XP`} />
-          <div className="dashboardHero">
+      <section id="quiz" className="quiz-shell">
+        <div className="quiz-card">
+          <div className="quiz-header">
             <div>
-              <div className="tag blue">Hari ini</div>
-              <h2>Jom sambung belajar 5 minit.</h2>
-              <p>Amani dah sedia tunggu di Hutan Nombor.</p>
-              <button className="btn primary" onClick={() => go("learn")}>Mula Belajar</button>
+              <span className="mini-label">{current.subject} • {current.level}</span>
+              <h2>{current.question}</h2>
             </div>
-            <PandiMascot label="Pandi" small />
+            <div className="score-badge">+{score} XP</div>
           </div>
 
-          <div className="stats">
-            <Stat value="3" label="Hari streak" />
-            <Stat value="92%" label="Ketepatan" />
-            <Stat value="2" label="Kuiz siap" />
-            <Stat value={String(level)} label="Level" />
+          <div className="progress-track">
+            <div className="progress-fill" style={{ width: `${progress}%` }} />
           </div>
 
-          <div className="sectionTitle"><h2>Modul Aktif</h2><span>Alpha</span></div>
-          <div className="moduleCard" onClick={() => go("quiz")}>
-            <span>🔢</span>
-            <div><h3>Tambah Mudah</h3><p>Kuiz pertama untuk uji flow PandaiKids.</p></div>
-            <ArrowRight size={20}/>
+          <div className="answers">
+            {current.options.map((option) => {
+              const isCorrect = selected && option === current.answer;
+              const isWrong = selected === option && option !== current.answer;
+              return (
+                <button
+                  key={option}
+                  onClick={() => choose(option)}
+                  className={`answer-btn ${isCorrect ? "correct" : ""} ${isWrong ? "wrong" : ""}`}
+                >
+                  {option}
+                </button>
+              );
+            })}
           </div>
-        </section>
-      )}
 
-      {screen === "learn" && (
-        <section className="screen withNav">
-          <Header title="Pilih Subjek" subtitle="Sahabat kecil muncul ketika latihan." onBack={() => go("dashboard")} />
-          <div className="subjectGrid">
-            {subjects.map((s, idx) => (
-              <button key={s.title} className={`subjectTile ${s.theme}`} onClick={() => idx === 0 ? go("quiz") : undefined}>
-                <span>{s.icon}</span>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-                <b>{s.friend}</b>
-              </button>
-            ))}
+          <div className="feedback-row">
+            <p>{feedback}</p>
+            <button onClick={nextQuestion} className="next-btn">Soalan Seterusnya →</button>
           </div>
-        </section>
-      )}
-
-      {screen === "quiz" && (
-        <section className="screen withNav">
-          <Header title="Kuiz Matematik" subtitle="Amani teman latihan ini." onBack={() => go("dashboard")} right={`${qIndex + 1}/${questions.length}`} />
-          <div className="companion">
-            <PandiMascot label="Amani" tone="amani" small />
-            <div><b>Amani:</b><p>Berani cuba dulu. Kalau salah, kita belajar sama-sama.</p></div>
-          </div>
-          <div className="quizCard">
-            <div className="quizMeta"><span>❤️❤️❤️</span><span>⭐ {xp} XP</span></div>
-            <h2>{question.question}</h2>
-            <div className="answers">
-              {question.answers.map((a) => (
-                <button key={a} onClick={() => answer(a)}>{a}</button>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {screen === "result" && (
-        <section className="screen">
-          <div className="resultCard">
-            <div className="bigEmoji">{lastCorrect ? "🎉" : "😊"}</div>
-            <h2>{lastCorrect ? "Betul!" : "Tak apa, cuba lagi."}</h2>
-            <p>{lastCorrect ? `${childName || "Adik"} dapat +10 XP.` : question.help}</p>
-            <div className="xpPill">⭐ {xp} XP</div>
-            <button className="btn primary full" onClick={nextQuestion}>{qIndex < questions.length - 1 ? "Soalan Seterusnya" : "Buka Hadiah Pip 🎁"}</button>
-          </div>
-        </section>
-      )}
-
-      {screen === "reward" && (
-        <section className="screen">
-          <div className="resultCard">
-            <div className="bigEmoji">🐦🎁</div>
-            <h2>Pip datang bawa hadiah!</h2>
-            <p>Tahniah. Kuiz pertama selesai. Awak buka badge pertama.</p>
-            <div className="badgeReward">🥇 Juara Nombor</div>
-            <button className="btn primary full" onClick={() => go("map")}>Pergi Peta Pengembaraan</button>
-          </div>
-        </section>
-      )}
-
-      {screen === "map" && (
-        <section className="screen withNav">
-          <Header title="Dunia PandaiKids" subtitle="Setiap topik jadi lokasi pengembaraan." onBack={() => go("dashboard")} />
-          <div className="path">
-            {mapPlaces.map((p) => (
-              <div key={p.title} className={`place ${p.done ? "done" : ""} ${p.lock ? "lock" : ""}`}>
-                <div className="pin">{p.icon}</div>
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {screen === "profile" && (
-        <section className="screen withNav">
-          <Header title="Profil Anak" subtitle="Dashboard ringkas untuk alpha." onBack={() => go("dashboard")} />
-          <div className="profileCard">
-            <div className="avatar">👧</div>
-            <div><h2>{childName || "Aisyah"}</h2><p>{selectedYear} • Level {level}</p><b>⭐ {xp} XP</b></div>
-          </div>
-          <div className="note">Tiga sahabat kecil menjadi tanda kasih dan kenangan untuk Amani, Auliyaa dan Aisyah — tanpa menggunakan wajah sebenar mereka.</div>
-        </section>
-      )}
-
-      {screen !== "landing" && screen !== "onboarding" && screen !== "year" && (
-        <nav className="bottomNav">
-          <button onClick={() => go("dashboard")}><Home size={21}/><span>Home</span></button>
-          <button onClick={() => go("learn")}><BookOpen size={21}/><span>Belajar</span></button>
-          <button onClick={() => go("map")}><Map size={21}/><span>Peta</span></button>
-          <button onClick={() => go("reward")}><Trophy size={21}/><span>Reward</span></button>
-          <button onClick={() => go("profile")}><UserRound size={21}/><span>Profil</span></button>
-        </nav>
-      )}
+        </div>
+      </section>
     </main>
   );
-}
-
-function Header({ title, subtitle, right, onBack }: { title: string; subtitle?: string; right?: string; onBack?: () => void }) {
-  return (
-    <header className="header">
-      {onBack && <button className="back" onClick={onBack}>←</button>}
-      <div><h1>{title}</h1>{subtitle && <p>{subtitle}</p>}</div>
-      {right && <span>{right}</span>}
-    </header>
-  );
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return <div className="stat"><strong>{value}</strong><span>{label}</span></div>;
 }
