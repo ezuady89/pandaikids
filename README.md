@@ -1,10 +1,29 @@
-# PandaiKids Build 10 - Homepage Fix
+# PandaiKids Build 11
 
-Fokus build ini hanya homepage:
-- baiki masalah bertindan akibat gambar mockup 3:2 dipaksa cover skrin 16:9
-- guna canvas 16:9 `home-16x9.png` supaya desktop nampak penuh
-- tiada preset Adam/Kelantan
-- input nama/negeri/umur dibuat sebagai layer tepat atas panel kiri
+Build ini fokus khas pada **homepage** dengan konsep yang betul:
 
-Upload semua isi folder ini ke GitHub root.
-Badge wajib nampak: BUILD 10 • HOMEPAGE FIX
+- **Background asal bersih tanpa UI** supaya tiada elemen double/bertindan.
+- **Pandi** dimasukkan sebagai aset berasingan.
+- **Onboarding** akan tanya nama, negeri dan umur dahulu.
+- Ada badge pengesahan: **BUILD 11 • CLEAN BACKGROUND ACTIVE**.
+
+## Struktur penting
+- `app/page.tsx`
+- `app/globals.css`
+- `public/assets/bg-home-clean.png`
+- `public/assets/pandi-official.png`
+- `public/assets/pandi-logo-icon.png`
+
+## Langkah upload ke GitHub
+1. Extract ZIP ini.
+2. Upload **semua isi folder** ke repo Next.js.
+3. Replace fail lama dalam `app/` dan `public/assets/`.
+4. Jika ada struktur lama seperti `src/app`, pastikan ia dipadam atau diganti supaya Vercel tidak membaca fail lama.
+5. Redeploy di Vercel.
+
+## Apa yang patut nampak
+- Badge `BUILD 11 • CLEAN BACKGROUND ACTIVE`
+- Background hutan **tanpa UI tertanam**
+- Pandi berdiri berasingan di tengah
+- Panel kiri borang onboarding
+- Panel kanan Blind Box + Misi Harian
