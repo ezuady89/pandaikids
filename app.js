@@ -1,25 +1,8 @@
-const go = id => {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-};
-document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', () => go(btn.dataset.go)));
-
-document.querySelectorAll('[data-answer]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.dataset.answer === '8') {
-      btn.classList.add('good');
-      setTimeout(() => go('reward'), 450);
-    } else {
-      btn.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:260});
-    }
-  });
-});
-let t = 18;
-setInterval(() => {
-  const timer = document.getElementById('timer');
-  if (!timer) return;
-  if (document.getElementById('quiz').classList.contains('active')) {
-    t = Math.max(0, t - 1);
-    timer.textContent = t;
-  }
-}, 1000);
+let q=1,xp=0;
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function goQuiz(){q=1;document.getElementById('qNo').textContent=q;showScreen('quiz')}
+function correct(){xp+=10;document.getElementById('xp').textContent=xp;showScreen('reward')}
+function wrong(btn){btn.classList.add('shake');setTimeout(()=>btn.classList.remove('shake'),400)}
+function afterReward(){q++;if(q>3){showScreen('blind')}else{document.getElementById('qNo').textContent=q;showScreen('quiz')}}
+function openBox(){document.querySelector('.magic-box').classList.add('opened');document.getElementById('boxText').textContent='Tahniah! Adam dapat Topi Pandi Merah 🧢'}
+function resetGame(){xp=0;document.getElementById('xp').textContent=0;alert('Game reset. Jom mula semula!')}

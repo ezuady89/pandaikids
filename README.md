@@ -1,18 +1,14 @@
-# PandaiKids Build 04
+# PandaiKids Build 05 — Production UI v1
 
-Versi ini fokus untuk nampakkan Pandi lebih hidup dalam web demo:
+Build ini rombak total daripada Build 04:
 
-- Home screen premium dengan elemen bergerak.
-- Quiz boleh klik jawapan sebenar.
-- Jawapan salah ada shake effect.
-- Jawapan betul masuk reward screen.
-- Reward, XP, coin, blind box dan koleksi.
-- Parent dashboard ringkas.
-- Misi harian untuk tarik anak ulang belajar.
+- Background lebih hidup: awan, matahari, hutan, bukit, animasi kecil.
+- Pandi lebih besar dan menjadi fokus utama.
+- UI gaya game: glass card, wooden quiz board, button bounce, reward scene, blind box.
+- Flow klik: Home → Quiz → Reward → Blind Box → Koleksi → Parent Dashboard.
 
 ## Cara upload ke GitHub
-
-1. Extract ZIP ini.
-2. Upload semua fail ke repo GitHub.
-3. Pastikan `index.html`, `style.css`, `app.js` dan folder `assets` berada di root repo.
-4. Buka GitHub Pages seperti biasa.
+1. Extract ZIP.
+2. Upload semua fail ke repo GitHub `pandaikids`.
+3. Pastikan `index.html`, `style.css`, `app.js`, dan folder `assets` berada di root repo.
+4. Deploy melalui GitHub Pages / Vercel.
