@@ -1,77 +1,10 @@
 <!doctype html>
-<html lang="ms">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PandaiKids Build 02</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main class="phone">
-    <section id="screen-home" class="screen active">
-      <div class="topbar">
-        <div class="profile">👦 <span><b>Hai, Adam!</b><small>Level <b id="level">3</b></small></span></div>
-        <div class="wallet"><span>⭐ <b id="stars">125</b></span><span>🪙 <b id="coins">850</b></span></div>
-      </div>
-      <div class="brand">
-        <div class="pandi big"><span>🐼</span></div>
-        <h1>Pandai<span>Kids</span></h1>
-        <p>Belajar Sambil Bermain</p>
-      </div>
-      <button class="btn green" onclick="go('quiz')">▶ Mula Belajar</button>
-      <button class="btn purple" onclick="go('collection')">🎁 Koleksi</button>
-      <button class="btn yellow" onclick="toast('Ranking akan masuk Build 03 🏆')">🏆 Ranking</button>
-      <button class="btn blue" onclick="go('parent')">👨‍👩‍👧 Ibu Bapa</button>
-      <div class="dock"><button>⚙️<small>Tetapan</small></button><button>🎁<small>Misi</small></button><button>📅<small>Kalendar</small></button></div>
-    </section>
-
-    <section id="screen-quiz" class="screen">
-      <div class="gamebar"><span>Soalan <b id="qnum">1</b>/10</span><span>⏱️ 00:<b id="timer">18</b></span><span>❤️ 3</span></div>
-      <div class="quiz-card"><h2 id="question">5 + 3 = ?</h2></div>
-      <div class="pandi thinking"><span>🐼</span><p id="hint">Pandi fikir... pilih jawapan yang betul!</p></div>
-      <div class="answers" id="answers"></div>
-      <div class="progress"><i id="progressFill"></i></div>
-    </section>
-
-    <section id="screen-correct" class="screen win">
-      <h2>✨ BETUL! ✨</h2>
-      <div class="pandi jump"><span>🐼</span></div>
-      <div class="reward"><b>⭐ +10 XP</b><b>🪙 +5 Coin</b></div>
-      <button class="btn green" onclick="nextQuestion()">Teruskan ➜</button>
-    </section>
-
-    <section id="screen-wrong" class="screen wrong">
-      <h2>Tak apa, jom Pandi tunjuk cara!</h2>
-      <div class="teach-card"><b>5 + 3 = 8</b><p>5 epal tambah 3 epal sama dengan 8 epal.</p></div>
-      <div class="pandi"><span>🐼</span></div>
-      <button class="btn red" onclick="go('quiz')">Ya, cuba lagi 💪</button>
-    </section>
-
-    <section id="screen-box" class="screen box-screen">
-      <h2>🎉 Tahniah!</h2>
-      <p>Kamu dapat item baru!</p>
-      <div class="box" onclick="openBox()"><div id="boxLid">🎁</div><div id="boxItem">🧢</div></div>
-      <h3 id="itemName">Tekan kotak untuk buka</h3>
-      <button class="btn green" onclick="go('home')">Wow! Terima kasih 🎉</button>
-    </section>
-
-    <section id="screen-collection" class="screen collection">
-      <button class="back" onclick="go('home')">←</button><h2>Koleksi Pandi</h2>
-      <div class="tabs"><b>Semua</b><b>Pakaian</b><b>Topi</b><b>Aksesori</b></div>
-      <div class="grid">
-        <article>🐼<span>Pakaian Hijau ✅</span></article><article>👕<span>Pakaian Biru 🔒</span></article><article>🧑‍🍳<span>Chef 🔒</span></article><article>🧢<span>Topi Merah ✅</span></article><article>🎩<span>Detective 🔒</span></article><article>🤓<span>Cermin Mata 🔒</span></article><article>🎒<span>Beg Sekolah 🔒</span></article><article>🚀<span>Angkasawan 🔒</span></article>
-      </div>
-    </section>
-
-    <section id="screen-parent" class="screen parent">
-      <button class="back" onclick="go('home')">←</button><h2>Untuk Ibu Bapa</h2>
-      <div class="panel"><h3>Prestasi Hari Ini</h3><div class="stats"><b>30<small>Soalan</small></b><b>27<small>Betul</small></b><b class="bad">3<small>Salah</small></b><b>8m<small>Masa</small></b></div><h3>Topik Lemah</h3><p>Tolak <meter min="0" max="100" value="60"></meter> 60%</p><p>Wang <meter min="0" max="100" value="70"></meter> 70%</p><p>Masa <meter min="0" max="100" value="90"></meter> 90%</p><div class="suggest">💡 Adam perlu lebih latihan dalam topik Tolak.</div></div>
-    </section>
-  </main>
-  <div id="toast"></div>
-  <script src="app.js"></script>
-</body>
-</html>
+<html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>PandaiKids Build 03</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="phone">
+<section class="screen active" id="home"><img src="assets/home.png" class="full"><button class="hot start" data-go="quiz">MULA BELAJAR</button><button class="hot coll" data-go="collection">KOLEKSI</button><button class="hot parent" data-go="parent">IBU BAPA</button></section>
+<section class="screen" id="quiz"><img src="assets/quiz.png" class="full"><button class="hot answer" data-go="reward">8</button><button class="hot back" data-go="home">‹</button></section>
+<section class="screen" id="reward"><img src="assets/reward.png" class="full"><button class="hot continue" data-go="box">Teruskan</button></section>
+<section class="screen" id="box"><img src="assets/box.png" class="full"><button class="hot wow" data-go="collection">Wow! Terima kasih!</button></section>
+<section class="screen" id="collection"><img src="assets/collection.png" class="full"><button class="hot back" data-go="home">‹</button></section>
+<section class="screen" id="parent"><img src="assets/parent.png" class="full"><button class="hot back" data-go="home">‹</button></section>
+</main><div class="note">Build 03 Cinematic Edition · klik butang untuk cuba flow</div><script src="app.js"></script></body></html>
