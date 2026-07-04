@@ -2,24 +2,24 @@
 
 import { useMemo, useState } from "react";
 
-const questions = [
+const missions = [
   {
     subject: "Matematik",
-    level: "Tahun 1",
+    chapter: "Nombor Mudah",
     question: "Berapakah 4 + 3?",
     options: ["5", "6", "7", "8"],
     answer: "7",
   },
   {
     subject: "Bahasa Melayu",
-    level: "Ejaan",
+    chapter: "Ejaan Betul",
     question: "Pilih ejaan yang betul.",
     options: ["Sekolah", "Skolah", "Sekula", "Sikolah"],
     answer: "Sekolah",
   },
   {
     subject: "Sains",
-    level: "Alam Sekitar",
+    chapter: "Dunia Haiwan",
     question: "Haiwan manakah yang boleh terbang?",
     options: ["Kucing", "Burung", "Ikan", "Kambing"],
     answer: "Burung",
@@ -27,163 +27,162 @@ const questions = [
 ];
 
 const worlds = [
-  { icon: "🔢", title: "Math Quest", text: "Kira, padankan dan menang bintang." },
-  { icon: "📚", title: "Bahasa Land", text: "Ejaan, suku kata dan ayat mudah." },
-  { icon: "🌿", title: "Sains Safari", text: "Haiwan, tumbuhan dan dunia sekitar." },
+  { icon: "🔢", name: "Math Quest", detail: "Kira cepat, kumpul bintang dan naik level." },
+  { icon: "📚", name: "Bahasa Land", detail: "Ejaan, suku kata dan perkataan harian." },
+  { icon: "🌿", name: "Sains Safari", detail: "Kenal haiwan, tumbuhan dan dunia sekitar." },
 ];
 
-const rewards = ["⭐ Badge Harian", "🪙 Syiling Pandi", "🏆 Trofi Mingguan"];
+const habits = ["5 minit sehari", "Hadiah selepas misi", "Laporan ibu bapa"];
 
 export default function Home() {
-  const [step, setStep] = useState(0);
+  const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState("");
-  const [score, setScore] = useState(0);
-  const [coins, setCoins] = useState(120);
-  const [streak, setStreak] = useState(3);
-  const [pandiMood, setPandiMood] = useState("/pandi-wave.png");
-  const [feedback, setFeedback] = useState("Hai! Pandi sedia teman kamu belajar hari ini 🐼");
+  const [xp, setXp] = useState(0);
+  const [coins, setCoins] = useState(180);
+  const [stars, setStars] = useState(3);
+  const [mood, setMood] = useState("/pandi-wave.png");
+  const [message, setMessage] = useState("Hai! Saya Pandi. Jom belajar sambil main game!");
 
-  const current = questions[step];
-  const progress = useMemo(() => Math.round(((step + 1) / questions.length) * 100), [step]);
+  const mission = missions[index];
+  const progress = useMemo(() => Math.round(((index + 1) / missions.length) * 100), [index]);
 
-  function choose(option: string) {
+  function pick(option: string) {
     if (selected) return;
     setSelected(option);
 
-    if (option === current.answer) {
-      setScore((value) => value + 10);
-      setCoins((value) => value + 5);
-      setStreak((value) => value + 1);
-      setPandiMood("/pandi-excited.png");
-      setFeedback("Tahniah! Jawapan betul. Pandi bangga dengan kamu! 🎉");
+    if (option === mission.answer) {
+      setXp((value) => value + 20);
+      setCoins((value) => value + 10);
+      setStars((value) => value + 1);
+      setMood("/pandi-excited.png");
+      setMessage("Mantap! Jawapan betul. Pandi bangga dengan awak! 🎉");
     } else {
-      setStreak(0);
-      setPandiMood("/pandi-think.png");
-      setFeedback("Tak apa. Cuba fikir semula, Pandi akan bantu kamu 💪");
+      setMood("/pandi-think.png");
+      setMessage("Tak apa. Cuba tengok pilihan jawapan sekali lagi. Pandi bantu ya 💪");
     }
   }
 
-  function nextQuestion() {
+  function next() {
     setSelected("");
-    setPandiMood("/pandi-focus.png");
-    setFeedback("Soalan baru sudah muncul. Fokus ya! ✨");
-    setStep((value) => (value + 1) % questions.length);
+    setMood("/pandi-focus.png");
+    setMessage("Fokus misi seterusnya. Awak makin hebat!");
+    setIndex((value) => (value + 1) % missions.length);
   }
 
   return (
-    <main className="pk-page">
-      <div className="cloud cloud-a" />
-      <div className="cloud cloud-b" />
-      <div className="cloud cloud-c" />
-      <div className="sun">☀️</div>
+    <main className="pk-shell">
+      <div className="sky-orb orb-one" />
+      <div className="sky-orb orb-two" />
+      <div className="moving-cloud cloud-one" />
+      <div className="moving-cloud cloud-two" />
+      <div className="moving-cloud cloud-three" />
 
-      <nav className="topbar">
-        <div className="brand">
-          <div className="brand-logo">P</div>
+      <header className="app-header">
+        <div className="brand-lockup">
+          <div className="brand-badge">P</div>
           <div>
-            <strong>PandaiKids</strong>
-            <span>Play • Learn • Grow</span>
+            <p>PandaiKids</p>
+            <span>Belajar • Main • Berkembang</span>
           </div>
         </div>
-        <div className="top-actions">
-          <span>⭐ Level 1</span>
+        <div className="player-stats">
+          <span>⭐ {stars}</span>
           <span>🪙 {coins}</span>
-          <span>🔥 {streak}</span>
+          <span>⚡ {xp} XP</span>
         </div>
-      </nav>
+      </header>
 
-      <section className="hero">
+      <section className="hero-grid">
         <div className="hero-copy">
-          <span className="tag">🚀 Sprint 5.2 • Pandi sebenar</span>
-          <h1>Belajar rasa macam main game.</h1>
+          <div className="notice-pill">✨ Sprint 6 • Pandi Visual Rebuild</div>
+          <h1>Belajar jadi seronok bersama Pandi.</h1>
           <p>
-            PandaiKids kini guna maskot Pandi yang sama seperti konsep asal: comel, ceria dan mesra kanak-kanak.
+            Pengalaman baru PandaiKids dengan maskot Pandi sebenar, dunia belajar yang ceria,
+            sistem XP, syiling dan misi harian seperti aplikasi pendidikan premium.
           </p>
-          <div className="hero-actions">
-            <a className="primary-btn" href="#quiz">Mula Misi Hari Ini</a>
-            <a className="ghost-btn" href="#worlds">Lihat Dunia Belajar</a>
+          <div className="cta-row">
+            <a href="#mission" className="main-cta">Mula Belajar</a>
+            <a href="#worlds" className="secondary-cta">Lihat Dunia</a>
           </div>
-          <div className="reward-row">
-            {rewards.map((item) => <span key={item}>{item}</span>)}
+          <div className="habit-row">
+            {habits.map((item) => <span key={item}>✓ {item}</span>)}
           </div>
         </div>
 
-        <div className="hero-stage">
-          <div className="stage-card main-pandi-card">
-            <div className="spark star-one">⭐</div>
-            <div className="spark star-two">✨</div>
-            <img src="/pandi-main.png" alt="Pandi mascot" className="pandi-main" />
-            <div className="speech-bubble">Jom belajar sama-sama!</div>
+        <div className="pandi-showcase">
+          <div className="showcase-bg" />
+          <div className="spark spark-a">⭐</div>
+          <div className="spark spark-b">✨</div>
+          <div className="spark spark-c">💙</div>
+          <img className="pandi-hero-img" src="/pandi-main.png" alt="Pandi mascot" />
+          <div className="speech-card">Jom jadi pandai hari ini!</div>
+          <div className="floating-card float-left">
+            <span>Level</span>
+            <b>1</b>
           </div>
-          <div className="mini-panel xp-panel">
-            <span>XP Hari Ini</span>
-            <strong>{score} XP</strong>
-          </div>
-          <div className="mini-panel coin-panel">
-            <span>Syiling</span>
-            <strong>{coins}</strong>
+          <div className="floating-card float-right">
+            <span>Progress</span>
+            <b>{progress}%</b>
           </div>
         </div>
       </section>
 
-      <section className="mission-strip">
+      <section className="mission-bar">
         <div>
           <span>Misi hari ini</span>
-          <strong>Lengkapkan 3 soalan untuk buka hadiah Pandi</strong>
+          <strong>Selesaikan 3 soalan untuk buka hadiah Pandi</strong>
         </div>
-        <div className="mission-progress">
-          <div style={{ width: `${progress}%` }} />
-        </div>
+        <div className="bar-track"><div style={{ width: `${progress}%` }} /></div>
         <b>{progress}%</b>
       </section>
 
-      <section id="worlds" className="worlds">
-        {worlds.map((item) => (
-          <article className="world-card" key={item.title}>
-            <div className="world-icon">{item.icon}</div>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-            <button>Buka Dunia</button>
+      <section id="worlds" className="world-grid">
+        {worlds.map((world) => (
+          <article key={world.name} className="world-tile">
+            <div className="world-emoji">{world.icon}</div>
+            <h3>{world.name}</h3>
+            <p>{world.detail}</p>
+            <button>Masuk Dunia</button>
           </article>
         ))}
       </section>
 
-      <section id="quiz" className="quiz-zone">
-        <div className="pandi-chat-card">
-          <img src={pandiMood} alt="Pandi reaction" />
-          <div>
-            <span>Pandi kata</span>
-            <p>{feedback}</p>
+      <section id="mission" className="learn-panel">
+        <aside className="coach-card">
+          <div className="coach-frame">
+            <img src={mood} alt="Reaksi Pandi" />
           </div>
-        </div>
+          <span>Pandi kata</span>
+          <p>{message}</p>
+        </aside>
 
-        <div className="quiz-card">
-          <div className="quiz-header">
+        <section className="question-card">
+          <div className="question-top">
             <div>
-              <span className="mini-label">{current.subject} • {current.level}</span>
-              <h2>{current.question}</h2>
+              <span>{mission.subject} • {mission.chapter}</span>
+              <h2>{mission.question}</h2>
             </div>
-            <div className="level-pill">Misi {step + 1}/3</div>
+            <div className="mission-pill">Misi {index + 1}/3</div>
           </div>
 
-          <div className="answers">
-            {current.options.map((option) => {
-              const isCorrect = selected && option === current.answer;
-              const isWrong = selected === option && option !== current.answer;
+          <div className="answer-grid">
+            {mission.options.map((option) => {
+              const correct = selected && option === mission.answer;
+              const wrong = selected === option && option !== mission.answer;
               return (
                 <button
                   key={option}
-                  onClick={() => choose(option)}
-                  className={`answer-btn ${isCorrect ? "correct" : ""} ${isWrong ? "wrong" : ""}`}
+                  onClick={() => pick(option)}
+                  className={`answer-option ${correct ? "is-correct" : ""} ${wrong ? "is-wrong" : ""}`}
                 >
-                  <span>{option}</span>
+                  {option}
                 </button>
               );
             })}
           </div>
 
-          <button onClick={nextQuestion} className="next-btn">Teruskan Misi →</button>
-        </div>
+          <button className="next-mission" onClick={next}>Teruskan Misi →</button>
+        </section>
       </section>
     </main>
   );
