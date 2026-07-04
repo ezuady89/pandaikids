@@ -1,24 +1,25 @@
-# PandaiKids Build 06 — Cinematic UI
+# PandaiKids Build 07 — Next.js Version
 
-Build 06 ini dibuat sebagai perubahan jelas daripada Build 04/05 yang nampak terlalu flat.
+Ini build untuk projek Vercel yang dikesan sebagai Next.js.
 
-## Apa yang berubah besar
+## Penting
+Jika laman masih tidak berubah, maksudnya Vercel masih build fail lama seperti `app/page.tsx` lama atau `src/app/page.tsx` lama.
 
-- Background ditukar kepada dunia hidup: awan bergerak, daun jatuh, burung terbang, hutan, gunung dan laluan pengembaraan.
-- Pandi jadi lebih besar dan animated breathing/bob/jump.
-- Home screen rombak penuh, bukan layout lama.
-- Quiz screen guna papan kayu, epal visual dan pilihan jawapan animated.
-- Reward screen ada confetti dan Pandi melompat.
-- Blind Box ada animasi buka kotak dan item reveal.
-- Koleksi dan dashboard ibu bapa ada layout baru.
-- Ada badge BUILD 06 di topbar supaya mudah sahkan file baru memang naik.
+## Cara upload ke GitHub
+1. Buka ZIP ini.
+2. Upload isi di dalam folder `pandaikids_build_07_next` ke root repository GitHub.
+3. Pastikan folder ini ada di root:
+   - `app/page.tsx`
+   - `app/globals.css`
+   - `app/layout.tsx`
+   - `public/assets/...`
+   - `package.json`
+4. Kalau repo lama ada folder `src/app`, sila padam atau gantikan juga fail `src/app/page.tsx` kerana Next.js mungkin sedang guna folder itu.
+5. Deploy semula di Vercel.
 
-## Cara upload ke GitHub/Vercel
+## Cara sahkan build baru aktif
+Di laman utama mesti nampak badge:
 
-1. Extract ZIP ini.
-2. Upload semua fail di dalam folder `pandaikids_build_06` ke root repository GitHub.
-3. Pastikan `index.html` lama diganti dengan `index.html` baru.
-4. Pastikan folder `assets` turut diupload.
-5. Redeploy / refresh Vercel.
+`NEXT BUILD 07 • NEW FILE ACTIVE`
 
-Jika selepas upload masih nampak rupa lama, biasanya sebab fail lama belum diganti atau cache browser. Cuba hard refresh: Ctrl + F5.
+Kalau badge ini tidak muncul, maksudnya fail Build 07 belum digunakan oleh Vercel.
