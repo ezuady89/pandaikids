@@ -1,10 +1,80 @@
 <!doctype html>
-<html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>PandaiKids Build 03</title><link rel="stylesheet" href="style.css"></head>
-<body><main class="phone">
-<section class="screen active" id="home"><img src="assets/home.png" class="full"><button class="hot start" data-go="quiz">MULA BELAJAR</button><button class="hot coll" data-go="collection">KOLEKSI</button><button class="hot parent" data-go="parent">IBU BAPA</button></section>
-<section class="screen" id="quiz"><img src="assets/quiz.png" class="full"><button class="hot answer" data-go="reward">8</button><button class="hot back" data-go="home">‹</button></section>
-<section class="screen" id="reward"><img src="assets/reward.png" class="full"><button class="hot continue" data-go="box">Teruskan</button></section>
-<section class="screen" id="box"><img src="assets/box.png" class="full"><button class="hot wow" data-go="collection">Wow! Terima kasih!</button></section>
-<section class="screen" id="collection"><img src="assets/collection.png" class="full"><button class="hot back" data-go="home">‹</button></section>
-<section class="screen" id="parent"><img src="assets/parent.png" class="full"><button class="hot back" data-go="home">‹</button></section>
-</main><div class="note">Build 03 Cinematic Edition · klik butang untuk cuba flow</div><script src="app.js"></script></body></html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>PandaiKids Build 04</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="phone" aria-label="PandaiKids demo app">
+    <div class="shine"></div>
+
+    <section class="screen active home-bg" id="home">
+      <div class="cloud c1"></div><div class="cloud c2"></div>
+      <div class="top-card"><span class="avatar">👦</span><b>Hai, Adam!</b><small>Level 3 · 125 ⭐ · 850 🪙</small></div>
+      <img src="assets/home.png" class="scene" alt="PandaiKids Home" />
+      <button class="tap start" data-go="quiz">▶ MULA BELAJAR</button>
+      <button class="tap collection" data-go="collection">🎁 KOLEKSI</button>
+      <button class="tap parent" data-go="parent">👨‍👩‍👧 IBU BAPA</button>
+      <button class="mini mission" data-go="mission">📅 MISI HARIAN</button>
+    </section>
+
+    <section class="screen quiz-bg" id="quiz">
+      <div class="hud"><span>Soalan <b id="qNo">3/10</b></span><span>⏱️ <b id="timer">18</b></span><span>❤️ 3</span></div>
+      <img src="assets/quiz.png" class="scene" alt="Quiz" />
+      <div class="quiz-card">
+        <div class="question">5 + 3 = ?</div>
+        <div class="answers">
+          <button data-answer="6">6</button><button data-answer="7">7</button><button data-answer="8">8</button><button data-answer="9">9</button>
+        </div>
+      </div>
+      <button class="round back" data-go="home">‹</button>
+    </section>
+
+    <section class="screen correct-bg" id="reward">
+      <div class="burst"></div>
+      <img src="assets/reward.png" class="scene" alt="Reward" />
+      <div class="reward-pop">
+        <h1>BETUL! ✨</h1>
+        <p>+10 XP · +5 Coin</p>
+        <div class="bar"><i></i></div>
+      </div>
+      <button class="tap continue" data-go="box">Teruskan ➜</button>
+    </section>
+
+    <section class="screen box-bg" id="box">
+      <div class="confetti"></div>
+      <img src="assets/box.png" class="scene" alt="Blind Box" />
+      <div class="item-glow">🧢</div>
+      <button class="tap wow" data-go="collection">Wow! Simpan Koleksi 🎉</button>
+    </section>
+
+    <section class="screen" id="collection">
+      <img src="assets/collection.png" class="scene" alt="Koleksi Pandi" />
+      <div class="owned">Item baru: <b>Topi Pandi Merah</b> ✅</div>
+      <button class="round back" data-go="home">‹</button>
+    </section>
+
+    <section class="screen" id="parent">
+      <img src="assets/parent.png" class="scene" alt="Parent Dashboard" />
+      <div class="parent-note">Cadangan: Adam perlu latihan tambahan topik <b>Tolak</b>.</div>
+      <button class="round back" data-go="home">‹</button>
+    </section>
+
+    <section class="screen mission-bg" id="mission">
+      <div class="panel">
+        <h2>📅 Misi Harian</h2>
+        <p>Jawab 10 soalan hari ini untuk buka Blind Box.</p>
+        <div class="mission-row"><span>Soalan</span><b>3/10</b></div>
+        <div class="mission-row"><span>Ganjaran</span><b>50 🪙</b></div>
+        <button class="tap" data-go="quiz">Mula Misi 🚀</button>
+      </div>
+      <button class="round back" data-go="home">‹</button>
+    </section>
+  </main>
+
+  <p class="note">PandaiKids Build 04 · lebih hidup, animasi, quiz klik sebenar</p>
+  <script src="app.js"></script>
+</body>
+</html>
