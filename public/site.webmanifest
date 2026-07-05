@@ -1,0 +1,8 @@
+{
+  "name": "PandaiKids",
+  "short_name": "PandaiKids",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fffb",
+  "theme_color": "#22c55e"
+}
