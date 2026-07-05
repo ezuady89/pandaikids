@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'PandaiKids Build 11',
-  description: 'Homepage dengan background bersih tanpa UI bertindan'
+  title: 'PandaiKids Build 12',
+  description: 'Homepage final visual replacement'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
