@@ -1,29 +1,19 @@
-# Pandi Production v1
+PANDI WIDGET ONLY V1
 
-Fail ini boleh terus upload ke GitHub Pages.
+Ini bukan homepage baru.
+Ini hanya komponen Pandi untuk dimasukkan ke homepage lama.
 
-## Struktur fail
+Cara guna:
+1. Pastikan gambar Pandi berada di:
+   images/pandi.png
 
-pandi-production-v1/
-- index.html
-- style.css
+2. Copy kod dalam pandi-widget.html.
+   Letak dalam bahagian hero homepage lama.
 
-## Cara guna
+3. Copy kod dalam pandi-widget.css.
+   Tampal di bahagian paling bawah style.css lama.
 
-1. Upload `index.html` dan `style.css` ke GitHub.
-2. Buka website.
-3. Pandi akan terus melambai secara automatik.
-
-## Nota
-
-Versi ini bukan gambar PNG. Pandi dibina dengan HTML + CSS berlapis supaya:
-- tangan boleh melambai,
-- badan naik turun,
-- kepala bergerak,
-- mata berkelip,
-- hoodie bergerak lembut.
-
-Kalau nak masukkan ke homepage sedia ada, copy bahagian:
-`<!-- PANDI PRODUCTION V1 - Pure HTML + CSS -->`
-
-Kemudian copy semua CSS dalam `style.css`.
+PENTING:
+Jangan replace index.html lama.
+Jangan replace style.css lama.
+Kalau replace, homepage akan berubah macam screenshot tadi.
