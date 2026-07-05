@@ -1,0 +1,33 @@
+PANDAIKIDS BUILD 13 - WELCOME PANEL SAHAJA
+
+Fail ini TIDAK ubah background, Pandi, menu, Blind Box atau Misi Harian.
+Ia hanya tambah kotak nama/negeri/umur dan bubble ucapan Pandi.
+
+CARA PASANG:
+
+1. Buka index.html homepage asal.
+
+2. Copy isi welcome-panel.html.
+   Paste selepas tag pembuka:
+   <section class="homepage">
+
+   Contoh:
+   <section class="homepage">
+      <!-- paste welcome-panel.html di sini -->
+      ...homepage asal...
+   </section>
+
+3. Copy isi welcome-panel.css.
+   Paste di bahagian paling bawah dalam tag <style>, sebelum </style>.
+
+4. Copy isi welcome-panel.js.
+   Paste sebelum tag </body>.
+
+5. Untuk reset nama semasa test, buka browser console dan taip:
+   resetPandiProfile()
+
+NOTA:
+- Jangan replace seluruh index.html.
+- Jangan replace assets/background.png.
+- Jangan replace assets/pandi.png.
+- Ini komponen tambahan sahaja.
