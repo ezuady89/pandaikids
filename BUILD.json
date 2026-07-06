@@ -1,0 +1,19 @@
+{
+  "product": "PandaiKids",
+  "version": "1.0.0-build.1",
+  "build": 1,
+  "releaseDate": "2026-07-06",
+  "status": "Build 1 — Next.js Production Reset",
+  "architecture": "Next.js App Router",
+  "entryPoint": "app/page.tsx",
+  "hosting": "GitHub Pages via static export",
+  "runtime": {
+    "node": ">=20.9.0",
+    "packageManager": "npm"
+  },
+  "routes": {
+    "static": 3,
+    "games": 3,
+    "worlds": 9
+  }
+}
