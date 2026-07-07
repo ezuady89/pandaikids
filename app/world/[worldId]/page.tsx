@@ -6,6 +6,7 @@ import { type CSSProperties } from "react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { MascotImage } from "@/components/mascot/MascotImage";
+import { MathForestExperience } from "@/components/math-forest/MathForestExperience";
 import { ZoneCard } from "@/components/world/ZoneCard";
 import { getWorld, learningWorlds } from "@/data/worlds";
 import { withBasePath } from "@/lib/paths";
@@ -40,6 +41,10 @@ export default async function WorldPage({ params }: WorldPageProps) {
   const world = getWorld(worldId as WorldId);
 
   if (!world) notFound();
+
+  if (world.id === "matematik") {
+    return <MathForestExperience />;
+  }
 
   const journeyBackground = withBasePath(
     "/assets/backgrounds/pandaikids-world-journey-v1.webp"

@@ -406,3 +406,642 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
 .not-found-page>span{font-size:72px}
 .not-found-page h1{font-size:clamp(36px,6vw,64px);color:var(--green-900)}
 .not-found-page p{margin:0 0 8px;color:var(--muted)}
+
+/* Build 2: Hutan Matematik guided learning adventure */
+.math-forest-page{
+  min-height:100svh;
+  color:#123d31;
+  background:
+    radial-gradient(circle at 28% 18%,rgba(255,244,151,.44),transparent 24%),
+    linear-gradient(135deg,rgba(29,174,101,.18),rgba(33,151,203,.12)),
+    var(--math-forest-scene) center/cover fixed no-repeat;
+  position:relative;
+  overflow-x:hidden;
+  isolation:isolate;
+}
+.math-forest-page:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(4,63,41,.02),rgba(7,75,43,.24)),
+    radial-gradient(circle at 74% 72%,rgba(105,227,126,.34),transparent 22%);
+  transition:.5s opacity,.5s filter;
+}
+.math-forest-page:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(4,53,35,.18),transparent 42%,rgba(5,46,34,.1));
+}
+.math-forest-page.forest-growing:before{filter:saturate(1.08) brightness(1.04)}
+.math-forest-page.forest-awake:before{filter:saturate(1.18) brightness(1.08)}
+.math-forest-page.forest-bright:before{filter:saturate(1.28) brightness(1.12)}
+.math-forest-page.forest-complete:before{filter:saturate(1.38) brightness(1.18)}
+.math-forest-page .site-header{
+  position:relative;
+  z-index:20;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.72));
+  border-bottom:1px solid rgba(255,255,255,.7);
+  backdrop-filter:blur(14px);
+}
+.math-forest-shell{
+  min-height:calc(100svh - 82px);
+  position:relative;
+  padding:18px clamp(14px,4vw,54px) 42px;
+}
+.forest-ambient{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.forest-sunbeam{
+  position:absolute;
+  width:46vw;
+  height:90vh;
+  right:2%;
+  top:-28%;
+  background:linear-gradient(115deg,rgba(255,244,158,.34),transparent 62%);
+  transform:rotate(11deg);
+  filter:blur(2px);
+  animation:forestLight 9s ease-in-out infinite;
+}
+.forest-cloud{
+  position:absolute;
+  width:124px;
+  height:34px;
+  border-radius:60px;
+  background:rgba(255,255,255,.72);
+  box-shadow:0 8px 25px rgba(42,108,79,.12);
+  animation:cloudMove 28s ease-in-out infinite;
+}
+.forest-cloud:before,.forest-cloud:after{content:"";position:absolute;border-radius:50%;background:inherit}
+.forest-cloud:before{width:54px;height:54px;left:24px;bottom:5px}
+.forest-cloud:after{width:64px;height:64px;right:12px;bottom:3px}
+.cloud-left{left:8%;top:13%}.cloud-right{right:10%;top:23%;transform:scale(.68);animation-delay:-12s}
+.forest-butterfly,.forest-sparkle{position:absolute;will-change:transform}
+.forest-butterfly{font-size:26px;filter:drop-shadow(0 6px 6px rgba(23,61,34,.24));animation:butterflyFly 11s ease-in-out infinite}
+.butterfly-a{left:42%;top:21%}.butterfly-b{right:8%;bottom:22%;font-size:21px;animation-delay:-5s}
+.forest-sparkle{color:#fff4a4;filter:drop-shadow(0 0 9px #ffe879);animation:particleFloat 5s ease-in-out infinite}
+.sparkle-a{left:12%;bottom:28%;font-size:22px}.sparkle-b{right:28%;top:28%;font-size:15px;animation-delay:-3s}
+.forest-river{
+  position:absolute;
+  left:-5%;
+  right:-5%;
+  bottom:-46px;
+  height:120px;
+  background:linear-gradient(90deg,rgba(50,197,231,.45),rgba(169,244,255,.62),rgba(38,177,224,.44));
+  clip-path:polygon(0 42%,20% 30%,42% 45%,64% 25%,84% 37%,100% 21%,100% 100%,0 100%);
+  filter:blur(.2px) saturate(1.12);
+  opacity:.72;
+  animation:riverFlow 6s ease-in-out infinite;
+}
+.math-forest-topbar{
+  position:relative;
+  z-index:2;
+  width:min(1180px,100%);
+  margin:0 auto 18px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:center;
+  gap:14px;
+}
+.math-forest-topbar>a{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  padding:10px 15px;
+  border-radius:999px;
+  background:rgba(255,255,255,.9);
+  color:var(--green-700);
+  box-shadow:0 8px 18px rgba(8,61,39,.13);
+  font-weight:900;
+  backdrop-filter:blur(10px);
+}
+.forest-progress-card{
+  min-height:72px;
+  display:grid;
+  grid-template-columns:minmax(160px,260px) 1fr auto;
+  align-items:center;
+  gap:16px;
+  padding:13px 18px;
+  border:2px solid rgba(255,255,255,.86);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(240,255,239,.84));
+  box-shadow:0 7px 0 rgba(12,86,52,.12),0 18px 42px rgba(5,53,34,.18);
+  backdrop-filter:blur(14px);
+}
+.math-forest-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  min-height:25px;
+  padding:5px 10px;
+  border-radius:10px;
+  background:#e7f8dd;
+  color:#167242;
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:1.1px;
+  text-transform:uppercase;
+}
+.forest-progress-card strong{
+  display:block;
+  margin-top:4px;
+  font:800 18px var(--display);
+  color:var(--green-900);
+}
+.forest-progress-track{
+  height:15px;
+  overflow:hidden;
+  border-radius:99px;
+  background:#dfece3;
+  box-shadow:inset 0 2px 5px rgba(27,83,55,.13);
+}
+.forest-progress-track span{
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#20a95b,#85dc55,#f6c84a);
+  box-shadow:0 0 14px rgba(94,210,87,.55);
+  transition:.5s width;
+}
+.forest-progress-card p{
+  margin:0;
+  color:#55756d;
+  font-size:12px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.math-forest-stage{
+  position:relative;
+  z-index:1;
+  width:min(1180px,100%);
+  min-height:calc(100svh - 205px);
+  margin:auto;
+  display:grid;
+  grid-template-columns:minmax(250px,.78fr) minmax(340px,1fr);
+  align-items:center;
+  gap:clamp(16px,4vw,58px);
+}
+.pandi-teacher{
+  position:relative;
+  min-height:520px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+.pandi-scene-preview{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  border-radius:42px;
+  box-shadow:0 10px 0 rgba(12,79,49,.14),0 32px 70px rgba(4,48,29,.3);
+  border:3px solid rgba(255,255,255,.8);
+  transform:translateZ(0);
+}
+.pandi-scene-preview:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 48%,rgba(4,54,34,.18));
+}
+.pandi-scene-preview img{
+  object-fit:cover;
+  object-position:center;
+  filter:saturate(1.16) contrast(1.05) brightness(1.03);
+  transform:scale(1.03);
+}
+.pandi-accessory{
+  position:absolute;
+  right:18px;
+  top:18px;
+  z-index:2;
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 7px 16px rgba(4,48,29,.2);
+  font-size:27px;
+}
+.pandi-teacher-bubble{
+  position:relative;
+  z-index:2;
+  width:min(92%,320px);
+  margin-bottom:22px;
+  padding:15px 18px;
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:22px 22px 22px 7px;
+  background:rgba(255,255,255,.95);
+  box-shadow:0 8px 0 rgba(11,83,51,.12),0 18px 34px rgba(4,48,29,.2);
+}
+.pandi-teacher-bubble span{
+  color:#15723f;
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.pandi-teacher-bubble p{
+  margin:5px 0 0;
+  color:#173f35;
+  font:800 16px var(--display);
+  line-height:1.25;
+}
+.forest-story-card,.math-question-card,.teaching-panel,.correct-panel,.daily-summary-panel{
+  border:2px solid rgba(255,255,255,.92);
+  border-radius:34px;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(248,255,244,.9));
+  box-shadow:0 9px 0 rgba(13,81,52,.15),0 32px 72px rgba(4,45,28,.28),inset 0 1px 0 #fff;
+  backdrop-filter:blur(14px);
+}
+.forest-story-card,.teaching-panel,.correct-panel,.daily-summary-panel{
+  padding:clamp(24px,5vw,46px);
+}
+.forest-story-card h1,.daily-summary-panel h1{
+  margin:12px 0 13px;
+  font-size:clamp(38px,5vw,62px);
+  color:#0f4937;
+  letter-spacing:-1.4px;
+}
+.forest-story-card p,.teaching-panel p,.correct-panel p,.daily-summary-panel p{
+  color:#526f68;
+  line-height:1.65;
+  font-size:16px;
+}
+.story-points{
+  display:grid;
+  gap:10px;
+  margin:22px 0 25px;
+}
+.story-points span{
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  padding:12px 14px;
+  border-radius:17px;
+  background:#f0faef;
+  color:#255f4d;
+  font-weight:900;
+}
+.math-question-card{
+  padding:clamp(20px,4vw,42px);
+  text-align:center;
+}
+.question-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:18px;
+  color:#55756d;
+  font-size:12px;
+  font-weight:1000;
+}
+.question-meta span{
+  padding:8px 12px;
+  border-radius:999px;
+  background:#e9f8df;
+  color:#147342;
+}
+.math-question-card h1{
+  min-height:150px;
+  display:grid;
+  place-items:center;
+  margin:0 0 24px;
+  padding:24px 16px;
+  border:2px solid #fff;
+  border-radius:27px;
+  background:linear-gradient(135deg,#e8fff0,#e7f8ff);
+  color:#103f35;
+  font-size:clamp(36px,6vw,70px);
+  line-height:1.06;
+  box-shadow:inset 0 1px 0 #fff,0 8px 18px rgba(18,88,60,.08);
+}
+.math-answer-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.math-answer-grid button{
+  min-height:76px;
+  border:3px solid #e2ecdf;
+  border-radius:23px;
+  background:linear-gradient(180deg,#fff,#f1fff0);
+  color:#133f35;
+  box-shadow:0 7px 0 #b8d9bc,0 13px 20px rgba(17,86,52,.11),inset 0 1px 0 #fff;
+  cursor:pointer;
+  font:900 34px var(--display);
+  transition:.16s transform,.16s border-color,.16s box-shadow;
+}
+.math-answer-grid button:hover{
+  transform:translateY(-3px);
+  border-color:#77bf8b;
+  box-shadow:0 9px 0 #a9d5b0,0 16px 24px rgba(17,86,52,.14),inset 0 1px 0 #fff;
+}
+.math-answer-grid button:active{transform:translateY(3px);box-shadow:0 3px 0 #b8d9bc}
+.teaching-panel,.correct-panel{text-align:center}
+.teaching-panel h2,.correct-panel h2{
+  margin:10px 0;
+  font-size:clamp(32px,5vw,52px);
+  color:#0f4937;
+}
+.visual-explanation{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:22px 0;
+  padding:20px 12px;
+  border:2px solid #fff;
+  border-radius:24px;
+  background:linear-gradient(135deg,#e5fbff,#efffe5);
+  box-shadow:inset 0 1px 0 #fff,0 8px 18px rgba(18,102,74,.1);
+}
+.visual-object-group{
+  min-width:80px;
+  display:grid;
+  gap:7px;
+  place-items:center;
+  padding:11px;
+  border-radius:16px;
+  background:rgba(255,255,255,.78);
+}
+.visual-object-group span{
+  max-width:190px;
+  font-size:24px;
+  line-height:1.45;
+}
+.visual-object-group small{color:#59726c;font-weight:1000}
+.visual-explanation>b{
+  color:#2f7b58;
+  font:900 27px var(--display);
+}
+.answer-group{
+  border:2px solid #fff2a5;
+  background:#fff9d7;
+}
+.correct-panel{
+  position:relative;
+  overflow:hidden;
+}
+.correct-stars{
+  position:absolute;
+  inset:20px 30px auto auto;
+  display:flex;
+  gap:10px;
+  font-size:28px;
+  filter:drop-shadow(0 0 8px rgba(255,211,46,.6));
+}
+.correct-stars span{animation:twinkle 1.5s ease-in-out infinite}
+.correct-stars span:nth-child(2){animation-delay:.25s}.correct-stars span:nth-child(3){animation-delay:.5s}
+.forest-modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:rgba(13,57,42,.32);
+  backdrop-filter:blur(9px);
+}
+.forest-modal{
+  width:min(480px,100%);
+  padding:31px 25px 27px;
+  text-align:center;
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:32px;
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(251,255,239,.94));
+  box-shadow:0 10px 0 rgba(13,81,52,.16),0 35px 78px rgba(4,45,28,.34),inset 0 1px 0 #fff;
+}
+.forest-modal h2{
+  margin:11px 0 8px;
+  color:#0f4937;
+  font-size:clamp(31px,5vw,47px);
+}
+.forest-modal h3{
+  margin:2px 0 6px;
+  color:#0f4937;
+  font:900 28px var(--display);
+}
+.forest-modal p{
+  color:#536f68;
+  line-height:1.55;
+}
+.reward-icon{
+  width:94px;
+  height:94px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 13px;
+  border-radius:29px;
+  background:linear-gradient(145deg,#fff6b9,#ffe071);
+  box-shadow:0 8px 0 #e1bf49,0 18px 30px rgba(125,94,18,.18);
+  font-size:52px;
+  animation:bounce 2s ease-in-out infinite;
+}
+.blindbox{
+  width:140px;
+  height:140px;
+  display:grid;
+  place-items:center;
+  margin:17px auto;
+  border:0;
+  border-radius:34px;
+  background:linear-gradient(145deg,#8a52ff,#5b27c9);
+  box-shadow:0 10px 0 #3e168f,0 22px 38px rgba(50,23,111,.24),inset 0 2px 0 rgba(255,255,255,.35);
+  color:#fff;
+  cursor:pointer;
+  font-size:74px;
+  animation:blindBoxShake 1.8s ease-in-out infinite;
+}
+.blindbox.opened{
+  background:linear-gradient(145deg,#fff5ad,#f6c84a);
+  box-shadow:0 10px 0 #d5a62c,0 22px 38px rgba(129,94,18,.2),inset 0 2px 0 rgba(255,255,255,.6);
+  animation:rewardPop .35s ease both;
+}
+.daily-summary-panel{
+  text-align:center;
+}
+.summary-ribbon{
+  display:inline-flex;
+  padding:10px 17px;
+  border-radius:13px;
+  background:linear-gradient(180deg,#8d65d8,#6d47c0);
+  color:#fff;
+  box-shadow:0 6px 0 #5438a0;
+  font-weight:1000;
+}
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:24px 0;
+}
+.summary-grid div{
+  min-height:126px;
+  display:grid;
+  place-items:center;
+  padding:15px 10px;
+  border-radius:21px;
+  background:#f1fbef;
+  box-shadow:inset 0 1px 0 #fff;
+}
+.summary-grid span{font-size:28px}
+.summary-grid strong{
+  color:#0f4937;
+  font:900 31px var(--display);
+}
+.summary-grid small{
+  color:#607971;
+  font-size:11px;
+  font-weight:900;
+}
+.summary-improvements{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:9px;
+  margin:0 0 24px;
+}
+.summary-improvements strong{
+  width:100%;
+  color:#335f52;
+}
+.summary-improvements span{
+  padding:9px 12px;
+  border-radius:999px;
+  background:#fff6c9;
+  color:#76570e;
+  font-size:12px;
+  font-weight:900;
+}
+.restart-forest-button{
+  position:relative;
+  z-index:2;
+  display:block;
+  margin:18px auto 0;
+  border:0;
+  background:rgba(255,255,255,.88);
+  color:#167242;
+  border-radius:999px;
+  padding:10px 16px;
+  box-shadow:0 8px 18px rgba(8,61,39,.13);
+  cursor:pointer;
+  font-weight:900;
+}
+@keyframes forestLight{50%{opacity:.75;transform:translate3d(-20px,12px,0) rotate(12deg)}}
+@keyframes riverFlow{50%{transform:translate3d(24px,4px,0);filter:saturate(1.35) brightness(1.08)}}
+@keyframes blindBoxShake{0%,100%{transform:rotate(0)}15%{transform:rotate(-4deg)}30%{transform:rotate(4deg)}45%{transform:rotate(-2deg)}60%{transform:rotate(2deg)}}
+@keyframes rewardPop{from{transform:scale(.72);opacity:.4}to{transform:scale(1);opacity:1}}
+@media(max-width:900px){
+  .math-forest-stage{grid-template-columns:.7fr 1fr;gap:18px}
+  .pandi-teacher{min-height:470px}
+  .forest-progress-card{grid-template-columns:1fr;gap:8px}
+  .forest-progress-card p{white-space:normal}
+}
+@media(max-width:680px){
+  .math-forest-page{background-attachment:scroll;background-position:center}
+  .math-forest-page .site-header{height:66px}
+  .math-forest-shell{min-height:calc(100svh - 66px);padding:10px 12px 28px}
+  .math-forest-topbar{grid-template-columns:1fr;gap:10px;margin-bottom:10px}
+  .math-forest-topbar>a{width:max-content;min-height:40px;font-size:12px}
+  .forest-progress-card{min-height:auto;padding:12px 14px;border-radius:20px}
+  .forest-progress-card strong{font-size:16px}
+  .forest-progress-card p{font-size:11px}
+  .math-forest-stage{
+    min-height:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .pandi-teacher{
+    width:100%;
+    min-height:198px;
+    align-items:flex-end;
+  }
+  .pandi-scene-preview{
+    border-radius:28px;
+  }
+  .pandi-scene-preview img{
+    object-position:center 54%;
+  }
+  .pandi-accessory{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    right:11px;
+    top:11px;
+    font-size:23px;
+  }
+  .pandi-teacher-bubble{
+    width:calc(100% - 24px);
+    margin-bottom:10px;
+    padding:11px 13px;
+    border-radius:18px 18px 18px 6px;
+  }
+  .pandi-teacher-bubble p{font-size:13px}
+  .forest-story-card,.teaching-panel,.correct-panel,.daily-summary-panel{
+    width:100%;
+    padding:22px 18px;
+    border-radius:27px;
+  }
+  .forest-story-card h1,.daily-summary-panel h1{
+    font-size:34px;
+  }
+  .forest-story-card p,.teaching-panel p,.correct-panel p,.daily-summary-panel p{
+    font-size:14px;
+  }
+  .story-points span{min-height:43px;font-size:13px}
+  .math-question-card{
+    width:100%;
+    padding:18px;
+    border-radius:27px;
+  }
+  .question-meta{font-size:10px;margin-bottom:12px}
+  .math-question-card h1{
+    min-height:118px;
+    font-size:34px;
+    padding:18px 10px;
+    margin-bottom:17px;
+  }
+  .math-answer-grid{gap:10px}
+  .math-answer-grid button{
+    min-height:64px;
+    border-radius:19px;
+    font-size:28px;
+  }
+  .visual-explanation{
+    gap:6px;
+    padding:14px 6px;
+    overflow:auto;
+    justify-content:flex-start;
+  }
+  .visual-object-group{
+    min-width:70px;
+    padding:9px;
+  }
+  .visual-object-group span{
+    max-width:130px;
+    font-size:18px;
+  }
+  .correct-stars{
+    right:16px;
+    top:15px;
+    font-size:22px;
+  }
+  .forest-modal-backdrop{padding:14px}
+  .forest-modal{border-radius:27px;padding:26px 18px 22px}
+  .blindbox{width:122px;height:122px;font-size:65px}
+  .summary-grid{grid-template-columns:1fr;gap:9px}
+  .summary-grid div{min-height:92px}
+  .summary-improvements span{font-size:11px}
+  .forest-cloud,.butterfly-b,.sparkle-b{display:none}
+}
+@media(max-width:390px){
+  .pandi-teacher{min-height:176px}
+  .math-question-card h1{font-size:30px}
+  .math-answer-grid button{min-height:58px}
+}
