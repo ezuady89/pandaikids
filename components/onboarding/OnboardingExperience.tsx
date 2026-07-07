@@ -246,6 +246,24 @@ export function OnboardingExperience() {
           <span className="magic-particle particle-three">✦</span>
           <span className="butterfly butterfly-one">🦋</span>
           <span className="butterfly butterfly-two">🦋</span>
+          <span className="story-light-ray ray-one" />
+          <span className="story-light-ray ray-two" />
+          <span className="story-cloud cloud-story-one" />
+          <span className="story-cloud cloud-story-two" />
+          <span className="story-cloud cloud-story-three" />
+          <span className="story-hill hill-far" />
+          <span className="story-hill hill-mid" />
+          <span className="story-river" />
+          <span className="story-bridge" />
+          <span className="story-path" />
+          <span className="story-tree story-tree-left" />
+          <span className="story-tree story-tree-right" />
+          <span className="story-flower-bed flower-bed-left">✿ ✽ ❀</span>
+          <span className="story-flower-bed flower-bed-right">❀ ✿ ✽</span>
+          <span className="story-bird bird-story-one">⌁</span>
+          <span className="story-bird bird-story-two">⌁</span>
+          <span className="story-leaf leaf-story-one">❧</span>
+          <span className="story-leaf leaf-story-two">❧</span>
         </div>
 
         <section className="pandi-guide" aria-label="Pandi, rakan belajar kamu">
@@ -267,6 +285,9 @@ export function OnboardingExperience() {
             <span className="modern-chest-badge">P</span>
             <span className="modern-sneaker-glow" />
           </div>
+          <span className="pandi-ground-shadow" aria-hidden="true" />
+          <span className="pandi-map-card" aria-hidden="true">✦</span>
+          <span className="pandi-wave-spark" aria-hidden="true">✨</span>
           <Image
             alt="Pandi si panda sedang tersenyum dan melambai"
             height={1254}
