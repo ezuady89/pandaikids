@@ -21,6 +21,7 @@ export function DailySummary({
       <h1>Hebat, {childName}! 🌟</h1>
       <p>
         Hari ini {childName} telah membantu Pandi hidupkan Hutan Matematik.
+        Hutan menjadi lebih gembira, Pandi menerima hadiah pengembaraan, dan
         Pandi bangga kerana awak terus mencuba.
       </p>
       <div className="summary-grid">
@@ -38,6 +39,11 @@ export function DailySummary({
           <span>🌈</span>
           <strong>100%</strong>
           <small>Hutan ceria</small>
+        </div>
+        <div>
+          <span>🎁</span>
+          <strong>2</strong>
+          <small>Blind Box belajar</small>
         </div>
       </div>
       <div className="summary-improvements">

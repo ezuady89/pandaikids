@@ -3,25 +3,23 @@ interface RewardModalProps {
   onContinue: () => void;
 }
 
-const milestoneCopy: Record<number, { title: string; text: string; reward: string }> = {
-  5: {
+const milestoneCopy: Record<
+  number,
+  { title: string; text: string; reward: string }
+> = {
+  4: {
     title: "Bunga hutan mekar!",
-    text: "Pandi dapat beg kecil. Hutan Matematik nampak lebih ceria.",
+    text: "Pandi dapat beg kecil. Bunga ajaib mula tumbuh di tepi laluan.",
     reward: "🎒"
   },
-  10: {
+  8: {
     title: "Cahaya hutan kembali!",
-    text: "Pandi dapat topi explorer. Ada Blind Box menanti selepas ini.",
+    text: "Pandi dapat topi explorer. Pokok mula bercahaya dan Blind Box menanti selepas ini.",
     reward: "🧢"
   },
-  15: {
-    title: "Sungai mula bersinar!",
-    text: "Air sungai mengalir lebih cerah. Pandi dapat lencana pengembara.",
-    reward: "🏅"
-  },
-  20: {
+  12: {
     title: "Misi pertama selesai!",
-    text: "Hutan Matematik kembali hidup. Pandi sangat bangga.",
+    text: "Hutan Matematik kembali hidup. Sungai bersinar, rama-rama terbang dan Pandi sangat bangga.",
     reward: "🌈"
   }
 };
@@ -30,7 +28,7 @@ export function RewardModal({
   completedQuestions,
   onContinue
 }: RewardModalProps) {
-  const copy = milestoneCopy[completedQuestions] ?? milestoneCopy[5];
+  const copy = milestoneCopy[completedQuestions] ?? milestoneCopy[4];
 
   return (
     <div className="forest-modal-backdrop" role="dialog" aria-modal="true">
@@ -41,7 +39,11 @@ export function RewardModal({
         <span className="math-forest-eyebrow">Ganjaran Hutan</span>
         <h2>{copy.title}</h2>
         <p>{copy.text}</p>
-        <button className="button button-primary" type="button" onClick={onContinue}>
+        <button
+          className="button button-primary"
+          type="button"
+          onClick={onContinue}
+        >
           Teruskan pengembaraan →
         </button>
       </section>

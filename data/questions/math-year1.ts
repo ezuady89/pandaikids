@@ -226,6 +226,11 @@ export const mathForestQuestions: readonly MathForestQuestion[] = [
   }
 ] as const;
 
+export const mathForestFirstMissionQuestions = mathForestQuestions.slice(
+  0,
+  12
+) as readonly MathForestQuestion[];
+
 export const mathForestRewards: readonly MathForestReward[] = [
   {
     id: "pandi-explorer",

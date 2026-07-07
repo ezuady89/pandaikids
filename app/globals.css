@@ -1045,3 +1045,158 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
   .math-question-card h1{font-size:30px}
   .math-answer-grid button{min-height:58px}
 }
+
+/* Build 2.1 — mobile onboarding and visible forest rewards */
+.pandi-earned-item{
+  position:absolute;
+  z-index:3;
+  display:grid;
+  place-items:center;
+  width:54px;
+  height:54px;
+  border-radius:18px;
+  border:2px solid rgba(255,255,255,.9);
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(239,255,230,.88));
+  box-shadow:0 8px 18px rgba(4,48,29,.24),0 0 18px rgba(255,238,121,.5);
+  font-size:28px;
+  animation:rewardPop .35s ease both;
+}
+.item-backpack{left:18px;bottom:88px}
+.item-hat{left:82px;bottom:104px}
+.pandi-teacher.celebrate .pandi-scene-preview{animation:pandiCelebrate .7s ease both}
+.forest-glow-tree,.forest-flowerbed{
+  position:absolute;
+  z-index:1;
+  opacity:0;
+  pointer-events:none;
+  transition:.55s opacity,.55s transform,.55s filter;
+}
+.forest-glow-tree{
+  color:#3f9b4e;
+  font:150px/1 serif;
+  filter:drop-shadow(0 0 0 rgba(255,229,103,0));
+  transform:translateY(18px) scale(.92);
+}
+.tree-glow-a{left:3%;bottom:10%}
+.tree-glow-b{right:3%;bottom:14%;font-size:118px}
+.forest-flowerbed{
+  padding:10px 13px;
+  border-radius:999px;
+  background:rgba(255,255,255,.42);
+  box-shadow:0 0 20px rgba(255,241,134,.25);
+  font-size:28px;
+  filter:saturate(1.15);
+  transform:translateY(16px) scale(.9);
+}
+.flowerbed-a{left:11%;bottom:11%}
+.flowerbed-b{right:13%;bottom:9%}
+.math-forest-page.forest-growing .flowerbed-a,
+.math-forest-page.forest-awake .flowerbed-a,
+.math-forest-page.forest-awake .flowerbed-b,
+.math-forest-page.forest-complete .forest-flowerbed{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.math-forest-page.forest-awake .forest-glow-tree,
+.math-forest-page.forest-complete .forest-glow-tree{
+  opacity:.86;
+  transform:translateY(0) scale(1);
+  filter:drop-shadow(0 0 16px rgba(255,232,108,.72));
+}
+.math-forest-page.forest-growing .forest-sunbeam{opacity:.8}
+.math-forest-page.forest-awake .forest-sunbeam,
+.math-forest-page.forest-complete .forest-sunbeam{
+  opacity:1;
+  filter:blur(1px) saturate(1.2) brightness(1.15);
+}
+.math-forest-page.forest-sleepy .forest-butterfly{opacity:.28}
+.math-forest-page.forest-growing .forest-butterfly{opacity:.72}
+.math-forest-page.forest-awake .forest-butterfly,
+.math-forest-page.forest-complete .forest-butterfly{opacity:1}
+.math-forest-page.forest-awake .forest-river,
+.math-forest-page.forest-complete .forest-river{
+  opacity:.92;
+  filter:saturate(1.45) brightness(1.18) drop-shadow(0 0 18px rgba(117,235,255,.55));
+}
+.summary-grid{grid-template-columns:repeat(4,1fr)}
+@keyframes pandiCelebrate{
+  0%,100%{transform:translateY(0) scale(1)}
+  45%{transform:translateY(-8px) scale(1.015)}
+}
+@media(max-width:680px){
+  .onboarding{
+    gap:10px;
+    padding:70px 12px 18px;
+    justify-content:flex-start;
+  }
+  .pandi-guide{
+    min-height:276px;
+    height:276px;
+    flex:0 0 276px;
+    width:100%;
+    border:3px solid rgba(255,255,255,.72);
+    border-radius:28px;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.04),rgba(5,64,42,.12)),
+      var(--onboarding-scene) center 48%/cover no-repeat;
+    box-shadow:0 8px 0 rgba(13,81,52,.12),0 20px 45px rgba(4,45,28,.22);
+  }
+  .pandi-guide:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,transparent 46%,rgba(5,55,36,.2));
+    pointer-events:none;
+  }
+  .pandi-message{
+    left:14px;
+    right:auto;
+    top:14px;
+    max-width:205px;
+    z-index:4;
+  }
+  .held-flag{
+    right:12px;
+    top:18px;
+    z-index:4;
+  }
+  .onboarding-panel{
+    min-height:398px;
+    padding:16px 16px 14px;
+    border-radius:24px;
+  }
+  .step-track{margin:9px 0 14px}
+  .step-content{padding-top:2px}
+  .step-content h1{font-size:29px;margin:8px 0 7px}
+  .step-content>p{font-size:12px;line-height:1.48;margin-bottom:12px}
+  .onboarding-form{gap:9px}
+  .big-input{padding:7px 13px;border-radius:16px}
+  .privacy-note{font-size:9px;margin-top:8px}
+  .onboarding-panel[data-step="0"],
+  .onboarding-panel[data-step="1"]{min-height:360px}
+  .onboarding-panel[data-step="2"]{min-height:500px}
+  .onboarding-panel[data-step="3"]{min-height:410px}
+  .onboarding-panel[data-step="4"]{min-height:390px}
+  .onboarding-panel[data-step="5"],
+  .onboarding-panel[data-step="6"],
+  .onboarding-panel[data-step="7"],
+  .onboarding-panel[data-step="8"]{min-height:430px}
+  .math-forest-page .forest-flowerbed{font-size:19px}
+  .flowerbed-a{left:5%;bottom:7%}
+  .flowerbed-b{right:4%;bottom:5%}
+  .forest-glow-tree{font-size:84px}
+  .tree-glow-a{left:-4%;bottom:7%}
+  .tree-glow-b{right:-2%;bottom:12%;font-size:72px}
+  .pandi-earned-item{width:43px;height:43px;border-radius:14px;font-size:23px}
+  .item-backpack{left:13px;bottom:72px}
+  .item-hat{left:62px;bottom:83px}
+  .summary-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:390px){
+  .pandi-guide{min-height:254px;height:254px;flex-basis:254px}
+  .onboarding-panel{min-height:382px}
+  .onboarding-panel[data-step="0"],
+  .onboarding-panel[data-step="1"]{min-height:342px}
+  .step-content h1{font-size:27px}
+}

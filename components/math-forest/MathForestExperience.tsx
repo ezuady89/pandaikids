@@ -11,7 +11,7 @@ import { PandiTeacher } from "@/components/math-forest/PandiTeacher";
 import { RewardModal } from "@/components/math-forest/RewardModal";
 import { VisualExplanation } from "@/components/math-forest/VisualExplanation";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { mathForestQuestions } from "@/data/questions/math-year1";
+import { mathForestFirstMissionQuestions } from "@/data/questions/math-year1";
 import { withBasePath } from "@/lib/paths";
 import {
   emptyProfile,
@@ -30,15 +30,15 @@ type ForestPhase =
   | "blindbox"
   | "summary";
 
-const totalQuestions = mathForestQuestions.length;
+const missionQuestions = mathForestFirstMissionQuestions;
+const totalQuestions = missionQuestions.length;
 
-const completedMilestones: readonly number[] = [5, 10, 15, 20];
+const completedMilestones: readonly number[] = [4, 8, 12];
 
 function getForestMood(completedQuestions: number): string {
-  if (completedQuestions >= 20) return "forest-complete";
-  if (completedQuestions >= 15) return "forest-bright";
-  if (completedQuestions >= 10) return "forest-awake";
-  if (completedQuestions >= 5) return "forest-growing";
+  if (completedQuestions >= 12) return "forest-complete";
+  if (completedQuestions >= 8) return "forest-awake";
+  if (completedQuestions >= 4) return "forest-growing";
   return "forest-sleepy";
 }
 
@@ -65,15 +65,11 @@ function getPandiMessage(
     return `Pandi bangga dengan ${childName}!`;
   }
 
-  if (completedQuestions >= 15) {
-    return "Sikit lagi! Cahaya hutan hampir pulih sepenuhnya.";
-  }
-
-  if (completedQuestions >= 10) {
+  if (completedQuestions >= 8) {
     return "Wah, sungai ilmu sudah mula bersinar!";
   }
 
-  if (completedQuestions >= 5) {
+  if (completedQuestions >= 4) {
     return "Bunga sudah mekar. Jom teruskan!";
   }
 
@@ -112,7 +108,7 @@ export function MathForestExperience() {
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
-  const currentQuestion = mathForestQuestions[questionIndex];
+  const currentQuestion = missionQuestions[questionIndex];
   const childName = profile.name || "kawan Pandi";
   const forestMood = getForestMood(completedQuestions);
   const profileScene = profile.stateSlug
@@ -167,7 +163,7 @@ export function MathForestExperience() {
   }
 
   function continueAfterMilestone(): void {
-    if (completedQuestions === 10 || completedQuestions === 20) {
+    if (completedQuestions === 8 || completedQuestions === 12) {
       setPhase("blindbox");
       return;
     }
@@ -222,6 +218,10 @@ export function MathForestExperience() {
           <span className="forest-butterfly butterfly-b">🦋</span>
           <span className="forest-sparkle sparkle-a">✦</span>
           <span className="forest-sparkle sparkle-b">✦</span>
+          <span className="forest-glow-tree tree-glow-a">♣</span>
+          <span className="forest-glow-tree tree-glow-b">♣</span>
+          <span className="forest-flowerbed flowerbed-a">🌸 🌼 🌺</span>
+          <span className="forest-flowerbed flowerbed-b">🌷 🌻 🌸</span>
           <span className="forest-river" />
         </div>
 
@@ -237,6 +237,7 @@ export function MathForestExperience() {
 
         <section className={`math-forest-stage phase-${phase}`}>
           <PandiTeacher
+            completedQuestions={completedQuestions}
             message={pandiMessage}
             mood={
               phase === "teaching"
