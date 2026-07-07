@@ -39,6 +39,41 @@ const stepLabels = [
   "Ringkasan hari ini"
 ] as const;
 
+const stateThemeColors: Record<
+  StateSlug | "default",
+  { primary: string; secondary: string; accent: string }
+> = {
+  default: { primary: "#16a34a", secondary: "#facc15", accent: "#ffffff" },
+  johor: { primary: "#0b3b8f", secondary: "#e11d48", accent: "#ffffff" },
+  kedah: { primary: "#d71920", secondary: "#f4c542", accent: "#157a3b" },
+  kelantan: { primary: "#d71920", secondary: "#f4c542", accent: "#ffffff" },
+  melaka: { primary: "#1d4ed8", secondary: "#f5d547", accent: "#e11d48" },
+  "negeri-sembilan": {
+    primary: "#facc15",
+    secondary: "#111827",
+    accent: "#ef4444"
+  },
+  pahang: { primary: "#111827", secondary: "#ffffff", accent: "#facc15" },
+  perak: { primary: "#ffffff", secondary: "#111827", accent: "#facc15" },
+  perlis: { primary: "#facc15", secondary: "#1f2937", accent: "#ffffff" },
+  "pulau-pinang": {
+    primary: "#2563eb",
+    secondary: "#facc15",
+    accent: "#ffffff"
+  },
+  sabah: { primary: "#60a5fa", secondary: "#ef4444", accent: "#ffffff" },
+  sarawak: { primary: "#facc15", secondary: "#ef4444", accent: "#111827" },
+  selangor: { primary: "#ef4444", secondary: "#facc15", accent: "#ffffff" },
+  terengganu: { primary: "#111827", secondary: "#ffffff", accent: "#facc15" },
+  "kuala-lumpur": {
+    primary: "#2563eb",
+    secondary: "#ef4444",
+    accent: "#facc15"
+  },
+  labuan: { primary: "#ffffff", secondary: "#ef4444", accent: "#2563eb" },
+  putrajaya: { primary: "#facc15", secondary: "#2563eb", accent: "#ffffff" }
+};
+
 function messageForStep(step: number, profile: LearnerProfile): string {
   switch (step) {
     case 0:
@@ -87,8 +122,12 @@ export function OnboardingExperience() {
   const activeState = useMemo(() => getState(sceneSlug), [sceneSlug]);
   const storyStep = storySteps[step];
   const scene = activeState?.pandiScene ?? defaultPandiScene;
+  const stateTheme = stateThemeColors[activeState?.slug ?? "default"];
   const onboardingStyle = {
-    "--onboarding-scene": `url("${scene}")`
+    "--onboarding-scene": `url("${scene}")`,
+    "--state-primary": stateTheme.primary,
+    "--state-secondary": stateTheme.secondary,
+    "--state-accent": stateTheme.accent
   } as CSSProperties;
 
   function updateProfile(nextProfile: LearnerProfile): void {
@@ -211,8 +250,22 @@ export function OnboardingExperience() {
 
         <section className="pandi-guide" aria-label="Pandi, rakan belajar kamu">
           <div className="pandi-aura" />
+          <div className="scene-depth-frame" aria-hidden="true">
+            <span className="scene-sky-glow" />
+            <span className="scene-path-glow" />
+          </div>
           <div className="pandi-message">
             {messageOverride || messageForStep(step, profile)}
+          </div>
+          <div
+            className={`modern-state-outfit${
+              activeState ? " show" : ""
+            }`}
+            aria-hidden="true"
+          >
+            <span className="modern-hoodie-band" />
+            <span className="modern-chest-badge">P</span>
+            <span className="modern-sneaker-glow" />
           </div>
           <Image
             alt="Pandi si panda sedang tersenyum dan melambai"
