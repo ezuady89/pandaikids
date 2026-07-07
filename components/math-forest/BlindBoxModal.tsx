@@ -15,10 +15,7 @@ export function BlindBoxModal({
 }: BlindBoxModalProps) {
   const [opened, setOpened] = useState(false);
   const reward = useMemo(
-    () =>
-      mathForestRewards[
-        completedQuestions === 20 ? 4 : completedQuestions % mathForestRewards.length
-      ],
+    () => mathForestRewards[completedQuestions >= 12 ? 4 : 0],
     [completedQuestions]
   );
 
@@ -32,7 +29,12 @@ export function BlindBoxModal({
     <div className="forest-modal-backdrop" role="dialog" aria-modal="true">
       <section className="forest-modal blindbox-modal">
         <span className="math-forest-eyebrow">Blind Box Belajar</span>
-        <h2>{opened ? "Hadiah Pandi dibuka!" : "Ketuk kotak ajaib"}</h2>
+        <h2>{opened ? "Pandi dapat hadiah ajaib!" : "Ketuk kotak ajaib"}</h2>
+        <div className="blindbox-sparkles" aria-hidden="true">
+          <span>✦</span>
+          <span>★</span>
+          <span>✦</span>
+        </div>
         <button
           className={`blindbox ${opened ? "opened" : ""}`}
           type="button"
@@ -44,7 +46,7 @@ export function BlindBoxModal({
         {opened ? (
           <>
             <h3>{reward.name}</h3>
-            <p>{reward.description}</p>
+            <p>{reward.description} Pandi melompat gembira!</p>
             <button
               className="button button-primary"
               type="button"

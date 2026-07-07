@@ -50,15 +50,23 @@ function getPandiMessage(
   const childName = profile.name || "kawan Pandi";
 
   if (phase === "intro") {
-    return `Jom ${childName}, kita bangunkan pokok nombor bersama-sama.`;
+    return `${childName}... pokok nombor sedang tidur. Jom bantu Pandi.`;
   }
 
   if (phase === "teaching") {
-    return `Tak apa, ${childName}. Pandi tunjuk cara perlahan-lahan.`;
+    return `Ia tidak mengapa, ${childName} 😊 Pandi tunjuk cara.`;
   }
 
-  if (phase === "correct" || phase === "milestone") {
-    return "Hebat! Hutan ini makin ceria kerana awak belajar.";
+  if (phase === "correct") {
+    return "Hebat! Hutan semakin ceria.";
+  }
+
+  if (phase === "milestone") {
+    return "Wah! Hutan berubah kerana awak terus mencuba.";
+  }
+
+  if (phase === "blindbox") {
+    return "Ada kotak ajaib! Ketuk perlahan-lahan.";
   }
 
   if (phase === "summary") {
@@ -66,14 +74,14 @@ function getPandiMessage(
   }
 
   if (completedQuestions >= 8) {
-    return "Wah, sungai ilmu sudah mula bersinar!";
+    return "Dengar tak? Sungai ilmu sudah mula bersinar!";
   }
 
   if (completedQuestions >= 4) {
-    return "Bunga sudah mekar. Jom teruskan!";
+    return "Bunga sudah mekar. Pandi suka sangat!";
   }
 
-  return "Pilih jawapan besar di bawah ya.";
+  return "Pilih jawapan besar di bawah ya. Pandi tunggu.";
 }
 
 export function MathForestExperience() {
@@ -207,7 +215,10 @@ export function MathForestExperience() {
   }
 
   return (
-    <div className={`math-forest-page ${forestMood}`} style={pageStyle}>
+    <div
+      className={`math-forest-page ${forestMood} phase-${phase}`}
+      style={pageStyle}
+    >
       <SiteHeader compact />
       <main className="math-forest-shell">
         <div className="forest-ambient" aria-hidden="true">
@@ -222,6 +233,11 @@ export function MathForestExperience() {
           <span className="forest-glow-tree tree-glow-b">♣</span>
           <span className="forest-flowerbed flowerbed-a">🌸 🌼 🌺</span>
           <span className="forest-flowerbed flowerbed-b">🌷 🌻 🌸</span>
+          <span className="forest-leaf leaf-a">🍃</span>
+          <span className="forest-leaf leaf-b">🍃</span>
+          <span className="forest-bird bird-one">⌁</span>
+          <span className="forest-bird bird-two">⌁</span>
+          <span className="forest-rainbow" />
           <span className="forest-river" />
         </div>
 
@@ -252,10 +268,10 @@ export function MathForestExperience() {
           {phase === "intro" ? (
             <section className="forest-story-card">
               <span className="math-forest-eyebrow">Misi Pertama</span>
-              <h1>Jom hidupkan Hutan Matematik</h1>
+              <h1>{childName}... hutan perlukan bantuan</h1>
               <p>
-                Pokok nombor sedang tidur. Setiap soalan yang {childName} jawab
-                akan buat hutan ini semakin ceria.
+                Pokok nombor sedang tidur. Jom bantu Pandi hidupkan semula
+                Hutan Matematik, satu soalan pada satu masa.
               </p>
               <div className="story-points">
                 <span>🌳 Bangunkan pokok nombor</span>
@@ -284,7 +300,7 @@ export function MathForestExperience() {
           {phase === "teaching" ? (
             <section className="teaching-panel">
               <span className="math-forest-eyebrow">Pandi tunjuk cara</span>
-              <h2>Tak apa, {childName} 😊</h2>
+              <h2>Ia tidak mengapa, {childName} 😊</h2>
               <p>{currentQuestion.teachingText}</p>
               <VisualExplanation question={currentQuestion} />
               <button
@@ -307,8 +323,8 @@ export function MathForestExperience() {
               <span className="math-forest-eyebrow">Jawapan tepat</span>
               <h2>Hutan makin ceria!</h2>
               <p>
-                Pokok nombor bangun sedikit lagi. Pandi nampak cahaya baru di
-                dalam hutan.
+                Pokok nombor bangun sedikit lagi. Lihat, cahaya hutan makin
+                hangat.
               </p>
               <button
                 className="button button-primary"

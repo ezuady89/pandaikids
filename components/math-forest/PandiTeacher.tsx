@@ -29,6 +29,16 @@ export function PandiTeacher({
           : completedQuestions >= 4
             ? "🎒"
             : "🌿";
+  const pose =
+    mood === "teacher"
+      ? "Mengajar"
+      : mood === "celebrate"
+        ? "Bertepuk"
+        : completedQuestions >= 8
+          ? "Pegang peta"
+          : completedQuestions >= 4
+            ? "Melambai"
+            : "Menunggu";
 
   return (
     <aside className={`pandi-teacher ${mood} reward-${completedQuestions}`}>
@@ -42,6 +52,9 @@ export function PandiTeacher({
         />
         <span className="pandi-accessory" aria-hidden="true">
           {accessory}
+        </span>
+        <span className="pandi-pose-badge" aria-hidden="true">
+          {pose}
         </span>
         {completedQuestions >= 4 ? (
           <span className="pandi-earned-item item-backpack" aria-hidden="true">
