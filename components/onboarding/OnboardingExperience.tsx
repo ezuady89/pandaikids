@@ -262,6 +262,8 @@ export function OnboardingExperience() {
             <span className="modern-sneaker-glow" />
           </div>
           <span className="pandi-ground-shadow" aria-hidden="true" />
+          <span className="pandi-breath-highlight" aria-hidden="true" />
+          <span className="pandi-blink-line" aria-hidden="true" />
           <span className="pandi-map-card" aria-hidden="true">✦</span>
           <span className="pandi-wave-spark" aria-hidden="true">✨</span>
           <Image
@@ -337,8 +339,8 @@ export function OnboardingExperience() {
                 <span className="onboarding-kicker">
                   Kawan baharu Pandi
                 </span>
-                <h1>Apa nama kamu?</h1>
-                <p>Tulis nama yang kamu suka dipanggil.</p>
+                <h1>Siapa nama awak?</h1>
+                <p>Tulis nama yang awak suka dipanggil.</p>
                 <form
                   className="onboarding-form"
                   onSubmit={handleNameSubmit}
@@ -366,10 +368,10 @@ export function OnboardingExperience() {
                 <span className="onboarding-kicker">
                   Malaysia rumah kita
                 </span>
-                <h1>Kamu tinggal di negeri mana?</h1>
+                <h1>Awak tinggal di negeri mana?</h1>
                 <p>
-                  Pilih negeri atau wilayah kamu. Pandi akan bersiap khas
-                  untukmu.
+                  Pilih negeri atau wilayah awak. Pandi akan bersiap khas
+                  untuk awak.
                 </p>
                 <StateSelector
                   selectedState={profile.stateSlug}
@@ -381,10 +383,10 @@ export function OnboardingExperience() {
             {step === 3 && (
               <>
                 <span className="onboarding-kicker">
-                  Supaya soalan sesuai untukmu
+                  Supaya sesuai untuk awak
                 </span>
-                <h1>Berapa umur kamu?</h1>
-                <p>Pilih umur kamu. Tiada jawapan yang salah di sini.</p>
+                <h1>Berapa umur awak?</h1>
+                <p>Pilih umur awak. Tiada jawapan yang salah di sini.</p>
                 <div className="age-grid">
                   {[4, 5, 6, 7, 8, 9, 10, 11, 12].map((age) => (
                     <button
