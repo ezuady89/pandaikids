@@ -74,7 +74,9 @@ const stateThemeColors: Record<
 function messageForStep(step: number, profile: LearnerProfile): string {
   switch (step) {
     case 0:
-      return profile.name ? `Hai kembali, ${profile.name}!` : "👋 Hai! Saya Pandi.";
+      return profile.name
+        ? `Hai kembali, ${profile.name}!`
+        : "👋 Hai! Saya Pandi.\nSiapa nama awak?";
     case 1:
       return "Siapa nama awak?";
     case 2:
