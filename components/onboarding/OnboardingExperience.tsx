@@ -328,7 +328,7 @@ export function OnboardingExperience() {
                   type="button"
                   onClick={() => showStep(profile.name ? 4 : 1)}
                 >
-                  {profile.name ? "Sambung bersama Pandi" : "Hai Pandi!"}
+                  {profile.name ? "Sambung bersama Pandi" : "Jom Kenal Pandi!"}
                   <span aria-hidden="true">→</span>
                 </button>
               </>
@@ -416,6 +416,9 @@ export function OnboardingExperience() {
                     ? `Yeay, ${profile.name}! 🎉`
                     : "Yeay! Kita dah jadi kawan! 🎉"}{" "}
                   Jom kita mulakan pengembaraan pertama bersama!
+                  {profile.state
+                    ? ` Pengembaraan kita bermula dari ${profile.state}!`
+                    : ""}
                 </p>
                 <div className="profile-ribbon">
                   <span>♥ {profile.name}</span>
