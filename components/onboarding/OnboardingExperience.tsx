@@ -203,7 +203,12 @@ export function OnboardingExperience() {
         </div>
       </header>
 
-      <main className="onboarding" id="onboarding" style={onboardingStyle}>
+      <main
+        className="onboarding"
+        id="onboarding"
+        data-step={step}
+        style={onboardingStyle}
+      >
         <div
           className={`pandi-scene-layer${
             sceneChanging ? " is-changing" : ""
