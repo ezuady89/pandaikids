@@ -21,23 +21,20 @@ import {
   emptyProfile,
   readProfile,
   resetLearningProfile,
-  saveOnboardingXp,
   saveProfile
 } from "@/lib/storage";
 import type { LearnerProfile, StateSlug } from "@/types";
 
-const storySteps = [1, 2, 3, 3, 4, 5, 6, 7, 8] as const;
+const storySteps = [1, 2, 3, 4, 5] as const;
 const stepLabels = [
   "Mari berkenalan",
   "Nama kamu",
   "Tempat kamu",
   "Umur kamu",
-  "Kita sudah berkawan",
-  "Soalan pertama",
-  "Pandi tunjukkan",
-  "Bintang pertama",
-  "Ringkasan hari ini"
+  "Sedia mengembara"
 ] as const;
+
+const totalStorySteps = storySteps.length;
 
 const stateThemeColors: Record<
   StateSlug | "default",
@@ -85,15 +82,7 @@ function messageForStep(step: number, profile: LearnerProfile): string {
     case 3:
       return `Wah, ${profile.state || "Malaysia"}!`;
     case 4:
-      return `Assalamualaikum, ${profile.name}!`;
-    case 5:
-      return "Kita kira bersama!";
-    case 6:
-      return "Tak apa, kita belajar!";
-    case 7:
-      return `Hebat, ${profile.name}!`;
-    case 8:
-      return "Pandi bangga dengan kamu!";
+      return "Kita dah jadi kawan!";
     default:
       return "Hai, kawan baru!";
   }
@@ -106,7 +95,6 @@ export function OnboardingExperience() {
   const [sceneChanging, setSceneChanging] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [messageOverride, setMessageOverride] = useState("");
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -137,7 +125,6 @@ export function OnboardingExperience() {
 
   function showStep(nextStep: number): void {
     setMessageOverride("");
-    setSelectedAnswer(null);
     setStep(nextStep);
   }
 
@@ -187,17 +174,6 @@ export function OnboardingExperience() {
   function handleAgeSelect(age: number): void {
     updateProfile({ ...profile, age: String(age) });
     showStep(4);
-  }
-
-  function handleAnswer(answer: number): void {
-    setSelectedAnswer(answer);
-    if (answer === 5) {
-      saveOnboardingXp(20);
-      window.setTimeout(() => showStep(7), 450);
-      return;
-    }
-
-    window.setTimeout(() => showStep(6), 450);
   }
 
   function restart(): void {
@@ -322,10 +298,12 @@ export function OnboardingExperience() {
         >
           <div className="step-top">
             <span className="step-label">{stepLabels[step]}</span>
-            <span className="step-count">{storyStep} / 8</span>
+            <span className="step-count">
+              {storyStep} / {totalStorySteps}
+            </span>
           </div>
           <div className="step-track" aria-hidden="true">
-            <span style={{ width: `${(storyStep / 8) * 100}%` }} />
+            <span style={{ width: `${(storyStep / totalStorySteps) * 100}%` }} />
           </div>
           <div className="step-content" key={step}>
             {step === 0 && (
@@ -428,166 +406,32 @@ export function OnboardingExperience() {
             {step === 4 && (
               <>
                 <span className="onboarding-kicker">
-                  Pandi sudah ingat kamu
+                  Yeay, kita dah jadi kawan!
                 </span>
-                <h1>Hai, {profile.name}!</h1>
+                <h1>Awak dah bersedia?</h1>
                 <p>
-                  Kawan Pandi dari <strong>{profile.state}</strong>, umur{" "}
-                  <strong>{profile.age} tahun</strong>. Hari ini kita belajar
-                  satu perkara kecil dahulu.
+                  Yeay! Sekarang kita dah jadi kawan. Pandi dah bersedia bawa{" "}
+                  <strong>{profile.name}</strong> mengembara dari{" "}
+                  <strong>{profile.state}</strong>.
                 </p>
                 <div className="profile-ribbon">
                   <span>♥ {profile.name}</span>
                   <span>⌂ {profile.state}</span>
                   <span>★ {profile.age} tahun</span>
                 </div>
-                <button
-                  className="button button-primary"
-                  type="button"
-                  onClick={() => showStep(5)}
-                >
-                  Jom cuba satu soalan <span aria-hidden="true">→</span>
-                </button>
-              </>
-            )}
-
-            {step === 5 && (
-              <>
-                <span className="onboarding-kicker">
-                  Matematik · Soalan mudah
-                </span>
-                <h1>Berapa jumlah semuanya?</h1>
                 <div
-                  className="object-question"
-                  aria-label="Dua epal tambah tiga epal"
+                  className="adventure-preview"
+                  aria-label="Pandi mengajak ke Hutan Matematik"
                 >
-                  <span>🍎 🍎</span>
-                  <b>+</b>
-                  <span>🍎 🍎 🍎</span>
-                </div>
-                <div className="onboarding-answers">
-                  {[4, 5, 6].map((answer) => (
-                    <button
-                      className={
-                        selectedAnswer === answer
-                          ? answer === 5
-                            ? "correct-choice"
-                            : "wrong-choice"
-                          : undefined
-                      }
-                      key={answer}
-                      type="button"
-                      onClick={() => handleAnswer(answer)}
-                    >
-                      {answer}
-                    </button>
-                  ))}
-                </div>
-                <p className="answer-hint">Tekan jawapan yang betul.</p>
-              </>
-            )}
-
-            {step === 6 && (
-              <>
-                <span className="onboarding-kicker teaching">
-                  Cuba lihat begini
-                </span>
-                <h1>Dua kumpulan menjadi satu</h1>
-                <div className="teaching-visual">
-                  <div>
-                    <span>🍎 🍎</span>
-                    <small>2 epal</small>
-                  </div>
-                  <b>+</b>
-                  <div>
-                    <span>🍎 🍎 🍎</span>
-                    <small>3 epal</small>
-                  </div>
-                  <b>=</b>
-                  <div className="answer-group">
-                    <span>🍎 🍎 🍎 🍎 🍎</span>
-                    <small>5 epal</small>
-                  </div>
-                </div>
-                <p>
-                  Apabila kita kira semua epal satu demi satu, jawapannya ialah{" "}
-                  <strong>5</strong>.
-                </p>
-                <button
-                  className="button button-primary"
-                  type="button"
-                  onClick={() => showStep(5)}
-                >
-                  Saya faham, cuba lagi <span aria-hidden="true">↻</span>
-                </button>
-              </>
-            )}
-
-            {step === 7 && (
-              <>
-                <div className="reward-burst" aria-hidden="true">
-                  <span>★</span>
-                  <span>✦</span>
-                  <span>★</span>
-                </div>
-                <span className="onboarding-kicker success">
-                  Jawapan betul!
-                </span>
-                <h1>Kamu berjaya!</h1>
-                <p>
-                  Kamu sudah mengambil langkah pertama bersama Pandi.
-                </p>
-                <div className="xp-award">
-                  <span className="xp-star">★</span>
-                  <div>
-                    <strong>+20 XP</strong>
-                    <small>Bintang pembelajaran pertama</small>
-                  </div>
-                </div>
-                <button
-                  className="button button-primary"
-                  type="button"
-                  onClick={() => showStep(8)}
-                >
-                  Lihat ringkasan <span aria-hidden="true">→</span>
-                </button>
-              </>
-            )}
-
-            {step === 8 && (
-              <>
-                <span className="onboarding-kicker">
-                  Perjalanan sudah bermula
-                </span>
-                <h1>Syabas, {profile.name}!</h1>
-                <p>
-                  Hari ini kamu sudah berkenalan dengan Pandi dan
-                  menyelesaikan soalan pertama.
-                </p>
-                <div className="today-summary">
-                  <div>
-                    <span>✓</span>
-                    <p>
-                      <strong>1 soalan</strong>
-                      <small>diselesaikan</small>
-                    </p>
-                  </div>
-                  <div>
-                    <span>★</span>
-                    <p>
-                      <strong>20 XP</strong>
-                      <small>dikumpul</small>
-                    </p>
-                  </div>
+                  <p>Nampak hutan tu?</p>
+                  <p>Pokok nombor sedang tidur...</p>
+                  <p>Jom kita bantu hidupkan semula!</p>
                 </div>
                 <Link
                   className="button button-primary journey-button"
-                  href="/journey"
+                  href="/world/mathematics"
                 >
-                  Mulakan perjalanan saya <span aria-hidden="true">→</span>
-                </Link>
-                <Link className="quiet-link" href="/world/ganjaran">
-                  Lihat bintang dan ganjaran
+                  Saya Dah Bersedia! <span aria-hidden="true">🚀</span>
                 </Link>
               </>
             )}

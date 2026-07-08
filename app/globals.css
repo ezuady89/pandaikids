@@ -2333,3 +2333,41 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
     font-size:24px;
   }
 }
+
+/* Build 2.9 — first-time onboarding stays story-only before Hutan Matematik */
+.adventure-preview{
+  display:grid;
+  gap:7px;
+  margin:2px 0 14px;
+  padding:14px;
+  border:1px solid rgba(116,187,118,.26);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 12% 0,rgba(255,246,166,.46),transparent 32%),
+    linear-gradient(135deg,rgba(237,255,224,.9),rgba(229,248,255,.82));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 12px 24px rgba(20,91,54,.1);
+}
+.adventure-preview p{
+  margin:0;
+  color:#245644;
+  font-size:13px;
+  font-weight:900;
+  line-height:1.32;
+}
+.adventure-preview p:nth-child(2){
+  color:#6b5b21;
+}
+.adventure-preview p:nth-child(3){
+  color:#14783d;
+}
+@media(max-width:680px){
+  .adventure-preview{
+    gap:5px;
+    margin-bottom:11px;
+    padding:11px 12px;
+    border-radius:17px;
+  }
+  .adventure-preview p{
+    font-size:12px;
+  }
+}
