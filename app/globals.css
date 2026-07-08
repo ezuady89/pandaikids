@@ -2371,3 +2371,312 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
     font-size:12px;
   }
 }
+
+/* Build 2.10 — final premium homepage polish */
+.welcome-header{
+  height:70px;
+  padding-inline:clamp(14px,4vw,58px);
+}
+.welcome-header .brand{
+  transform:scale(.86);
+  transform-origin:left center;
+  padding:7px 13px 7px 8px;
+  border-radius:17px;
+}
+.welcome-header .brand-paw{
+  width:30px;
+  height:30px;
+}
+.onboarding{
+  padding-top:72px;
+  gap:clamp(12px,3vw,48px);
+}
+.pandi-scene-layer{
+  transform:none;
+  transition:opacity .22s ease,filter .35s ease;
+  will-change:opacity,filter;
+}
+.pandi-scene-layer.is-changing{
+  transform:none;
+}
+.pandi-guide{
+  animation:none;
+  transform:none;
+  will-change:auto;
+}
+.pandi-guide:before{
+  animation:pandiPresenceGlow 4.8s ease-in-out infinite;
+}
+.pandi-ground-shadow{
+  animation:pandiShadowBreath 4.8s ease-in-out infinite;
+}
+.pandi-wave-spark{
+  right:23%;
+  top:24%;
+  animation:pandiTinyWave 3.8s ease-in-out infinite;
+}
+.pandi-map-card{
+  display:none;
+}
+.butterfly{
+  width:24px;
+  height:18px;
+  font-size:0;
+  filter:drop-shadow(0 5px 5px rgba(29,56,30,.2));
+}
+.butterfly:before,
+.butterfly:after{
+  content:"";
+  position:absolute;
+  top:2px;
+  width:12px;
+  height:16px;
+  border-radius:70% 30% 70% 35%;
+  background:linear-gradient(145deg,#ff8fc5,#ffcf5a 54%,#8ee7ff);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+}
+.butterfly:before{
+  left:0;
+  transform:rotate(-24deg);
+}
+.butterfly:after{
+  right:0;
+  transform:scaleX(-1) rotate(-24deg);
+}
+.magic-particle{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  color:transparent;
+  background:rgba(255,248,173,.76);
+  box-shadow:0 0 12px rgba(255,238,116,.78);
+}
+.story-bird{
+  width:34px;
+  height:14px;
+  color:transparent;
+  font-size:0;
+}
+.story-bird:before,
+.story-bird:after{
+  content:"";
+  position:absolute;
+  top:6px;
+  width:17px;
+  height:9px;
+  border-top:3px solid rgba(30,91,112,.52);
+  border-radius:50%;
+}
+.story-bird:before{
+  left:1px;
+  transform:rotate(18deg);
+}
+.story-bird:after{
+  right:1px;
+  transform:rotate(-18deg);
+}
+.story-leaf{
+  width:18px;
+  height:10px;
+  color:transparent;
+  font-size:0;
+  border-radius:100% 0 100% 0;
+  background:linear-gradient(135deg,#88df54,#3fae47);
+}
+.story-flower-bed{
+  font-size:0;
+  letter-spacing:0;
+}
+.story-flower-bed:before{
+  content:"";
+  display:block;
+  width:150px;
+  height:24px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 8% 55%,#ff78aa 0 5px,transparent 6px),
+    radial-gradient(circle at 23% 35%,#ffd85d 0 5px,transparent 6px),
+    radial-gradient(circle at 38% 58%,#ff8b6e 0 4px,transparent 5px),
+    radial-gradient(circle at 56% 42%,#fff27a 0 5px,transparent 6px),
+    radial-gradient(circle at 75% 60%,#ff79bc 0 5px,transparent 6px),
+    radial-gradient(ellipse at center bottom,rgba(41,140,57,.5),transparent 68%);
+}
+.onboarding-panel{
+  padding:18px clamp(18px,2.4vw,30px) 15px;
+}
+.step-track{
+  margin:7px 0 11px;
+}
+.step-content h1{
+  margin:6px 0;
+}
+.step-content>p{
+  margin-bottom:10px;
+}
+.big-input{
+  min-height:0;
+  padding:11px 14px;
+}
+.big-input input{
+  min-height:34px;
+}
+.button{
+  min-height:46px;
+}
+.adventure-preview{
+  margin-bottom:11px;
+  padding:12px 13px;
+}
+@keyframes pandiPresenceGlow{
+  0%,100%{opacity:.78;filter:blur(2px)}
+  50%{opacity:.94;filter:blur(2.4px)}
+}
+@keyframes pandiShadowBreath{
+  0%,100%{transform:rotate(-3deg) scaleX(1);opacity:.82}
+  50%{transform:rotate(-3deg) scaleX(.94);opacity:.62}
+}
+@keyframes pandiTinyWave{
+  0%,64%,100%{transform:translate3d(0,0,0) rotate(0deg);opacity:.72}
+  72%{transform:translate3d(3px,-4px,0) rotate(8deg);opacity:1}
+  80%{transform:translate3d(-2px,-2px,0) rotate(-5deg);opacity:.95}
+  88%{transform:translate3d(2px,-3px,0) rotate(5deg);opacity:1}
+}
+@media(max-width:680px){
+  .welcome-header{
+    height:54px;
+    padding:0 12px;
+  }
+  .welcome-header .brand{
+    transform:scale(.82);
+    padding:6px 11px 6px 7px;
+    border-radius:15px;
+  }
+  .welcome-header .brand-paw{
+    width:28px;
+    height:28px;
+  }
+  .quiet-button{
+    padding:8px 10px;
+  }
+  .onboarding{
+    min-height:calc(100svh - 54px);
+    grid-template-rows:minmax(190px,28svh) auto;
+    gap:4px;
+    padding:49px 10px 10px;
+  }
+  .pandi-guide{
+    height:clamp(190px,28svh,238px);
+    min-height:190px;
+    background-size:contain;
+  }
+  .pandi-message{
+    top:4px;
+    left:6px;
+    max-width:142px;
+    padding:7px 9px;
+    font-size:9px;
+  }
+  .onboarding-panel{
+    max-width:398px;
+    padding:10px 12px 9px;
+    border-radius:19px;
+  }
+  .step-top{
+    min-height:0;
+  }
+  .step-track{
+    height:6px;
+    margin:5px 0 8px;
+  }
+  .step-content h1{
+    font-size:clamp(23px,6.4vw,28px);
+    margin:4px 0;
+  }
+  .step-content>p{
+    font-size:11px;
+    line-height:1.33;
+    margin-bottom:7px;
+  }
+  .onboarding-kicker{
+    padding:4px 8px;
+  }
+  .button{
+    min-height:40px;
+    padding:8px 12px;
+    border-radius:15px;
+  }
+  .big-input{
+    gap:5px;
+    padding:8px 11px;
+    border-radius:14px;
+  }
+  .big-input input{
+    min-height:30px;
+    font-size:15px;
+  }
+  .onboarding-form{
+    gap:8px;
+  }
+  .profile-ribbon{
+    gap:6px;
+    margin-bottom:8px;
+  }
+  .profile-ribbon span{
+    padding:6px 8px;
+    font-size:10px;
+  }
+  .adventure-preview{
+    gap:4px;
+    margin-bottom:8px;
+    padding:9px 10px;
+    border-radius:15px;
+  }
+  .adventure-preview p{
+    font-size:11px;
+  }
+  .state-grid{
+    max-height:28svh;
+  }
+  .age-grid{
+    gap:6px;
+  }
+  .age-button{
+    min-height:48px;
+  }
+  .privacy-note{
+    margin-top:6px;
+    font-size:9px;
+  }
+}
+@media(max-width:390px){
+  .onboarding{
+    grid-template-rows:minmax(176px,26svh) auto;
+    padding-top:47px;
+  }
+  .pandi-guide{
+    height:clamp(176px,26svh,220px);
+    min-height:176px;
+  }
+  .onboarding-panel{
+    padding:9px 11px 8px;
+  }
+  .step-content h1{
+    font-size:22px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .pandi-guide,
+  .pandi-guide:before,
+  .pandi-ground-shadow,
+  .pandi-wave-spark,
+  .story-river,
+  .story-cloud,
+  .story-bird,
+  .story-leaf,
+  .butterfly,
+  .magic-particle,
+  .story-flower-bed{
+    animation:none!important;
+    transition:none!important;
+  }
+}

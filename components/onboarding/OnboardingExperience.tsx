@@ -74,9 +74,9 @@ const stateThemeColors: Record<
 function messageForStep(step: number, profile: LearnerProfile): string {
   switch (step) {
     case 0:
-      return profile.name ? `Hai kembali, ${profile.name}!` : "Hai, kawan baru!";
+      return profile.name ? `Hai kembali, ${profile.name}!` : "👋 Hai! Saya Pandi.";
     case 1:
-      return "Pandi nak kenal kamu!";
+      return "Siapa nama awak?";
     case 2:
       return `Seronok kenal ${profile.name || "kamu"}!`;
     case 3:
@@ -314,12 +314,12 @@ export function OnboardingExperience() {
                 <h1>
                   {profile.name
                     ? `Pandi rindu ${profile.name}!`
-                    : "Nama Pandi. Siapa nama kamu?"}
+                    : "👋 Hai! Saya Pandi."}
                 </h1>
                 <p>
                   {profile.name
                     ? "Kita boleh sambung perjalanan atau berkenalan semula."
-                    : "Pandi akan jadi rakan belajar kamu. Kita kenal satu sama lain dahulu, ya?"}
+                    : "Siapa nama awak? Pandi nak jadi kawan belajar awak."}
                 </p>
                 <button
                   className="button button-primary"
@@ -410,9 +410,10 @@ export function OnboardingExperience() {
                 </span>
                 <h1>Awak dah bersedia?</h1>
                 <p>
-                  Yeay! Sekarang kita dah jadi kawan. Pandi dah bersedia bawa{" "}
-                  <strong>{profile.name}</strong> mengembara dari{" "}
-                  <strong>{profile.state}</strong>.
+                  {profile.name
+                    ? `Yeay, ${profile.name}! 🎉`
+                    : "Yeay! Kita dah jadi kawan! 🎉"}{" "}
+                  Jom kita mulakan pengembaraan pertama bersama!
                 </p>
                 <div className="profile-ribbon">
                   <span>♥ {profile.name}</span>
