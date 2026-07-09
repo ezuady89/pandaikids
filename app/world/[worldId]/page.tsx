@@ -101,7 +101,7 @@ export default async function WorldPage({ params }: WorldPageProps) {
             ))}
           </div>
           <aside className="pandi-tip">
-            <MascotImage alt="Pandi" sizes="80px" />
+            <MascotImage alt="Pandi memberi petua" pose="teacher" sizes="80px" />
             <p>
               <strong>Petua Pandi:</strong> Mulakan dari kawasan pertama.
               Setiap aktiviti yang lengkap akan membuka kawasan baharu!

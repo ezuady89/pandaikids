@@ -46,7 +46,7 @@ export function JourneyExperience() {
               Pilih satu dunia. Pandi akan menemani kamu langkah demi langkah.
             </p>
           </div>
-          <MascotImage alt="Pandi" priority />
+          <MascotImage alt="Pandi bersedia meneroka dunia" pose="explorer" priority />
         </section>
         <section className="world-section journey-worlds" id="dunia">
           <div className="section-heading reveal visible">

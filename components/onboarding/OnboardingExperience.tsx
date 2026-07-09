@@ -12,11 +12,9 @@ import {
 
 import { StateSelector } from "@/components/onboarding/StateSelector";
 import { Brand } from "@/components/ui/Brand";
-import {
-  defaultPandiScene,
-  getState,
-  malaysianStates
-} from "@/data/states";
+import { getState, malaysianStates } from "@/data/states";
+import { getPandiPoseSrc } from "@/lib/pandi-assets";
+import { withBasePath } from "@/lib/paths";
 import {
   emptyProfile,
   readProfile,
@@ -35,6 +33,9 @@ const stepLabels = [
 ] as const;
 
 const totalStorySteps = storySteps.length;
+const homepageWorldScene = withBasePath(
+  "/assets/backgrounds/pandaikids-world-journey-v1.webp"
+);
 
 const stateThemeColors: Record<
   StateSlug | "default",
@@ -111,7 +112,7 @@ export function OnboardingExperience() {
 
   const activeState = useMemo(() => getState(sceneSlug), [sceneSlug]);
   const storyStep = storySteps[step];
-  const scene = activeState?.pandiScene ?? defaultPandiScene;
+  const scene = homepageWorldScene;
   const stateTheme = stateThemeColors[activeState?.slug ?? "default"];
   const onboardingStyle = {
     "--onboarding-scene": `url("${scene}")`,
@@ -131,21 +132,11 @@ export function OnboardingExperience() {
   }
 
   function changePandiScene(slug: StateSlug | ""): void {
-    const nextScene = getState(slug)?.pandiScene ?? defaultPandiScene;
-    const preload = new window.Image();
-
-    preload.onload = () => {
-      setSceneChanging(true);
-      window.setTimeout(() => {
-        setSceneSlug(slug);
-        setSceneChanging(false);
-      }, 180);
-    };
-    preload.onerror = () => {
-      setSceneSlug("");
+    setSceneChanging(true);
+    window.setTimeout(() => {
+      setSceneSlug(slug);
       setSceneChanging(false);
-    };
-    preload.src = nextScene;
+    }, 180);
   }
 
   function handleNameSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -278,7 +269,7 @@ export function OnboardingExperience() {
             height={1254}
             priority
             sizes="(max-width: 680px) 260px, 570px"
-            src={defaultPandiScene}
+            src={getPandiPoseSrc("wave")}
             width={1254}
           />
           <div

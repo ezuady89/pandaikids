@@ -262,7 +262,15 @@ export function MathForestExperience() {
                   ? "celebrate"
                   : "guide"
             }
-            profile={profile}
+            pose={
+              phase === "teaching"
+                ? "teacher"
+                : phase === "correct" || phase === "milestone"
+                  ? "celebrate"
+                  : phase === "intro"
+                    ? "explorer"
+                    : "thinking"
+            }
           />
 
           {phase === "intro" ? (

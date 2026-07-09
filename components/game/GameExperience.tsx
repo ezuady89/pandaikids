@@ -6,6 +6,7 @@ import { type CSSProperties, useState } from "react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { MascotImage } from "@/components/mascot/MascotImage";
 import { learningGames } from "@/data/games";
+import type { PandiPose } from "@/lib/pandi-assets";
 import { withBasePath } from "@/lib/paths";
 import { saveGameScore } from "@/lib/storage";
 import type { GameId } from "@/types";
@@ -85,6 +86,13 @@ export function GameExperience({ gameId }: GameExperienceProps) {
   const progress = finished
     ? 100
     : (questionIndex / game.questions.length) * 100;
+  const pandiPose: PandiPose = finished
+    ? "happy"
+    : answerState
+      ? answerState.selected === answerState.correct
+        ? "celebrate"
+        : "teacher"
+      : "thinking";
 
   return (
     <div className="game-page" style={gameStyle}>
@@ -93,6 +101,7 @@ export function GameExperience({ gameId }: GameExperienceProps) {
         <span>{coachMessage}</span>
         <MascotImage
           alt="Pandi"
+          pose={pandiPose}
           priority
           sizes="(max-width: 680px) 88px, 185px"
         />

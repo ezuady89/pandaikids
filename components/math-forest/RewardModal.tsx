@@ -1,3 +1,7 @@
+import Image from "next/image";
+
+import { getPandiPoseSrc } from "@/lib/pandi-assets";
+
 interface RewardModalProps {
   completedQuestions: number;
   onContinue: () => void;
@@ -33,6 +37,14 @@ export function RewardModal({
   return (
     <div className="forest-modal-backdrop" role="dialog" aria-modal="true">
       <section className="forest-modal reward-modal">
+        <Image
+          alt="Pandi meraikan ganjaran"
+          className="modal-pandi"
+          height={1254}
+          sizes="150px"
+          src={getPandiPoseSrc("celebrate")}
+          width={1254}
+        />
         <div className="reward-icon" aria-hidden="true">
           {copy.reward}
         </div>

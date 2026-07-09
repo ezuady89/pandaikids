@@ -1,12 +1,11 @@
 import Image from "next/image";
 
-import { withBasePath } from "@/lib/paths";
-import type { LearnerProfile } from "@/types";
+import { getPandiPoseSrc, type PandiPose } from "@/lib/pandi-assets";
 
 interface PandiTeacherProps {
   completedQuestions?: number;
   message: string;
-  profile: LearnerProfile;
+  pose?: PandiPose;
   mood?: "guide" | "teacher" | "celebrate";
 }
 
@@ -14,11 +13,17 @@ export function PandiTeacher({
   completedQuestions = 0,
   message,
   mood = "guide",
-  profile
+  pose
 }: PandiTeacherProps) {
-  const pandiScene = profile.stateSlug
-    ? `/assets/states/pandi/${profile.stateSlug}.webp`
-    : "/assets/states/pandi/default.webp";
+  const pandiPose =
+    pose ??
+    (mood === "teacher"
+      ? "teacher"
+      : mood === "celebrate"
+        ? "celebrate"
+        : completedQuestions >= 8
+          ? "explorer"
+          : "thinking");
   const accessory =
     mood === "teacher"
       ? "👓"
@@ -29,7 +34,7 @@ export function PandiTeacher({
           : completedQuestions >= 4
             ? "🎒"
             : "🌿";
-  const pose =
+  const poseLabel =
     mood === "teacher"
       ? "Mengajar"
       : mood === "celebrate"
@@ -48,13 +53,13 @@ export function PandiTeacher({
           fill
           priority
           sizes="(max-width: 680px) 150px, 300px"
-          src={withBasePath(pandiScene)}
+          src={getPandiPoseSrc(pandiPose)}
         />
         <span className="pandi-accessory" aria-hidden="true">
           {accessory}
         </span>
         <span className="pandi-pose-badge" aria-hidden="true">
-          {pose}
+          {poseLabel}
         </span>
         {completedQuestions >= 4 ? (
           <span className="pandi-earned-item item-backpack" aria-hidden="true">

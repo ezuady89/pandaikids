@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 
+import { getPandiPoseSrc } from "@/lib/pandi-assets";
 import type { LearnerProfile } from "@/types";
 
 interface DailySummaryProps {
@@ -17,6 +19,15 @@ export function DailySummary({
 
   return (
     <section className="daily-summary-panel">
+      <Image
+        alt="Pandi gembira meraikan ringkasan hari ini"
+        className="summary-pandi"
+        height={1254}
+        priority
+        sizes="(max-width: 680px) 140px, 210px"
+        src={getPandiPoseSrc("happy")}
+        width={1254}
+      />
       <span className="summary-ribbon">Ringkasan Hari Ini</span>
       <h1>Hebat, {childName}! 🌟</h1>
       <p>

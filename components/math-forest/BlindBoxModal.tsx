@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
+import Image from "next/image";
 
 import { mathForestRewards } from "@/data/questions/math-year1";
+import { getPandiPoseSrc } from "@/lib/pandi-assets";
 import { addMathForestReward } from "@/lib/storage";
 import type { MathForestReward } from "@/types/math-forest";
 
@@ -28,6 +30,14 @@ export function BlindBoxModal({
   return (
     <div className="forest-modal-backdrop" role="dialog" aria-modal="true">
       <section className="forest-modal blindbox-modal">
+        <Image
+          alt="Pandi membuka Blind Box"
+          className="modal-pandi"
+          height={1254}
+          sizes="150px"
+          src={getPandiPoseSrc("blindbox")}
+          width={1254}
+        />
         <span className="math-forest-eyebrow">Blind Box Belajar</span>
         <h2>{opened ? "Pandi dapat hadiah ajaib!" : "Ketuk kotak ajaib"}</h2>
         <div className="blindbox-sparkles" aria-hidden="true">
