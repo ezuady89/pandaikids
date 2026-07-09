@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
   type CSSProperties,
   type FormEvent,
@@ -10,8 +9,11 @@ import {
   useState
 } from "react";
 
-import { StateSelector } from "@/components/onboarding/StateSelector";
-import { PandiLive } from "@/components/pandi/PandiLive";
+import {
+  OnboardingCard,
+  type OnboardingCardStep
+} from "@/components/onboarding/OnboardingCard";
+import { LivingPandi } from "@/components/pandi/LivingPandi";
 import { Brand } from "@/components/ui/Brand";
 import { getState, malaysianStates } from "@/data/states";
 import { withBasePath } from "@/lib/paths";
@@ -23,16 +25,22 @@ import {
 } from "@/lib/storage";
 import type { LearnerProfile, StateSlug } from "@/types";
 
-const storySteps = [1, 2, 3, 4, 5] as const;
-const stepLabels = [
-  "Mari berkenalan",
-  "Nama kamu",
-  "Tempat kamu",
-  "Umur kamu",
-  "Sedia mengembara"
-] as const;
+const totalStorySteps = 4;
 
-const totalStorySteps = storySteps.length;
+const cardStepLabels: Record<OnboardingCardStep, string> = {
+  name: "Mari berkenalan",
+  state: "Tempat kamu",
+  age: "Umur kamu",
+  ready: "Sedia mengembara"
+};
+
+const cardStepNumbers: Record<OnboardingCardStep, number> = {
+  name: 1,
+  state: 2,
+  age: 3,
+  ready: 4
+};
+
 const homepageWorldScene = withBasePath(
   "/assets/backgrounds/pandaikids-world-journey-v1.webp"
 );
@@ -75,11 +83,10 @@ const stateThemeColors: Record<
 function messageForStep(step: number, profile: LearnerProfile): string {
   switch (step) {
     case 0:
+    case 1:
       return profile.name
         ? `Hai kembali, ${profile.name}!`
         : "👋 Hai! Saya Pandi.\nSiapa nama awak?";
-    case 1:
-      return "Siapa nama awak?";
     case 2:
       return `Seronok kenal ${profile.name || "kamu"}!`;
     case 3:
@@ -89,6 +96,13 @@ function messageForStep(step: number, profile: LearnerProfile): string {
     default:
       return "Hai, kawan baru!";
   }
+}
+
+function cardStepForStoryStep(step: number): OnboardingCardStep {
+  if (step <= 1) return "name";
+  if (step === 2) return "state";
+  if (step === 3) return "age";
+  return "ready";
 }
 
 export function OnboardingExperience() {
@@ -111,7 +125,8 @@ export function OnboardingExperience() {
   }, []);
 
   const activeState = useMemo(() => getState(sceneSlug), [sceneSlug]);
-  const storyStep = storySteps[step];
+  const cardStep = cardStepForStoryStep(step);
+  const storyStep = cardStepNumbers[cardStep];
   const scene = homepageWorldScene;
   const stateTheme = stateThemeColors[activeState?.slug ?? "default"];
   const onboardingStyle = {
@@ -201,9 +216,7 @@ export function OnboardingExperience() {
         style={onboardingStyle}
       >
         <div
-          className={`pandi-scene-layer${
-            sceneChanging ? " is-changing" : ""
-          }`}
+          className={`pandi-scene-layer${sceneChanging ? " is-changing" : ""}`}
           aria-hidden="true"
           style={{ backgroundImage: `url("${scene}")` }}
         />
@@ -250,9 +263,7 @@ export function OnboardingExperience() {
             {messageOverride || messageForStep(step, profile)}
           </div>
           <div
-            className={`modern-state-outfit${
-              activeState ? " show" : ""
-            }`}
+            className={`modern-state-outfit${activeState ? " show" : ""}`}
             aria-hidden="true"
           >
             <span className="modern-hoodie-band" />
@@ -262,26 +273,20 @@ export function OnboardingExperience() {
           <span className="pandi-ground-shadow" aria-hidden="true" />
           <span className="pandi-breath-highlight" aria-hidden="true" />
           <span className="pandi-blink-line" aria-hidden="true" />
-          <span className="pandi-map-card" aria-hidden="true">✦</span>
-          <span className="pandi-wave-spark" aria-hidden="true">✨</span>
-          <PandiLive
-            className="homepage-pandi-live"
-            pose="wave"
-            priority
-            sizes="(max-width: 680px) 74vw, 570px"
-          />
+          <span className="pandi-map-card" aria-hidden="true">
+            ✦
+          </span>
+          <span className="pandi-wave-spark" aria-hidden="true">
+            ✨
+          </span>
+          <LivingPandi pose="wave" priority />
           <div
             className={`held-flag${activeState ? " show" : ""}`}
             aria-hidden="true"
           >
             <span />
             {activeState && (
-              <Image
-                alt=""
-                height={50}
-                src={activeState.flag}
-                width={78}
-              />
+              <Image alt="" height={50} src={activeState.flag} width={78} />
             )}
           </div>
           <div className="teacher-badge">
@@ -289,181 +294,20 @@ export function OnboardingExperience() {
           </div>
         </section>
 
-        <section
-          className="onboarding-panel step-enter"
-          data-step={step}
-          aria-live="polite"
-        >
-          <div className="step-top">
-            <span className="step-label">{stepLabels[step]}</span>
-            <span className="step-count">
-              {storyStep} / {totalStorySteps}
-            </span>
-          </div>
-          <div className="step-track" aria-hidden="true">
-            <span style={{ width: `${(storyStep / totalStorySteps) * 100}%` }} />
-          </div>
-          <div className="step-content" key={step}>
-            {step === 0 && (
-              <>
-                <span className="onboarding-kicker">
-                  Selamat datang ke PandaiKids
-                </span>
-                <h1>
-                  {profile.name
-                    ? `Pandi rindu ${profile.name}!`
-                    : "👋 Hai! Saya Pandi."}
-                </h1>
-                <p>
-                  {profile.name
-                    ? "Kita boleh sambung perjalanan atau berkenalan semula."
-                    : "Siapa nama awak? Pandi nak jadi kawan belajar awak."}
-                </p>
-                {profile.name ? (
-                  <button
-                    className="button button-primary"
-                    type="button"
-                    onClick={() => showStep(4)}
-                  >
-                    Sambung bersama Pandi <span aria-hidden="true">→</span>
-                  </button>
-                ) : (
-                  <form
-                    className="onboarding-form welcome-name-form"
-                    onSubmit={handleNameSubmit}
-                  >
-                    <label className="big-input">
-                      <span>Nama saya</span>
-                      <input
-                        autoComplete="given-name"
-                        maxLength={20}
-                        placeholder="Contoh: Aisyah"
-                        required
-                        value={nameInput}
-                        onChange={(event) => setNameInput(event.target.value)}
-                      />
-                    </label>
-                    <button className="button button-primary" type="submit">
-                      Jom Kenal Pandi! <span aria-hidden="true">→</span>
-                    </button>
-                  </form>
-                )}
-              </>
-            )}
-
-            {step === 1 && (
-              <>
-                <span className="onboarding-kicker">
-                  Kawan baharu Pandi
-                </span>
-                <h1>Siapa nama awak?</h1>
-                <p>Tulis nama yang awak suka dipanggil.</p>
-                <form
-                  className="onboarding-form"
-                  onSubmit={handleNameSubmit}
-                >
-                  <label className="big-input">
-                    <span>Nama saya</span>
-                    <input
-                      autoComplete="given-name"
-                      maxLength={20}
-                      placeholder="Contoh: Aisyah"
-                      required
-                      value={nameInput}
-                      onChange={(event) => setNameInput(event.target.value)}
-                    />
-                  </label>
-                  <button className="button button-primary" type="submit">
-                    Itulah nama saya <span aria-hidden="true">→</span>
-                  </button>
-                </form>
-              </>
-            )}
-
-            {step === 2 && (
-              <>
-                <span className="onboarding-kicker">
-                  Malaysia rumah kita
-                </span>
-                <h1>Awak tinggal di negeri mana?</h1>
-                <p>
-                  Pilih negeri atau wilayah awak. Pandi akan bersiap khas
-                  untuk awak.
-                </p>
-                <StateSelector
-                  selectedState={profile.stateSlug}
-                  onSelect={handleStateSelect}
-                />
-              </>
-            )}
-
-            {step === 3 && (
-              <>
-                <span className="onboarding-kicker">
-                  Supaya sesuai untuk awak
-                </span>
-                <h1>Berapa umur awak?</h1>
-                <p>Pilih umur awak. Tiada jawapan yang salah di sini.</p>
-                <div className="age-grid">
-                  {[4, 5, 6, 7, 8, 9, 10, 11, 12].map((age) => (
-                    <button
-                      className={`age-button${
-                        Number(profile.age) === age ? " selected" : ""
-                      }`}
-                      key={age}
-                      type="button"
-                      onClick={() => handleAgeSelect(age)}
-                    >
-                      {age}
-                      <small>tahun</small>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {step === 4 && (
-              <>
-                <span className="onboarding-kicker">
-                  Yeay, kita dah jadi kawan!
-                </span>
-                <h1>Awak dah bersedia?</h1>
-                <p>
-                  {profile.name
-                    ? `Yeay, ${profile.name}! 🎉`
-                    : "Yeay! Kita dah jadi kawan! 🎉"}{" "}
-                  Jom kita mulakan pengembaraan pertama bersama!
-                  {profile.state
-                    ? ` Pengembaraan kita bermula dari ${profile.state}!`
-                    : ""}
-                </p>
-                <div className="profile-ribbon">
-                  <span>♥ {profile.name}</span>
-                  <span>⌂ {profile.state}</span>
-                  <span>★ {profile.age} tahun</span>
-                </div>
-                <div
-                  className="adventure-preview"
-                  aria-label="Pandi mengajak ke Hutan Matematik"
-                >
-                  <p>Nampak hutan tu?</p>
-                  <p>Pokok nombor sedang tidur...</p>
-                  <p>Jom kita bantu hidupkan semula!</p>
-                </div>
-                <Link
-                  className="button button-primary journey-button"
-                  href="/world/mathematics"
-                >
-                  Saya Dah Bersedia! <span aria-hidden="true">🚀</span>
-                </Link>
-              </>
-            )}
-          </div>
-          <p className="privacy-note">
-            <span aria-hidden="true">●</span> Maklumat disimpan pada peranti
-            ini sahaja.
-          </p>
-        </section>
+        <OnboardingCard
+          nameInput={nameInput}
+          numericStep={step}
+          profile={profile}
+          step={cardStep}
+          stepLabel={cardStepLabels[cardStep]}
+          stepNumber={storyStep}
+          totalSteps={totalStorySteps}
+          onAgeSelect={handleAgeSelect}
+          onNameInputChange={setNameInput}
+          onNameSubmit={handleNameSubmit}
+          onSavedProfileContinue={() => showStep(4)}
+          onStateSelect={handleStateSelect}
+        />
       </main>
     </div>
   );

@@ -4412,3 +4412,369 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
     animation:none!important;
   }
 }
+
+/* Reusable mobile-first OnboardingCard component */
+.onboarding-card{
+  width:min(88vw,360px);
+  max-width:360px;
+  min-height:0;
+  padding:18px 18px 15px;
+  border-radius:26px;
+  border:1px solid rgba(255,255,255,.74);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.86),rgba(247,255,248,.68)),
+    radial-gradient(circle at 18% 0,rgba(255,255,255,.8),rgba(255,255,255,0) 38%);
+  box-shadow:
+    0 8px 0 rgba(13,85,51,.1),
+    0 24px 58px rgba(4,48,34,.24),
+    inset 0 1px 0 rgba(255,255,255,.94);
+  backdrop-filter:blur(18px) saturate(1.16);
+  -webkit-backdrop-filter:blur(18px) saturate(1.16);
+}
+.onboarding-card .step-content{
+  justify-content:center;
+  padding-top:0;
+}
+.onboarding-card .step-content h1{
+  color:#0f4f3b;
+  font-size:clamp(28px,3vw,40px);
+  letter-spacing:-.04em;
+  margin:6px 0 5px;
+}
+.onboarding-card .step-content>p,
+.onboarding-card .onboarding-subtitle,
+.onboarding-card .onboarding-helper{
+  color:#46645d;
+  font-size:13px;
+  line-height:1.36;
+  margin:0 0 7px;
+}
+.onboarding-card .onboarding-subtitle{
+  color:#123264;
+  font-size:16px;
+  font-weight:900;
+  margin-bottom:2px;
+}
+.onboarding-card .onboarding-helper{
+  margin-bottom:9px;
+}
+.onboarding-card .onboarding-kicker{
+  border:1px solid rgba(255,255,255,.68);
+  background:linear-gradient(180deg,rgba(232,247,238,.92),rgba(244,255,246,.78));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+.onboarding-card .step-track{
+  height:5px;
+  margin:7px 0 14px;
+}
+.onboarding-card .big-input{
+  min-height:48px;
+  padding:8px 13px;
+  border-radius:16px;
+  background:rgba(255,255,255,.72);
+  border-color:rgba(207,224,213,.92);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.86);
+}
+.onboarding-card .big-input input{
+  min-height:28px;
+  font-size:16px;
+}
+.onboarding-card .button{
+  min-height:54px;
+  width:100%;
+  border-radius:17px;
+  font-size:15px;
+}
+.onboarding-card .welcome-name-form{
+  gap:10px;
+  margin-top:9px;
+}
+.onboarding-card .privacy-note{
+  margin-top:8px;
+  font-size:9px;
+}
+.onboarding-card[data-card-step="name"] .step-top,
+.onboarding-card[data-card-step="name"] .step-track{
+  display:none;
+}
+.onboarding-card[data-card-step="state"] .state-grid{
+  grid-template-columns:repeat(2,1fr);
+  max-height:31svh;
+  gap:7px;
+}
+.onboarding-card[data-card-step="state"] .state-card{
+  min-height:58px;
+  border-radius:14px;
+}
+.onboarding-card[data-card-step="age"] .age-grid{
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.onboarding-card[data-card-step="age"] .age-button{
+  min-height:48px;
+  border-radius:14px;
+  font-size:19px;
+}
+.onboarding-card[data-card-step="ready"] .profile-ribbon{
+  gap:6px;
+  margin-bottom:7px;
+}
+.onboarding-card[data-card-step="ready"] .profile-ribbon span{
+  padding:6px 8px;
+  font-size:10px;
+}
+.onboarding-card[data-card-step="ready"] .adventure-preview{
+  margin-bottom:8px;
+  padding:9px 10px;
+}
+
+@media(max-width:680px){
+  .onboarding[data-step] .onboarding-card{
+    left:50%;
+    right:auto;
+    bottom:max(10px,env(safe-area-inset-bottom));
+    width:min(88vw,360px);
+    max-width:360px;
+    max-height:48svh;
+    padding:14px 14px 11px;
+    transform:translateX(-50%);
+  }
+  .onboarding[data-step="0"] .onboarding-card,
+  .onboarding[data-step="1"] .onboarding-card{
+    width:min(88vw,360px);
+    max-height:none;
+  }
+  .onboarding[data-step="2"] .onboarding-card,
+  .onboarding[data-step="3"] .onboarding-card,
+  .onboarding[data-step="4"] .onboarding-card{
+    width:min(88vw,360px);
+  }
+  .pandi-guide .pandi-live{
+    bottom:clamp(250px,34vh,318px);
+    width:clamp(270px,74vw,360px);
+  }
+  .onboarding[data-step] .pandi-ground-shadow{
+    bottom:clamp(245px,33vh,308px);
+  }
+  .onboarding[data-step="0"] .pandi-message,
+  .onboarding[data-step="1"] .pandi-message{
+    top:clamp(270px,34vh,318px);
+    left:18px;
+    max-width:160px;
+  }
+  .onboarding-card .step-content h1{
+    font-size:clamp(24px,6.1vw,28px);
+    margin:5px 0 4px;
+  }
+  .onboarding-card .step-content>p,
+  .onboarding-card .onboarding-helper{
+    font-size:11px;
+    line-height:1.28;
+  }
+  .onboarding-card .onboarding-subtitle{
+    font-size:13px;
+  }
+  .onboarding-card .onboarding-kicker{
+    padding:4px 8px;
+    font-size:7.5px;
+  }
+  .onboarding-card .big-input{
+    min-height:48px;
+    padding:8px 11px;
+  }
+  .onboarding-card .button{
+    min-height:54px;
+    font-size:14px;
+    padding:9px 12px;
+  }
+  .onboarding-card[data-card-step="state"] .state-grid{
+    max-height:29svh;
+  }
+  .onboarding-card[data-card-step="ready"] .adventure-preview p{
+    font-size:10.5px;
+  }
+}
+
+@media(max-width:390px){
+  .onboarding[data-step] .onboarding-card{
+    width:min(88vw,344px);
+    padding:13px 13px 10px;
+  }
+  .pandi-guide .pandi-live{
+    bottom:clamp(244px,33vh,304px);
+    width:clamp(258px,72vw,332px);
+  }
+  .onboarding[data-step="0"] .pandi-message,
+  .onboarding[data-step="1"] .pandi-message{
+    top:clamp(258px,33vh,296px);
+    left:15px;
+    max-width:150px;
+  }
+  .onboarding-card .button{
+    min-height:52px;
+  }
+}
+
+/* Lightweight LivingPandi component — Pandi moves, wallpaper stays still */
+.pandi-guide .living-pandi{
+  position:absolute;
+  z-index:4;
+  left:clamp(52px,8vw,132px);
+  bottom:clamp(18px,4vh,42px);
+  width:clamp(330px,40vw,590px);
+  max-height:82vh;
+  aspect-ratio:1;
+  pointer-events:none;
+  transform-origin:50% 88%;
+  animation:livingPandiIdle 5.2s ease-in-out infinite;
+  will-change:transform;
+}
+.living-pandi__fallback,
+.living-pandi__stage{
+  width:100%!important;
+  height:auto!important;
+  max-height:inherit!important;
+  object-fit:contain!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  filter:
+    drop-shadow(0 30px 24px rgba(10,58,33,.28))
+    drop-shadow(-10px -8px 12px rgba(255,245,178,.17))
+    saturate(1.08)
+    contrast(1.02)!important;
+}
+.living-pandi__stage{
+  position:relative;
+  aspect-ratio:1;
+}
+.living-pandi__layer{
+  object-fit:contain;
+  object-position:center bottom;
+  pointer-events:none;
+  user-select:none;
+}
+.living-pandi__layer--body{
+  transform-origin:50% 88%;
+}
+.living-pandi__layer--head{
+  transform-origin:50% 38%;
+  animation:livingPandiHead 6s ease-in-out infinite;
+}
+.living-pandi__layer--rightArm{
+  transform-origin:62% 48%;
+  animation:livingPandiArmWave 4.4s ease-in-out infinite;
+}
+.living-pandi__layer--eyesOpen{
+  opacity:1;
+  animation:livingPandiEyesOpen 6.4s ease-in-out infinite;
+}
+.living-pandi__layer--eyesClosed{
+  opacity:0;
+  animation:livingPandiEyesClosed 6.4s ease-in-out infinite;
+}
+.living-pandi__blink{
+  position:absolute;
+  left:39%;
+  top:27%;
+  z-index:6;
+  width:8%;
+  height:2%;
+  border-radius:999px;
+  background:rgba(38,28,24,.78);
+  opacity:0;
+  transform:scaleY(.45) rotate(5deg);
+  box-shadow:2.85em .1em 0 rgba(38,28,24,.78);
+  animation:livingPandiBlink 6.4s ease-in-out infinite;
+  pointer-events:none;
+}
+.living-pandi[data-layered="true"] .living-pandi__blink{
+  display:none;
+}
+.living-pandi__wave{
+  position:absolute;
+  right:18%;
+  top:36%;
+  z-index:5;
+  width:18%;
+  aspect-ratio:1;
+  border-right:3px solid rgba(255,255,255,.74);
+  border-radius:50%;
+  opacity:.6;
+  transform:rotate(-12deg);
+  animation:livingPandiWaveArc 2.8s ease-in-out infinite;
+  filter:drop-shadow(0 0 7px rgba(255,255,255,.6));
+  pointer-events:none;
+}
+.living-pandi[data-layered="true"] .living-pandi__wave{
+  display:none;
+}
+
+@keyframes livingPandiIdle{
+  0%,100%{transform:translate3d(0,0,0) rotate(-.25deg) scale(1)}
+  38%{transform:translate3d(0,-5px,0) rotate(.35deg) scale(1.01)}
+  68%{transform:translate3d(1px,-2px,0) rotate(-.12deg) scale(1.004)}
+}
+@keyframes livingPandiHead{
+  0%,100%{transform:translate3d(0,0,0) rotate(0)}
+  46%{transform:translate3d(0,-1.5px,0) rotate(.6deg)}
+}
+@keyframes livingPandiArmWave{
+  0%,72%,100%{transform:rotate(0deg)}
+  78%{transform:rotate(-6deg)}
+  84%{transform:rotate(7deg)}
+  90%{transform:rotate(-4deg)}
+}
+@keyframes livingPandiEyesOpen{
+  0%,91%,100%{opacity:1}
+  93%,95%{opacity:0}
+}
+@keyframes livingPandiEyesClosed{
+  0%,91%,100%{opacity:0}
+  93%,95%{opacity:1}
+}
+@keyframes livingPandiBlink{
+  0%,91%,100%{opacity:0;transform:scaleY(.1) rotate(5deg)}
+  93%,95%{opacity:.68;transform:scaleY(.75) rotate(5deg)}
+}
+@keyframes livingPandiWaveArc{
+  0%,100%{opacity:.34;transform:rotate(-18deg) scale(.92)}
+  50%{opacity:.76;transform:rotate(-6deg) scale(1.04)}
+}
+
+@media(max-width:680px){
+  .pandi-guide .living-pandi{
+    left:clamp(-36px,-5vw,-6px);
+    bottom:clamp(250px,34vh,318px);
+    width:clamp(270px,74vw,360px);
+    max-height:61vh;
+  }
+  .living-pandi__fallback,
+  .living-pandi__stage{
+    filter:
+      drop-shadow(0 20px 15px rgba(10,58,33,.25))
+      drop-shadow(-7px -7px 10px rgba(255,245,178,.16))
+      saturate(1.08)
+      contrast(1.02)!important;
+  }
+}
+
+@media(max-width:390px){
+  .pandi-guide .living-pandi{
+    left:clamp(-42px,-7vw,-14px);
+    bottom:clamp(244px,33vh,304px);
+    width:clamp(258px,72vw,332px);
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .pandi-guide .living-pandi,
+  .living-pandi__layer--head,
+  .living-pandi__layer--rightArm,
+  .living-pandi__layer--eyesOpen,
+  .living-pandi__layer--eyesClosed,
+  .living-pandi__blink,
+  .living-pandi__wave{
+    animation:none!important;
+  }
+}
