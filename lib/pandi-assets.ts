@@ -1,6 +1,7 @@
 import { withBasePath } from "@/lib/paths";
 
 export type PandiPose =
+  | "idle"
   | "wave"
   | "happy"
   | "teacher"
@@ -12,6 +13,7 @@ export type PandiPose =
   | "blindbox";
 
 const PANDI_POSE_FILES: Record<PandiPose, string> = {
+  idle: "/assets/pandi/pandi-happy.png",
   wave: "/assets/pandi/pandi-wave.png",
   happy: "/assets/pandi/pandi-happy.png",
   teacher: "/assets/pandi/pandi-teacher.png",
@@ -26,4 +28,3 @@ const PANDI_POSE_FILES: Record<PandiPose, string> = {
 export function getPandiPoseSrc(pose: PandiPose): string {
   return withBasePath(PANDI_POSE_FILES[pose]);
 }
-

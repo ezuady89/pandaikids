@@ -11,9 +11,9 @@ import {
 } from "react";
 
 import { StateSelector } from "@/components/onboarding/StateSelector";
+import { PandiLive } from "@/components/pandi/PandiLive";
 import { Brand } from "@/components/ui/Brand";
 import { getState, malaysianStates } from "@/data/states";
-import { getPandiPoseSrc } from "@/lib/pandi-assets";
 import { withBasePath } from "@/lib/paths";
 import {
   emptyProfile,
@@ -264,13 +264,11 @@ export function OnboardingExperience() {
           <span className="pandi-blink-line" aria-hidden="true" />
           <span className="pandi-map-card" aria-hidden="true">✦</span>
           <span className="pandi-wave-spark" aria-hidden="true">✨</span>
-          <Image
-            alt="Pandi si panda sedang tersenyum dan melambai"
-            height={1254}
+          <PandiLive
+            className="homepage-pandi-live"
+            pose="wave"
             priority
-            sizes="(max-width: 680px) 260px, 570px"
-            src={getPandiPoseSrc("wave")}
-            width={1254}
+            sizes="(max-width: 680px) 74vw, 570px"
           />
           <div
             className={`held-flag${activeState ? " show" : ""}`}
@@ -321,14 +319,35 @@ export function OnboardingExperience() {
                     ? "Kita boleh sambung perjalanan atau berkenalan semula."
                     : "Siapa nama awak? Pandi nak jadi kawan belajar awak."}
                 </p>
-                <button
-                  className="button button-primary"
-                  type="button"
-                  onClick={() => showStep(profile.name ? 4 : 1)}
-                >
-                  {profile.name ? "Sambung bersama Pandi" : "Jom Kenal Pandi!"}
-                  <span aria-hidden="true">→</span>
-                </button>
+                {profile.name ? (
+                  <button
+                    className="button button-primary"
+                    type="button"
+                    onClick={() => showStep(4)}
+                  >
+                    Sambung bersama Pandi <span aria-hidden="true">→</span>
+                  </button>
+                ) : (
+                  <form
+                    className="onboarding-form welcome-name-form"
+                    onSubmit={handleNameSubmit}
+                  >
+                    <label className="big-input">
+                      <span>Nama saya</span>
+                      <input
+                        autoComplete="given-name"
+                        maxLength={20}
+                        placeholder="Contoh: Aisyah"
+                        required
+                        value={nameInput}
+                        onChange={(event) => setNameInput(event.target.value)}
+                      />
+                    </label>
+                    <button className="button button-primary" type="submit">
+                      Jom Kenal Pandi! <span aria-hidden="true">→</span>
+                    </button>
+                  </form>
+                )}
               </>
             )}
 
