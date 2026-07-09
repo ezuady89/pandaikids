@@ -4778,3 +4778,45 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
     animation:none!important;
   }
 }
+
+/* P002.2 — clean wallpaper + LivingPandi integration */
+.onboarding{
+  background:#8edcff;
+}
+.pandi-scene-layer{
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  filter:saturate(1.05) contrast(1.02) brightness(1.02)!important;
+  opacity:1!important;
+  transform:none!important;
+  transition:opacity .24s ease!important;
+  will-change:opacity!important;
+}
+.pandi-scene-layer.is-changing{
+  filter:saturate(1.05) contrast(1.02) brightness(1.02)!important;
+  opacity:1!important;
+  transform:none!important;
+}
+.onboarding-scenery{
+  display:none!important;
+}
+
+@media(max-width:680px){
+  .onboarding[data-step]{
+    --mobile-scene-size:cover;
+    --mobile-scene-x:center;
+    --mobile-scene-y:center;
+  }
+  .onboarding[data-step] .pandi-scene-layer{
+    background-size:cover!important;
+    background-position:center center!important;
+  }
+}
+
+@media(min-width:681px){
+  .pandi-scene-layer{
+    background-size:cover!important;
+    background-position:center 56%!important;
+  }
+}

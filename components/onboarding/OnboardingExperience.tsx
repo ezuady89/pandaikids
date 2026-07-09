@@ -42,7 +42,7 @@ const cardStepNumbers: Record<OnboardingCardStep, number> = {
 };
 
 const homepageWorldScene = withBasePath(
-  "/assets/backgrounds/pandaikids-world-journey-v1.webp"
+  "/assets/backgrounds/homepage-mobile-clean.png"
 );
 
 const stateThemeColors: Record<
