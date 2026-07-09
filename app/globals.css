@@ -4820,3 +4820,82 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
     background-position:center 56%!important;
   }
 }
+
+/* P002.3 — official Pandi asset fix: full-colour mascot, no old halo overlay */
+.pandi-guide::before{
+  display:none!important;
+  content:none!important;
+}
+
+.pandi-guide .living-pandi{
+  z-index:7;
+  opacity:1!important;
+  mix-blend-mode:normal!important;
+}
+
+.living-pandi__fallback,
+.living-pandi__stage,
+.living-pandi__layer{
+  opacity:1!important;
+  mix-blend-mode:normal!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+}
+
+.living-pandi__fallback,
+.living-pandi__stage{
+  filter:
+    drop-shadow(0 28px 22px rgba(8,54,31,.28))
+    drop-shadow(-7px -6px 10px rgba(255,235,148,.12))!important;
+}
+
+.pandi-breath-highlight,
+.pandi-blink-line,
+.pandi-map-card,
+.pandi-wave-spark{
+  display:none!important;
+}
+
+@media(max-width:680px){
+  .onboarding[data-step]{
+    overflow-x:hidden;
+  }
+
+  .onboarding[data-step] .onboarding-card{
+    left:50%!important;
+    right:auto!important;
+    width:min(86vw,352px)!important;
+    max-width:calc(100vw - 24px)!important;
+    bottom:max(10px,env(safe-area-inset-bottom))!important;
+    padding:13px 13px 10px!important;
+    transform:translateX(-50%)!important;
+  }
+
+  .pandi-guide .living-pandi{
+    left:clamp(2px,2vw,18px)!important;
+    bottom:clamp(236px,31svh,300px)!important;
+    width:clamp(306px,80vw,388px)!important;
+    max-height:62svh!important;
+  }
+
+  .onboarding[data-step="0"] .pandi-message,
+  .onboarding[data-step="1"] .pandi-message{
+    left:clamp(102px,30vw,144px)!important;
+    top:clamp(176px,25svh,226px)!important;
+    max-width:min(190px,48vw)!important;
+    z-index:8;
+  }
+}
+
+@media(max-width:390px){
+  .onboarding[data-step] .onboarding-card{
+    width:min(86vw,336px)!important;
+    max-width:calc(100vw - 22px)!important;
+  }
+
+  .pandi-guide .living-pandi{
+    left:clamp(2px,2vw,12px)!important;
+    bottom:clamp(228px,30svh,288px)!important;
+    width:clamp(294px,79vw,350px)!important;
+  }
+}

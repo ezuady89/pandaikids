@@ -83,11 +83,11 @@ export function LivingPandi({
         <Image
           alt={alt ?? defaultAltByPose[pose]}
           className="living-pandi__fallback"
-          height={1254}
+          height={1400}
           priority={priority}
           sizes={sizes}
           src={getPandiPoseSrc(pose)}
-          width={1254}
+          width={1400}
         />
       )}
       <span className="living-pandi__blink" aria-hidden="true" />
