@@ -1,5 +1,5 @@
-import { OnboardingExperience } from "@/components/onboarding/OnboardingExperience";
+import { PandaiKidsHomepage } from "@/components/homepage/PandaiKidsHomepage";
 
 export default function HomePage() {
-  return <OnboardingExperience />;
+  return <PandaiKidsHomepage />;
 }
