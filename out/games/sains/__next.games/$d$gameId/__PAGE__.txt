@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[76453,["/_next/static/chunks/0infu542v4ts_.js","/_next/static/chunks/0lv-7wac7fsov.js","/_next/static/chunks/3bn5xjajv2q-x.js"],"GameExperience"]
+3:I[44969,["/_next/static/chunks/0infu542v4ts_.js","/_next/static/chunks/0lv-7wac7fsov.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"gameId":"sains"}],[["$","script","script-0",{"src":"/_next/static/chunks/3bn5xjajv2q-x.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"_clLxyyUHB2GEjzQ5CAQm"}
+5:null
