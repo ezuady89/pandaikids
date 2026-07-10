@@ -83,11 +83,11 @@ export function OnboardingExperience() {
           />
 
           <p className="simple-name-helper">
-            Maklumat disimpan pada peranti ini sahaja.
+            Disimpan pada peranti ini sahaja.
           </p>
 
           <button className="simple-name-button" type="submit">
-            Jom Mula Belajar! <span aria-hidden="true">→</span>
+            Jom Mula! <span aria-hidden="true">→</span>
           </button>
 
         </form>
