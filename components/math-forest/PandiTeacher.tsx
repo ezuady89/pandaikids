@@ -24,17 +24,6 @@ export function PandiTeacher({
         : completedQuestions >= 8
           ? "explorer"
           : "thinking");
-  const poseLabel =
-    mood === "teacher"
-      ? "Mengajar"
-      : mood === "celebrate"
-        ? "Bertepuk"
-        : completedQuestions >= 8
-          ? "Meneroka"
-          : completedQuestions >= 4
-            ? "Melambai"
-            : "Menunggu";
-
   return (
     <aside className={`pandi-teacher ${mood} reward-${completedQuestions}`}>
       <div className="pandi-scene-preview">
@@ -45,9 +34,6 @@ export function PandiTeacher({
           sizes="(max-width: 680px) 150px, 300px"
           src={getPandiPoseSrc(pandiPose)}
         />
-        <span className="pandi-pose-badge" aria-hidden="true">
-          {poseLabel}
-        </span>
       </div>
       <div className="pandi-teacher-bubble">
         <span>{mood === "teacher" ? "Pandi ajar" : "Pandi kata"}</span>

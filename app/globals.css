@@ -5434,3 +5434,436 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
     transform:none;
   }
 }
+
+/* Content 01.1 — Hutan Matematik mobile visual cleanup */
+.math-forest-page{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.04),rgba(28,116,67,.06)),
+    var(--math-forest-scene) center/cover fixed no-repeat;
+}
+
+.math-forest-page::before{
+  background:
+    radial-gradient(circle at 20% 8%,rgba(255,244,166,.2),transparent 27%),
+    linear-gradient(180deg,rgba(255,255,255,.03),rgba(9,83,47,.08));
+}
+
+.math-forest-page::after{
+  background:linear-gradient(90deg,rgba(255,255,255,.06),transparent 45%,rgba(255,249,206,.04));
+}
+
+.math-forest-page .site-header{
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.68));
+  box-shadow:0 7px 24px rgba(8,68,43,.08);
+}
+
+.math-forest-shell{
+  padding-top:14px;
+}
+
+.math-forest-topbar{
+  margin-bottom:14px;
+}
+
+.math-forest-topbar>a{
+  gap:7px;
+}
+
+.forest-progress-card{
+  box-shadow:0 6px 0 rgba(12,86,52,.09),0 15px 34px rgba(5,53,34,.14);
+}
+
+.math-forest-stage{
+  grid-template-columns:minmax(230px,.64fr) minmax(340px,1fr);
+  gap:clamp(18px,3.2vw,46px);
+}
+
+.math-forest-page.phase-summary .math-forest-stage{
+  grid-template-columns:minmax(0,820px);
+  justify-content:center;
+}
+
+.pandi-teacher{
+  min-height:500px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:visible;
+}
+
+.pandi-scene-preview{
+  position:relative;
+  inset:auto;
+  width:min(100%,390px);
+  height:405px;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:none;
+  box-shadow:none;
+}
+
+.pandi-scene-preview::before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  left:22%;
+  right:22%;
+  bottom:2.5%;
+  height:9%;
+  border-radius:50%;
+  background:rgba(9,57,33,.26);
+  filter:blur(9px);
+  transform:scaleX(1.08);
+}
+
+.pandi-scene-preview::after{
+  display:none;
+}
+
+.pandi-scene-preview img{
+  z-index:1;
+  object-fit:contain;
+  object-position:center bottom;
+  filter:drop-shadow(0 13px 14px rgba(4,47,28,.2));
+  transform:none;
+}
+
+.pandi-teacher.teacher .pandi-scene-preview,
+.pandi-teacher.celebrate .pandi-scene-preview{
+  filter:none;
+  box-shadow:none;
+}
+
+.pandi-teacher-bubble{
+  width:min(92%,310px);
+  margin:-35px 0 0;
+  padding:13px 16px;
+  border-width:1px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 6px 0 rgba(11,83,51,.09),0 15px 30px rgba(4,48,29,.16);
+}
+
+.forest-story-card,
+.math-question-card,
+.teaching-panel,
+.correct-panel,
+.milestone-panel,
+.daily-summary-panel{
+  border-width:1px;
+  box-shadow:0 7px 0 rgba(13,81,52,.11),0 24px 55px rgba(4,45,28,.21),inset 0 1px 0 #fff;
+}
+
+.math-question-card{
+  padding:clamp(20px,3vw,34px);
+}
+
+.math-question-card h1{
+  min-height:128px;
+  margin-bottom:18px;
+  padding:20px 14px;
+}
+
+.math-answer-grid button{
+  min-height:68px;
+}
+
+.teaching-panel{
+  padding:clamp(22px,3.4vw,36px);
+}
+
+.teaching-panel .teaching-subtitle{
+  margin:0;
+  color:#2d6554;
+  font-weight:900;
+}
+
+.teaching-panel .teaching-explanation{
+  display:-webkit-box;
+  margin:7px auto 0;
+  max-width:48ch;
+  overflow:hidden;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  color:#55716a;
+  line-height:1.45;
+}
+
+.visual-explanation{
+  margin:16px 0;
+  padding:14px 10px;
+}
+
+.summary-pandi{
+  filter:drop-shadow(0 12px 16px rgba(4,47,28,.18));
+}
+
+@media(max-width:680px){
+  .math-forest-page{
+    background-attachment:scroll;
+    background-position:center top;
+  }
+
+  .math-forest-shell{
+    min-height:calc(100svh - 66px);
+    padding:8px 12px max(22px,env(safe-area-inset-bottom));
+  }
+
+  .math-forest-topbar{
+    grid-template-columns:auto minmax(0,1fr);
+    gap:8px;
+    margin-bottom:8px;
+  }
+
+  .math-forest-topbar>a{
+    width:42px;
+    min-height:42px;
+    justify-content:center;
+    padding:8px;
+    font:1000 20px/1 var(--display);
+  }
+
+  .math-back-label{
+    position:absolute;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    clip-path:inset(50%);
+    white-space:nowrap;
+  }
+
+  .forest-progress-card{
+    min-width:0;
+    min-height:58px;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:5px 8px;
+    padding:8px 11px;
+    border-width:1px;
+    border-radius:18px;
+  }
+
+  .forest-progress-card>div:first-child{
+    min-width:0;
+  }
+
+  .forest-progress-card .math-forest-eyebrow{
+    display:none;
+  }
+
+  .forest-progress-card strong{
+    margin:0;
+    overflow:hidden;
+    font-size:13px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .forest-progress-track{
+    grid-column:1/-1;
+    grid-row:2;
+    height:10px;
+  }
+
+  .forest-progress-card p{
+    grid-column:2;
+    grid-row:1;
+    align-self:center;
+    font-size:10px;
+    white-space:nowrap;
+  }
+
+  .math-forest-stage,
+  .math-forest-page.phase-summary .math-forest-stage{
+    width:100%;
+    min-height:auto;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .pandi-teacher{
+    width:100%;
+    min-height:128px;
+    display:grid;
+    grid-template-columns:130px minmax(0,1fr);
+    align-items:center;
+    justify-items:stretch;
+    gap:0;
+    animation:none;
+  }
+
+  .pandi-scene-preview{
+    width:130px;
+    height:128px;
+  }
+
+  .pandi-scene-preview::before{
+    left:20%;
+    right:18%;
+    bottom:1%;
+    height:8%;
+    filter:blur(5px);
+  }
+
+  .pandi-scene-preview img{
+    object-position:center bottom;
+    filter:drop-shadow(0 7px 7px rgba(4,47,28,.17));
+  }
+
+  .pandi-teacher-bubble{
+    width:auto;
+    margin:0 0 0 -8px;
+    padding:11px 12px;
+    border-radius:18px 18px 18px 7px;
+  }
+
+  .pandi-teacher-bubble span{
+    font-size:8px;
+  }
+
+  .pandi-teacher-bubble p{
+    font-size:12px;
+    line-height:1.28;
+  }
+
+  .forest-story-card,
+  .teaching-panel,
+  .correct-panel,
+  .milestone-panel,
+  .daily-summary-panel{
+    padding:18px 16px;
+    border-radius:24px;
+  }
+
+  .forest-story-card h1,
+  .daily-summary-panel h1{
+    margin:9px 0;
+    font-size:30px;
+  }
+
+  .story-lines{
+    gap:6px;
+    margin:12px 0 16px;
+  }
+
+  .story-lines p{
+    padding:9px 11px;
+    border-radius:14px;
+    font-size:12px;
+    line-height:1.35;
+  }
+
+  .math-question-card{
+    width:100%;
+    padding:14px;
+    border-radius:24px;
+  }
+
+  .question-meta{
+    margin-bottom:9px;
+    font-size:10px;
+  }
+
+  .question-meta span{
+    padding:6px 9px;
+  }
+
+  .math-question-card h1{
+    min-height:88px;
+    margin-bottom:13px;
+    padding:14px 9px;
+    border-radius:20px;
+    font-size:30px;
+  }
+
+  .math-answer-grid{
+    gap:9px;
+  }
+
+  .math-answer-grid button{
+    min-height:58px;
+    border-width:2px;
+    border-radius:18px;
+    box-shadow:0 5px 0 #b8d9bc,0 10px 16px rgba(17,86,52,.1),inset 0 1px 0 #fff;
+    font-size:27px;
+  }
+
+  .teaching-panel h2,
+  .correct-panel h2,
+  .milestone-panel h2{
+    margin:7px 0 3px;
+    font-size:30px;
+  }
+
+  .teaching-panel .teaching-subtitle,
+  .teaching-panel .teaching-explanation{
+    font-size:12px;
+  }
+
+  .visual-explanation{
+    gap:5px;
+    margin:12px 0;
+    padding:10px 6px;
+    overflow:visible;
+    justify-content:center;
+    border-radius:19px;
+  }
+
+  .visual-object-group{
+    min-width:0;
+    flex:1 1 70px;
+    padding:7px 5px;
+  }
+
+  .visual-object-group span{
+    max-width:110px;
+    gap:3px;
+  }
+
+  .visual-object{
+    width:14px;
+    height:14px;
+  }
+
+  .visual-explanation>b{
+    flex:0 0 auto;
+    font-size:21px;
+  }
+
+  .visual-hint{
+    font-size:10px;
+    line-height:1.3;
+  }
+
+  .teaching-panel .button,
+  .correct-panel .button,
+  .milestone-panel .button,
+  .forest-story-card .button{
+    width:100%;
+    min-height:52px;
+  }
+}
+
+@media(max-width:390px){
+  .pandi-teacher{
+    min-height:118px;
+    grid-template-columns:120px minmax(0,1fr);
+  }
+
+  .pandi-scene-preview{
+    width:120px;
+    height:118px;
+  }
+
+  .math-question-card h1{
+    min-height:82px;
+    font-size:28px;
+  }
+
+  .math-answer-grid button{
+    min-height:56px;
+    font-size:25px;
+  }
+}

@@ -112,7 +112,7 @@ function getPandiMessage(
   }
 
   if (phase === "teaching") {
-    return "Tak apa 😊 Jom Pandi tunjuk cara.";
+    return "Pandi ada di sini. Kita kira bersama.";
   }
 
   if (phase === "correct") {
@@ -195,9 +195,7 @@ export function MathForestExperience() {
 
   const currentQuestion = missionQuestions[questionIndex];
   const forestMood = getForestMood(completedQuestions, totalQuestions);
-  const profileScene = profile.stateSlug
-    ? `/assets/states/pandi/${profile.stateSlug}.webp`
-    : "/assets/states/pandi/default.webp";
+  const profileScene = "/assets/backgrounds/pandaikids-learning-valley-v1.webp";
   const pageStyle = {
     "--math-forest-scene": `url("${withBasePath(profileScene)}")`
   } as CSSProperties;
@@ -299,29 +297,10 @@ export function MathForestExperience() {
     >
       <SiteHeader compact />
       <main className="math-forest-shell">
-        <div className="forest-ambient" aria-hidden="true">
-          <span className="forest-sunbeam" />
-          <span className="forest-cloud cloud-left" />
-          <span className="forest-cloud cloud-right" />
-          <span className="forest-butterfly butterfly-a" />
-          <span className="forest-butterfly butterfly-b" />
-          <span className="forest-sparkle sparkle-a" />
-          <span className="forest-sparkle sparkle-b" />
-          <span className="forest-glow-tree tree-glow-a" />
-          <span className="forest-glow-tree tree-glow-b" />
-          <span className="forest-flowerbed flowerbed-a" />
-          <span className="forest-flowerbed flowerbed-b" />
-          <span className="forest-leaf leaf-a" />
-          <span className="forest-leaf leaf-b" />
-          <span className="forest-bird bird-one" />
-          <span className="forest-bird bird-two" />
-          <span className="forest-rainbow" />
-          <span className="forest-river" />
-        </div>
-
         <div className="math-forest-topbar">
           <Link href="/" aria-label="Kembali ke laman utama">
-            ← Laman Utama
+            <span aria-hidden="true">←</span>
+            <span className="math-back-label">Laman Utama</span>
           </Link>
           <ForestProgress
             completedQuestions={completedQuestions}
@@ -330,26 +309,20 @@ export function MathForestExperience() {
         </div>
 
         <section className={`math-forest-stage phase-${phase}`}>
-          <PandiTeacher
-            completedQuestions={completedQuestions}
-            message={pandiMessage}
-            mood={
-              phase === "teaching"
-                ? "teacher"
-                : phase === "correct" || phase === "milestone"
-                  ? "celebrate"
-                  : "guide"
-            }
-            pose={
-              phase === "teaching"
-                ? "teacher"
-                : phase === "correct" || phase === "milestone"
-                  ? "celebrate"
-                  : phase === "intro"
-                    ? "explorer"
-                    : "thinking"
-            }
-          />
+          {phase !== "summary" ? (
+            <PandiTeacher
+              completedQuestions={completedQuestions}
+              message={pandiMessage}
+              mood={
+                phase === "teaching"
+                  ? "teacher"
+                  : phase === "correct" || phase === "milestone"
+                    ? "celebrate"
+                    : "guide"
+              }
+              pose="teacher"
+            />
+          ) : null}
 
           {phase === "intro" ? (
             <section className="forest-story-card">
@@ -388,8 +361,10 @@ export function MathForestExperience() {
             <section className="teaching-panel">
               <span className="math-forest-eyebrow">Pandi tunjuk cara</span>
               <h2>Tak apa 😊</h2>
-              <p>Jom Pandi tunjuk cara.</p>
-              <p>{currentQuestion.explanation}</p>
+              <p className="teaching-subtitle">Jom Pandi tunjuk cara.</p>
+              <p className="teaching-explanation">
+                {currentQuestion.explanation}
+              </p>
               <VisualExplanation question={currentQuestion} />
               <button
                 className="button button-primary"
