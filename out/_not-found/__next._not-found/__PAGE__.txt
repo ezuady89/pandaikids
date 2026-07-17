@@ -1,6 +1,0 @@
-1:"$Sreact.fragment"
-2:I[85720,["/_next/static/chunks/0infu542v4ts_.js","/_next/static/chunks/0lv-7wac7fsov.js","/_next/static/chunks/14iqyqw05mszk.js"],""]
-3:I[44969,["/_next/static/chunks/0infu542v4ts_.js","/_next/static/chunks/0lv-7wac7fsov.js"],"OutletBoundary"]
-4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"className":"not-found-page","children":[["$","$L2",null,{"className":"brand","href":"/","aria-label":"PandaiKids, laman utama","children":[["$","span",null,{"className":"brand-paw","aria-hidden":"true","children":"●"}],["$","span",null,{"children":"Pandai"}],["$","strong",null,{"children":"Kids"}]]}],["$","span",null,{"aria-hidden":"true","children":"🧭"}],["$","h1",null,{"children":"Pandi belum jumpa jalan ini."}],["$","p",null,{"children":"Jom kembali ke perjalanan pembelajaran kamu."}],["$","$L2",null,{"className":"button button-primary","href":"/journey","children":"Kembali ke perjalanan →"}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/14iqyqw05mszk.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"_clLxyyUHB2GEjzQ5CAQm"}
-5:null

@@ -2,21 +2,53 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { coverPath, subjects, type SchoolYear } from "../data";
+import { type SchoolYear, type SubjectKey } from "../data";
 import styles from "./Hero.module.css";
+import HeroTablet from "./HeroTablet";
 
 const years: SchoolYear[] = [3, 4, 5];
 
+const SUBJECT_PREVIEWS: Record<SubjectKey, string[]> = {
+  aqidah: [
+    "/pandaikids/nota-kilat-v3/previews/aqidah-1.webp",
+    "/pandaikids/nota-kilat-v3/previews/aqidah-2.webp",
+    "/pandaikids/nota-kilat-v3/previews/aqidah-3.webp",
+    "/pandaikids/nota-kilat-v3/previews/aqidah-4.webp",
+  ],
+  ibadah: [
+    "/pandaikids/nota-kilat-v3/previews/ibadah-1.webp",
+    "/pandaikids/nota-kilat-v3/previews/ibadah-2.webp",
+    "/pandaikids/nota-kilat-v3/previews/ibadah-3.webp",
+    "/pandaikids/nota-kilat-v3/previews/ibadah-4.webp",
+  ],
+  sirah: [
+    "/pandaikids/nota-kilat-v3/previews/sirah-1.webp",
+    "/pandaikids/nota-kilat-v3/previews/sirah-2.webp",
+    "/pandaikids/nota-kilat-v3/previews/sirah-3.webp",
+    "/pandaikids/nota-kilat-v3/previews/sirah-4.webp",
+  ],
+  adab: [
+    "/pandaikids/nota-kilat-v3/previews/adab-1.webp",
+    "/pandaikids/nota-kilat-v3/previews/adab-2.webp",
+    "/pandaikids/nota-kilat-v3/previews/adab-3.webp",
+    "/pandaikids/nota-kilat-v3/previews/adab-4.webp",
+  ],
+};
+
 export default function Hero() {
   const [selectedYear, setSelectedYear] = useState<SchoolYear>(4);
+  const [activeSubject, setActiveSubject] =
+    useState<SubjectKey>("aqidah");
+
+  const slides = SUBJECT_PREVIEWS[activeSubject].map((src, index) => ({
+    src,
+    label: `Halaman ${index + 1}`,
+  }));
 
   return (
     <section className={styles.hero} id="utama">
       <div className={styles.auroraOne} aria-hidden="true" />
       <div className={styles.auroraTwo} aria-hidden="true" />
-      <div className={styles.sparkles} aria-hidden="true">
-        <i /><i /><i /><i /><i />
-      </div>
 
       <div className={styles.shell}>
         <header className={styles.header}>
@@ -38,55 +70,78 @@ export default function Hero() {
             <a href="#faq">FAQ</a>
           </nav>
 
-          <a href="#pakej" className={styles.headerButton}>Beli sekarang</a>
+          <a href="#pakej" className={styles.headerButton}>
+            Beli sekarang
+          </a>
         </header>
 
         <div className={styles.content}>
           <div className={styles.copy}>
-            <p className={styles.eyebrow}>NOTA KILAT KAFA &amp; UPKK</p>
+            <p className={styles.eyebrow}>
+              NOTA DIGITAL KAFA &amp; UPKK
+            </p>
+
             <h1>
               Belajar lebih <span>mudah.</span>
               <br />
               Faham lebih <strong>cepat.</strong>
             </h1>
+
             <p className={styles.lead}>
-              Empat subjek teras yang ringkas, visual dan tersusun untuk membantu anak ulang kaji dengan lebih yakin.
+              Empat subjek teras yang ringkas, visual dan tersusun untuk
+              membantu anak ulang kaji dengan lebih yakin.
             </p>
 
             <div className={styles.mobileProduct}>
               <YearTabs value={selectedYear} onChange={setSelectedYear} />
-              <BookStage year={selectedYear} mobile />
+
+              <HeroTablet
+                year={selectedYear}
+                activeSubject={activeSubject}
+                onSubjectChange={setActiveSubject}
+                slides={slides}
+                mobile
+              />
             </div>
 
             <div className={styles.benefits}>
               <span>Nota ringkas</span>
               <span>Mudah diingat</span>
               <span>Fokus UPKK</span>
-              <span>Uji Minda</span>
+              <span>Boleh dicetak</span>
             </div>
 
             <div className={styles.actions}>
-              <a href="#pakej" className={styles.primary}>Pilih pakej <b>→</b></a>
-              <a href="#contoh" className={styles.secondary}>Lihat contoh halaman</a>
+              <a href="#pakej" className={styles.primary}>
+                Pilih pakej <b>→</b>
+              </a>
+
+              <a href="#contoh" className={styles.secondary}>
+                Lihat contoh halaman
+              </a>
             </div>
 
-            <p className={styles.micro}>Muat turun serta-merta · Boleh dicetak · Bayaran sekali sahaja</p>
+            <p className={styles.micro}>
+              Muat turun serta-merta · Boleh dicetak · Bayaran sekali sahaja
+            </p>
           </div>
 
           <div className={styles.product}>
             <div className={styles.productTop}>
               <div>
-                <span>Koleksi PandaiKids</span>
-                <strong>4 Buku Teras</strong>
+                <span>Pratonton Produk Digital</span>
+                <strong>Klik cover untuk lihat subjek</strong>
               </div>
+
               <YearTabs value={selectedYear} onChange={setSelectedYear} />
             </div>
 
-            <BookStage year={selectedYear} />
-
-            <p className={styles.caption}>
-              Pakej Tahun {selectedYear} · Aqidah, Ibadah, Sirah &amp; Adab · <strong>RM19</strong>
-            </p>
+            <HeroTablet
+              year={selectedYear}
+              activeSubject={activeSubject}
+              onSubjectChange={setActiveSubject}
+              slides={slides}
+            />
           </div>
         </div>
       </div>
@@ -94,7 +149,13 @@ export default function Hero() {
   );
 }
 
-function YearTabs({ value, onChange }: { value: SchoolYear; onChange: (year: SchoolYear) => void }) {
+function YearTabs({
+  value,
+  onChange,
+}: {
+  value: SchoolYear;
+  onChange: (year: SchoolYear) => void;
+}) {
   return (
     <div className={styles.yearTabs} aria-label="Pilih tahun">
       {years.map((year) => (
@@ -108,40 +169,6 @@ function YearTabs({ value, onChange }: { value: SchoolYear; onChange: (year: Sch
           Tahun {year}
         </button>
       ))}
-    </div>
-  );
-}
-
-function BookStage({ year, mobile = false }: { year: SchoolYear; mobile?: boolean }) {
-  return (
-    <div className={`${styles.stage} ${mobile ? styles.stageMobile : ""}`}>
-      <div className={styles.halo} aria-hidden="true" />
-      <div className={styles.platform} aria-hidden="true" />
-
-      {subjects.map((subject, index) => (
-        <div key={subject.key} className={`${styles.book} ${styles[`book${index + 1}`]}`}>
-          <Image
-            src={coverPath(year, subject.key)}
-            alt={`Buku ${subject.name} Tahun ${year}`}
-            width={760}
-            height={1140}
-            priority
-            sizes={mobile ? "43vw" : "(max-width: 1180px) 230px, 290px"}
-          />
-        </div>
-      ))}
-
-      <div className={styles.pandi}>
-        <span className={styles.bubble}>Jom belajar bersama Pandi!</span>
-        <Image
-          src="/pandaikids/nota-kilat-v3/mascot/pandi-wave.webp"
-          width={760}
-          height={760}
-          alt="Pandi melambai"
-          priority
-          sizes={mobile ? "30vw" : "235px"}
-        />
-      </div>
     </div>
   );
 }

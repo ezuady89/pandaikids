@@ -1,6 +1,13 @@
 import Image from "next/image";
-import { coverPath, ONPAY_URL, subjects, years } from "../data";
+import { ONPAY_URL, years } from "../data";
 import styles from "./landing.module.css";
+
+const FEATURES = [
+  "4 subjek teras",
+  "PDF digital berwarna",
+  "Boleh dibaca di telefon, tablet & komputer",
+  "Boleh dicetak sendiri",
+];
 
 export default function YearPackages() {
   return (
@@ -9,80 +16,105 @@ export default function YearPackages() {
         <div className={styles.sectionIntro}>
           <p className={styles.eyebrow}>PILIH PAKEJ</p>
           <h2>Pilih ikut tahun anak.</h2>
-          <p>Satu harga yang jelas. Empat subjek teras dalam setiap pakej.</p>
+          <p>
+            Setiap pakej mengandungi empat modul digital: Aqidah, Ibadah,
+            Sirah dan Adab.
+          </p>
         </div>
 
         <div className={styles.packageGrid}>
-          {years.map((item) => (
-            <article className={styles.packageCard} key={item.year}>
-              <div className={styles.packageBadge}>{item.badge}</div>
-              <div className={styles.packageBooks}>
-                {subjects.map((subject, index) => (
-                  <div
-                    key={subject.key}
-                    className={styles.packageBook}
-                    style={{
-                      transform: `translateX(${(index - 1.5) * 26}px) rotate(${(index - 1.5) * 4}deg)`,
-                      zIndex: index + 1,
-                    }}
-                  >
-                    <Image
-                      src={coverPath(item.year, subject.key)}
-                      width={760}
-                      height={1140}
-                      alt={`${subject.name} ${item.label}`}
-                      sizes="(max-width: 760px) 22vw, 118px"
-                    />
-                  </div>
-                ))}
+          {years.map((item, index) => (
+            <article
+              className={`${styles.packageCard} ${
+                index === 1 ? styles.packageCardFeatured : ""
+              }`}
+              key={item.year}
+            >
+              <div className={styles.packageTopline}>
+                <span className={styles.packageBadge}>{item.badge}</span>
+                <span className={styles.digitalPill}>PDF DIGITAL</span>
+              </div>
+
+              <div className={styles.packageVisual}>
+                <div className={styles.packageImageFrame}>
+                  <Image
+                    src={`/pandaikids/nota-kilat-v3/products/tahun-${item.year}.png`}
+                    width={1200}
+                    height={1200}
+                    alt={`Pakej Nota Digital PandaiKids ${item.label}`}
+                    sizes="(max-width: 760px) 86vw, 360px"
+                    className={styles.packageProductImage}
+                  />
+                </div>
               </div>
 
               <div className={styles.packageBody}>
                 <p className={styles.packageLabel}>Pakej 4 subjek teras</p>
                 <h3>{item.label}</h3>
                 <p>{item.description}</p>
-                <div className={styles.packageFeatures}>
-                  <span>Aqidah</span>
-                  <span>Ibadah</span>
-                  <span>Sirah</span>
-                  <span>Adab</span>
+
+                <ul className={styles.packageFeatureList}>
+                  {FEATURES.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+
+                <div className={styles.packagePriceBlock}>
+                  <div>
+                    <del>{item.oldPrice}</del>
+                    <strong>{item.price}</strong>
+                  </div>
+                  <small>Bayaran sekali sahaja</small>
                 </div>
-                <div className={styles.packagePrice}>
-                  <del>{item.oldPrice}</del>
-                  <strong>{item.price}</strong>
-                  <small>bayaran sekali</small>
-                </div>
-                <a href={ONPAY_URL} className={styles.primaryButton}>
+
+                <a href={ONPAY_URL} className={styles.packageBuyButton}>
                   Beli {item.label}
                   <span aria-hidden="true">→</span>
                 </a>
+
+                <p className={styles.packageMicrocopy}>
+                  Muat turun selepas pembayaran · Tiada penghantaran fizikal
+                </p>
               </div>
             </article>
           ))}
         </div>
 
-        <article className={styles.bundleCard}>
-          <div className={styles.bundleMascot}>
+        <article className={styles.bundleCardPremium}>
+          <div className={styles.bundlePopular}>PALING JIMAT</div>
+
+          <div className={styles.bundleVisual}>
             <Image
-              src="/pandaikids/nota-kilat-v3/mascot/pandi-point.webp"
-              width={760}
-              height={760}
-              alt="Pandi menunjukkan pakej bundle"
-              sizes="(max-width: 760px) 210px, 300px"
+              src="/pandaikids/nota-kilat-v3/products/bundle.png"
+              width={1400}
+              height={1400}
+              alt="Bundle Nota Digital PandaiKids Tahun 3, 4 dan 5"
+              sizes="(max-width: 760px) 90vw, 430px"
             />
           </div>
-          <div className={styles.bundleCopy}>
-            <p className={styles.eyebrow}>PALING JIMAT</p>
-            <h3>Bundle Tahun 3, 4 &amp; 5</h3>
+
+          <div className={styles.bundleCopyPremium}>
+            <p className={styles.eyebrow}>BUNDLE LENGKAP</p>
+            <h3>Tahun 3, 4 &amp; 5</h3>
             <p>
-              Semua 12 modul: empat subjek untuk setiap tahun. Sesuai untuk keluarga
-              yang mempunyai lebih daripada seorang anak atau mahu simpan untuk tahun seterusnya.
+              Semua 12 modul digital dalam satu pembelian. Sesuai untuk keluarga
+              yang mempunyai lebih daripada seorang anak atau mahu simpan untuk
+              tahun seterusnya.
             </p>
+
+            <div className={styles.bundleStats}>
+              <span><strong>12</strong> modul digital</span>
+              <span><strong>3</strong> tahun pembelajaran</span>
+              <span><strong>RM12</strong> penjimatan</span>
+            </div>
           </div>
-          <div className={styles.bundlePrice}>
+
+          <div className={styles.bundlePricePremium}>
+            <span>Harga bundle</span>
             <del>RM57</del>
             <strong>RM45</strong>
-            <a href={ONPAY_URL}>Dapatkan bundle →</a>
+            <a href={ONPAY_URL}>Dapatkan bundle <b>→</b></a>
+            <small>Bayaran sekali · Muat turun digital</small>
           </div>
         </article>
       </div>

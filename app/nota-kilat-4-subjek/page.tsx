@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Hero from "./components/Hero";
 import SubjectShowcase from "./components/SubjectShowcase";
-import PreviewGallery from "./components/PreviewGallery";
 import YearPackages from "./components/YearPackages";
+import PreviewReader from "./components/preview-reader/PreviewReader";
 import FaqSection from "./components/FaqSection";
 import SiteFooter from "./components/SiteFooter";
 import MobileBuyBar from "./components/MobileBuyBar";
@@ -19,8 +19,8 @@ export default function Page() {
     <main className={styles.page}>
       <Hero />
       <SubjectShowcase />
-      <PreviewGallery />
       <YearPackages />
+      <PreviewReader />
       <FaqSection />
       <SiteFooter />
       <MobileBuyBar />
