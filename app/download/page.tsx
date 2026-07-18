@@ -4,22 +4,22 @@ const products = [
   {
     title: "PandaiKids Tahun 3",
     description: "4 Subjek Teras: Aqidah, Ibadah, Sirah dan Adab",
-    href: "/downloads/pandaikids-tahun-3.pdf",
+    href: "/downloads/PandaiKids-Nota-Kilat-Tahun-3.zip"
   },
   {
     title: "PandaiKids Tahun 4",
     description: "4 Subjek Teras: Aqidah, Ibadah, Sirah dan Adab",
-    href: "/downloads/pandaikids-tahun-4.pdf",
+    href: "/downloads/PandaiKids-Nota-Kilat-Tahun-4.zip"
   },
   {
     title: "PandaiKids Tahun 5",
     description: "4 Subjek Teras: Aqidah, Ibadah, Sirah dan Adab",
-    href: "/downloads/pandaikids-tahun-5.pdf",
+    href: "/downloads/PandaiKids-Nota-Kilat-Tahun-5.zip"
   },
   {
     title: "Bundle Tahun 3, 4 dan 5",
     description: "Koleksi lengkap untuk ketiga-tiga tahun",
-    href: "/downloads/pandaikids-bundle-tahun-3-4-5.pdf",
+    href: "/downloads/PandaiKids-Nota-Kilat-Bundle.zip"
   },
 ];
 
