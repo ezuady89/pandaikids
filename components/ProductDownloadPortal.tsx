@@ -1,32 +1,19 @@
 import Link from "next/link";
 
-const products = [
-  {
-    title: "PandaiKids Tahun 3",
-    description: "4 Subjek Teras: Aqidah, Ibadah, Sirah dan Adab",
-    href: "/downloads/PandaiKids-Nota-Kilat-Tahun-3.zip"
-  },
-  {
-    title: "PandaiKids Tahun 4",
-    description: "4 Subjek Teras: Aqidah, Ibadah, Sirah dan Adab",
-    href: "/downloads/PandaiKids-Nota-Kilat-Tahun-4.zip"
-  },
-  {
-    title: "PandaiKids Tahun 5",
-    description: "4 Subjek Teras: Aqidah, Ibadah, Sirah dan Adab",
-    href: "/downloads/PandaiKids-Nota-Kilat-Tahun-5.zip"
-  },
-  {
-    title: "Bundle Tahun 3, 4 dan 5",
-    description: "Koleksi lengkap untuk ketiga-tiga tahun",
-    href: "/downloads/PandaiKids-Nota-Kilat-Bundle.zip"
-  },
-];
+type Product = {
+  title: string;
+  description: string;
+  href: string;
+};
 
-export default function DownloadPage() {
+export default function ProductDownloadPortal({
+  products,
+}: {
+  products: Product[];
+}) {
   return (
     <main className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-violet-50 px-4 py-12">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
           <div className="mb-4 text-6xl">🎉</div>
 
@@ -39,12 +26,11 @@ export default function DownloadPage() {
           </h1>
 
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
-            Pilih produk yang telah dibeli dan tekan butang muat turun.
-            Simpan fail tersebut di telefon atau komputer anda.
+            Tekan butang di bawah untuk memuat turun produk yang telah dibeli.
           </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-5">
           {products.map((product) => (
             <section
               key={product.title}
@@ -52,7 +38,7 @@ export default function DownloadPage() {
             >
               <div className="mb-5 flex items-start gap-4">
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-3xl">
-                  📚
+                  📦
                 </div>
 
                 <div>
@@ -81,8 +67,7 @@ export default function DownloadPage() {
           <h2 className="text-xl font-extrabold">Perlukan bantuan?</h2>
 
           <p className="mt-2 text-sm leading-6 text-slate-300">
-            Pastikan anda menggunakan emel dan nombor telefon yang sama seperti
-            semasa membuat pembelian.
+            Simpan fail ZIP di telefon atau komputer selepas muat turun selesai.
           </p>
 
           <Link
@@ -94,8 +79,8 @@ export default function DownloadPage() {
         </section>
 
         <p className="mt-8 text-center text-xs leading-5 text-slate-500">
-          Produk ini ialah bahan digital. Untuk kegunaan pembeli dan keluarga
-          sahaja. Dilarang menjual semula atau menyebarkan fail.
+          Produk ini untuk kegunaan pembeli dan keluarga sahaja. Dilarang
+          menjual semula atau menyebarkan fail.
         </p>
       </div>
     </main>
