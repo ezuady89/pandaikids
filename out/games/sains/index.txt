@@ -3,20 +3,105 @@
 3:I[37457,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"default"]
 4:I[22016,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js","/_next/static/chunks/3xyt402c62511.js"],""]
 5:I[79520,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],""]
-8:I[97367,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
-9:"$Sreact.suspense"
-c:I[97367,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"ViewportBoundary"]
-e:I[97367,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"MetadataBoundary"]
-10:I[68027,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"default",1]
+d:I[68027,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"default",1]
 :HL["/_next/static/chunks/0tdirgicw_f40.css","style"]
 :HL["/_next/static/chunks/2jn-s30-mj4zw.css","style"]
 :HC["/",""]
 6:["$","img",null,{"height":"1","width":"1","style":{"display":"none"},"src":"https://www.facebook.com/tr?id=28661207940132620&ev=PageView&noscript=1","alt":""}]
-0:{"P":null,"c":["","games","sains",""],"q":"","i":false,"f":[[["",{"children":["games",{"children":[["gameId","sains","d",null],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0tdirgicw_f40.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/2jn-s30-mj4zw.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/1el5-48au3iai.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/14mrh2-p_w84d.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"ms","children":["$","body",null,{"children":[["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","main",null,{"className":"not-found-page","children":[["$","$L4",null,{"className":"brand","href":"/","aria-label":"PandaiKids, laman utama","children":[["$","span",null,{"className":"brand-paw","aria-hidden":"true","children":"●"}],["$","span",null,{"children":"Pandai"}],["$","strong",null,{"children":"Kids"}]]}],["$","span",null,{"aria-hidden":"true","children":"🧭"}],["$","h1",null,{"children":"Pandi belum jumpa jalan ini."}],["$","p",null,{"children":"Jom kembali ke perjalanan pembelajaran kamu."}],["$","$L4",null,{"className":"button button-primary","href":"/journey","children":"Kembali ke perjalanan →"}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L5",null,{"src":"https://www.googletagmanager.com/gtag/js?id=G-MDQBRE87E3","strategy":"afterInteractive"}],["$","$L5",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n            window.dataLayer = window.dataLayer || [];\n\n            function gtag() {\n              window.dataLayer.push(arguments);\n            }\n\n            gtag(\"js\", new Date());\n            gtag(\"config\", \"G-MDQBRE87E3\");\n          "}],["$","$L5",null,{"id":"meta-pixel","strategy":"afterInteractive","children":"\n            !function(f,b,e,v,n,t,s) {\n              if (f.fbq) return;\n\n              n = f.fbq = function() {\n                n.callMethod\n                  ? n.callMethod.apply(n, arguments)\n                  : n.queue.push(arguments);\n              };\n\n              if (!f._fbq) f._fbq = n;\n\n              n.push = n;\n              n.loaded = true;\n              n.version = \"2.0\";\n              n.queue = [];\n\n              t = b.createElement(e);\n              t.async = true;\n              t.src = v;\n\n              s = b.getElementsByTagName(e)[0];\n              s.parentNode.insertBefore(t, s);\n            }(\n              window,\n              document,\n              \"script\",\n              \"https://connect.facebook.net/en_US/fbevents.js\"\n            );\n\n            fbq(\"init\", \"28661207940132620\");\n            fbq(\"track\", \"PageView\");\n          "}],["$","noscript",null,{"children":"$6"}]]}]}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L7",[["$","script","script-0",{"src":"/_next/static/chunks/3lajn70dr5znm.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/07wgj-6y3ioj1.js","async":true,"nonce":"$undefined"}]],["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]]}],{},null,false,null]},null,false,"$@b"]},null,false,"$@b"]},null,false,null],["$","$1","h",{"children":[null,["$","$Lc",null,{"children":"$Ld"}],["$","div",null,{"hidden":true,"children":["$","$Le",null,{"children":["$","$9",null,{"name":"Next.Metadata","children":"$Lf"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$10",[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0tdirgicw_f40.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/2jn-s30-mj4zw.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"nX2INNBDyy0iDc7UX1TlZ"}
-11:[]
-b:"$W11"
-12:I[76453,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js","/_next/static/chunks/3lajn70dr5znm.js","/_next/static/chunks/07wgj-6y3ioj1.js"],"GameExperience"]
-7:["$","$L12",null,{"gameId":"sains"}]
-d:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#eaf8f2"}]]
-a:null
-f:[["$","title","0",{"children":"Detektif Sains — PandaiKids"}],["$","meta","1",{"name":"description","content":"Gunakan pengetahuanmu untuk menyiasat. Belajar bersama Pandi di Planet Sains."}],["$","meta","2",{"name":"application-name","content":"PandaiKids"}]]
+7:T943,
+            !function(w, d, t) {
+              w.TiktokAnalyticsObject = t;
+
+              var ttq = w[t] = w[t] || [];
+
+              ttq.methods = [
+                "page",
+                "track",
+                "identify",
+                "instances",
+                "debug",
+                "on",
+                "off",
+                "once",
+                "ready",
+                "alias",
+                "group",
+                "enableCookie",
+                "disableCookie",
+                "holdConsent",
+                "revokeConsent",
+                "grantConsent"
+              ];
+
+              ttq.setAndDefer = function(target, method) {
+                target[method] = function() {
+                  target.push(
+                    [method].concat(
+                      Array.prototype.slice.call(arguments, 0)
+                    )
+                  );
+                };
+              };
+
+              for (var i = 0; i < ttq.methods.length; i++) {
+                ttq.setAndDefer(ttq, ttq.methods[i]);
+              }
+
+              ttq.instance = function(pixelId) {
+                var instance = ttq._i[pixelId] || [];
+
+                for (var i = 0; i < ttq.methods.length; i++) {
+                  ttq.setAndDefer(instance, ttq.methods[i]);
+                }
+
+                return instance;
+              };
+
+              ttq.load = function(pixelId, options) {
+                var url =
+                  "https://analytics.tiktok.com/i18n/pixel/events.js";
+
+                ttq._i = ttq._i || {};
+                ttq._i[pixelId] = [];
+                ttq._i[pixelId]._u = url;
+
+                ttq._t = ttq._t || {};
+                ttq._t[pixelId] = +new Date();
+
+                ttq._o = ttq._o || {};
+                ttq._o[pixelId] = options || {};
+
+                var script = d.createElement("script");
+                script.type = "text/javascript";
+                script.async = true;
+                script.src =
+                  url + "?sdkid=" + pixelId + "&lib=" + t;
+
+                var firstScript = d.getElementsByTagName("script")[0];
+                firstScript.parentNode.insertBefore(
+                  script,
+                  firstScript
+                );
+              };
+
+              ttq.load("D9E3JBJC77U5KEVKPKQ0");
+              ttq.page();
+            }(window, document, "ttq");
+          0:{"P":null,"c":["","games","sains",""],"q":"","i":false,"f":[[["",{"children":["games",{"children":[["gameId","sains","d",null],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",16],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0tdirgicw_f40.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/2jn-s30-mj4zw.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/1el5-48au3iai.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/14mrh2-p_w84d.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"ms","children":["$","body",null,{"children":[["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","main",null,{"className":"not-found-page","children":[["$","$L4",null,{"className":"brand","href":"/","aria-label":"PandaiKids, laman utama","children":[["$","span",null,{"className":"brand-paw","aria-hidden":"true","children":"●"}],["$","span",null,{"children":"Pandai"}],["$","strong",null,{"children":"Kids"}]]}],["$","span",null,{"aria-hidden":"true","children":"🧭"}],["$","h1",null,{"children":"Pandi belum jumpa jalan ini."}],["$","p",null,{"children":"Jom kembali ke perjalanan pembelajaran kamu."}],["$","$L4",null,{"className":"button button-primary","href":"/journey","children":"Kembali ke perjalanan →"}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L5",null,{"src":"https://www.googletagmanager.com/gtag/js?id=G-MDQBRE87E3","strategy":"afterInteractive"}],["$","$L5",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n            window.dataLayer = window.dataLayer || [];\n\n            function gtag() {\n              window.dataLayer.push(arguments);\n            }\n\n            gtag(\"js\", new Date());\n            gtag(\"config\", \"G-MDQBRE87E3\");\n          "}],["$","$L5",null,{"id":"meta-pixel","strategy":"afterInteractive","children":"\n            !function(f,b,e,v,n,t,s) {\n              if (f.fbq) return;\n\n              n = f.fbq = function() {\n                n.callMethod\n                  ? n.callMethod.apply(n, arguments)\n                  : n.queue.push(arguments);\n              };\n\n              if (!f._fbq) f._fbq = n;\n\n              n.push = n;\n              n.loaded = true;\n              n.version = \"2.0\";\n              n.queue = [];\n\n              t = b.createElement(e);\n              t.async = true;\n              t.src = v;\n\n              s = b.getElementsByTagName(e)[0];\n              s.parentNode.insertBefore(t, s);\n            }(\n              window,\n              document,\n              \"script\",\n              \"https://connect.facebook.net/en_US/fbevents.js\"\n            );\n\n            fbq(\"init\", \"28661207940132620\");\n            fbq(\"track\", \"PageView\");\n          "}],["$","noscript",null,{"children":"$6"}],["$","$L5",null,{"id":"tiktok-pixel","strategy":"afterInteractive","children":"$7"}]]}]}]]}],{"children":["$L8",{"children":["$L9",{"children":["$La",{},null,false,null]},null,false,"$@b"]},null,false,"$@b"]},null,false,null],"$Lc",false]],"m":"$undefined","G":["$d",["$Le","$Lf"]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"BaxmpPIQLy7fiT8UfdlOm"}
+11:I[97367,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
+12:"$Sreact.suspense"
+15:I[97367,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"ViewportBoundary"]
+17:I[97367,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js"],"MetadataBoundary"]
+8:["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+9:["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L3",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+a:["$","$1","c",{"children":["$L10",[["$","script","script-0",{"src":"/_next/static/chunks/3lajn70dr5znm.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/07wgj-6y3ioj1.js","async":true,"nonce":"$undefined"}]],["$","$L11",null,{"children":["$","$12",null,{"name":"Next.MetadataOutlet","children":"$@13"}]}]]}]
+14:[]
+b:"$W14"
+c:["$","$1","h",{"children":[null,["$","$L15",null,{"children":"$L16"}],["$","div",null,{"hidden":true,"children":["$","$L17",null,{"children":["$","$12",null,{"name":"Next.Metadata","children":"$L18"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]
+e:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0tdirgicw_f40.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+f:["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/2jn-s30-mj4zw.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+19:I[76453,["/_next/static/chunks/1el5-48au3iai.js","/_next/static/chunks/14mrh2-p_w84d.js","/_next/static/chunks/3lajn70dr5znm.js","/_next/static/chunks/07wgj-6y3ioj1.js"],"GameExperience"]
+10:["$","$L19",null,{"gameId":"sains"}]
+16:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#eaf8f2"}]]
+13:null
+18:[["$","title","0",{"children":"Detektif Sains — PandaiKids"}],["$","meta","1",{"name":"description","content":"Gunakan pengetahuanmu untuk menyiasat. Belajar bersama Pandi di Planet Sains."}],["$","meta","2",{"name":"application-name","content":"PandaiKids"}]]

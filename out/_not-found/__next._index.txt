@@ -6,4 +6,83 @@
 :HL["/_next/static/chunks/0tdirgicw_f40.css","style"]
 :HL["/_next/static/chunks/2jn-s30-mj4zw.css","style"]
 6:["$","img",null,{"height":"1","width":"1","style":{"display":"none"},"src":"https://www.facebook.com/tr?id=28661207940132620&ev=PageView&noscript=1","alt":""}]
-0:{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0tdirgicw_f40.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/2jn-s30-mj4zw.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/1el5-48au3iai.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/14mrh2-p_w84d.js","async":true}]],["$","html",null,{"lang":"ms","children":["$","body",null,{"children":[["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}],"notFound":[["$","main",null,{"className":"not-found-page","children":[["$","$L4",null,{"className":"brand","href":"/","aria-label":"PandaiKids, laman utama","children":[["$","span",null,{"className":"brand-paw","aria-hidden":"true","children":"●"}],["$","span",null,{"children":"Pandai"}],["$","strong",null,{"children":"Kids"}]]}],["$","span",null,{"aria-hidden":"true","children":"🧭"}],["$","h1",null,{"children":"Pandi belum jumpa jalan ini."}],["$","p",null,{"children":"Jom kembali ke perjalanan pembelajaran kamu."}],["$","$L4",null,{"className":"button button-primary","href":"/journey","children":"Kembali ke perjalanan →"}]]}],[]]}],["$","$L5",null,{"src":"https://www.googletagmanager.com/gtag/js?id=G-MDQBRE87E3","strategy":"afterInteractive"}],["$","$L5",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n            window.dataLayer = window.dataLayer || [];\n\n            function gtag() {\n              window.dataLayer.push(arguments);\n            }\n\n            gtag(\"js\", new Date());\n            gtag(\"config\", \"G-MDQBRE87E3\");\n          "}],["$","$L5",null,{"id":"meta-pixel","strategy":"afterInteractive","children":"\n            !function(f,b,e,v,n,t,s) {\n              if (f.fbq) return;\n\n              n = f.fbq = function() {\n                n.callMethod\n                  ? n.callMethod.apply(n, arguments)\n                  : n.queue.push(arguments);\n              };\n\n              if (!f._fbq) f._fbq = n;\n\n              n.push = n;\n              n.loaded = true;\n              n.version = \"2.0\";\n              n.queue = [];\n\n              t = b.createElement(e);\n              t.async = true;\n              t.src = v;\n\n              s = b.getElementsByTagName(e)[0];\n              s.parentNode.insertBefore(t, s);\n            }(\n              window,\n              document,\n              \"script\",\n              \"https://connect.facebook.net/en_US/fbevents.js\"\n            );\n\n            fbq(\"init\", \"28661207940132620\");\n            fbq(\"track\", \"PageView\");\n          "}],["$","noscript",null,{"children":"$6"}]]}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"nX2INNBDyy0iDc7UX1TlZ"}
+7:T943,
+            !function(w, d, t) {
+              w.TiktokAnalyticsObject = t;
+
+              var ttq = w[t] = w[t] || [];
+
+              ttq.methods = [
+                "page",
+                "track",
+                "identify",
+                "instances",
+                "debug",
+                "on",
+                "off",
+                "once",
+                "ready",
+                "alias",
+                "group",
+                "enableCookie",
+                "disableCookie",
+                "holdConsent",
+                "revokeConsent",
+                "grantConsent"
+              ];
+
+              ttq.setAndDefer = function(target, method) {
+                target[method] = function() {
+                  target.push(
+                    [method].concat(
+                      Array.prototype.slice.call(arguments, 0)
+                    )
+                  );
+                };
+              };
+
+              for (var i = 0; i < ttq.methods.length; i++) {
+                ttq.setAndDefer(ttq, ttq.methods[i]);
+              }
+
+              ttq.instance = function(pixelId) {
+                var instance = ttq._i[pixelId] || [];
+
+                for (var i = 0; i < ttq.methods.length; i++) {
+                  ttq.setAndDefer(instance, ttq.methods[i]);
+                }
+
+                return instance;
+              };
+
+              ttq.load = function(pixelId, options) {
+                var url =
+                  "https://analytics.tiktok.com/i18n/pixel/events.js";
+
+                ttq._i = ttq._i || {};
+                ttq._i[pixelId] = [];
+                ttq._i[pixelId]._u = url;
+
+                ttq._t = ttq._t || {};
+                ttq._t[pixelId] = +new Date();
+
+                ttq._o = ttq._o || {};
+                ttq._o[pixelId] = options || {};
+
+                var script = d.createElement("script");
+                script.type = "text/javascript";
+                script.async = true;
+                script.src =
+                  url + "?sdkid=" + pixelId + "&lib=" + t;
+
+                var firstScript = d.getElementsByTagName("script")[0];
+                firstScript.parentNode.insertBefore(
+                  script,
+                  firstScript
+                );
+              };
+
+              ttq.load("D9E3JBJC77U5KEVKPKQ0");
+              ttq.page();
+            }(window, document, "ttq");
+          0:{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0tdirgicw_f40.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/2jn-s30-mj4zw.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/1el5-48au3iai.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/14mrh2-p_w84d.js","async":true}]],["$","html",null,{"lang":"ms","children":["$","body",null,{"children":[["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}],"notFound":[["$","main",null,{"className":"not-found-page","children":[["$","$L4",null,{"className":"brand","href":"/","aria-label":"PandaiKids, laman utama","children":[["$","span",null,{"className":"brand-paw","aria-hidden":"true","children":"●"}],["$","span",null,{"children":"Pandai"}],["$","strong",null,{"children":"Kids"}]]}],["$","span",null,{"aria-hidden":"true","children":"🧭"}],["$","h1",null,{"children":"Pandi belum jumpa jalan ini."}],["$","p",null,{"children":"Jom kembali ke perjalanan pembelajaran kamu."}],["$","$L4",null,{"className":"button button-primary","href":"/journey","children":"Kembali ke perjalanan →"}]]}],[]]}],["$","$L5",null,{"src":"https://www.googletagmanager.com/gtag/js?id=G-MDQBRE87E3","strategy":"afterInteractive"}],["$","$L5",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n            window.dataLayer = window.dataLayer || [];\n\n            function gtag() {\n              window.dataLayer.push(arguments);\n            }\n\n            gtag(\"js\", new Date());\n            gtag(\"config\", \"G-MDQBRE87E3\");\n          "}],["$","$L5",null,{"id":"meta-pixel","strategy":"afterInteractive","children":"\n            !function(f,b,e,v,n,t,s) {\n              if (f.fbq) return;\n\n              n = f.fbq = function() {\n                n.callMethod\n                  ? n.callMethod.apply(n, arguments)\n                  : n.queue.push(arguments);\n              };\n\n              if (!f._fbq) f._fbq = n;\n\n              n.push = n;\n              n.loaded = true;\n              n.version = \"2.0\";\n              n.queue = [];\n\n              t = b.createElement(e);\n              t.async = true;\n              t.src = v;\n\n              s = b.getElementsByTagName(e)[0];\n              s.parentNode.insertBefore(t, s);\n            }(\n              window,\n              document,\n              \"script\",\n              \"https://connect.facebook.net/en_US/fbevents.js\"\n            );\n\n            fbq(\"init\", \"28661207940132620\");\n            fbq(\"track\", \"PageView\");\n          "}],["$","noscript",null,{"children":"$6"}],["$","$L5",null,{"id":"tiktok-pixel","strategy":"afterInteractive","children":"$7"}]]}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"BaxmpPIQLy7fiT8UfdlOm"}
