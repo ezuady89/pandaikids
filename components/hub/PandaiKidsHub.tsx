@@ -24,14 +24,20 @@ export function PandaiKidsHub() {
           height={220}
           priority
         />
-        <span className={styles.headerNote}>Belajar Islam • Faham • Amal</span>
+
+        <span className={styles.headerNote}>
+          Belajar Islam • Faham • Amal
+        </span>
       </header>
 
       <section className={styles.hero}>
         <p className={styles.eyebrow}>Selamat datang ke PandaiKids</p>
+
         <h1>Belajar dengan lebih mudah, dalam satu dunia.</h1>
+
         <p className={styles.lead}>
-          Pilih pengalaman pembelajaran yang sesuai untuk anak anda.
+          Dapatkan bahan ulang kaji Pendidikan Islam yang ringkas, tersusun
+          dan mudah digunakan bersama anak.
         </p>
       </section>
 
@@ -39,20 +45,28 @@ export function PandaiKidsHub() {
         <article className={`${styles.card} ${styles.notesCard}`}>
           <div className={styles.cardCopy}>
             <span className={styles.badge}>Pilihan utama sekarang</span>
+
             <p className={styles.cardKicker}>Nota Kilat UPKK</p>
+
             <h2>Ulang kaji ringkas untuk Tahun 3, 4 dan 5.</h2>
+
             <p>
               Nota PDF berwarna, Nota Kilat, Uji Minda dan Skema Jawapan
               untuk 4 subjek teras.
             </p>
+
             <div className={styles.chips}>
               <span>Aqidah</span>
               <span>Ibadah</span>
               <span>Sirah</span>
               <span>Adab</span>
             </div>
-            <Link className={styles.primaryButton} href="/nota-kilat-4-subjek/">
-              Lihat Nota Kilat <span aria-hidden="true">→</span>
+
+            <Link
+              className={styles.primaryButton}
+              href="/nota-kilat-4-subjek/"
+            >
+              Mula Ulang Kaji <span aria-hidden="true">→</span>
             </Link>
           </div>
 
@@ -68,22 +82,39 @@ export function PandaiKidsHub() {
           </div>
         </article>
 
-        <article className={`${styles.card} ${styles.gameCard}`}>
+        <article
+          className={`${styles.card} ${styles.gameCard}`}
+          aria-label="Game Pendidikan sedang dalam penyelenggaraan"
+        >
           <div className={styles.cardCopy}>
-            <span className={`${styles.badge} ${styles.betaBadge}`}>Versi awal</span>
+            <span className={`${styles.badge} ${styles.betaBadge}`}>
+              Dalam penyelenggaraan
+            </span>
+
             <p className={styles.cardKicker}>Game Pendidikan</p>
+
             <h2>Pengembaraan pembelajaran bersama Pandi.</h2>
+
             <p>
-              Terokai dunia pembelajaran interaktif yang sedang dibangunkan
-              untuk pengalaman anak yang lebih menyeronokkan.
+              Game PandaiKids sedang ditambah baik untuk memberikan
+              pengalaman pembelajaran yang lebih menarik dan menyeronokkan.
             </p>
-            <Link className={styles.secondaryButton} href="/game/">
-              Cuba Game <span aria-hidden="true">→</span>
-            </Link>
+
+            <button
+              className={styles.secondaryButton}
+              type="button"
+              disabled
+              aria-disabled="true"
+            >
+              Akan Datang
+            </button>
           </div>
 
           <div className={styles.pandiVisual}>
-            <span className={styles.betaLabel}>Sedang dibangunkan</span>
+            <span className={styles.betaLabel}>
+              Sedang dalam penyelenggaraan
+            </span>
+
             <Image
               src={pandiSrc}
               alt="Pandi melambai"
