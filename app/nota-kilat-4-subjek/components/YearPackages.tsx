@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ONPAY_URL, years } from "../data";
+import { years } from "../data";
 import styles from "./landing.module.css";
 
 const FEATURES = [
@@ -50,7 +50,9 @@ export default function YearPackages() {
 
               <div className={styles.packageBody}>
                 <p className={styles.packageLabel}>Pakej 4 subjek teras</p>
+
                 <h3>{item.label}</h3>
+
                 <p>{item.description}</p>
 
                 <ul className={styles.packageFeatureList}>
@@ -64,10 +66,20 @@ export default function YearPackages() {
                     <del>{item.oldPrice}</del>
                     <strong>{item.price}</strong>
                   </div>
+
                   <small>Bayaran sekali sahaja</small>
                 </div>
 
-                <a href={ONPAY_URL} className={styles.packageBuyButton}>
+                <a
+                  href={
+                    item.year === 5
+                      ? "https://naico.onpay.my/order/form/pandaikids-t5"
+                      : "https://naico.onpay.my/order/form/pandaikids-t3-t4"
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.packageBuyButton}
+                >
                   Beli {item.label}
                   <span aria-hidden="true">→</span>
                 </a>
@@ -95,7 +107,9 @@ export default function YearPackages() {
 
           <div className={styles.bundleCopyPremium}>
             <p className={styles.eyebrow}>BUNDLE LENGKAP</p>
+
             <h3>Tahun 3, 4 &amp; 5</h3>
+
             <p>
               Semua 12 modul digital dalam satu pembelian. Sesuai untuk keluarga
               yang mempunyai lebih daripada seorang anak atau mahu simpan untuk
@@ -103,17 +117,35 @@ export default function YearPackages() {
             </p>
 
             <div className={styles.bundleStats}>
-              <span><strong>12</strong> modul digital</span>
-              <span><strong>3</strong> tahun pembelajaran</span>
-              <span><strong>RM12</strong> penjimatan</span>
+              <span>
+                <strong>12</strong> modul digital
+              </span>
+
+              <span>
+                <strong>3</strong> tahun pembelajaran
+              </span>
+
+              <span>
+                <strong>RM12</strong> penjimatan
+              </span>
             </div>
           </div>
 
           <div className={styles.bundlePricePremium}>
             <span>Harga bundle</span>
+
             <del>RM57</del>
+
             <strong>RM45</strong>
-            <a href={ONPAY_URL}>Dapatkan bundle <b>→</b></a>
+
+            <a
+              href="https://naico.onpay.my/order/form/pandaikids-premium"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Dapatkan bundle <b>→</b>
+            </a>
+
             <small>Bayaran sekali · Muat turun digital</small>
           </div>
         </article>
