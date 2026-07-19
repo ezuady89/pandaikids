@@ -15,7 +15,9 @@ export default function YearPackages() {
       <div className={styles.container}>
         <div className={styles.sectionIntro}>
           <p className={styles.eyebrow}>PILIH PAKEJ</p>
+
           <h2>Pilih ikut tahun anak.</h2>
+
           <p>
             Setiap pakej mengandungi empat modul digital: Aqidah, Ibadah,
             Sirah dan Adab.
@@ -32,13 +34,14 @@ export default function YearPackages() {
             >
               <div className={styles.packageTopline}>
                 <span className={styles.packageBadge}>{item.badge}</span>
+
                 <span className={styles.digitalPill}>PDF DIGITAL</span>
               </div>
 
               <div className={styles.packageVisual}>
                 <div className={styles.packageImageFrame}>
                   <Image
-                    src={`/pandaikids/nota-kilat-v3/products/tahun-${item.year}.png`}
+                    src={`/pandaikids/nota-kilat-v3/products/tahun-${item.year}.webp`}
                     width={1200}
                     height={1200}
                     alt={`Pakej Nota Digital PandaiKids ${item.label}`}
@@ -97,7 +100,7 @@ export default function YearPackages() {
 
           <div className={styles.bundleVisual}>
             <Image
-              src="/pandaikids/nota-kilat-v3/products/bundle.png"
+              src="/pandaikids/nota-kilat-v3/products/bundle.webp"
               width={1400}
               height={1400}
               alt="Bundle Nota Digital PandaiKids Tahun 3, 4 dan 5"
