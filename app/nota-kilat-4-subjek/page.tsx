@@ -6,6 +6,7 @@ import PreviewReader from "./components/preview-reader/PreviewReader";
 import FaqSection from "./components/FaqSection";
 import SiteFooter from "./components/SiteFooter";
 import MobileBuyBar from "./components/MobileBuyBar";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import styles from "./components/landing.module.css";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function Page() {
       <FaqSection />
       <SiteFooter />
       <MobileBuyBar />
+      <FloatingWhatsApp />
     </main>
   );
 }

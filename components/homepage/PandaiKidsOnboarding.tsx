@@ -10,7 +10,7 @@ import { withBasePath } from "@/lib/paths";
 import { emptyProfile, readProfile, resetLearningProfile, saveProfile } from "@/lib/storage";
 import type { LearnerProfile, StateSlug } from "@/types";
 
-import styles from "./PandaiKidsHomepage.module.css";
+import styles from "./PandaiKidsOnboarding.module.css";
 
 type Step = "name" | "state" | "age" | "ready";
 type ModalType = "collection" | "parent" | null;
@@ -57,7 +57,7 @@ function isValidName(name: string): boolean {
   return name.trim().length >= 2;
 }
 
-export function PandaiKidsHomepage() {
+export function PandaiKidsOnboarding() {
   const router = useRouter();
   const [profile, setProfile] = useState<LearnerProfile>(emptyProfile);
   const [nameInput, setNameInput] = useState("");

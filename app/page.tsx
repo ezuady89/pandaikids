@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
-import { PandaiKidsHub } from "@/components/hub/PandaiKidsHub";
+import HomeScreen from "@/components/homepage/HomeScreen";
 
 export const metadata: Metadata = {
-  title: "PandaiKids | Nota Kilat UPKK Tahun 3, 4 & 5",
+  title: "PandaiKids | Belajar, Bermain, Berjaya",
   description:
-    "Nota Kilat UPKK PandaiKids untuk Tahun 3, 4 dan 5. Mengandungi Nota PDF, Nota Kilat, Uji Minda dan Skema Jawapan bagi 4 subjek teras.",
+    "Mulakan pengembaraan pendidikan yang menyeronokkan bersama Pandi.",
 };
 
 export default function HomePage() {
-  return <PandaiKidsHub />;
+  return <HomeScreen />;
 }
