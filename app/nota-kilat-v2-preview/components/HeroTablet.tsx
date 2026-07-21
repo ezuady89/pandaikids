@@ -167,12 +167,6 @@ export default function HeroTablet({
             </div>
           </div>
         </div>
-
-        <div className={styles.swipeLabel}>
-          <span aria-hidden="true">←</span>
-Swipe
-<span aria-hidden="true">→</span>
-        </div>
       </div>
 
       <div className={styles.slideDots} aria-label="Pilih halaman">
@@ -188,6 +182,12 @@ Swipe
         ))}
       </div>
 
+      <div className={styles.swipeLabel} aria-hidden="true">
+        <span>←</span>
+        <strong>Swipe</strong>
+        <span>→</span>
+      </div>
+
       <div className={styles.digitalPandi}>
         <Image
           src="/pandaikids/nota-kilat-v3/mascot/pandi-point.webp"
@@ -201,7 +201,9 @@ Swipe
 
       <div className={styles.digitalTag}>
         <span>CONTOH SEBENAR</span>
-        <strong>Tahun {year} · {activeSubjectData.name}</strong>
+        <strong>
+          Tahun {year} · {activeSubjectData.name}
+        </strong>
       </div>
     </div>
   );

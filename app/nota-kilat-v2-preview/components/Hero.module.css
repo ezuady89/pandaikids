@@ -1111,3 +1111,69 @@
     width: 76px;
   }
 }
+/* =========================================================
+   FIX SWIPE LABEL + DOTS
+========================================================= */
+
+.slideDots {
+  z-index: 30;
+  bottom: 55px;
+}
+
+.swipeLabel {
+  position: absolute;
+  z-index: 31;
+  left: 50%;
+  bottom: 16px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: max-content;
+  margin: 0;
+  padding: 7px 13px;
+
+  color: #52675b;
+  border: 1px solid rgba(29, 77, 46, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 10px 24px rgba(24, 46, 33, 0.09);
+  transform: translateX(-50%);
+
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+
+  pointer-events: none;
+  backdrop-filter: blur(11px);
+}
+
+.swipeLabel strong {
+  font: inherit;
+  font-weight: 900;
+}
+
+.swipeLabel span {
+  color: #27863d;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+@media (max-width: 760px) {
+  .digitalStageMobile .slideDots {
+    bottom: 47px;
+  }
+
+  .digitalStageMobile .swipeLabel {
+    bottom: 8px;
+    gap: 7px;
+    padding: 6px 11px;
+    font-size: 0.61rem;
+  }
+
+  .digitalStageMobile .swipeLabel span {
+    font-size: 0.73rem;
+  }
+}
