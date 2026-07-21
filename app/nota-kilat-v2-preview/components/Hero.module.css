@@ -843,3 +843,271 @@
     top: 170px;
   }
 }
+/* =========================================================
+   PANDAIKIDS V2 — HERO PREMIUM POLISH
+========================================================= */
+
+/* iPad lebih dominan dan sedikit lebih tinggi */
+.tabletFloat {
+  top: 25px;
+  width: 382px;
+  filter: drop-shadow(0 34px 30px rgba(36, 48, 42, 0.14));
+}
+
+/* Pantulan lembut pada bezel */
+.tablet::before {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  left: 19px;
+  width: 38%;
+  height: 62%;
+  border-radius: 28px 0 80% 0;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.04) 45%,
+    transparent 72%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+/* Shadow premium tanpa meja */
+.digitalStage::before {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 79px;
+  width: 390px;
+  height: 54px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(55, 68, 61, 0.2) 0%,
+    rgba(55, 68, 61, 0.09) 42%,
+    transparent 73%
+  );
+  filter: blur(13px);
+  transform: translateX(-50%);
+  content: "";
+  pointer-events: none;
+}
+
+/* Pastikan meja lama terus hilang */
+.digitalStage::after,
+.tableSurface {
+  display: none !important;
+}
+
+/* Glow putih premium di belakang iPad */
+.digitalGlow {
+  top: 28px;
+  width: 650px;
+  height: 530px;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.9) 35%,
+      rgba(220, 240, 250, 0.3) 61%,
+      transparent 78%
+    );
+  filter: blur(2px);
+}
+
+/* Halaman belakang jadi ghost preview */
+.coverButton {
+  opacity: 0.16;
+  filter:
+    grayscale(0.42)
+    saturate(0.46)
+    blur(1.2px)
+    drop-shadow(0 17px 18px rgba(26, 44, 34, 0.12));
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease,
+    filter 500ms ease;
+}
+
+.coverActive {
+  opacity: 0.28;
+  filter:
+    grayscale(0.18)
+    saturate(0.72)
+    blur(0.55px)
+    drop-shadow(0 22px 20px rgba(26, 44, 34, 0.15));
+}
+
+/* Gerakan lembut cover apabila halaman berubah */
+.coverPosition1.coverActive {
+  transform: rotate(-10deg) translateY(-12px) scale(1.035);
+}
+
+.coverPosition2.coverActive {
+  transform: rotate(-5deg) translateY(-14px) scale(1.035);
+}
+
+.coverPosition3.coverActive {
+  transform: rotate(5deg) translateY(-14px) scale(1.035);
+}
+
+.coverPosition4.coverActive {
+  transform: rotate(10deg) translateY(-12px) scale(1.035);
+}
+
+/* Pandi jadi elemen sokongan sahaja */
+.digitalPandi {
+  right: 1%;
+  bottom: 58px;
+  width: 138px;
+  opacity: 0.96;
+}
+
+/* Badge lebih kecil dan kemas */
+.digitalTag {
+  bottom: 76px;
+  padding: 10px 13px;
+  border-radius: 15px;
+}
+
+.digitalTag span {
+  font-size: 0.55rem;
+}
+
+.digitalTag strong {
+  font-size: 0.71rem;
+}
+
+/* Swipe indicator minimal */
+.swipeLabel {
+  bottom: -39px;
+  gap: 6px;
+  padding: 7px 12px;
+  color: #53685c;
+  border-color: rgba(29, 77, 46, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+  font-size: 0.65rem;
+}
+
+.swipeLabel span {
+  color: #27863d;
+  font-size: 0.8rem;
+}
+
+/* Dots lebih kecil dan kurang mengganggu */
+.slideDots {
+  bottom: 58px;
+  gap: 6px;
+  padding: 6px 9px;
+}
+
+.slideDots button {
+  width: 6px;
+  height: 6px;
+}
+
+.slideDots .slideDotActive {
+  width: 19px;
+}
+
+/* CTA utama lebih jelas */
+.primary {
+  min-height: 62px;
+  padding-inline: 33px;
+  box-shadow:
+    0 18px 36px rgba(36, 122, 52, 0.22),
+    0 4px 10px rgba(36, 122, 52, 0.12);
+}
+
+/* Cahaya lembut dari kiri atas */
+.hero {
+  background:
+    radial-gradient(
+      circle at 17% 8%,
+      rgba(255, 244, 208, 0.74),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 84% 15%,
+      rgba(210, 238, 255, 0.58),
+      transparent 32%
+    ),
+    linear-gradient(135deg, #fffefb 0%, #fff9ef 46%, #f4fbff 100%);
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  .digitalStageMobile {
+    min-height: 510px;
+    margin-top: -4px;
+  }
+
+  .digitalStageMobile::before {
+    bottom: 68px;
+    width: 230px;
+    height: 38px;
+    filter: blur(10px);
+  }
+
+  .digitalStageMobile .digitalGlow {
+    top: 21px;
+    width: 420px;
+    height: 365px;
+  }
+
+  .digitalStageMobile .tabletFloat {
+    top: 30px;
+    width: min(59vw, 246px);
+  }
+
+  .digitalStageMobile .coverButton {
+    opacity: 0.13;
+    filter:
+      grayscale(0.45)
+      saturate(0.4)
+      blur(1.15px)
+      drop-shadow(0 12px 12px rgba(26, 44, 34, 0.1));
+  }
+
+  .digitalStageMobile .coverActive {
+    opacity: 0.22;
+  }
+
+  .digitalStageMobile .digitalPandi {
+    right: 2%;
+    bottom: 46px;
+    width: min(21vw, 86px);
+  }
+
+  .digitalStageMobile .digitalTag {
+    bottom: 61px;
+    padding: 8px 10px;
+  }
+
+  .digitalStageMobile .slideDots {
+    bottom: 47px;
+  }
+
+  .digitalStageMobile .swipeLabel {
+    bottom: -35px;
+  }
+
+  .primary {
+    min-height: 58px;
+  }
+}
+
+@media (max-width: 390px) {
+  .digitalStageMobile {
+    min-height: 480px;
+  }
+
+  .digitalStageMobile .tabletFloat {
+    width: 218px;
+  }
+
+  .digitalStageMobile .digitalPandi {
+    width: 76px;
+  }
+}

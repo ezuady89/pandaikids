@@ -169,8 +169,9 @@ export default function HeroTablet({
         </div>
 
         <div className={styles.swipeLabel}>
-          <span aria-hidden="true">↔</span>
-          Swipe untuk lihat
+          <span aria-hidden="true">←</span>
+Swipe
+<span aria-hidden="true">→</span>
         </div>
       </div>
 
