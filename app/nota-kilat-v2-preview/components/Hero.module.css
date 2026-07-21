@@ -1177,3 +1177,170 @@
     font-size: 0.73rem;
   }
 }
+/* =========================================================
+   PREMIUM SUBJECT SELECTOR
+========================================================= */
+
+.subjectSelectorWrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.subjectSelectorLabel {
+  flex: 0 0 auto;
+  color: #8a9790;
+  font-size: 0.58rem;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.subjectSelector {
+  display: inline-flex;
+  align-items: stretch;
+  padding: 5px;
+  overflow: hidden;
+
+  border: 1px solid rgba(24, 67, 40, 0.09);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 14px 38px rgba(31, 62, 44, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  backdrop-filter: blur(15px);
+}
+
+.subjectSelector button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  min-width: 102px;
+  padding: 9px 13px;
+
+  color: #66736c;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+
+  font: inherit;
+  cursor: pointer;
+
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.subjectSelector button:hover {
+  color: #244b32;
+  transform: translateY(-1px);
+}
+
+.subjectSelectorIcon {
+  display: grid;
+  place-items: center;
+
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+
+  color: #6d7d73;
+  border-radius: 9px;
+  background: #f1f5f2;
+
+  font-size: 0.76rem;
+  font-weight: 950;
+}
+
+.subjectSelectorText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.08;
+}
+
+.subjectSelectorText strong {
+  font-size: 0.76rem;
+  font-weight: 950;
+}
+
+.subjectSelectorText small {
+  margin-top: 4px;
+  color: #99a39d;
+  font-size: 0.5rem;
+  font-weight: 800;
+}
+
+.subjectSelector .subjectSelectorActive {
+  color: #ffffff;
+  background: linear-gradient(135deg, #23843a, #36a34d);
+  box-shadow: 0 10px 24px rgba(37, 132, 58, 0.23);
+}
+
+.subjectSelectorActive .subjectSelectorIcon {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.subjectSelectorActive .subjectSelectorText small {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Pandi dibuang daripada Hero */
+.digitalPandi {
+  display: none !important;
+}
+
+@media (max-width: 1180px) {
+  .subjectSelectorWrap {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .subjectSelectorWrap {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .subjectSelector {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 20px;
+    scrollbar-width: none;
+  }
+
+  .subjectSelector::-webkit-scrollbar {
+    display: none;
+  }
+
+  .subjectSelector button {
+    min-width: 104px;
+    flex: 1 0 104px;
+    padding: 8px 10px;
+  }
+
+  .subjectSelectorLabel {
+    font-size: 0.55rem;
+  }
+
+  .subjectSelectorIcon {
+    width: 25px;
+    height: 25px;
+    flex-basis: 25px;
+  }
+
+  .subjectSelectorText strong {
+    font-size: 0.69rem;
+  }
+
+  .subjectSelectorText small {
+    font-size: 0.46rem;
+  }
+}

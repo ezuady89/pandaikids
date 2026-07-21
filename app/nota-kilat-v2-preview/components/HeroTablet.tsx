@@ -188,17 +188,6 @@ export default function HeroTablet({
         <span>→</span>
       </div>
 
-      <div className={styles.digitalPandi}>
-        <Image
-          src="/pandaikids/nota-kilat-v3/mascot/pandi-point.webp"
-          width={760}
-          height={760}
-          alt="Pandi menunjukkan nota digital"
-          priority
-          draggable={false}
-        />
-      </div>
-
       <div className={styles.digitalTag}>
         <span>CONTOH SEBENAR</span>
         <strong>

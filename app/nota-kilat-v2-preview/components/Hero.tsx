@@ -146,24 +146,41 @@ export default function Hero() {
                 <strong>Swipe pada iPad untuk melihat halaman</strong>
               </div>
 
-              <div className={styles.heroSubjectTabs}>
-                {(["aqidah", "ibadah", "sirah", "adab"] as SubjectKey[]).map(
-                  (subject) => (
-                    <button
-                      key={subject}
-                      type="button"
-                      className={
-                        activeSubject === subject
-                          ? styles.heroSubjectActive
-                          : ""
-                      }
-                      onClick={() => setActiveSubject(subject)}
-                    >
-                      {subject.charAt(0).toUpperCase() + subject.slice(1)}
-                    </button>
-                  ),
-                )}
-              </div>
+              <div className={styles.subjectSelectorWrap}>
+  <span className={styles.subjectSelectorLabel}>PILIH SUBJEK</span>
+
+  <div className={styles.subjectSelector}>
+    {(
+      [
+        { key: "aqidah", label: "Aqidah", icon: "✦" },
+        { key: "ibadah", label: "Ibadah", icon: "◈" },
+        { key: "sirah", label: "Sirah", icon: "▤" },
+        { key: "adab", label: "Adab", icon: "▣" },
+      ] as const
+    ).map((subject) => (
+      <button
+        key={subject.key}
+        type="button"
+        className={
+          activeSubject === subject.key
+            ? styles.subjectSelectorActive
+            : ""
+        }
+        onClick={() => setActiveSubject(subject.key)}
+        aria-pressed={activeSubject === subject.key}
+      >
+        <span className={styles.subjectSelectorIcon}>
+          {subject.icon}
+        </span>
+
+        <span className={styles.subjectSelectorText}>
+          <strong>{subject.label}</strong>
+          <small>Contoh Tahun 4</small>
+        </span>
+      </button>
+    ))}
+  </div>
+</div>
             </div>
 
             <HeroTablet
