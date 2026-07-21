@@ -40,6 +40,13 @@ const SLIDE_LABELS = [
   "Uji Minda",
 ];
 
+const SUBJECT_OPTIONS = [
+  { key: "aqidah", label: "Aqidah", icon: "✦" },
+  { key: "ibadah", label: "Ibadah", icon: "◆" },
+  { key: "sirah", label: "Sirah", icon: "▤" },
+  { key: "adab", label: "Adab", icon: "▣" },
+] as const;
+
 export default function Hero() {
   const [activeSubject, setActiveSubject] =
     useState<SubjectKey>("aqidah");
@@ -107,6 +114,12 @@ export default function Hero() {
             </p>
 
             <div className={styles.mobileProduct}>
+              <SubjectSelector
+                activeSubject={activeSubject}
+                onChange={setActiveSubject}
+                mobile
+              />
+
               <HeroTablet
                 year={4}
                 activeSubject={activeSubject}
@@ -140,48 +153,15 @@ export default function Hero() {
           </div>
 
           <div className={styles.product}>
-            <div className={styles.productTop}>
-              <div>
-                <span>CUBA PRODUK SEBELUM MEMBELI</span>
-                <strong>Swipe pada iPad untuk melihat halaman</strong>
-              </div>
-
-              <div className={styles.subjectSelectorWrap}>
-  <span className={styles.subjectSelectorLabel}>PILIH SUBJEK</span>
-
-  <div className={styles.subjectSelector}>
-    {(
-      [
-        { key: "aqidah", label: "Aqidah", icon: "✦" },
-        { key: "ibadah", label: "Ibadah", icon: "◈" },
-        { key: "sirah", label: "Sirah", icon: "▤" },
-        { key: "adab", label: "Adab", icon: "▣" },
-      ] as const
-    ).map((subject) => (
-      <button
-        key={subject.key}
-        type="button"
-        className={
-          activeSubject === subject.key
-            ? styles.subjectSelectorActive
-            : ""
-        }
-        onClick={() => setActiveSubject(subject.key)}
-        aria-pressed={activeSubject === subject.key}
-      >
-        <span className={styles.subjectSelectorIcon}>
-          {subject.icon}
-        </span>
-
-        <span className={styles.subjectSelectorText}>
-          <strong>{subject.label}</strong>
-          <small>Contoh Tahun 4</small>
-        </span>
-      </button>
-    ))}
-  </div>
-</div>
+            <div className={styles.productIntro}>
+              <span>CUBA PRODUK SEBELUM MEMBELI</span>
+              <strong>Swipe pada iPad untuk melihat halaman</strong>
             </div>
+
+            <SubjectSelector
+              activeSubject={activeSubject}
+              onChange={setActiveSubject}
+            />
 
             <HeroTablet
               year={4}
@@ -193,5 +173,50 @@ export default function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+function SubjectSelector({
+  activeSubject,
+  onChange,
+  mobile = false,
+}: {
+  activeSubject: SubjectKey;
+  onChange: (subject: SubjectKey) => void;
+  mobile?: boolean;
+}) {
+  return (
+    <div
+      className={`${styles.subjectSelectorWrap} ${
+        mobile ? styles.subjectSelectorMobile : ""
+      }`}
+    >
+      <span className={styles.subjectSelectorLabel}>PILIH SUBJEK</span>
+
+      <div className={styles.subjectSelector}>
+        {SUBJECT_OPTIONS.map((subject) => (
+          <button
+            key={subject.key}
+            type="button"
+            className={
+              activeSubject === subject.key
+                ? styles.subjectSelectorActive
+                : ""
+            }
+            onClick={() => onChange(subject.key)}
+            aria-pressed={activeSubject === subject.key}
+          >
+            <span className={styles.subjectSelectorIcon}>
+              {subject.icon}
+            </span>
+
+            <span className={styles.subjectSelectorText}>
+              <strong>{subject.label}</strong>
+              <small>Contoh Tahun 4</small>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
