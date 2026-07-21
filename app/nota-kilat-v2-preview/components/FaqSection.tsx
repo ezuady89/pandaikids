@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { faqs, ONPAY_URL } from "../data";
+import { faqs } from "../data";
 import styles from "./landing.module.css";
 
 const WHATSAPP_URL =
@@ -98,7 +98,7 @@ export default function FaqSection() {
             Pilih tahun anak dan dapatkan empat subjek teras bermula RM19.
           </p>
 
-          <a href={ONPAY_URL} className={styles.finalButton}>
+          <a href="#pakej" className={styles.finalButton}>
             Pilih pakej sekarang
             <span aria-hidden="true">→</span>
           </a>
@@ -106,11 +106,11 @@ export default function FaqSection() {
 
         <div className={styles.finalMascot}>
           <Image
-            src="/pandaikids/nota-kilat-v3/mascot/pandi-book.webp"
-            width={760}
-            height={760}
-            alt="Pandi memegang buku"
-            sizes="(max-width: 760px) 240px, 360px"
+            src="/pandaikids/nota-kilat-v3/pandi-footer-study.webp"
+            width={1124}
+            height={1032}
+            alt="Pandi belajar menggunakan tablet di sudut pembelajaran"
+            sizes="(max-width: 760px) 82vw, (max-width: 980px) 280px, 360px"
           />
         </div>
       </section>

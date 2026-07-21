@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Hero from "./components/Hero";
+import StudyComparison from "./components/StudyComparison";
 import SubjectShowcase from "./components/SubjectShowcase";
 import YearPackages from "./components/YearPackages";
-import PreviewReader from "./components/preview-reader/PreviewReader";
 import SmartPreview from "./components/SmartPreview";
 import FaqSection from "./components/FaqSection";
 import SiteFooter from "./components/SiteFooter";
@@ -20,10 +20,10 @@ export default function Page() {
   return (
     <main className={styles.page}>
       <Hero />
+      <StudyComparison />
+      <SmartPreview />
       <SubjectShowcase />
       <YearPackages />
-      <PreviewReader />
-      <SmartPreview />
       <FaqSection />
       <SiteFooter />
       <MobileBuyBar />

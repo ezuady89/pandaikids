@@ -90,7 +90,7 @@ export default function Hero() {
         </header>
 
         <div className={styles.content}>
-          <div className={styles.copy}>
+          <div className={`${styles.copy} ${styles.copyMain}`}>
             <p className={styles.eyebrow}>
               NOTA DIGITAL KAFA &amp; UPKK • TAHUN 3, 4 &amp; 5
             </p>
@@ -113,22 +113,28 @@ export default function Hero() {
               yang lebih ringkas, berwarna dan mudah diikuti.
             </p>
 
-            <div className={styles.mobileProduct}>
-              <SubjectSelector
-                activeSubject={activeSubject}
-                onChange={setActiveSubject}
-                mobile
-              />
+          </div>
 
-              <HeroTablet
-                year={4}
-                activeSubject={activeSubject}
-                onSubjectChange={setActiveSubject}
-                slides={slides}
-                mobile
-              />
+          <div className={styles.product}>
+            <div className={styles.productIntro}>
+              <span>CUBA PRODUK SEBELUM MEMBELI</span>
+              <strong>Swipe pada iPad untuk melihat halaman</strong>
             </div>
 
+            <SubjectSelector
+              activeSubject={activeSubject}
+              onChange={setActiveSubject}
+            />
+
+            <HeroTablet
+              year={4}
+              activeSubject={activeSubject}
+              onSubjectChange={setActiveSubject}
+              slides={slides}
+            />
+          </div>
+
+          <div className={`${styles.copy} ${styles.copyFooter}`}>
             <div className={styles.benefits}>
               <span>Nota ringkas</span>
               <span>Mudah dibaca</span>
@@ -151,25 +157,6 @@ export default function Hero() {
               sahaja
             </p>
           </div>
-
-          <div className={styles.product}>
-            <div className={styles.productIntro}>
-              <span>CUBA PRODUK SEBELUM MEMBELI</span>
-              <strong>Swipe pada iPad untuk melihat halaman</strong>
-            </div>
-
-            <SubjectSelector
-              activeSubject={activeSubject}
-              onChange={setActiveSubject}
-            />
-
-            <HeroTablet
-              year={4}
-              activeSubject={activeSubject}
-              onSubjectChange={setActiveSubject}
-              slides={slides}
-            />
-          </div>
         </div>
       </div>
     </section>
@@ -179,18 +166,12 @@ export default function Hero() {
 function SubjectSelector({
   activeSubject,
   onChange,
-  mobile = false,
 }: {
   activeSubject: SubjectKey;
   onChange: (subject: SubjectKey) => void;
-  mobile?: boolean;
 }) {
   return (
-    <div
-      className={`${styles.subjectSelectorWrap} ${
-        mobile ? styles.subjectSelectorMobile : ""
-      }`}
-    >
+    <div className={styles.subjectSelectorWrap}>
       <span className={styles.subjectSelectorLabel}>PILIH SUBJEK</span>
 
       <div className={styles.subjectSelector}>

@@ -3,11 +3,15 @@ import { years } from "../data";
 import styles from "./landing.module.css";
 
 const FEATURES = [
-  "4 subjek teras",
-  "PDF digital berwarna",
-  "Boleh dibaca di telefon, tablet & komputer",
+  "4 subjek: Aqidah, Ibadah, Sirah & Adab",
+  "PDF Berwarna + Nota Kilat",
+  "Uji Minda + Skema Jawapan",
+  "Boleh dibuka di telefon, tablet & komputer",
   "Boleh dicetak sendiri",
 ];
+
+const PURCHASE_REASSURANCE =
+  "Bayaran sekali • PDF digital • Tiada caj bulanan • Muat turun selepas pembayaran";
 
 export default function YearPackages() {
   return (
@@ -83,12 +87,11 @@ export default function YearPackages() {
                   rel="noopener noreferrer"
                   className={styles.packageBuyButton}
                 >
-                  Beli {item.label}
-                  <span aria-hidden="true">→</span>
+                  Dapatkan {item.label} – RM19
                 </a>
 
                 <p className={styles.packageMicrocopy}>
-                  Muat turun selepas pembayaran · Tiada penghantaran fizikal
+                  {PURCHASE_REASSURANCE}
                 </p>
               </div>
             </article>
@@ -96,7 +99,7 @@ export default function YearPackages() {
         </div>
 
         <article className={styles.bundleCardPremium}>
-          <div className={styles.bundlePopular}>PALING JIMAT</div>
+          <div className={styles.bundlePopular}>PALING BERBALOI</div>
 
           <div className={styles.bundleVisual}>
             <Image
@@ -109,29 +112,21 @@ export default function YearPackages() {
           </div>
 
           <div className={styles.bundleCopyPremium}>
-            <p className={styles.eyebrow}>BUNDLE LENGKAP</p>
-
-            <h3>Tahun 3, 4 &amp; 5</h3>
-
-            <p>
-              Semua 12 modul digital dalam satu pembelian. Sesuai untuk keluarga
-              yang mempunyai lebih daripada seorang anak atau mahu simpan untuk
-              tahun seterusnya.
-            </p>
-
-            <div className={styles.bundleStats}>
-              <span>
-                <strong>12</strong> modul digital
-              </span>
-
-              <span>
-                <strong>3</strong> tahun pembelajaran
-              </span>
-
-              <span>
-                <strong>RM12</strong> penjimatan
-              </span>
+            <div className={styles.bundleEyebrowRow}>
+              <p className={styles.eyebrow}>BUNDLE LENGKAP</p>
+              <span className={styles.bundleDigitalPill}>PDF DIGITAL</span>
             </div>
+
+            <h3>Bundle 3 Tahun</h3>
+
+            <ul className={styles.bundleFeatureList}>
+              <li>Tahun 3 + Tahun 4 + Tahun 5</li>
+              <li>Semua 12 modul</li>
+              <li>Semua Nota Kilat</li>
+              <li>Semua Uji Minda</li>
+              <li>Semua Skema Jawapan</li>
+              <li>Sesuai untuk adik-beradik atau simpanan sehingga Tahun 5</li>
+            </ul>
           </div>
 
           <div className={styles.bundlePricePremium}>
@@ -141,15 +136,17 @@ export default function YearPackages() {
 
             <strong>RM45</strong>
 
+            <span className={styles.bundleSaving}>Jimat RM12</span>
+
             <a
               href="https://naico.onpay.my/order/form/pandaikids-premium"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Dapatkan bundle <b>→</b>
+              Dapatkan Bundle 3 Tahun – RM45
             </a>
 
-            <small>Bayaran sekali · Muat turun digital</small>
+            <small>{PURCHASE_REASSURANCE}</small>
           </div>
         </article>
       </div>

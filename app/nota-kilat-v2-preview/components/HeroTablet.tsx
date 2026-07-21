@@ -21,7 +21,6 @@ type HeroTabletProps = {
   activeSubject: SubjectKey;
   onSubjectChange: (subject: SubjectKey) => void;
   slides: Slide[];
-  mobile?: boolean;
 };
 
 const AUTOPLAY_DELAY = 4200;
@@ -31,7 +30,6 @@ export default function HeroTablet({
   year,
   activeSubject,
   slides,
-  mobile = false,
 }: HeroTabletProps) {
   const autoplay = useRef(
     Autoplay({
@@ -111,11 +109,7 @@ export default function HeroTablet({
   }
 
   return (
-    <div
-      className={`${styles.digitalStage} ${
-        mobile ? styles.digitalStageMobile : ""
-      }`}
-    >
+    <div className={styles.digitalStage}>
       <div className={styles.digitalGlow} aria-hidden="true" />
       <div className={styles.tableSurface} aria-hidden="true" />
 

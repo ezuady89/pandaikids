@@ -14,56 +14,33 @@ export default function SubjectShowcase() {
         </p>
       </div>
 
-      <div className={styles.subjectStories}>
-        {subjects.map((subject, index) => (
+      <div className={styles.subjectGrid}>
+        {subjects.map((subject) => (
           <article
             key={subject.key}
-            className={styles.subjectStory}
+            className={styles.subjectCard}
             data-accent={subject.accent}
           >
-            <div className={styles.storyInner}>
-              <div className={styles.storyCopy}>
-                <p className={styles.storyArabic}>{subject.arabic}</p>
-                <h3>{subject.name}</h3>
-                <p className={styles.storyTagline}>{subject.tagline}</p>
-                <p className={styles.storyDescription}>{subject.description}</p>
-                <div className={styles.storyPoints}>
-                  <span>Nota ringkas</span>
-                  <span>Fakta penting</span>
-                  <span>Aktiviti ulang kaji</span>
-                </div>
-                <a href="#contoh">Lihat contoh {subject.name} →</a>
-              </div>
+            <div className={styles.subjectCardThumbnail}>
+              <Image
+                src={coverPath(4, subject.key)}
+                width={760}
+                height={1140}
+                alt={`Buku ${subject.name} Tahun 4`}
+                sizes="(max-width: 980px) 32vw, 150px"
+              />
+            </div>
 
-              <div className={styles.storyVisual}>
-                <div className={styles.previewSheetOne}>
-                  <Image
-                    src={subject.preview[0]}
-                    width={760}
-                    height={1140}
-                    alt={`Contoh halaman ${subject.name}`}
-                    sizes="(max-width: 800px) 44vw, 280px"
-                  />
-                </div>
-                <div className={styles.subjectBook}>
-                  <Image
-                    src={coverPath(4, subject.key)}
-                    width={760}
-                    height={1140}
-                    alt={`Buku ${subject.name} Tahun 4`}
-                    sizes="(max-width: 800px) 52vw, 340px"
-                  />
-                </div>
-                <div className={styles.previewSheetTwo}>
-                  <Image
-                    src={subject.preview[1]}
-                    width={760}
-                    height={1140}
-                    alt={`Aktiviti ${subject.name}`}
-                    sizes="(max-width: 800px) 40vw, 250px"
-                  />
-                </div>
-              </div>
+            <div className={styles.subjectCardBody}>
+              <h3>{subject.name}</h3>
+              <p>{subject.tagline}</p>
+              <a
+                href="#smart-preview"
+                className={styles.subjectCardButton}
+                aria-label={`Lihat contoh ${subject.name}`}
+              >
+                Lihat Contoh
+              </a>
             </div>
           </article>
         ))}
