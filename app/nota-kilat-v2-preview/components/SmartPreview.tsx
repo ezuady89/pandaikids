@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import styles from "./SmartPreview.module.css";
 
 type SubjectKey = "aqidah" | "ibadah" | "sirah" | "adab";
@@ -19,7 +19,15 @@ type SubjectConfig = {
   pages: PreviewPage[];
 };
 
+type SwipeStart = {
+  pointerId: number;
+  x: number;
+  y: number;
+};
+
 const BASE_PATH = "/pandaikids/nota-kilat-v2/tahun-4";
+const SWIPE_THRESHOLD_PX = 48;
+const BACKGROUND_PAGE_INDEXES = [1, 3, 5, 7, 9, 11];
 
 const SUBJECTS: SubjectConfig[] = [
   {
@@ -103,13 +111,18 @@ const SUBJECTS: SubjectConfig[] = [
 export default function SmartPreview() {
   const [activeSubject, setActiveSubject] = useState<SubjectKey>("aqidah");
   const [activePage, setActivePage] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const swipeStartRef = useRef<SwipeStart | null>(null);
 
   const subject = useMemo(
     () => SUBJECTS.find((item) => item.key === activeSubject) ?? SUBJECTS[0],
     [activeSubject],
   );
 
-  const currentPage = subject.pages[activePage];
+  const totalSlides = subject.pages.length + 1;
+  const isLockedPreview = activePage === subject.pages.length;
+  const currentPage =
+    subject.pages[Math.min(activePage, subject.pages.length - 1)];
 
   function changeSubject(key: SubjectKey) {
     setActiveSubject(key);
@@ -117,15 +130,59 @@ export default function SmartPreview() {
   }
 
   function showPrevious() {
-    setActivePage((current) =>
-      current === 0 ? subject.pages.length - 1 : current - 1,
-    );
+    setActivePage((current) => Math.max(0, current - 1));
   }
 
   function showNext() {
     setActivePage((current) =>
-      current === subject.pages.length - 1 ? 0 : current + 1,
+      Math.min(totalSlides - 1, current + 1),
     );
+  }
+
+  function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    if (!event.isPrimary) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    swipeStartRef.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+    };
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsDragging(true);
+  }
+
+  function handlePointerUp(event: React.PointerEvent<HTMLDivElement>) {
+    const swipeStart = swipeStartRef.current;
+
+    if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
+
+    swipeStartRef.current = null;
+    setIsDragging(false);
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    const deltaX = event.clientX - swipeStart.x;
+    const deltaY = event.clientY - swipeStart.y;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD_PX) return;
+    if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+    if (deltaX < 0) {
+      showNext();
+    } else {
+      showPrevious();
+    }
+  }
+
+  function handlePointerCancel(event: React.PointerEvent<HTMLDivElement>) {
+    if (swipeStartRef.current?.pointerId !== event.pointerId) return;
+
+    swipeStartRef.current = null;
+    setIsDragging(false);
   }
 
   return (
@@ -166,14 +223,29 @@ export default function SmartPreview() {
           <div className={styles.viewerGlow} aria-hidden="true" />
 
           <div className={styles.pageMeta}>
-            <span>{currentPage.category}</span>
-            <strong>{currentPage.label}</strong>
-            <small>
-              Halaman {activePage + 1} daripada {subject.pages.length}
-            </small>
+            <span>
+              {isLockedPreview ? "Selepas bayaran" : currentPage.category}
+            </span>
+            <strong>
+              {isLockedPreview ? "Versi lengkap" : currentPage.label}
+            </strong>
           </div>
 
           <div className={styles.deviceArea}>
+            <div className={styles.previewFan} aria-hidden="true">
+              {BACKGROUND_PAGE_INDEXES.map((pageIndex) => (
+                <Image
+                  key={subject.pages[pageIndex].src}
+                  src={subject.pages[pageIndex].src}
+                  alt=""
+                  width={420}
+                  height={594}
+                  sizes="150px"
+                  className={styles.previewFanCard}
+                />
+              ))}
+            </div>
+
             <button
               type="button"
               className={`${styles.arrow} ${styles.arrowLeft}`}
@@ -186,17 +258,33 @@ export default function SmartPreview() {
             <div className={styles.ipad}>
               <div className={styles.camera} aria-hidden="true" />
 
-              <div className={styles.screen}>
-                <Image
-                  key={currentPage.src}
-                  src={currentPage.src}
-                  alt={`${subject.name}: ${currentPage.label}`}
-                  width={1055}
-                  height={1491}
-                  className={styles.mainImage}
-                  sizes="(max-width: 760px) 82vw, 520px"
-                  priority={activePage === 0}
-                />
+              <div
+                className={`${styles.screen} ${
+                  isDragging ? styles.screenDragging : ""
+                }`}
+                onPointerDown={handlePointerDown}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerCancel}
+              >
+                {isLockedPreview ? (
+                  <div className={styles.lockedScreen}>
+                    <div aria-hidden="true">🔒</div>
+                    <strong>Versi lengkap</strong>
+                    <span>Selepas bayaran</span>
+                  </div>
+                ) : (
+                  <Image
+                    key={currentPage.src}
+                    src={currentPage.src}
+                    alt={`${subject.name}: ${currentPage.label}`}
+                    width={1055}
+                    height={1491}
+                    className={styles.mainImage}
+                    sizes="(max-width: 760px) 82vw, 520px"
+                    priority={activePage === 0}
+                    draggable={false}
+                  />
+                )}
               </div>
             </div>
 
@@ -210,42 +298,13 @@ export default function SmartPreview() {
             </button>
           </div>
 
+          <p className={styles.pageIndicator}>
+            Halaman {activePage + 1} daripada {totalSlides}
+          </p>
+
           <p className={styles.swipeHint}>
             ← Tekan anak panah atau pilih halaman di bawah →
           </p>
-
-          <div className={styles.thumbnailTrack}>
-            {subject.pages.map((page, index) => (
-              <button
-                key={page.src}
-                type="button"
-                className={`${styles.thumbnailButton} ${
-                  index === activePage ? styles.thumbnailActive : ""
-                }`}
-                onClick={() => setActivePage(index)}
-                aria-label={`Buka ${page.label}`}
-              >
-                <span className={styles.thumbnailImage}>
-                  <Image
-                    src={page.src}
-                    alt=""
-                    width={210}
-                    height={297}
-                    sizes="96px"
-                  />
-                </span>
-
-                <span className={styles.thumbnailNumber}>{index + 1}</span>
-                <small>{page.category}</small>
-              </button>
-            ))}
-
-            <div className={styles.lockedPreview}>
-              <div aria-hidden="true">🔒</div>
-              <strong>Versi lengkap</strong>
-              <span>Selepas bayaran</span>
-            </div>
-          </div>
         </div>
 
         <div className={styles.valueStrip}>
