@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
 import styles from "./SmartPreview.module.css";
 
 type SubjectKey = "aqidah" | "ibadah" | "sirah" | "adab";
@@ -26,6 +26,7 @@ type SwipeStart = {
 };
 
 const BASE_PATH = "/pandaikids/nota-kilat-v2/tahun-4";
+const THUMBNAIL_BASE_PATH = `${BASE_PATH}/thumbnails`;
 const SWIPE_THRESHOLD_PX = 48;
 const BACKGROUND_PAGE_INDEXES = [1, 3, 5, 7, 9, 11];
 
@@ -36,7 +37,7 @@ const SUBJECTS: SubjectConfig[] = [
     accent: "#22a447",
     pages: [
       { src: `${BASE_PATH}/aqidah/1 Cover.webp`, label: "Cover Aqidah", category: "Cover" },
-      { src: `${BASE_PATH}/aqidah/1 pesanan.webp`, label: "Pesanan PandaiKids", category: "Pengenalan" },
+      { src: `${BASE_PATH}/optimized/aqidah/1 pesanan.webp`, label: "Pesanan PandaiKids", category: "Pengenalan" },
       { src: `${BASE_PATH}/aqidah/1.webp`, label: "Nota Digital 1", category: "Nota Digital" },
       { src: `${BASE_PATH}/aqidah/2.webp`, label: "Nota Digital 2", category: "Nota Digital" },
       { src: `${BASE_PATH}/aqidah/3.webp`, label: "Nota Digital 3", category: "Nota Digital" },
@@ -108,6 +109,67 @@ const SUBJECTS: SubjectConfig[] = [
   },
 ];
 
+type PreviewFanProps = {
+  subject: SubjectConfig;
+};
+
+const PreviewFan = memo(function PreviewFan({ subject }: PreviewFanProps) {
+  return (
+    <div className={styles.previewFan} aria-hidden="true">
+      {BACKGROUND_PAGE_INDEXES.map((pageIndex) => (
+        <Image
+          key={pageIndex}
+          src={`${THUMBNAIL_BASE_PATH}/${subject.key}/fan-${pageIndex + 1}.webp`}
+          alt=""
+          width={240}
+          height={340}
+          sizes="(max-width: 520px) 78px, (max-width: 820px) 112px, 155px"
+          className={styles.previewFanCard}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+        />
+      ))}
+    </div>
+  );
+});
+
+type PreviewSlideProps = {
+  page: PreviewPage;
+  pageIndex: number;
+  activePage: number;
+  subjectName: string;
+};
+
+const PreviewSlide = memo(function PreviewSlide({
+  page,
+  pageIndex,
+  activePage,
+  subjectName,
+}: PreviewSlideProps) {
+  const isActive = pageIndex === activePage;
+  const isFirstSlide = pageIndex === 0;
+
+  return (
+    <Image
+      src={page.src}
+      alt={isActive ? `${subjectName}: ${page.label}` : ""}
+      width={1055}
+      height={1491}
+      className={`${styles.mainImage} ${
+        isActive ? styles.mainImageActive : styles.mainImagePreload
+      }`}
+      sizes="(max-width: 760px) 82vw, 520px"
+      priority={isFirstSlide}
+      loading={isFirstSlide ? "eager" : "lazy"}
+      fetchPriority="high"
+      decoding="async"
+      draggable={false}
+      aria-hidden={!isActive}
+    />
+  );
+});
+
 export default function SmartPreview() {
   const [activeSubject, setActiveSubject] = useState<SubjectKey>("aqidah");
   const [activePage, setActivePage] = useState(0);
@@ -123,21 +185,29 @@ export default function SmartPreview() {
   const isLockedPreview = activePage === subject.pages.length;
   const currentPage =
     subject.pages[Math.min(activePage, subject.pages.length - 1)];
+  const previewPageIndexes = useMemo(
+    () =>
+      [activePage - 1, activePage, activePage + 1].filter(
+        (pageIndex) =>
+          pageIndex >= 0 && pageIndex < subject.pages.length,
+      ),
+    [activePage, subject.pages.length],
+  );
 
   function changeSubject(key: SubjectKey) {
     setActiveSubject(key);
     setActivePage(0);
   }
 
-  function showPrevious() {
+  const showPrevious = useCallback(() => {
     setActivePage((current) => Math.max(0, current - 1));
-  }
+  }, []);
 
-  function showNext() {
+  const showNext = useCallback(() => {
     setActivePage((current) =>
       Math.min(totalSlides - 1, current + 1),
     );
-  }
+  }, [totalSlides]);
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
     if (!event.isPrimary) return;
@@ -232,19 +302,7 @@ export default function SmartPreview() {
           </div>
 
           <div className={styles.deviceArea}>
-            <div className={styles.previewFan} aria-hidden="true">
-              {BACKGROUND_PAGE_INDEXES.map((pageIndex) => (
-                <Image
-                  key={subject.pages[pageIndex].src}
-                  src={subject.pages[pageIndex].src}
-                  alt=""
-                  width={420}
-                  height={594}
-                  sizes="150px"
-                  className={styles.previewFanCard}
-                />
-              ))}
-            </div>
+            <PreviewFan subject={subject} />
 
             <button
               type="button"
@@ -273,17 +331,15 @@ export default function SmartPreview() {
                     <span>Selepas bayaran</span>
                   </div>
                 ) : (
-                  <Image
-                    key={currentPage.src}
-                    src={currentPage.src}
-                    alt={`${subject.name}: ${currentPage.label}`}
-                    width={1055}
-                    height={1491}
-                    className={styles.mainImage}
-                    sizes="(max-width: 760px) 82vw, 520px"
-                    priority={activePage === 0}
-                    draggable={false}
-                  />
+                  previewPageIndexes.map((pageIndex) => (
+                    <PreviewSlide
+                      key={subject.pages[pageIndex].src}
+                      page={subject.pages[pageIndex]}
+                      pageIndex={pageIndex}
+                      activePage={activePage}
+                      subjectName={subject.name}
+                    />
+                  ))
                 )}
               </div>
             </div>
