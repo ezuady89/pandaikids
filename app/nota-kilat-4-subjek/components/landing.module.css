@@ -821,3 +821,38 @@ display:none;
     font-size: 18px;
   }
 }
+
+/* Fixed-date promotion pricing and countdown */
+.promoCountdown {
+  display: grid;
+  justify-items: center;
+  width: min(760px, 100%);
+  margin: -38px auto 42px;
+  padding: 20px 24px;
+  border: 1px solid rgba(239, 123, 22, 0.2);
+  border-radius: 24px;
+  background: #fff8ed;
+  box-shadow: 0 16px 38px rgba(80, 48, 16, 0.08);
+  text-align: center;
+}
+.promoCountdownTitle { color: #b8520d; font-size: 0.82rem; letter-spacing: 0.08em; }
+.promoCountdownLabel { margin-top: 5px; color: #6f6258; font-size: 0.78rem; font-weight: 800; }
+.promoCountdownUnits { display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 100%; margin-top: 12px; }
+.promoCountdownUnit { position: relative; display: grid; min-width: 74px; }
+.promoCountdownUnit b { color: #153f27; font-size: 1.55rem; line-height: 1; }
+.promoCountdownUnit small { margin-top: 4px; color: #6f776f; font-size: 0.66rem; font-weight: 850; }
+.promoCountdownUnit i { position: absolute; top: 1px; right: -10px; color: #b8520d; font-size: 1.3rem; font-style: normal; font-weight: 900; }
+.inlinePromoPrice { white-space: nowrap; }
+.inlinePromoPrice del, .mobilePromoPrice del { color: #8c958f; }
+.inlinePromoPrice strong, .mobilePromoPrice strong { color: #17672f; }
+.mobilePromoPrice span { display: flex; align-items: baseline; gap: 6px; }
+.mobilePromoPrice del { font-size: 0.7rem; }
+
+@media (max-width: 760px) {
+  .promoCountdown { margin: -28px auto 30px; padding: 17px 10px; border-radius: 20px; }
+  .promoCountdownUnits { width: 100%; gap: 5px; }
+  .promoCountdownUnit { min-width: 0; flex: 1; }
+  .promoCountdownUnit b { font-size: 1.25rem; }
+  .promoCountdownUnit i { right: -5px; }
+  .promoCountdownUnit small { font-size: 0.58rem; }
+}

@@ -95,7 +95,10 @@ export default function FaqSection() {
           </h2>
 
           <p>
-            Pilih tahun anak dan dapatkan empat subjek teras bermula RM19.
+            Pilih tahun anak dan dapatkan empat subjek teras bermula{" "}
+            <span className={styles.inlinePromoPrice}>
+              <del>RM19</del> <strong>RM12.90</strong>
+            </span>.
           </p>
 
           <a href={ONPAY_URL} className={styles.finalButton}>

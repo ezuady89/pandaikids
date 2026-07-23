@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { years } from "../data";
 import styles from "./landing.module.css";
+import PromoCountdown from "./PromoCountdown";
 
 const FEATURES = [
   "4 subjek teras",
@@ -23,6 +24,8 @@ export default function YearPackages() {
             Sirah dan Adab.
           </p>
         </div>
+
+        <PromoCountdown />
 
         <div className={styles.packageGrid}>
           {years.map((item, index) => (
@@ -129,7 +132,7 @@ export default function YearPackages() {
               </span>
 
               <span>
-                <strong>RM12</strong> penjimatan
+                <strong>RM8.80</strong> penjimatan
               </span>
             </div>
           </div>
@@ -137,9 +140,9 @@ export default function YearPackages() {
           <div className={styles.bundlePricePremium}>
             <span>Harga bundle</span>
 
-            <del>RM57</del>
+            <del>RM45</del>
 
-            <strong>RM45</strong>
+            <strong>RM29.90</strong>
 
             <a
               href="https://naico.onpay.my/order/form/pandaikids-premium"

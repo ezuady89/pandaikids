@@ -85,7 +85,7 @@ export default function Hero() {
             <BookStage year={selectedYear} />
 
             <p className={styles.caption}>
-              Pakej Tahun {selectedYear} · Aqidah, Ibadah, Sirah &amp; Adab · <strong>RM19</strong>
+              Pakej Tahun {selectedYear} · Aqidah, Ibadah, Sirah &amp; Adab · <del>RM19</del> <strong>RM12.90</strong>
             </p>
           </div>
         </div>
