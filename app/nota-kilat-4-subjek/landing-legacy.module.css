@@ -188,7 +188,7 @@
 }
 
 /* Final spacing rhythm: compact enough for mobile, with consistent breathing room. */
-@media (max-width: 767px) {
+@container (max-width: 767px) {
   :global(.notaKilatLanding .hero-copy) { padding-top: 14px; }
   :global(.notaKilatLanding .hero-kicker) { margin-bottom: 8px; }
   :global(.notaKilatLanding .hero-lead) { margin-top: 14px; margin-bottom: 16px; line-height: 1.5; }
@@ -457,7 +457,7 @@
 :global(.notaKilatLanding .package-anchor) { min-height: 320px; padding: 54px 27px; background: #fff1dc; }
 :global(.notaKilatLanding .package-anchor .section-kicker) { background: var(--green); }
 
-@media (max-width: 380px) {
+@container (max-width: 380px) {
   :global(.notaKilatLanding .part3-section) { padding-right: 16px; padding-left: 16px; }
   :global(.notaKilatLanding .part3-section-scene) { margin-right: -16px; margin-left: -16px; padding-right: 16px; padding-left: 16px; }
   :global(.notaKilatLanding .part3-reader) { width: min(82vw, 300px); }
@@ -465,11 +465,11 @@
   :global(.notaKilatLanding .part3-thumbnails) { max-width: 300px; }
 }
 
-@media (max-width: 767px) {
+@container (max-width: 767px) {
   :global(.notaKilatLanding .part3-section) { padding-bottom: 28px; }
 }
 
-@media (min-width: 700px) {
+@container (min-width: 700px) {
   :global(.notaKilatLanding) { padding: 36px 0; }
   :global(.notaKilatLanding) { border-radius: 32px; }
 }
@@ -765,7 +765,7 @@
 }
 
 /* Hero-only readability polish. */
-@media (max-width: 767px) {
+@container (max-width: 767px) {
   :global(.notaKilatLanding .hero-lead) {
     font-size: clamp(1rem, 4.2vw, 1.08rem);
     line-height: 1.42;
