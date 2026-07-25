@@ -16,38 +16,26 @@ type AnalyticsWindow = Window & {
   ) => void;
   gtag?: (...args: unknown[]) => void;
   dataLayer?: unknown[];
+  ttq?: {
+    track?: (
+      eventName: "ViewContent" | "InitiateCheckout",
+      parameters?: Record<string, string | number>,
+    ) => void;
+  };
 };
 
-const CHECKOUT_DETAILS_BY_URL = new Map<string, CheckoutDetails>([
-  [
-    "https://naico.onpay.my/order/form/pandaikids-t3-t4",
-    {
-      value: 19,
-      currency: "MYR",
-      contentName: "PandaiKids Tahun 3 dan 4",
-    },
-  ],
-  [
-    "https://naico.onpay.my/order/form/pandaikids-t5",
-    {
-      value: 19,
-      currency: "MYR",
-      contentName: "PandaiKids Tahun 5",
-    },
-  ],
-  [
-    "https://naico.onpay.my/order/form/pandaikids-premium",
-    {
-      value: 45,
-      currency: "MYR",
-      contentName: "PandaiKids Bundle Tahun 3 4 5",
-    },
-  ],
+const CHECKOUT_DETAILS_BY_PACKAGE = new Map<string, CheckoutDetails>([
+  ["year3", { value: 12.9, currency: "MYR", contentName: "PandaiKids Tahun 3" }],
+  ["year4", { value: 12.9, currency: "MYR", contentName: "PandaiKids Tahun 4" }],
+  ["year5", { value: 12.9, currency: "MYR", contentName: "PandaiKids Tahun 5" }],
+  ["bundle", { value: 29.9, currency: "MYR", contentName: "PandaiKids Bundle Tahun 3 4 5" }],
 ]);
 
 const handledClickEvents = new WeakSet<Event>();
 const META_RETRY_INTERVAL_MS = 100;
 const META_MAX_ATTEMPTS = 50;
+const TIKTOK_RETRY_INTERVAL_MS = 100;
+const TIKTOK_MAX_ATTEMPTS = 50;
 
 function sendMetaEvent(
   eventName: "ViewContent" | "InitiateCheckout",
@@ -93,6 +81,37 @@ function sendMetaEvent(
   };
 }
 
+function sendTikTokEvent(
+  eventName: "ViewContent" | "InitiateCheckout",
+  parameters?: Record<string, string | number>,
+) {
+  let attempts = 0;
+  let retryTimer: number | null = null;
+  let cancelled = false;
+
+  const sendWhenReady = () => {
+    if (cancelled) return;
+
+    const analyticsWindow = window as AnalyticsWindow;
+    if (typeof analyticsWindow.ttq?.track === "function") {
+      analyticsWindow.ttq.track(eventName, parameters);
+      return;
+    }
+
+    attempts += 1;
+    if (attempts < TIKTOK_MAX_ATTEMPTS) {
+      retryTimer = window.setTimeout(sendWhenReady, TIKTOK_RETRY_INTERVAL_MS);
+    }
+  };
+
+  sendWhenReady();
+
+  return () => {
+    cancelled = true;
+    if (retryTimer !== null) window.clearTimeout(retryTimer);
+  };
+}
+
 function sendCheckoutEvents(details: CheckoutDetails) {
   const parameters = {
     value: details.value,
@@ -101,6 +120,7 @@ function sendCheckoutEvents(details: CheckoutDetails) {
   };
 
   sendMetaEvent("InitiateCheckout", parameters);
+  sendTikTokEvent("InitiateCheckout", parameters);
 
   const analyticsWindow = window as AnalyticsWindow;
   const ga4Parameters = {
@@ -126,9 +146,11 @@ function sendCheckoutEvents(details: CheckoutDetails) {
 export default function NotaKilatAnalytics() {
   useEffect(() => {
     let cancelViewContent: (() => void) | undefined;
+    let cancelTikTokViewContent: (() => void) | undefined;
 
     const viewContentTimer = window.setTimeout(() => {
       cancelViewContent = sendMetaEvent("ViewContent");
+      cancelTikTokViewContent = sendTikTokEvent("ViewContent");
     }, 0);
 
     const handleCheckoutClick = (event: MouseEvent) => {
@@ -140,7 +162,9 @@ export default function NotaKilatAnalytics() {
 
       if (!link) return;
 
-      const checkoutDetails = CHECKOUT_DETAILS_BY_URL.get(link.href);
+      const checkoutDetails = CHECKOUT_DETAILS_BY_PACKAGE.get(
+        link.dataset.pandaikidsPackage ?? "",
+      );
 
       if (!checkoutDetails) return;
 
@@ -153,6 +177,7 @@ export default function NotaKilatAnalytics() {
     return () => {
       window.clearTimeout(viewContentTimer);
       cancelViewContent?.();
+      cancelTikTokViewContent?.();
       document.removeEventListener("click", handleCheckoutClick, true);
     };
   }, []);

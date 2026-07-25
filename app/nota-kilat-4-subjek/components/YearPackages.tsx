@@ -122,6 +122,7 @@ export default function YearPackages() {
 
                 <a
                   href={packageOnpayUrl(item.year)}
+                  data-pandaikids-package={`year${item.year}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.packageBuyButton}
@@ -169,7 +170,7 @@ export default function YearPackages() {
             <del>RM45</del>
             <strong>RM29.90</strong>
             <em className={styles.bundleSavings}>JIMAT RM15.10</em>
-            <a className={styles.bundleCta} href={ONPAY_URLS.bundle} target="_blank" rel="noopener noreferrer">
+            <a className={styles.bundleCta} href={ONPAY_URLS.bundle} data-pandaikids-package="bundle" target="_blank" rel="noopener noreferrer">
               Dapatkan Bundle Tahun 3–5 <b>→</b>
             </a>
             <small>Bayaran sekali · Muat turun digital</small>

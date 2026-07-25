@@ -107,6 +107,8 @@ export default function RootLayout({
         <Script id="tiktok-pixel" strategy="afterInteractive">
           {`
             !function(w, d, t) {
+              if (w.__pandaiKidsTikTokInitialized) return;
+              w.__pandaiKidsTikTokInitialized = true;
               w.TiktokAnalyticsObject = t;
 
               var ttq = w[t] = w[t] || [];
@@ -181,7 +183,7 @@ export default function RootLayout({
                 );
               };
 
-              ttq.load("D9E3JBJC77U5KEVKPKQ0");
+              ttq.load("D9IC7C3C77UBLLNU89A0");
               ttq.page();
             }(window, document, "ttq");
           `}

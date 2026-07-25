@@ -7,6 +7,7 @@ import Part8Pandi from "./components/Part8Pandi";
 import Part9Footer from "./components/Part9Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import YearPackages from "./components/YearPackages";
+import NotaKilatAnalytics from "./NotaKilatAnalytics";
 
 export const metadata: Metadata = {
   title: "Nota Kilat PandaiKids | Ulang Kaji KAFA Lebih Mudah",
@@ -88,6 +89,7 @@ export default function NotaKilat4SubjekPage() {
       <Part8Pandi />
       <Part9Footer />
       <FloatingWhatsApp />
+      <NotaKilatAnalytics />
     </main>
   );
 }
