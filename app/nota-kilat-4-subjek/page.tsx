@@ -32,7 +32,7 @@ export default function NotaKilat4SubjekPage() {
 
         <div className="hero-copy" id="top">
           <p className="hero-kicker">NOTA KILAT KAFA</p>
-          <h1 id="hero-title">Anak Susah<br />Faham <em>KAFA?</em></h1>
+          <h1 id="hero-title">Anak Susah<br />Faham<br /><em>KAFA?</em></h1>
           <p className="hero-lead">
             Bantu anak<br />
             <strong>bina semula keyakinan</strong><br />
