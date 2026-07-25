@@ -884,3 +884,45 @@
 @media (prefers-reduced-motion: reduce) {
   :global(.notaKilatLanding main .part2-section .secondary-cta) { transition: none; }
 }
+
+/* The route is intentionally a phone-width composition at every browser width. */
+:global(.notaKilatLanding) {
+  width: 100%;
+  max-width: 430px;
+  margin-inline: auto;
+  padding: 0;
+}
+:global(.notaKilatLanding .hero) { min-height: 820px; }
+:global(.notaKilatLanding .hero-copy) {
+  position: relative;
+  padding: 18px 24px 0;
+}
+:global(.notaKilatLanding .hero-copy h1) {
+  max-width: 310px;
+  font-size: clamp(40px, 11vw, 48px);
+  line-height: 1;
+}
+:global(.notaKilatLanding .hero-lead) {
+  max-width: 210px;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+:global(.notaKilatLanding .hero-action) {
+  position: absolute;
+  right: 0;
+  bottom: 28px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding: 2px 22px 10px;
+}
+:global(.notaKilatLanding .part2-section .secondary-cta) {
+  display: flex;
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  margin: 20px auto 32px;
+  border: 0;
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(13, 93, 43, .16);
+}

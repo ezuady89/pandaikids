@@ -1852,3 +1852,40 @@ main .pandiSection {
 main .part9Footer {
   background: linear-gradient(to bottom, #f8e8d0 0, #f8e8d0 72px, #f2eee2 112px, #eaf5ec 170px, #eaf5ec 100%);
 }
+
+/* Keep this landing page a phone-width composition even when the browser viewport is desktop-sized. */
+:global(.notaKilatLanding) {
+  width: 100%;
+  max-width: 430px;
+  margin-inline: auto;
+}
+:global(.notaKilatLanding) .previewSection,
+:global(.notaKilatLanding) .packageSection,
+:global(.notaKilatLanding) .howToBuySection,
+:global(.notaKilatLanding) .faqSection,
+:global(.notaKilatLanding) .pandiSection,
+:global(.notaKilatLanding) .part9Footer {
+  width: 100%;
+  max-width: 430px;
+  margin-inline: auto;
+}
+:global(.notaKilatLanding) .previewSection { padding: 64px 0; }
+:global(.notaKilatLanding) .previewHeader { display: block; margin-bottom: 24px; }
+:global(.notaKilatLanding) .previewHeader > div:first-child { max-width: none; }
+:global(.notaKilatLanding) .previewTabs { justify-content: flex-start; margin-top: 18px; overflow-x: auto; }
+:global(.notaKilatLanding) .previewPanel { display: block; min-height: 0; padding: 24px 18px; border-radius: 28px; }
+:global(.notaKilatLanding) .previewCopy h3 { font-size: clamp(2.25rem, 10vw, 3.1rem); }
+:global(.notaKilatLanding) .packageSection { padding: 40px 0 56px; }
+:global(.notaKilatLanding) .packageSection > .container,
+:global(.notaKilatLanding) .packageSection > .sectionInner {
+  width: 100%;
+  max-width: 430px;
+  margin-inline: auto;
+  padding-inline: 18px;
+  box-sizing: border-box;
+}
+:global(.notaKilatLanding) .packageGrid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+:global(.notaKilatLanding) .sectionIntro h2 { font-size: 2.2rem; line-height: 1.05; }
+:global(.notaKilatLanding) .howToBuySection,
+:global(.notaKilatLanding) .faqSection,
+:global(.notaKilatLanding) .pandiSection { padding-top: 48px; padding-bottom: 56px; }
