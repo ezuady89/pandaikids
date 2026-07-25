@@ -1,7 +1,15 @@
 export type SubjectKey = "aqidah" | "ibadah" | "sirah" | "adab";
 export type SchoolYear = 3 | 4 | 5;
 
-export const ONPAY_URL = "https://naico.onpay.my/order/form/pandaikids";
+export const ONPAY_URLS = {
+  year3: "https://naico.onpay.my/order/form/pandaikids-t3-t4",
+  year4: "https://naico.onpay.my/order/form/pandaikids-t3-t4",
+  year5: "https://naico.onpay.my/order/form/pandaikids-t5",
+  bundle: "https://naico.onpay.my/order/form/pandaikids-premium",
+} as const;
+
+// Kept for the legacy preview components that remain in this route folder.
+export const ONPAY_URL = ONPAY_URLS.year3;
 
 export const subjects = [
   {

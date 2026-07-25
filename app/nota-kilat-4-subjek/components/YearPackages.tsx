@@ -1,31 +1,74 @@
-import Image from "next/image";
-import { years } from "../data";
+"use client";
+
+import { useEffect, useState } from "react";
+import { ONPAY_URLS, years } from "../data";
 import styles from "./landing.module.css";
-import PromoCountdown from "./PromoCountdown";
 
 const FEATURES = [
-  "4 subjek teras",
-  "PDF digital berwarna",
-  "Boleh dibaca di telefon, tablet & komputer",
-  "Boleh dicetak sendiri",
+  "Nota lengkap + Nota Kilat",
+  "Uji Minda + Skema",
+  "Boleh baca di telefon & cetak",
 ];
 
+const PROMO_END = new Date("2026-07-27T23:59:59+08:00").getTime();
+const packageOnpayUrl = (year: 3 | 4 | 5) => {
+  if (year === 3) return ONPAY_URLS.year3;
+  if (year === 4) return ONPAY_URLS.year4;
+  return ONPAY_URLS.year5;
+};
+
+function usePromoCountdown() {
+  const [remaining, setRemaining] = useState(0);
+
+  useEffect(() => {
+    const update = () => setRemaining(Math.max(0, PROMO_END - Date.now()));
+    update();
+    const timer = window.setInterval(update, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return remaining;
+}
+
+function PromoCountdown({ remaining, compact = false, title, label }: { remaining: number; compact?: boolean; title?: string; label?: string }) {
+  const totalSeconds = Math.floor(remaining / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const expired = remaining === 0;
+  const pad = (value: number) => String(value).padStart(2, "0");
+
+  return (
+    <div className={`${styles.promoCountdown} ${compact ? styles.promoCountdownCompact : ""}`} aria-live="polite">
+      <strong>🔥 PROMOSI 3 HARI SAHAJA</strong>
+      <span>Tawaran tamat dalam:</span>
+      <div className={styles.promoDigits} aria-label={expired ? "Promosi telah tamat" : "Countdown promosi"}>
+        <b>{pad(days)}<small>Hari</small></b>
+        <b>{pad(hours)}<small>Jam</small></b>
+        <b>{pad(minutes)}<small>Minit</small></b>
+        <b>{pad(seconds)}<small>Saat</small></b>
+      </div>
+      {expired && <em>Promosi telah tamat</em>}
+    </div>
+  );
+}
+
 export default function YearPackages() {
+  const remaining = usePromoCountdown();
+
   return (
     <section className={styles.packageSection} id="pakej">
       <div className={styles.container}>
         <div className={styles.sectionIntro}>
-          <p className={styles.eyebrow}>PILIH PAKEJ</p>
-
-          <h2>Pilih ikut tahun anak.</h2>
-
+          <p className={styles.eyebrow}>PILIH IKUT TAHUN ANAK</p>
+          <h2>Mulakan dengan pakej <em>yang sesuai untuk anak.</em></h2>
           <p>
-            Setiap pakej mengandungi empat modul digital: Aqidah, Ibadah,
-            Sirah dan Adab.
+            Setiap pakej mengandungi empat subjek KAFA: Aqidah, Ibadah, Sirah dan Adab.
           </p>
         </div>
 
-        <PromoCountdown />
+        <PromoCountdown remaining={remaining} />
 
         <div className={styles.packageGrid}>
           {years.map((item, index) => (
@@ -36,30 +79,32 @@ export default function YearPackages() {
               key={item.year}
             >
               <div className={styles.packageTopline}>
-                <span className={styles.packageBadge}>{item.badge}</span>
-
                 <span className={styles.digitalPill}>PDF DIGITAL</span>
               </div>
 
+              <div className={styles.packageTitle}>
+                <h3>Nota Digital {item.label}</h3>
+              </div>
+
               <div className={styles.packageVisual}>
-                <div className={styles.packageImageFrame}>
-                  <Image
-                    src={`/pandaikids/nota-kilat-v3/products/tahun-${item.year}.webp`}
-                    width={1200}
-                    height={1200}
-                    alt={`Pakej Nota Digital PandaiKids ${item.label}`}
-                    sizes="(max-width: 760px) 86vw, 360px"
-                    className={styles.packageProductImage}
-                  />
-                </div>
+                <img
+                  src={
+                    item.year === 3
+                      ? "/pandaikids/nota-kilat-v3/products/package-tahun-3.webp"
+                      : item.year === 4
+                        ? "/pandaikids/nota-kilat-v3/products/package-tahun-4.webp"
+                        : "/pandaikids/nota-kilat-v3/products/package-tahun-5.webp"
+                  }
+                  alt={`Pakej Nota Digital PandaiKids ${item.label}`}
+                  className={styles.packageProductImage}
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                />
               </div>
 
               <div className={styles.packageBody}>
-                <p className={styles.packageLabel}>Pakej 4 subjek teras</p>
-
-                <h3>{item.label}</h3>
-
-                <p>{item.description}</p>
+                <p className={styles.packageSummary}>4 subjek lengkap: Aqidah, Ibadah, Sirah &amp; Adab.</p>
 
                 <ul className={styles.packageFeatureList}>
                   {FEATURES.map((feature) => (
@@ -72,16 +117,11 @@ export default function YearPackages() {
                     <del>{item.oldPrice}</del>
                     <strong>{item.price}</strong>
                   </div>
-
                   <small>Bayaran sekali sahaja</small>
                 </div>
 
                 <a
-                  href={
-                    item.year === 5
-                      ? "https://naico.onpay.my/order/form/pandaikids-t5"
-                      : "https://naico.onpay.my/order/form/pandaikids-t3-t4"
-                  }
+                  href={packageOnpayUrl(item.year)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.packageBuyButton}
@@ -99,62 +139,43 @@ export default function YearPackages() {
         </div>
 
         <article className={styles.bundleCardPremium}>
-          <div className={styles.bundlePopular}>PALING JIMAT</div>
+          <div className={styles.bundlePopular}>⭐ PILIHAN PALING BERBALOI</div>
+
+          <div className={styles.bundleTitle}>
+            <p className={styles.eyebrow}>KOLEKSI PREMIUM</p>
+            <h3>Semua Nota KAFA<br />Dalam Satu Bundle</h3>
+            <p>Tahun 3, 4 &amp; 5</p>
+          </div>
 
           <div className={styles.bundleVisual}>
-            <Image
-              src="/pandaikids/nota-kilat-v3/products/bundle.webp"
-              width={1400}
-              height={1400}
+            <img
+              src="/pandaikids/nota-kilat-v3/products/package-bundle.webp"
               alt="Bundle Nota Digital PandaiKids Tahun 3, 4 dan 5"
-              sizes="(max-width: 760px) 90vw, 430px"
+              loading="lazy"
+              decoding="async"
+              draggable={false}
             />
           </div>
 
           <div className={styles.bundleCopyPremium}>
-            <p className={styles.eyebrow}>BUNDLE LENGKAP</p>
-
-            <h3>Tahun 3, 4 &amp; 5</h3>
-
-            <p>
-              Semua 12 modul digital dalam satu pembelian. Sesuai untuk keluarga
-              yang mempunyai lebih daripada seorang anak atau mahu simpan untuk
-              tahun seterusnya.
-            </p>
-
-            <div className={styles.bundleStats}>
-              <span>
-                <strong>12</strong> modul digital
-              </span>
-
-              <span>
-                <strong>3</strong> tahun pembelajaran
-              </span>
-
-              <span>
-                <strong>RM8.80</strong> penjimatan
-              </span>
+              <div className={styles.bundleStats}>
+                <span><strong>12 Modul Digital</strong></span>
+                <span><strong>3 Tahun Lengkap</strong></span>
             </div>
           </div>
 
           <div className={styles.bundlePricePremium}>
-            <span>Harga bundle</span>
-
+            <span>HARGA BUNDLE</span>
             <del>RM45</del>
-
             <strong>RM29.90</strong>
-
-            <a
-              href="https://naico.onpay.my/order/form/pandaikids-premium"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Dapatkan bundle <b>→</b>
+            <em className={styles.bundleSavings}>JIMAT RM15.10</em>
+            <a className={styles.bundleCta} href={ONPAY_URLS.bundle} target="_blank" rel="noopener noreferrer">
+              Dapatkan Bundle Tahun 3–5 <b>→</b>
             </a>
-
             <small>Bayaran sekali · Muat turun digital</small>
           </div>
         </article>
+
       </div>
     </section>
   );

@@ -1,25 +1,262 @@
-.page{--ink:#10211a;--muted:#667169;--line:rgba(15,46,31,.11);--cream:#fffdf8;--green:#247a3e;--blue:#1779c8;--purple:#7d43bd;--orange:#ef7b16;min-height:100vh;overflow:hidden;background:var(--cream);color:var(--ink);font-family:var(--font-nunito,"Nunito"),system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.page *,.page *:before,.page *:after{box-sizing:border-box}.page a{color:inherit;text-decoration:none}.page button,.page a{-webkit-tap-highlight-color:transparent}.page :focus-visible{outline:3px solid rgba(36,122,62,.32);outline-offset:4px}.container{width:min(1360px,calc(100% - 48px));margin-inline:auto}.eyebrow{margin:0;color:var(--green);font-size:.76rem;font-weight:950;letter-spacing:.18em;text-transform:uppercase}.sectionIntro{width:min(760px,calc(100% - 32px));margin:0 auto 72px;text-align:center}.sectionIntro h2,.previewHeader h2,.faqIntro h2,.finalCta h2{margin:14px 0 0;font-size:clamp(2.35rem,4.5vw,5rem);line-height:1.02;letter-spacing:-.055em}.sectionIntro>p:last-child,.previewHeader>div>p:last-child,.faqIntro>p:last-child{margin:20px auto 0;color:var(--muted);font-size:1rem;line-height:1.75}
+﻿.page{--ink:#10211a;--muted:#667169;--line:rgba(15,46,31,.11);--cream:#fffdf8;--green:#247a3e;--blue:#1779c8;--purple:#7d43bd;--orange:#ef7b16;min-height:100vh;overflow:hidden;background:var(--cream);color:var(--ink);font-family:var(--font-nunito,"Nunito"),system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.page *,.page *:before,.page *:after{box-sizing:border-box}.page a{color:inherit;text-decoration:none}.page button,.page a{-webkit-tap-highlight-color:transparent}.page :focus-visible{outline:3px solid rgba(36,122,62,.32);outline-offset:4px}.container{width:min(1360px,calc(100% - 48px));margin-inline:auto}.eyebrow{margin:0;color:var(--green);font-size:.76rem;font-weight:950;letter-spacing:.18em;text-transform:uppercase}.sectionIntro{width:min(760px,calc(100% - 32px));margin:0 auto 72px;text-align:center}.sectionIntro h2,.previewHeader h2,.faqIntro h2,.finalCta h2{margin:14px 0 0;font-size:clamp(2.35rem,4.5vw,5rem);line-height:1.02;letter-spacing:-.055em}.sectionIntro>p:last-child,.previewHeader>div>p:last-child,.faqIntro>p:last-child{margin:20px auto 0;color:var(--muted);font-size:1rem;line-height:1.75}
 .subjectSection{padding:120px 0 50px;background:linear-gradient(180deg,#fffdf8,#fff)}.subjectStories{display:grid;gap:48px}.subjectStory{--accent:var(--green);--soft:#eef8ee;position:relative;min-height:720px;overflow:hidden;border:1px solid rgba(17,46,30,.08);border-radius:44px;background:radial-gradient(circle at 78% 34%,rgba(255,255,255,.98),transparent 38%),linear-gradient(135deg,#fff 0%,var(--soft) 100%);box-shadow:0 28px 80px rgba(24,54,34,.1)}.subjectStory[data-accent=blue]{--accent:var(--blue);--soft:#edf7ff}.subjectStory[data-accent=purple]{--accent:var(--purple);--soft:#f7f0ff}.subjectStory[data-accent=orange]{--accent:var(--orange);--soft:#fff3e6}.subjectStory:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-110px;top:-120px;background:color-mix(in srgb,var(--accent) 15%,transparent);filter:blur(10px)}.storyInner{position:relative;z-index:1;display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;gap:50px;width:min(1320px,calc(100% - 72px));min-height:720px;margin:auto}.storyCopy{max-width:500px}.storyArabic{margin:0;color:var(--accent);font-family:serif;font-size:1.6rem}.storyCopy h3{margin:8px 0 0;color:var(--accent);font-size:clamp(4rem,6vw,7rem);line-height:.88;letter-spacing:-.065em}.storyTagline{margin:24px 0 0;font-size:1.35rem;font-weight:950}.storyDescription{margin:15px 0 0;color:var(--muted);font-size:1rem;line-height:1.75}.storyPoints{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}.storyPoints span{padding:9px 13px;border:1px solid rgba(16,33,26,.09);border-radius:999px;background:rgba(255,255,255,.75);font-size:.77rem;font-weight:900}.storyCopy>a{display:inline-flex;margin-top:28px;color:var(--accent);font-weight:950}.storyVisual{position:relative;min-height:590px;perspective:1500px}.subjectBook,.previewSheetOne,.previewSheetTwo{position:absolute;filter:drop-shadow(0 32px 25px rgba(25,44,33,.2))}.subjectBook{left:50%;top:35px;z-index:5;width:350px;transform:translateX(-50%) rotate(-1deg)}.previewSheetOne{left:2%;top:130px;width:270px;transform:rotate(-10deg);opacity:.83}.previewSheetTwo{right:1%;top:150px;width:250px;transform:rotate(10deg);opacity:.8}.storyVisual img{display:block;width:100%;height:auto;border-radius:16px}
-.previewSection{padding:130px 0;background:linear-gradient(180deg,#fff,#f7fbf7)}.previewHeader{display:flex;align-items:end;justify-content:space-between;gap:40px;margin-bottom:50px}.previewHeader>div:first-child{max-width:730px}.previewTabs{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}.previewTabs button{min-height:44px;padding:0 17px;border:1px solid rgba(18,55,34,.1);border-radius:999px;background:#fff;color:#536058;font:inherit;font-size:.78rem;font-weight:950;cursor:pointer}.previewTabs .previewTabActive{background:#153f27;color:#fff;box-shadow:0 12px 28px rgba(21,63,39,.18)}.previewPanel{--accent:var(--green);display:grid;grid-template-columns:.68fr 1.32fr;gap:54px;align-items:center;min-height:620px;padding:60px;border:1px solid rgba(20,52,34,.08);border-radius:42px;background:radial-gradient(circle at 82% 15%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 38%),#fff;box-shadow:0 30px 80px rgba(26,57,37,.09)}.previewPanel[data-accent=blue]{--accent:var(--blue)}.previewPanel[data-accent=purple]{--accent:var(--purple)}.previewPanel[data-accent=orange]{--accent:var(--orange)}.previewCopy>span{color:var(--accent);font-family:serif;font-size:1.45rem}.previewCopy h3{margin:6px 0 0;color:var(--accent);font-size:clamp(3.5rem,5vw,5.8rem);line-height:.9}.previewCopy>p{margin:22px 0 0;color:var(--muted);line-height:1.75}.previewCopy ul{display:grid;gap:12px;margin:24px 0 30px;padding:0;list-style:none}.previewCopy li{display:flex;gap:10px;color:#34473c;font-weight:850}.previewCopy li:before{content:"✓";color:var(--accent)}.primaryButton{display:inline-flex;min-height:54px;align-items:center;justify-content:center;gap:10px;padding:0 25px;border-radius:999px;background:#247c36;color:#fff!important;font-weight:950;box-shadow:0 15px 30px rgba(36,124,54,.22)}.previewPages{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:center}.previewPage{overflow:hidden;border-radius:22px;background:#fff;box-shadow:0 26px 55px rgba(25,44,33,.17);transition:transform .22s ease}.previewPage:first-child{transform:rotate(-3deg)}.previewPage:last-child{transform:rotate(3deg) translateY(20px)}.previewPage:hover{transform:translateY(-8px)}.previewPage img{display:block;width:100%;height:auto}
+.previewSection{padding:130px 0;background:linear-gradient(180deg,#fff,#f7fbf7)}.previewHeader{display:flex;align-items:end;justify-content:space-between;gap:40px;margin-bottom:50px}.previewHeader>div:first-child{max-width:730px}.previewTabs{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}.previewTabs button{min-height:44px;padding:0 17px;border:1px solid rgba(18,55,34,.1);border-radius:999px;background:#fff;color:#536058;font:inherit;font-size:.78rem;font-weight:950;cursor:pointer}.previewTabs .previewTabActive{background:#153f27;color:#fff;box-shadow:0 12px 28px rgba(21,63,39,.18)}.previewPanel{--accent:var(--green);display:grid;grid-template-columns:.68fr 1.32fr;gap:54px;align-items:center;min-height:620px;padding:60px;border:1px solid rgba(20,52,34,.08);border-radius:42px;background:radial-gradient(circle at 82% 15%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 38%),#fff;box-shadow:0 30px 80px rgba(26,57,37,.09)}.previewPanel[data-accent=blue]{--accent:var(--blue)}.previewPanel[data-accent=purple]{--accent:var(--purple)}.previewPanel[data-accent=orange]{--accent:var(--orange)}.previewCopy>span{color:var(--accent);font-family:serif;font-size:1.45rem}.previewCopy h3{margin:6px 0 0;color:var(--accent);font-size:clamp(3.5rem,5vw,5.8rem);line-height:.9}.previewCopy>p{margin:22px 0 0;color:var(--muted);line-height:1.75}.previewCopy ul{display:grid;gap:12px;margin:24px 0 30px;padding:0;list-style:none}.previewCopy li{display:flex;gap:10px;color:#34473c;font-weight:850}.previewCopy li:before{content:"âœ“";color:var(--accent)}.primaryButton{display:inline-flex;min-height:54px;align-items:center;justify-content:center;gap:10px;padding:0 25px;border-radius:999px;background:#247c36;color:#fff!important;font-weight:950;box-shadow:0 15px 30px rgba(36,124,54,.22)}.previewPages{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:center}.previewPage{overflow:hidden;border-radius:22px;background:#fff;box-shadow:0 26px 55px rgba(25,44,33,.17);transition:transform .22s ease}.previewPage:first-child{transform:rotate(-3deg)}.previewPage:last-child{transform:rotate(3deg) translateY(20px)}.previewPage:hover{transform:translateY(-8px)}.previewPage img{display:block;width:100%;height:auto}
 .packageSection{padding:130px 0;background:#fffdf8}.packageGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.packageCard{position:relative;overflow:hidden;border:1px solid rgba(17,47,30,.09);border-radius:34px;background:#fff;box-shadow:0 24px 65px rgba(25,55,36,.1);transition:transform .22s ease,box-shadow .22s ease}.packageCard:hover{transform:translateY(-8px);box-shadow:0 34px 78px rgba(25,55,36,.14)}.packageBadge{position:absolute;top:18px;left:18px;z-index:10;padding:8px 12px;border-radius:999px;background:#153f27;color:#fff;font-size:.7rem;font-weight:950}.packageBooks{position:relative;height:340px;display:flex;align-items:end;justify-content:center;padding:40px 20px 0;background:radial-gradient(circle at 50% 82%,#fff 0,#f1f8ef 58%,#e8f2e5 100%)}.packageBook{position:absolute;bottom:18px;width:118px;filter:drop-shadow(0 20px 16px rgba(24,43,31,.2))}.packageBook img{display:block;width:100%;height:auto}.packageBody{padding:28px}.packageLabel{margin:0;color:#778078;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.12em}.packageBody h3{margin:7px 0 0;font-size:2.25rem}.packageBody>p:not(.packageLabel){min-height:54px;margin:12px 0 0;color:var(--muted);line-height:1.6}.packageFeatures{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.packageFeatures span{padding:7px 10px;border-radius:999px;background:#f1f6f1;font-size:.7rem;font-weight:900}.packagePrice{display:flex;align-items:baseline;gap:10px;margin:24px 0 20px}.packagePrice del{color:#9a9f9b}.packagePrice strong{font-size:2rem;color:#17672f}.packagePrice small{color:#777}.bundleCard{display:grid;grid-template-columns:270px 1fr auto;align-items:center;gap:38px;margin-top:30px;padding:20px 38px;border-radius:38px;background:linear-gradient(135deg,#143d26,#1d6734);color:#fff;box-shadow:0 28px 70px rgba(18,69,37,.26)}.bundleMascot{align-self:end}.bundleMascot img{display:block;width:100%;height:auto}.bundleCopy h3{margin:9px 0 0;font-size:clamp(2rem,4vw,4.2rem);line-height:1}.bundleCopy>p:last-child{max-width:700px;color:rgba(255,255,255,.78);line-height:1.65}.bundleCard .eyebrow{color:#d4f2d4}.bundlePrice{text-align:right}.bundlePrice del{display:block;color:rgba(255,255,255,.6)}.bundlePrice strong{display:block;font-size:3.2rem}.bundlePrice a{display:inline-flex;margin-top:10px;padding:13px 18px;border-radius:999px;background:#fff;color:#174d29;font-weight:950}
 .faqSection{padding:130px 0;background:#f7fbf7}.faqLayout{display:grid;grid-template-columns:.72fr 1.28fr;gap:70px;width:min(1160px,calc(100% - 48px));margin:auto}.faqIntro{position:sticky;top:120px;align-self:start}.faqList{display:grid;gap:12px}.faqList details{border:1px solid rgba(18,51,32,.09);border-radius:22px;background:#fff;box-shadow:0 12px 30px rgba(26,55,37,.05)}.faqList summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 24px;cursor:pointer;list-style:none;font-weight:950}.faqList summary::-webkit-details-marker{display:none}.faqList summary span{font-size:1.4rem}.faqList details p{margin:0;padding:0 24px 22px;color:var(--muted);line-height:1.7}.finalCta{position:relative;display:grid;grid-template-columns:1fr 350px;align-items:center;gap:40px;width:min(1280px,calc(100% - 48px));min-height:430px;margin:80px auto;padding:56px 64px;overflow:hidden;border-radius:44px;background:linear-gradient(135deg,#fff8e8,#edf9ed 52%,#edf7ff);box-shadow:0 30px 80px rgba(29,58,39,.12)}.finalCtaGlow{position:absolute;width:420px;height:420px;right:-90px;top:-120px;border-radius:50%;background:rgba(255,255,255,.65);filter:blur(20px)}.finalCtaCopy{position:relative;z-index:2;max-width:760px}.finalCtaCopy>p:not(.eyebrow){color:var(--muted);font-size:1.02rem}.finalButton{display:inline-flex;min-height:57px;align-items:center;gap:10px;margin-top:20px;padding:0 26px;border-radius:999px;background:#247c36;color:#fff!important;font-weight:950;box-shadow:0 16px 34px rgba(36,124,54,.24)}.finalMascot{position:relative;z-index:2;align-self:end}.finalMascot img{display:block;width:100%;height:auto}.footer{padding:56px 24px 110px;background:#10291a;color:#fff}.footerInner{display:grid;justify-items:center;text-align:center}.footerLogo{width:220px;height:auto;filter:brightness(0) invert(1)}.footerInner>p{color:rgba(255,255,255,.75)}.footerLinks{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;margin:18px 0}.footerLinks a{font-weight:900}.footerInner small{color:rgba(255,255,255,.55)}.mobileBuyBar{display:none}
 @media(max-width:980px){.storyInner,.previewPanel,.faqLayout{grid-template-columns:1fr}.storyInner{padding:60px 0}.storyVisual{min-height:560px}.previewHeader{display:block}.previewTabs{justify-content:flex-start;margin-top:25px}.packageGrid{grid-template-columns:1fr}.bundleCard{grid-template-columns:220px 1fr}.bundlePrice{grid-column:2;text-align:left}.faqIntro{position:static}.finalCta{grid-template-columns:1fr 280px}}
 @media(max-width:760px){.container{width:min(100% - 24px,560px)}.sectionIntro{margin-bottom:42px}.subjectSection,.previewSection,.packageSection,.faqSection{padding:82px 0}.subjectStories{gap:22px}.subjectStory{min-height:auto;border-radius:28px}.storyInner{display:flex;flex-direction:column;width:calc(100% - 32px);min-height:0;padding:36px 0 26px}.storyCopy{text-align:center}.storyCopy h3{font-size:3.8rem}.storyTagline{font-size:1.05rem}.storyPoints{justify-content:center}.storyVisual{width:100%;min-height:400px}.subjectBook{width:210px;top:30px}.previewSheetOne{left:0;top:110px;width:155px}.previewSheetTwo{right:0;top:120px;width:145px}.previewHeader{margin-bottom:30px}.previewPanel{gap:34px;padding:28px 18px;border-radius:28px}.previewCopy{text-align:center}.previewCopy ul{text-align:left}.previewPages{gap:10px}.previewPage{border-radius:14px}.packageGrid{gap:16px}.packageCard{border-radius:26px}.packageBooks{height:280px}.packageBook{width:92px}.bundleCard{grid-template-columns:1fr;padding:26px 24px;text-align:center}.bundleMascot{width:170px;margin:auto}.bundlePrice{grid-column:auto;text-align:center}.faqLayout{width:min(100% - 24px,560px);gap:28px}.finalCta{display:block;width:min(100% - 24px,560px);min-height:auto;margin:48px auto 80px;padding:34px 24px 0;text-align:center;border-radius:30px}.finalCta h2{font-size:2.5rem}.finalMascot{width:220px;margin:20px auto 0}.footer{padding-bottom:120px}.mobileBuyBar{position:fixed;right:10px;bottom:10px;left:10px;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 10px 10px 16px;border:1px solid rgba(21,69,39,.12);border-radius:21px;background:rgba(255,255,255,.9);box-shadow:0 20px 45px rgba(18,50,31,.2);backdrop-filter:blur(18px)}.mobileBuyBar div{display:grid}.mobileBuyBar small{color:#6b756e;font-size:.65rem}.mobileBuyBar strong{font-size:1.2rem;color:#17672f}.mobileBuyBar a{padding:13px 18px;border-radius:16px;background:#247c36;color:#fff;font-weight:950}}
 @media(prefers-reduced-motion:reduce){.packageCard,.previewPage{transition:none}}
+.sectionIntro h2 em{color:var(--green);font-style:normal}
 /* =========================================================
-   PANDAIKIDS PRICING V2 — TAMBAH SEKALI DI BAWAH
+   PANDAIKIDS PRICING V2 â€” TAMBAH SEKALI DI BAWAH
    landing.module.css
 ========================================================= */
 
 .packageSection {
   position: relative;
   overflow: hidden;
-  padding: 130px 0;
+  margin-top: -2px;
+  padding: 132px 0 130px;
   background:
+    linear-gradient(to bottom, #f8e8d0 0, #f9edda 34px, #eef8f5 86px, #eef8f5 100%),
     radial-gradient(circle at 8% 18%, rgba(224, 245, 229, 0.7), transparent 28%),
-    radial-gradient(circle at 92% 12%, rgba(226, 240, 255, 0.76), transparent 30%),
-    linear-gradient(180deg, #fffdf8 0%, #ffffff 48%, #f7fbf7 100%);
+    radial-gradient(circle at 92% 12%, rgba(226, 240, 255, 0.76), transparent 30%);
 }
+
+/* Final conversion polish: high-specificity mobile spacing overrides. */
+@media (max-width: 767px) {
+  .packageSection .packageCard .packageTitle { padding-top: 38px !important; }
+  .packageSection .packageCard .packageVisual { aspect-ratio: 1.08 / 1; min-height: 0; padding: 20px 14px 10px !important; }
+  .packageSection .packageCard .packageBody { padding: 14px 18px 16px !important; }
+  .packageSection .packageCard .packageFeatureList { gap: 5px; margin-top: 10px; }
+  .packageSection .packageCard .packagePriceBlock { margin-top: 10px; }
+  .packageSection .packageCard .packageBuyButton { min-height: 52px; margin-top: 14px; }
+  .packageSection .packageCard .packageMicrocopy { margin-top: 9px; }
+  .packageSection { padding-bottom: 32px !important; }
+  .howToBuySection { padding-top: 40px !important; }
+}
+.packageSection .bundlePopular { font-size: 0 !important; }
+.packageSection .bundleCardPremium .bundlePopular::after { content: "⭐ PILIHAN PALING BERBALOI" !important; font-size: .68rem; }
+.howToBuyHelp { margin: 14px auto 0; color: #667169; font-size: .8rem; text-align: center; }
+
+/* Shared section tones: subtle changes, no hard joints or transition spacers. */
+.packageSection {
+  background: linear-gradient(to bottom, var(--tone-mint-soft) 0%, var(--tone-mint) 78%, var(--tone-cream-soft) 100%) !important;
+}
+.howToBuySection {
+  background: linear-gradient(to bottom, var(--tone-cream-soft) 0%, var(--tone-cream) 100%) !important;
+}
+.faqSection {
+  background: linear-gradient(to bottom, var(--tone-cream) 0%, var(--tone-mint-soft) 100%) !important;
+}
+.pandiSection {
+  background: linear-gradient(to bottom, var(--tone-mint-soft) 0%, var(--tone-cream) 100%) !important;
+}
+.part9Footer {
+  background: linear-gradient(to bottom, var(--tone-cream) 0%, var(--tone-mint-soft) 70px, var(--tone-footer) 150px, var(--tone-footer) 100%) !important;
+}
+.part9Footer::before { display: none !important; }
+.part9Help, .part9Links { border-top: 0 !important; }
+
+/* Bundle hero treatment: scoped to the premium bundle only. */
+.packageSection .bundleCardPremium {
+  gap: 14px;
+  margin-top: 28px;
+  padding: 24px 18px 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 30px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 215, 120, 0.14), transparent 45%),
+    linear-gradient(145deg, #0d4f37 0%, #176b48 55%, #238052 100%);
+  box-shadow: 0 20px 48px rgba(4, 38, 25, 0.22);
+}
+.packageSection .bundleCardPremium::before { opacity: 0; }
+.packageSection .bundleCardPremium .bundlePopular {
+  align-self: center;
+  padding: 8px 13px;
+  color: #145238;
+  background: #fff5df;
+  box-shadow: none;
+  font-size: .68rem;
+}
+.packageSection .bundleCardPremium .bundleTitle { text-align: center; }
+.packageSection .bundleCardPremium .bundleTitle .eyebrow {
+  margin: 0;
+  color: #f5d58b;
+  font-size: .68rem;
+  letter-spacing: .16em;
+}
+.packageSection .bundleCardPremium .bundleTitle h3 {
+  margin: 8px 0 0;
+  color: #fff;
+  font-size: clamp(2.25rem, 9vw, 3.5rem);
+  line-height: .95;
+}
+.packageSection .bundleCardPremium .bundleTitle > p:last-child {
+  margin: 8px 0 0;
+  color: rgba(255,255,255,.84);
+  font-size: .96rem;
+}
+.packageSection .bundleCardPremium .bundleVisual {
+  min-height: 255px;
+  height: auto;
+  background: transparent;
+}
+.packageSection .bundleCardPremium .bundleVisual img {
+  width: min(100%, 390px);
+  max-height: none;
+  filter: drop-shadow(0 18px 24px rgba(4, 38, 25, 0.28));
+}
+.packageSection .bundleCardPremium .bundleCopyPremium {
+  width: 100%;
+  padding-bottom: 4px;
+}
+.packageSection .bundleCardPremium .bundleStats {
+  justify-content: center;
+  gap: 8px;
+  margin-top: 0;
+}
+.packageSection .bundleCardPremium .bundleStats span {
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff5df;
+  background: rgba(255,255,255,.1);
+  font-size: .73rem;
+}
+.packageSection .bundleCardPremium .bundleStats strong { color: inherit; font-size: .78rem; }
+.packageSection .bundleCardPremium .bundlePricePremium {
+  width: calc(100% + 36px);
+  margin: 0 -18px;
+  padding: 20px 18px 18px;
+  border-radius: 0 0 30px 30px;
+  color: #123d2a;
+  background: #fff5df;
+}
+.packageSection .bundleCardPremium .bundlePricePremium > span,
+.packageSection .bundleCardPremium .bundlePricePremium del,
+.packageSection .bundleCardPremium .bundlePricePremium small { color: #496458; }
+.packageSection .bundleCardPremium .bundlePricePremium > span { font-size: .68rem; letter-spacing: .14em; }
+.packageSection .bundleCardPremium .bundlePricePremium del { margin-top: 5px; }
+.packageSection .bundleCardPremium .bundlePricePremium > strong {
+  margin-top: 2px;
+  color: #0d4f37;
+  font-size: clamp(2.8rem, 13vw, 4rem);
+  line-height: .92;
+}
+.packageSection .bundleCardPremium .bundleSavings {
+  margin-top: 7px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: #f45b16;
+  font-size: .74rem;
+  font-style: normal;
+  font-weight: 900;
+}
+.packageSection .bundleCardPremium .bundlePricePremium a {
+  min-height: 52px;
+  margin-top: 18px;
+  color: #123d2a;
+  background: #f5d58b;
+  box-shadow: none;
+  font-size: .96rem;
+}
+.packageSection .bundleCardPremium .bundlePricePremium small {
+  margin-top: 8px;
+  font-size: .66rem;
+}
+.packageSection .promoCountdownAfter { margin-top: 28px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .packageSection .bundleCardPremium { transition: none; }
+}
+
+/* Compact, consistent product cards for the mobile-first package section. */
+.packageCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.packageTopline { top: 14px; right: 18px; left: 18px; }
+.digitalPill { min-height: 26px; padding: 0 10px; font-size: 0.62rem; }
+.packageTitle { padding: 42px 18px 0; }
+.packageTitle h3 { font-size: clamp(1.55rem, 6.8vw, 1.9rem); }
+.packageVisual {
+  width: 100%;
+  min-height: 0;
+  height: 232px;
+  aspect-ratio: 1 / 1;
+  padding: 14px 18px;
+  overflow: hidden;
+}
+.packageProductImage { width: 100%; max-width: 270px; max-height: 100%; object-fit: contain; }
+.packageBody { gap: 0; padding: 16px 18px 18px; }
+.packageSummary { font-size: 0.84rem; line-height: 1.4; }
+.packageFeatureList { gap: 8px; margin-top: 15px; }
+.packageFeatureList li { gap: 9px; font-size: 0.82rem; line-height: 1.25; }
+.packageFeatureList li::before {
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border-radius: 3px;
+  content: "";
+  border-right: 2px solid #247c36;
+  border-bottom: 2px solid #247c36;
+  background: transparent;
+  transform: rotate(45deg) scale(.72);
+}
+.packagePriceBlock { margin-top: 17px; gap: 10px; }
+.packagePriceBlock > div { gap: 8px; }
+.packagePriceBlock del { font-size: 0.84rem; }
+.packagePriceBlock strong { font-size: clamp(2.5rem, 11vw, 3rem); }
+.packagePriceBlock small { font-size: 0.65rem; }
+.packageBuyButton { min-height: 50px; margin-top: 15px; font-size: 0.94rem; }
+.packageMicrocopy { order: 5; margin-top: 9px; font-size: 0.66rem; }
+.packageBuyButton { order: 6; }
+.packageSummary { order: 1; }
+.packageFeatureList { order: 2; }
+.packagePriceBlock { order: 3; }
+
+.bundleCardPremium { gap: 14px; margin-top: 24px; padding: 24px 18px 18px; border-radius: 30px; }
+.bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.65rem); }
+.bundleTitle > p:last-child { margin-top: 4px; font-size: .9rem; }
+.bundleVisual { min-height: 0; height: 190px; }
+.bundleVisual img { width: min(100%, 285px); max-height: 100%; object-fit: contain; }
+.bundleStats { gap: 8px; margin-top: 9px; }
+.bundleStats span { padding: 7px 11px; font-size: .74rem; }
+.bundleStats strong { font-size: .8rem; }
+.bundlePricePremium { margin-top: 10px; }
+.bundlePricePremium > strong { font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: .95; letter-spacing: -.04em; }
+.bundlePricePremium a { min-height: 50px; margin-top: 18px; font-size: .94rem; }
+.bundlePricePremium small { margin-top: 8px; }
+
+@media (min-width: 768px) {
+  .packageVisual { height: 250px; }
+  .bundleVisual { height: 230px; }
+}
+.promoCountdown { width: min(100%, 560px); margin: -38px auto 48px; padding: 17px 20px; border: 0; border-radius: 20px; background: #F45B16; color: #fff; text-align: center; box-shadow: 0 14px 35px rgba(244,91,22,.16); }
+.promoCountdown > strong { display: block; color: #fff; font-size: .82rem; letter-spacing: .08em; }
+.promoCountdown > span { display: block; margin-top: 6px; color: #fff8ee; font-size: .78rem; font-weight: 800; }
+.promoDigits { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+.promoDigits b { display: grid; min-width: 0; padding: 8px 4px 7px; border-radius: 10px; background: #fff8ee; color: #0F6B3A; font-size: 1.35rem; line-height: 1; }
+.promoDigits small { margin-top: 5px; color: #7d877f; font-size: .58rem; font-weight: 800; }
+.promoCountdown em { display: block; margin-top: 9px; color: #fff8ee; font-size: .72rem; font-style: normal; font-weight: 900; }
+.promoCountdown > strong { font-size: 0; }
+.promoCountdown > strong::after { content: "🔥 PROMOSI 3 HARI SAHAJA"; font-size: .82rem; }
+.promoCountdown > span { font-size: 0; }
+.promoCountdown > span::after { content: "Tawaran tamat dalam:"; font-size: .78rem; }
+.promoCountdownCompact { padding: 14px 16px; border-radius: 18px; }
+.promoCountdownCompact > strong::after { content: "🔥 Jangan Terlepas Harga Promosi"; font-size: .78rem; }
+.promoCountdownCompact > span::after { content: "Harga ini tamat dalam:"; font-size: .74rem; }
+.promoCountdownCompact .promoDigits { gap: 7px; margin-top: 8px; }
+.promoCountdownCompact .promoDigits b { padding: 7px 3px 6px; font-size: 1.15rem; }
+.promoCountdownCompact .promoDigits small { margin-top: 4px; font-size: .54rem; }
+.promoCountdownAfter { width: min(100%, 560px); margin: 32px auto 0; text-align: center; }
+.promoAfterCopy { margin: 10px auto 0; color: #66736b; font-size: .72rem; line-height: 1.45; }
+.promoAfterCta { display: flex; width: min(100%, 360px); min-height: 48px; align-items: center; justify-content: center; gap: 8px; margin: 12px auto 0; padding: 0 18px; border-radius: 999px; background: #0F6B3A; color: #fff; font-size: .9rem; font-weight: 900; box-shadow: 0 10px 24px rgba(15,107,58,.18); }
 
 .packageGrid {
   display: grid;
@@ -72,6 +309,8 @@
   justify-content: space-between;
   gap: 10px;
 }
+.packageTitle { position: relative; z-index: 2; padding: 56px 20px 0; text-align: center; }
+.packageTitle h3 { margin: 0; color: #10211a; font-size: clamp(1.5rem, 6vw, 2rem); line-height: 1.05; letter-spacing: -.04em; }
 
 .packageBadge,
 .digitalPill {
@@ -101,7 +340,7 @@
 .packageVisual {
   position: relative;
   display: grid;
-  min-height: 350px;
+  min-height: 285px;
   place-items: center;
   padding: 58px 28px 18px;
   background:
@@ -139,8 +378,12 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 30px;
+  gap: 0;
+  padding: 18px 20px 20px;
 }
+
+.packageSummary { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.45; }
+.packageBody > .packageSummary { min-height: 0; margin: 0; }
 
 .packageLabel {
   margin: 0;
@@ -167,8 +410,8 @@
 
 .packageFeatureList {
   display: grid;
-  gap: 10px;
-  margin: 23px 0 0;
+  gap: 7px;
+  margin: 14px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -189,7 +432,10 @@
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
-  content: "✓";
+  content: "";
+  border-right: 2px solid #247c36;
+  border-bottom: 2px solid #247c36;
+  transform: rotate(45deg) scale(.72);
   color: #247c36;
   font-size: 0.67rem;
   background: #e7f6e9;
@@ -200,8 +446,8 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-top: auto;
-  padding-top: 28px;
+  margin-top: 14px;
+  padding-top: 0;
 }
 
 .packagePriceBlock > div {
@@ -264,10 +510,10 @@
 
 .bundleCardPremium {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.2fr) minmax(270px, 0.7fr);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
   margin-top: 34px;
   padding: 34px 40px;
   overflow: hidden;
@@ -279,7 +525,12 @@
     radial-gradient(circle at 88% 18%, rgba(119, 180, 255, 0.2), transparent 31%),
     linear-gradient(135deg, #123820 0%, #1d6734 56%, #174927 100%);
   box-shadow: 0 30px 78px rgba(18, 69, 37, 0.28);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
+
+.bundleCardPremium > * { position: static; inset: auto; transform: none; float: none; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; overflow-wrap: anywhere; word-break: normal; white-space: normal; }
 
 .bundleCardPremium::before {
   position: absolute;
@@ -293,10 +544,10 @@
 }
 
 .bundlePopular {
-  position: absolute;
+  position: static;
   z-index: 5;
-  top: 20px;
-  right: 22px;
+  width: fit-content !important;
+  align-self: center;
   padding: 9px 13px;
   border-radius: 999px;
   color: #164727;
@@ -307,8 +558,12 @@
   letter-spacing: 0.11em;
 }
 
+.bundleTitle { text-align: center; }
+.bundleTitle h3 { margin: 8px 0 0; color: #fff; font-size: clamp(2.35rem, 8vw, 4.5rem); line-height: .95; letter-spacing: -.055em; }
+.bundleTitle > p:last-child { margin: 8px 0 0; color: rgba(255,255,255,.84); font-size: 1.05rem; font-weight: 850; }
+
 .bundleVisual {
-  position: relative;
+  position: static;
   z-index: 2;
   display: grid;
   min-height: 300px;
@@ -323,7 +578,7 @@
 }
 
 .bundleCopyPremium {
-  position: relative;
+  position: static;
   z-index: 2;
 }
 
@@ -372,12 +627,11 @@
 }
 
 .bundlePricePremium {
-  position: relative;
+  position: static;
   z-index: 2;
   display: grid;
-  justify-items: end;
-  text-align: right;
-  min-width: 0;
+  justify-items: center;
+  text-align: center;
 }
 
 .bundlePricePremium > span {
@@ -395,14 +649,16 @@
 
 .bundlePricePremium > strong {
   margin-top: 3px;
-  font-size: clamp(3.4rem, 4vw, 4.6rem);
+  font-size: clamp(2.6rem, 12vw, 4.25rem);
   line-height: 0.9;
   letter-spacing: -0.06em;
-  white-space: nowrap;
 }
 
 .bundlePricePremium a {
   display: inline-flex;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
   min-height: 55px;
   align-items: center;
   gap: 10px;
@@ -413,7 +669,6 @@
   background: #fff;
   box-shadow: 0 17px 35px rgba(8, 32, 17, 0.22);
   font-weight: 950;
-  white-space: nowrap;
 }
 
 .bundlePricePremium small {
@@ -458,8 +713,8 @@
   }
 
   .packageVisual {
-    min-height: 305px;
-    padding: 55px 20px 14px;
+    min-height: 250px;
+    padding: 38px 18px 10px;
   }
 
   .packageProductImage {
@@ -467,7 +722,7 @@
   }
 
   .packageBody {
-    padding: 25px 22px 24px;
+    padding: 18px 20px 20px;
   }
 
   .packagePriceBlock strong {
@@ -476,10 +731,17 @@
 
   .bundleCardPremium {
     display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 1fr);
     padding: 58px 23px 28px;
     text-align: center;
     border-radius: 30px;
   }
+
+  .bundleCardPremium > * { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
 
   .bundlePopular {
     top: 17px;
@@ -492,6 +754,9 @@
 
   .bundleVisual img {
     width: min(100%, 310px);
+    max-width: 100%;
+    object-fit: contain;
+    margin-inline: auto;
   }
 
   .bundleCopyPremium h3 {
@@ -510,7 +775,15 @@
     justify-items: center;
     margin-top: 30px;
     text-align: center;
+    min-width: 0;
   }
+
+  .bundlePricePremium > strong { font-size: clamp(2.5rem, 13vw, 4.5rem); }
+  .bundlePricePremium a { width: 100%; max-width: 100%; justify-content: center; box-sizing: border-box; }
+
+  .promoCountdown { margin-top: -20px; margin-bottom: 38px; }
+  .promoDigits { gap: 7px; }
+  .promoDigits b { min-width: 0; font-size: 1.18rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -521,341 +794,1061 @@
   }
 }
 
-/* =========================================================
-   FINAL PRODUCT IMAGE FRAME POLISH
-========================================================= */
-.packageVisual {
-  perspective: 1200px;
-}
+@media (max-width: 767px) {
+  .packageSection { padding-top: 40px; }
 
-.packageImageFrame {
-  position: relative;
-  z-index: 2;
-  width: min(100%, 350px);
-  padding: 8px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.92);
-  border-radius: 28px;
-  background: linear-gradient(145deg,rgba(255,255,255,.98),rgba(229,240,228,.86));
-  box-shadow:
-    0 24px 36px rgba(24,43,31,.19),
-    0 8px 12px rgba(24,43,31,.09),
-    inset 0 1px 0 rgba(255,255,255,1),
-    inset 0 -1px 0 rgba(36,122,62,.1);
-  transform: rotateX(1.5deg) translateZ(0);
-  transition:
-    transform .28s ease,
-    box-shadow .28s ease;
-}
-
-.packageImageFrame::before {
-  position: absolute;
-  z-index: 3;
-  inset: 0;
-  border-radius: inherit;
-  content: "";
-  pointer-events: none;
-  background: linear-gradient(135deg,rgba(255,255,255,.42),transparent 32%,transparent 70%,rgba(255,255,255,.16));
-}
-
-.packageProductImage {
-  width: 100%;
-  border-radius: 21px;
-  filter: none;
-}
-
-.packageCard:hover .packageImageFrame {
-  transform: translateY(-6px) rotateX(0deg) scale(1.018);
-  box-shadow:
-    0 32px 50px rgba(24,43,31,.23),
-    0 10px 18px rgba(24,43,31,.1),
-    inset 0 1px 0 rgba(255,255,255,1);
-}
-
-.packageCard:hover .packageProductImage {
-  transform: none;
-}
-
-.packageVisual::after {
-  right: 18%;
-  left: 18%;
-  bottom: 8px;
-  height: 35px;
-  background: rgba(29,54,36,.18);
-  filter: blur(19px);
-}
-
-@media(max-width:760px){
-  .packageImageFrame {
-    width: min(100%,310px);
-    border-radius: 24px;
+  .bundleCardPremium {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
   }
-  .packageProductImage {
-    border-radius: 18px;
+
+  .bundleCardPremium > * {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 }
-.whatsappFloat{
-position:fixed;
-right:20px;
-bottom:96px;
-z-index:999;
 
-display:flex;
-align-items:center;
-gap:10px;
-
-padding:14px 18px;
-
-background:#25D366;
-color:#fff;
-
-border-radius:999px;
-
-text-decoration:none;
-
-font-weight:700;
-
-box-shadow:0 14px 40px rgba(0,0,0,.18);
-
-transition:.25s;
-}
-
-.whatsappFloat:hover{
-
-transform:translateY(-3px);
-
-box-shadow:0 18px 50px rgba(0,0,0,.22);
-
-}
-
-.whatsappFloat span{
-
-white-space:nowrap;
-
-}
-
-@media(max-width:768px){
-
-.whatsappFloat{
-
-bottom:86px;
-
-padding:15px;
-
-border-radius:50%;
-
-}
-
-.whatsappFloat span{
-
-display:none;
-
-}
-
-}
-.whatsappSupport {
+/* Bahagian 7: compact FAQ that follows the purchase path. */
+.faqSection {
   position: relative;
-  padding: 28px 24px 72px;
+  margin-top: -2px;
+  padding: 64px 0 82px;
+  background: linear-gradient(to bottom, #fff6e8 0, #f9edda 72px, #eef8f5 150px, #eef8f5 100%);
+}
+.faqInner { width: min(100% - 32px, 760px); margin: 0 auto; text-align: center; }
+.faqInner h2 { margin: 12px 0 0; color: #10211a; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.08; letter-spacing: -.045em; }
+.faqIntro { max-width: 560px; margin: 14px auto 0; color: #667169; font-size: .98rem; line-height: 1.6; }
+.faqList { display: grid; gap: 10px; margin-top: 30px; text-align: left; }
+.faqItem { min-width: 0; overflow: hidden; border-radius: 16px; background: rgba(255,255,255,.62); }
+.faqQuestion { display: flex; width: 100%; min-height: 54px; align-items: center; justify-content: space-between; gap: 16px; padding: 15px 17px; border: 0; background: transparent; color: #14241c; font: inherit; font-size: .96rem; font-weight: 850; line-height: 1.3; text-align: left; cursor: pointer; }
+.faqQuestion:focus-visible { outline: 3px solid rgba(15,107,58,.35); outline-offset: -3px; }
+.faqIcon { flex: 0 0 auto; color: #0f6b3a; font-size: 1.45rem; font-weight: 500; line-height: 1; }
+.faqAnswer { display: grid; grid-template-rows: 0fr; padding: 0 17px; color: #56635d; font-size: .88rem; line-height: 1.58; transition: grid-template-rows 220ms ease, padding 220ms ease; }
+.faqAnswerOpen { grid-template-rows: 1fr; padding-bottom: 16px; }
+.faqAnswer p { min-height: 0; margin: 0; max-width: 650px; overflow: hidden; }
+.faqCtaLead { margin: 30px 0 0; color: #173125; font-size: .92rem; font-weight: 750; }
+.faqCta { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; gap: 9px; width: min(100%, 320px); margin-top: 14px; padding: 0 20px; border-radius: 999px; background: #0f6b3a; color: #fff; font-size: .95rem; font-weight: 900; box-shadow: 0 12px 26px rgba(15,107,58,.17); }
+@media (max-width: 700px) {
+  .faqSection { padding: 52px 0 68px; }
+  .faqInner { width: min(100% - 28px, 560px); }
+  .faqInner h2 { font-size: 2.25rem; }
+  .faqIntro { font-size: .9rem; }
+  .faqList { margin-top: 24px; }
+  .faqQuestion { min-height: 52px; padding: 14px 15px; font-size: .9rem; }
+  .faqAnswer { padding-right: 15px; padding-left: 15px; font-size: .84rem; }
+  .faqAnswerOpen { padding-bottom: 15px; }
 }
 
-.whatsappSupportInner {
-  width: min(1120px, 100%);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 28px;
-  padding: 40px 42px;
+/* Bahagian 8: emotional closing scene with the supplied transparent ensemble. */
+.pandiSection {
+  position: relative;
+  margin-top: -2px;
+  padding: 68px 0 86px;
   overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 8% 20%,
-      rgba(187, 247, 208, 0.55),
-      transparent 34%
-    ),
-    linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-  border: 1px solid rgba(34, 197, 94, 0.18);
-  border-radius: 30px;
-  box-shadow: 0 24px 65px rgba(22, 101, 52, 0.1);
+  background: linear-gradient(to bottom, #eef8f5 0, #f9edda 120px, #f8e8d0 100%);
+}
+.pandiInner { width: min(100% - 32px, 980px); margin: 0 auto; text-align: center; container-type: inline-size; }
+.pandiCopy { max-width: 650px; margin: 0 auto; }
+.pandiCopy h2 { margin: 12px 0 0; color: #10211a; font-size: clamp(2.15rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -.05em; }
+.pandiCopy h2 span { color: #0f6b3a; font-weight: 950; }
+.pandiLead { max-width: 590px; margin: 16px auto 0; color: #5f6b64; font-size: 1rem; line-height: 1.65; }
+.pandiVisual { position: relative; max-width: 900px; margin: 26px auto 0; padding: 0 10px; }
+.pandiVisual::before { content: ""; position: absolute; inset: 14% 12% 8%; z-index: 0; border-radius: 50%; background: radial-gradient(circle, rgba(245,178,62,.18), rgba(116,184,139,.08) 48%, transparent 72%); filter: blur(16px); }
+.pandiVisual img { position: relative; z-index: 1; display: block; width: 100%; height: auto; object-fit: contain; }
+.pandiStory { max-width: 640px; margin: 8px auto 0; }
+.pandiStory h3 { margin: 0; color: #0f6b3a; font-size: 1.35rem; }
+.pandiStory p { margin: 8px auto 0; color: #5f6b64; font-size: .92rem; line-height: 1.6; }
+.pandiQuote { max-width: 620px; margin: 28px auto 0; padding: 20px 22px; border: 0; border-radius: 22px; background: rgba(255,255,255,.5); color: #173125; font-size: 1.1rem; font-weight: 850; line-height: 1.45; }
+.pandiCtaBlock { max-width: 650px; margin: 42px auto 0; }
+.pandiCtaBlock h2 { margin: 0; color: #10211a; font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -.04em; }
+.pandiCta { display: inline-flex; min-height: 52px; align-items: center; justify-content: center; gap: 9px; width: min(100%, 340px); margin-top: 18px; padding: 0 22px; border-radius: 999px; background: #0f6b3a; color: #fff; font-size: 1rem; font-weight: 900; box-shadow: 0 14px 28px rgba(15,107,58,.18); }
+.pandiMeta { margin: 12px 0 0; color: #456050; font-size: .78rem; font-weight: 750; }
+.pandiPromo { margin: 8px 0 0; color: #d85b22; font-size: .8rem; font-weight: 850; }
+.part9Footer { position: relative; margin-top: 0; padding: 52px 16px 34px; background: linear-gradient(to bottom, #f8e8d0 0, #eef8f5 72px, #eaf5ec 150px, #eaf5ec 100%); color: #123d2a; }
+.part9Footer::before { position: absolute; top: -72px; right: 0; left: 0; height: 72px; content: ""; pointer-events: none; background: linear-gradient(to bottom, rgba(248,232,208,0), #eaf5ec); }
+.part9Inner { width: min(100%, 980px); margin: 0 auto; display: grid; gap: 30px; justify-items: center; text-align: center; }
+.part9Brand { max-width: 510px; }
+.part9Brand img { display: block; width: min(230px, 70vw); max-width: 100%; height: auto; margin: 0 auto 10px; object-fit: contain; }
+.part9Brand h2 { margin: 0; color: #123d2a; font-size: clamp(1.45rem, 4vw, 2rem); line-height: 1.15; }
+.part9Brand p, .part9Help p { margin: 10px auto 0; color: #496458; font-size: .9rem; line-height: 1.6; }
+.part9Help { width: min(100%, 520px); padding-top: 26px; border-top: 1px solid rgba(18,61,42,.16); }
+.part9Help h3 { margin: 0; color: #123d2a; font-size: 1.25rem; }
+.part9Whatsapp { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; gap: 9px; width: min(100%, 300px); margin-top: 17px; padding: 0 20px; border: 0; border-radius: 999px; background: #16a75c; color: #fff; font: inherit; font-weight: 950; opacity: .68; cursor: not-allowed; }
+.part9Help small { display: block; margin-top: 9px; color: #496458; font-size: .7rem; line-height: 1.45; }
+.part9ProductNote { margin: 0; color: #496458; font-size: .78rem; line-height: 1.5; }
+.part9Links { padding-top: 20px; border-top: 1px solid rgba(18,61,42,.12); color: #496458; font-size: .76rem; }
+.part9Copyright { margin: 0; color: #496458; font-size: .72rem; }
+@container (min-width: 760px) { .part9Inner { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); align-items: start; justify-items: stretch; text-align: left; column-gap: 60px; row-gap: 22px; } .part9Brand img { width: min(260px, 100%); margin-left: 0; } .part9Help { padding-top: 0; border-top: 0; } .part9Help p { margin-left: 0; } .part9Whatsapp { width: auto; } .part9ProductNote, .part9Links, .part9Copyright { grid-column: 1 / -1; justify-self: center; text-align: center; } }
+@container (min-width: 760px) {
+  .pandiInner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: center; column-gap: 54px; text-align: left; }
+  .pandiCopy, .pandiStory, .pandiCtaBlock { max-width: none; margin-left: 0; margin-right: 0; }
+  .pandiVisual { grid-column: 2; grid-row: 1 / span 4; margin: 0; padding: 0; }
+  .pandiCopy { grid-column: 1; grid-row: 1; }
+  .pandiStory { grid-column: 1; grid-row: 2; margin-top: 28px; }
+  .pandiQuote { grid-column: 1; grid-row: 3; margin: 28px 0 0; }
+  .pandiCtaBlock { grid-column: 1; grid-row: 4; margin-top: 42px; }
+}
+@media (max-width: 700px) {
+  .pandiSection { padding: 54px 0 70px; }
+  .pandiInner { width: min(100% - 28px, 560px); }
+  .pandiCopy h2 { font-size: 2.25rem; }
+  .pandiLead { font-size: .9rem; }
+  .pandiVisual { margin-top: 22px; padding: 0; }
+  .pandiStory h3 { font-size: 1.2rem; }
+  .pandiStory p { font-size: .86rem; }
+  .pandiQuote { margin-top: 22px; padding: 17px 18px; font-size: .98rem; }
+  .pandiCtaBlock { margin-top: 32px; }
+  .pandiCtaBlock h2 { font-size: 1.8rem; }
+  .pandiMeta { font-size: .72rem; line-height: 1.5; }
 }
 
-.whatsappSupportIcon {
-  display: grid;
-  place-items: center;
-  width: 78px;
-  height: 78px;
-  flex: 0 0 auto;
-  background: #dcfce7;
-  border: 1px solid #bbf7d0;
-  border-radius: 24px;
-  font-size: 36px;
-  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.12);
+/* Bundle uses the same card interaction model as the year package cards. */
+.bundleCardPremium {
+  touch-action: pan-y;
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
-.whatsappSupportCopy {
-  min-width: 0;
+@media (hover: hover) and (pointer: fine) {
+  .bundleCardPremium:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(15, 107, 58, 0.22);
+  }
 }
 
-.whatsappSupportLabel {
-  margin: 0 0 7px;
-  color: #15803d;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.13em;
+@media (hover: none), (pointer: coarse) {
+  .bundleCardPremium:active {
+    transform: translateY(-3px) scale(0.985);
+    box-shadow: 0 12px 28px rgba(15, 107, 58, 0.20);
+  }
 }
 
-.whatsappSupportCopy h2 {
-  margin: 0 0 9px;
-  color: #17251d;
-  font-size: clamp(26px, 3vw, 38px);
-  line-height: 1.1;
+.bundleCardPremium:focus-within {
+  transform: translateY(-4px);
 }
 
-.whatsappSupportCopy > p:last-child {
-  max-width: 650px;
-  margin: 0;
-  color: #5f6f65;
-  font-size: 16px;
-  line-height: 1.75;
+/* Final density pass: keep every section readable without unnecessary scroll. */
+@media (min-width: 768px) {
+  .packageSection { padding-top: 96px; padding-bottom: 96px; }
+  .howToBuySection { padding-top: 64px; padding-bottom: 72px; }
+  .faqSection { padding-top: 60px; padding-bottom: 72px; }
+  .pandiSection { padding-top: 64px; padding-bottom: 76px; }
+  .part9Footer { padding-top: 46px; padding-bottom: 30px; }
 }
 
-.whatsappSupportAction {
+@media (max-width: 767px) {
+  .packageSection { padding-top: 40px; padding-bottom: 56px; }
+  .packageGrid { gap: 14px; }
+  .packageTitle { padding-top: 48px; }
+  .packageVisual { min-height: 235px; padding-top: 32px; }
+  .packageBody { padding: 16px 18px 18px; }
+  .packageBody > p:not(.packageLabel):not(.packageMicrocopy) { margin-top: 10px; line-height: 1.55; }
+  .packageFeatureList { gap: 6px; margin-top: 12px; }
+  .packagePriceBlock { margin-top: 12px; }
+  .packageBuyButton { margin-top: 14px; }
+
+  .bundleCardPremium { gap: 12px; margin-top: 20px; padding: 28px 18px 18px; border-radius: 28px; }
+  .bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.7rem); }
+  .bundleTitle > p:last-child { margin-top: 5px; font-size: .9rem; }
+  .bundleVisual { min-height: 150px; }
+  .bundleVisual img { width: min(100%, 270px); }
+  .bundleStats { gap: 8px; margin-top: 12px; justify-content: center; }
+  .bundleStats span { padding: 8px 13px; font-size: .78rem; }
+  .bundleStats strong { font-size: .84rem; }
+  .bundlePricePremium { margin-top: 14px; }
+  .bundlePricePremium del { margin-top: 3px; }
+  .bundlePricePremium > strong { margin-top: 2px; font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: .95; letter-spacing: -.04em; white-space: nowrap; }
+  .bundlePricePremium a { min-height: 51px; margin-top: 20px; padding: 0 16px; font-size: .95rem; }
+  .bundlePricePremium small { margin-top: 8px; }
+  .promoCountdownAfter { margin-top: 22px; }
+  .promoCountdownAfter .promoCountdown { margin: 0 auto; }
+
+  .howToBuySection { padding-top: 48px; padding-bottom: 56px; }
+  .howToBuyIntro > p:last-child { margin-top: 14px; line-height: 1.55; }
+  .howToBuySteps { gap: 12px; margin-top: 24px; }
+  .howToBuyMicrocopy { margin-top: 20px; }
+  .howToBuyCta { margin-top: 18px; }
+
+  .faqSection { padding-top: 48px; padding-bottom: 56px; }
+  .faqIntro { margin-top: 12px; line-height: 1.55; }
+  .faqList { gap: 8px; margin-top: 22px; }
+  .faqQuestion { min-height: 50px; padding: 13px 15px; }
+  .faqAnswerOpen { padding-bottom: 13px; }
+  .faqCtaLead { margin-top: 24px; }
+  .faqCta { margin-top: 12px; }
+
+  .pandiSection { padding-top: 48px; padding-bottom: 60px; }
+  .pandiLead { margin-top: 14px; line-height: 1.55; }
+  .pandiVisual { margin-top: 18px; }
+  .pandiStory { margin-top: 6px; }
+  .pandiQuote { margin-top: 20px; padding: 16px 18px; }
+  .pandiCtaBlock { margin-top: 28px; }
+  .pandiCta { margin-top: 14px; }
+  .part9Footer { padding-top: 44px; padding-bottom: 30px; }
+  .part9Inner { gap: 22px; }
+  .part9Help { padding-top: 20px; }
+  .part9Brand p, .part9Help p { margin-top: 8px; line-height: 1.5; }
+  .part9ProductNote { line-height: 1.45; }
+  .part9Links { padding-top: 16px; }
+  .packageTitle { padding-top: 42px; }
+  .packageVisual { min-height: 0; height: 232px; padding: 14px 18px; aspect-ratio: 1 / 1; }
+  .packageBody { padding: 16px 18px 18px; }
+  .packageFeatureList { gap: 8px; margin-top: 15px; }
+  .packagePriceBlock { margin-top: 17px; }
+  .packageBuyButton { min-height: 50px; margin-top: 15px; }
+  .bundleCardPremium { gap: 14px; margin-top: 24px; padding: 24px 18px 18px; }
+  .bundleVisual { min-height: 0; height: 190px; }
+  .bundleStats { gap: 8px; margin-top: 9px; }
+  .bundlePricePremium { margin-top: 10px; }
+  .bundlePricePremium a { min-height: 50px; margin-top: 18px; }
+  .packageMicrocopy { display: block; order: 5; margin-top: 9px; font-size: .66rem; }
+  .packageBuyButton { order: 6; }
+  .packageSummary { order: 1; }
+  .packageFeatureList { order: 2; }
+  .packagePriceBlock { order: 3; }
+}
+
+/* Final compact package-card polish. */
+.packageCard {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 9px;
-  text-align: right;
+  min-height: 0;
+}
+.packageTopline { top: 14px; right: 18px; left: 18px; }
+.digitalPill { min-height: 26px; padding: 0 10px; font-size: .62rem; }
+.packageTitle { padding: 42px 18px 0; }
+.packageTitle h3 { font-size: clamp(1.55rem, 6.8vw, 1.9rem); }
+.packageVisual { width: 100%; min-height: 0; height: 232px; aspect-ratio: 1 / 1; padding: 14px 18px; overflow: hidden; }
+.packageProductImage { width: 100%; max-width: 270px; max-height: 100%; object-fit: contain; }
+.packageBody { gap: 0; padding: 16px 18px 18px; }
+.packageSummary { order: 1; font-size: .84rem; line-height: 1.4; }
+.packageFeatureList { order: 2; gap: 8px; margin-top: 15px; }
+.packageFeatureList li { gap: 9px; font-size: .82rem; line-height: 1.25; }
+.packageFeatureList li::before { width: 16px; height: 16px; margin-top: 1px; border-radius: 3px; content: ""; border-right: 2px solid #247c36; border-bottom: 2px solid #247c36; background: transparent; transform: rotate(45deg) scale(.72); }
+.packagePriceBlock { order: 3; margin-top: 17px; gap: 10px; }
+.packagePriceBlock > div { gap: 8px; }
+.packagePriceBlock del { font-size: .84rem; }
+.packagePriceBlock strong { font-size: clamp(2.5rem, 11vw, 3rem); }
+.packagePriceBlock small { font-size: .65rem; }
+.packageMicrocopy { order: 5; margin-top: 9px; font-size: .66rem; }
+.packageBuyButton { order: 6; min-height: 50px; margin-top: 15px; font-size: .94rem; }
+.bundleCardPremium { gap: 14px; margin-top: 24px; padding: 24px 18px 18px; border-radius: 30px; }
+.bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.65rem); }
+.bundleTitle > p:last-child { margin-top: 4px; font-size: .9rem; }
+.bundleVisual { min-height: 0; height: 190px; }
+.bundleVisual img { width: min(100%, 285px); max-height: 100%; object-fit: contain; }
+.bundleStats { gap: 8px; margin-top: 9px; }
+.bundleStats span { padding: 7px 11px; font-size: .74rem; }
+.bundleStats strong { font-size: .8rem; }
+.bundlePricePremium { margin-top: 10px; }
+.bundlePricePremium > strong { font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: .95; letter-spacing: -.04em; }
+.bundlePricePremium a { min-height: 50px; margin-top: 18px; font-size: .94rem; }
+.bundlePricePremium small { margin-top: 8px; }
+@media (min-width: 768px) {
+  .packageVisual { height: 250px; }
+  .bundleVisual { height: 230px; }
 }
 
-.whatsappSupportNumber {
-  color: #166534;
-  font-size: 19px;
+/* Final Bahagian 5 mobile overrides (after legacy responsive declarations). */
+@container (max-width: 767px) {
+  main .bundleCardPremium { gap: 12px; margin-top: 20px; padding: 28px 18px 18px; border-radius: 28px; }
+  main .bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.7rem); }
+  main .bundleTitle > p:last-child { margin-top: 5px; font-size: .9rem; }
+  main .bundleVisual { min-height: 150px; }
+  main .bundleVisual img { width: min(100%, 270px); }
+  main .bundleStats { gap: 8px; margin-top: 12px; justify-content: center; }
+  main .bundleStats span { padding: 8px 13px; font-size: .78rem; }
+  main .bundleStats strong { font-size: .84rem; }
+  main .bundlePricePremium { margin-top: 14px; }
+  main .bundlePricePremium del { margin-top: 3px; }
+  main .bundlePricePremium > strong { margin-top: 2px; font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: .95; letter-spacing: -.04em; white-space: nowrap; }
+  main .bundlePricePremium a { min-height: 51px; margin-top: 20px; padding: 0 16px; font-size: .95rem; }
+  main .bundlePricePremium small { margin-top: 8px; }
+  main .promoCountdownAfter { margin-top: 22px; }
+  main .promoCountdownAfter .promoCountdown { margin: 0 auto; }
+  main .promoCountdownCompact { padding: 14px; }
+  main .promoCountdownCompact .promoDigits { gap: 6px; margin-top: 7px; }
+  main .promoCountdownCompact .promoDigits b { padding: 7px 3px 6px; }
+  main .promoAfterCopy { margin-top: 8px; }
+  main .promoAfterCta { margin-top: 10px; }
+}
+
+/* Bundle-only conversion polish: keep the premium CTA tactile and the product artwork prominent. */
+.bundleCardPremium .bundleCta {
+  background: linear-gradient(180deg, #ffe8a3 0%, #f7ca62 100%) !important;
+  color: #124c36;
+  border: 1px solid rgba(177, 126, 24, 0.38);
+  box-shadow:
+    0 7px 0 #d6a63d,
+    0 12px 22px rgba(71, 48, 8, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75) !important;
+  min-height: 54px !important;
   font-weight: 800;
-  letter-spacing: 0.02em;
+  transform: translateY(0);
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
-.whatsappSupportButton {
-  display: inline-flex;
+@media (hover: hover) and (pointer: fine) {
+  .bundleCardPremium .bundleCta:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+    box-shadow:
+      0 8px 0 #d6a63d,
+      0 15px 25px rgba(71, 48, 8, 0.23),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  }
+}
+
+.bundleCardPremium .bundleCta:active {
+  transform: translateY(4px);
+  box-shadow: 0 3px 0 #d6a63d, 0 7px 12px rgba(71, 48, 8, 0.16) !important;
+}
+
+.bundleCardPremium .bundleVisual {
+  overflow: visible;
+  min-height: 0;
+  height: 220px;
+  padding: 10px 14px 14px;
+}
+
+.bundleCardPremium .bundleVisual img {
+  width: min(100%, 320px);
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  margin-inline: auto;
+  filter: drop-shadow(0 16px 22px rgba(3, 40, 26, 0.28));
+}
+
+@media (max-width: 767px) {
+  .bundleCardPremium .bundleVisual { height: 218px; padding: 8px 12px 12px; }
+  .bundleCardPremium .bundleVisual img { width: min(100%, 315px); }
+  .bundleCardPremium .bundleCta { min-height: 54px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bundleCardPremium .bundleCta { transition: none; }
+}
+
+/* Final Bahagian 5 mobile overrides (after legacy responsive declarations). */
+@container (max-width: 767px) {
+  main .bundleCardPremium { gap: 12px; margin-top: 20px; padding: 28px 18px 18px; border-radius: 28px; }
+  main .bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.7rem); }
+  main .bundleTitle > p:last-child { margin-top: 5px; font-size: .9rem; }
+  main .bundleVisual { min-height: 180px; }
+  main .bundleVisual img { width: min(100%, 310px); }
+  main .bundleStats { gap: 8px; margin-top: 12px; justify-content: center; }
+  main .bundleStats span { padding: 8px 13px; font-size: .78rem; }
+  main .bundleStats strong { font-size: .84rem; }
+  main .bundlePricePremium { margin-top: 14px; }
+  main .bundlePricePremium del { margin-top: 3px; }
+  main .bundlePricePremium > strong { margin-top: 2px; font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: .95; letter-spacing: -.04em; white-space: nowrap; }
+  main .bundlePricePremium a { min-height: 51px; margin-top: 20px; padding: 0 16px; font-size: .95rem; }
+  main .bundlePricePremium small { margin-top: 8px; }
+  main .promoCountdownAfter { margin-top: 22px; }
+  main .promoCountdownCompact { padding: 14px; }
+  main .promoCountdownCompact .promoDigits { gap: 6px; margin-top: 7px; }
+  main .promoCountdownCompact .promoDigits b { padding: 7px 3px 6px; }
+  main .promoAfterCopy { margin-top: 8px; }
+  main .promoAfterCta { margin-top: 10px; }
+}
+
+@media (max-width: 767px) {
+  .bundleCardPremium { gap: 12px; margin-top: 20px; padding: 28px 18px 18px; border-radius: 28px; }
+  .bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.7rem); }
+  .bundleTitle > p:last-child { margin-top: 5px; font-size: .9rem; }
+  .bundleVisual { min-height: 180px; }
+  .bundleVisual img { width: min(100%, 310px); }
+  .bundleStats { gap: 8px; margin-top: 12px; justify-content: center; }
+  .bundleStats span { padding: 8px 13px; font-size: .78rem; }
+  .bundleStats strong { font-size: .84rem; }
+  .bundlePricePremium { margin-top: 14px; }
+  .bundlePricePremium del { margin-top: 3px; }
+  .bundlePricePremium > strong { margin-top: 2px; font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: .95; letter-spacing: -.04em; white-space: nowrap; }
+  .bundlePricePremium a { min-height: 51px; margin-top: 20px; padding: 0 16px; font-size: .95rem; }
+  .bundlePricePremium small { margin-top: 8px; }
+  .promoCountdownAfter { margin-top: 22px; }
+  .promoCountdownCompact { padding: 14px; }
+  .promoCountdownCompact .promoDigits { gap: 6px; margin-top: 7px; }
+  .promoCountdownCompact .promoDigits b { padding: 7px 3px 6px; }
+  .promoAfterCopy { margin-top: 8px; }
+  .promoAfterCta { margin-top: 10px; }
+}
+
+/* Same mobile rhythm when the page is rendered in a narrow container inside a desktop browser. */
+@container (max-width: 767px) {
+  .packageSection { padding-top: 40px; padding-bottom: 56px; }
+  .packageGrid { gap: 14px; }
+  .packageTitle { padding-top: 48px; }
+  .packageVisual { min-height: 235px; padding-top: 32px; }
+  .packageBody { padding: 16px 18px 18px; }
+  .packageBody > p:not(.packageLabel):not(.packageMicrocopy) { margin-top: 10px; line-height: 1.55; }
+  .packageFeatureList { gap: 6px; margin-top: 12px; }
+  .packagePriceBlock { margin-top: 12px; }
+  .packageBuyButton { margin-top: 14px; }
+  .bundleCardPremium { gap: 18px; margin-top: 24px; padding-top: 48px; padding-bottom: 24px; }
+  .bundleVisual { min-height: 225px; }
+  .bundleStats { gap: 7px; margin-top: 18px; }
+  .bundlePricePremium { margin-top: 22px; }
+  .promoCountdownAfter { margin-top: 28px; }
+  .howToBuySection { padding-top: 48px; padding-bottom: 56px; }
+  .howToBuyIntro > p:last-child { margin-top: 14px; line-height: 1.55; }
+  .howToBuySteps { gap: 12px; margin-top: 24px; }
+  .howToBuyMicrocopy { margin-top: 20px; }
+  .howToBuyCta { margin-top: 18px; }
+  .faqSection { padding-top: 48px; padding-bottom: 56px; }
+  .faqIntro { margin-top: 12px; line-height: 1.55; }
+  .faqList { gap: 8px; margin-top: 22px; }
+  .faqQuestion { min-height: 50px; padding: 13px 15px; }
+  .faqAnswerOpen { padding-bottom: 13px; }
+  .faqCtaLead { margin-top: 24px; }
+  .faqCta { margin-top: 12px; }
+  .pandiSection { padding-top: 48px; padding-bottom: 60px; }
+  .pandiLead { margin-top: 14px; line-height: 1.55; }
+  .pandiVisual { margin-top: 18px; }
+  .pandiStory { margin-top: 6px; }
+  .pandiQuote { margin-top: 20px; padding: 16px 18px; }
+  .pandiCtaBlock { margin-top: 28px; }
+  .pandiCta { margin-top: 14px; }
+  .part9Footer { padding-top: 44px; padding-bottom: 30px; }
+  .part9Inner { gap: 22px; }
+  .part9Help { padding-top: 20px; }
+  .part9Brand p, .part9Help p { margin-top: 8px; line-height: 1.5; }
+  .part9ProductNote { line-height: 1.45; }
+  .part9Links { padding-top: 16px; }
+}
+
+/* Final scoped Bundle hero overrides. */
+.packageSection .bundleCardPremium {
+  gap: 14px !important;
+  margin-top: 28px !important;
+  padding: 24px 18px 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 30px !important;
+  color: #fff !important;
+  background: radial-gradient(circle at 50% 35%, rgba(255,215,120,.14), transparent 45%), linear-gradient(145deg,#0d4f37 0%,#176b48 55%,#238052 100%) !important;
+  box-shadow: 0 20px 48px rgba(4,38,25,.22) !important;
+}
+.packageSection .bundleCardPremium::before { opacity: 0 !important; }
+.packageSection .bundleCardPremium .bundlePopular { padding: 8px 13px !important; color: #145238 !important; background: #fff5df !important; box-shadow: none !important; font-size: .68rem !important; }
+.packageSection .bundleCardPremium .bundlePopular { font-size: 0 !important; }
+.packageSection .bundleCardPremium .bundlePopular::after { content: "\2605 PILIHAN IBU BAPA"; font-size: .68rem; }
+.packageSection .bundleCardPremium .bundleTitle .eyebrow { color: #f5d58b !important; font-size: .68rem !important; letter-spacing: .16em !important; }
+.packageSection .bundleCardPremium .bundleTitle h3 { margin: 8px 0 0 !important; color: #fff !important; font-size: clamp(2.25rem,9vw,3.5rem) !important; line-height: .95 !important; }
+.packageSection .bundleCardPremium .bundleTitle > p:last-child { margin: 8px 0 0 !important; color: rgba(255,255,255,.84) !important; font-size: .96rem !important; }
+.packageSection .bundleCardPremium .bundleVisual { min-height: 255px !important; height: auto !important; background: transparent !important; }
+.packageSection .bundleCardPremium .bundleVisual img { width: min(100%,390px) !important; max-height: none !important; filter: drop-shadow(0 18px 24px rgba(4,38,25,.28)) !important; }
+.packageSection .bundleCardPremium .bundleCopyPremium { padding-bottom: 4px !important; }
+.packageSection .bundleCardPremium .bundleStats { justify-content: center !important; gap: 8px !important; margin-top: 0 !important; }
+.packageSection .bundleCardPremium .bundleStats span { padding: 8px 12px !important; border-color: rgba(255,255,255,.2) !important; color: #fff5df !important; background: rgba(255,255,255,.1) !important; font-size: .73rem !important; }
+.packageSection .bundleCardPremium .bundleStats strong { color: inherit !important; font-size: .78rem !important; }
+.packageSection .bundleCardPremium .bundlePricePremium { width: calc(100% + 36px) !important; margin: 0 -18px !important; padding: 20px 18px 18px !important; border-radius: 0 0 30px 30px !important; color: #123d2a !important; background: #fff5df !important; }
+.packageSection .bundleCardPremium .bundlePricePremium > span { color: #496458 !important; font-size: .68rem !important; letter-spacing: .14em !important; }
+.packageSection .bundleCardPremium .bundlePricePremium del { color: #496458 !important; }
+.packageSection .bundleCardPremium .bundlePricePremium > strong { margin-top: 2px !important; color: #0d4f37 !important; font-size: clamp(2.8rem,13vw,4rem) !important; line-height: .92 !important; }
+.packageSection .bundleCardPremium .bundleSavings { margin-top: 7px !important; padding: 5px 10px !important; border-radius: 999px !important; color: #fff !important; background: #f45b16 !important; font-size: .74rem !important; font-style: normal !important; font-weight: 900 !important; }
+.packageSection .bundleCardPremium .bundlePricePremium a { min-height: 52px !important; margin-top: 18px !important; color: #123d2a !important; background: #f5d58b !important; box-shadow: none !important; font-size: .96rem !important; }
+.packageSection .bundleCardPremium .bundlePricePremium a b { font-size: 0; }
+.packageSection .bundleCardPremium .bundlePricePremium a b::after { content: "\2192"; font-size: .96rem; }
+.packageSection .bundleCardPremium .bundlePricePremium small { margin-top: 8px !important; color: #496458 !important; font-size: .66rem !important; }
+.packageSection .bundleCardPremium .bundlePricePremium small { font-size: 0 !important; }
+.packageSection .bundleCardPremium .bundlePricePremium small::after { content: "Bayaran sekali \00b7 Terus muat turun \00b7 Milik selamanya"; font-size: .66rem; }
+.packageSection .promoCountdownAfter { margin-top: 28px !important; }
+@media (prefers-reduced-motion: reduce) { .packageSection .bundleCardPremium { transition: none !important; } }
+
+/* The route is intentionally capped at 430px even in a desktop browser; scope the
+   compact rhythm to the page itself so it follows the real content width. */
+.page .packageSection { padding-top: 40px; padding-bottom: 56px; }
+.page .packageGrid { gap: 14px; }
+.page .packageTitle { padding-top: 48px; }
+.page .packageVisual { min-height: 235px; padding-top: 32px; }
+.page .packageBody { padding: 16px 18px 18px; }
+.page .packageBody > p:not(.packageLabel):not(.packageMicrocopy) { margin-top: 10px; line-height: 1.55; }
+.page .packageFeatureList { gap: 6px; margin-top: 12px; }
+.page .packagePriceBlock { margin-top: 12px; }
+.page .packageBuyButton { margin-top: 14px; }
+.page .bundleCardPremium { gap: 18px; margin-top: 24px; padding-top: 48px; padding-bottom: 24px; }
+.page .bundleVisual { min-height: 225px; }
+.page .bundleStats { gap: 7px; margin-top: 18px; }
+.page .bundlePricePremium { margin-top: 22px; }
+.page .promoCountdownAfter { margin-top: 28px; }
+.page .howToBuySection { padding-top: 48px; padding-bottom: 56px; }
+.page .howToBuyIntro > p:last-child { margin-top: 14px; line-height: 1.55; }
+.page .howToBuySteps { gap: 12px; margin-top: 24px; }
+.page .howToBuyMicrocopy { margin-top: 20px; }
+.page .howToBuyCta { margin-top: 18px; }
+.page .faqSection { padding-top: 48px; padding-bottom: 56px; }
+.page .faqIntro { margin-top: 12px; line-height: 1.55; }
+.page .faqList { gap: 8px; margin-top: 22px; }
+.page .faqQuestion { min-height: 50px; padding: 13px 15px; }
+.page .faqAnswerOpen { padding-bottom: 13px; }
+.page .faqCtaLead { margin-top: 24px; }
+.page .faqCta { margin-top: 12px; }
+.page .pandiSection { padding-top: 48px; padding-bottom: 60px; }
+.page .pandiLead { margin-top: 14px; line-height: 1.55; }
+.page .pandiVisual { margin-top: 18px; }
+.page .pandiStory { margin-top: 6px; }
+.page .pandiQuote { margin-top: 20px; padding: 16px 18px; }
+.page .pandiCtaBlock { margin-top: 28px; }
+.page .pandiCta { margin-top: 14px; }
+.page .part9Footer { padding-top: 44px; padding-bottom: 30px; }
+.page .part9Inner { gap: 22px; }
+.page .part9Help { padding-top: 20px; }
+.page .part9Brand p, .page .part9Help p { margin-top: 8px; line-height: 1.5; }
+.page .part9ProductNote { line-height: 1.45; }
+.page .part9Links { padding-top: 16px; }
+
+/* Main is the capped 430px route canvas (there is no extra page wrapper). */
+main .packageSection { padding-top: 40px; padding-bottom: 56px; }
+main .packageGrid { gap: 14px; }
+main .packageTitle { padding-top: 48px; }
+main .packageVisual { min-height: 235px; padding-top: 32px; }
+main .packageBody { padding: 16px 18px 18px; }
+main .packageBody > p:not(.packageLabel):not(.packageMicrocopy) { margin-top: 10px; line-height: 1.55; }
+main .packageFeatureList { gap: 6px; margin-top: 12px; }
+main .packagePriceBlock { margin-top: 12px; }
+main .packageBuyButton { margin-top: 14px; }
+main .bundleCardPremium { gap: 18px; margin-top: 24px; padding-top: 48px; padding-bottom: 24px; }
+main .bundleVisual { min-height: 225px; }
+main .bundleStats { gap: 7px; margin-top: 18px; }
+main .bundlePricePremium { margin-top: 22px; }
+main .promoCountdownAfter { margin-top: 28px; }
+main .howToBuySection { padding-top: 48px; padding-bottom: 56px; }
+main .howToBuyIntro > p:last-child { margin-top: 14px; line-height: 1.55; }
+main .howToBuySteps { gap: 12px; margin-top: 24px; }
+main .howToBuyMicrocopy { margin-top: 20px; }
+main .howToBuyCta { margin-top: 18px; }
+main .faqSection { padding-top: 48px; padding-bottom: 56px; }
+main .faqIntro { margin-top: 12px; line-height: 1.55; }
+main .faqList { gap: 8px; margin-top: 22px; }
+main .faqQuestion { min-height: 50px; padding: 13px 15px; }
+main .faqAnswerOpen { padding-bottom: 13px; }
+main .faqCtaLead { margin-top: 24px; }
+main .faqCta { margin-top: 12px; }
+main .pandiSection { padding-top: 48px; padding-bottom: 60px; }
+main .pandiLead { margin-top: 14px; line-height: 1.55; }
+main .pandiVisual { margin-top: 18px; }
+main .pandiStory { margin-top: 6px; }
+main .pandiQuote { margin-top: 20px; padding: 16px 18px; }
+main .pandiCtaBlock { margin-top: 28px; }
+main .pandiCta { margin-top: 14px; }
+main .part9Footer { padding-top: 44px; padding-bottom: 30px; }
+
+.floatingWhatsApp {
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--mobile-buy-bar-height, 72px) + 16px);
+  z-index: 40;
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(13, 94, 49, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.floatingWhatsAppVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.floatingWhatsApp svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+@media (min-width: 768px) {
+  .floatingWhatsApp {
+    right: 24px;
+    bottom: 24px;
+    width: 54px;
+    height: 54px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floatingWhatsApp { transition: none; }
+}
+main .part9Inner { gap: 22px; }
+main .part9Help { padding-top: 20px; }
+main .part9Brand p, main .part9Help p { margin-top: 8px; line-height: 1.5; }
+main .part9ProductNote { line-height: 1.45; }
+main .part9Links { padding-top: 16px; }
+
+/* Bahagian 5 mobile polish: keep Bundle compact and visually separate from countdown two. */
+@container (max-width: 767px) {
+  main .bundleCardPremium {
+    gap: 12px;
+    margin-top: 20px;
+    padding: 28px 18px 18px;
+    border-radius: 28px;
+  }
+
+  main .bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.7rem); }
+  main .bundleTitle > p:last-child { margin-top: 5px; font-size: .9rem; }
+  main .bundleVisual { min-height: 180px; }
+  main .bundleVisual img { width: min(100%, 310px); }
+  main .bundleStats { gap: 8px; margin-top: 12px; justify-content: center; }
+  main .bundleStats span { padding: 8px 13px; font-size: .78rem; }
+  main .bundleStats strong { font-size: .84rem; }
+  main .bundlePricePremium { margin-top: 14px; }
+  main .bundlePricePremium del { margin-top: 3px; }
+  main .bundlePricePremium > strong {
+    margin-top: 2px;
+    font-size: clamp(2.6rem, 12vw, 3.5rem);
+    line-height: .95;
+    letter-spacing: -.04em;
+    white-space: nowrap;
+  }
+  main .bundlePricePremium a { min-height: 51px; margin-top: 20px; padding: 0 16px; font-size: .95rem; }
+  main .bundlePricePremium small { margin-top: 8px; }
+  main .promoCountdownAfter { margin-top: 22px; }
+  main .promoCountdownCompact { padding: 14px 14px; }
+  main .promoCountdownCompact .promoDigits { gap: 6px; margin-top: 7px; }
+  main .promoCountdownCompact .promoDigits b { padding: 7px 3px 6px; }
+  main .promoAfterCopy { margin-top: 8px; }
+  main .promoAfterCta { margin-top: 10px; }
+}
+
+@media (max-width: 767px) {
+  .bundleCardPremium { gap: 12px; margin-top: 20px; padding: 28px 18px 18px; border-radius: 28px; }
+  .bundleTitle h3 { font-size: clamp(2rem, 8vw, 2.7rem); }
+  .bundleTitle > p:last-child { margin-top: 5px; font-size: .9rem; }
+  .bundleVisual { min-height: 180px; }
+  .bundleVisual img { width: min(100%, 310px); }
+  .bundleStats { gap: 8px; margin-top: 12px; justify-content: center; }
+  .bundleStats span { padding: 8px 13px; font-size: .78rem; }
+  .bundleStats strong { font-size: .84rem; }
+  .bundlePricePremium { margin-top: 14px; }
+  .bundlePricePremium del { margin-top: 3px; }
+  .bundlePricePremium > strong { margin-top: 2px; font-size: clamp(2.6rem, 12vw, 3.5rem); line-height: .95; letter-spacing: -.04em; white-space: nowrap; }
+  .bundlePricePremium a { min-height: 51px; margin-top: 20px; padding: 0 16px; font-size: .95rem; }
+  .bundlePricePremium small { margin-top: 8px; }
+  .promoCountdownAfter { margin-top: 22px; }
+  .promoCountdownCompact { padding: 14px; }
+  .promoCountdownCompact .promoDigits { gap: 6px; margin-top: 7px; }
+  .promoCountdownCompact .promoDigits b { padding: 7px 3px 6px; }
+  .promoAfterCopy { margin-top: 8px; }
+  .promoAfterCta { margin-top: 10px; }
+}
+
+.packageMicrocopy { display: block; }
+
+/* One continuous mint surface across every package card. */
+.packageSection .packageCard {
+  background: #dff0e4;
+  border: 1px solid rgba(20, 112, 58, 0.18);
+  box-shadow: 0 12px 28px rgba(24, 88, 49, 0.10);
+}
+.packageSection .packageTitle,
+.packageSection .packageBody,
+.packageSection .packagePriceBlock,
+.packageSection .packageCard > * { background-color: transparent; }
+.packageSection .packageVisual {
+  background: radial-gradient(circle at 50% 48%, #fffdf5 0%, #edf7e9 48%, #e4f3e5 75%, #dff0e4 100%);
+}
+.packageSection .packageVisual::before,
+.packageSection .packageVisual::after { content: none; display: none; }
+.bundleCardPremium {
+  border: 1px solid rgba(20, 112, 58, 0.18);
+  background: #dff0e4;
+  color: #123d2a;
+  box-shadow: 0 12px 28px rgba(24, 88, 49, 0.10);
+}
+.bundleCardPremium .bundleTitle h3,
+.bundleCardPremium .bundleTitle > p:last-child,
+.bundleCardPremium .bundlePricePremium,
+.bundleCardPremium .bundlePricePremium > span,
+.bundleCardPremium .bundlePricePremium del,
+.bundleCardPremium .bundlePricePremium small { color: #123d2a; }
+.bundleCardPremium .bundlePopular { color: #164727; background: #fff; }
+.bundleCardPremium .bundleStats span { border-color: rgba(21, 112, 57, .14); color: #496458; background: rgba(255, 255, 255, .52); }
+.bundleCardPremium .bundleStats strong { color: #123d2a; }
+.bundleCardPremium .bundlePricePremium a { color: #fff; background: #247a3e; }
+.bundleCardPremium::before { opacity: .06; }
+
+/* Keep the complete transparent product composition visible. */
+.packageSection .packageVisual {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  padding: 12px 14px 16px;
+  overflow: visible;
+  background: radial-gradient(circle at 50% 48%, #fffdf5 0%, #edf7e9 48%, #e4f3e5 75%, #dff0e4 100%);
+}
+.packageSection .packageVisual::before,
+.packageSection .packageVisual::after {
+  content: none;
+  display: none;
+}
+.packageSection .packageVisual img {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+}
+.packageSection .packageBody { margin-top: 0; }
+.bundleCardPremium .bundleVisual::before,
+.bundleCardPremium .bundleVisual::after { content: none; display: none; }
+
+/* Seamless image-to-content transition inside every package card. */
+.packageSection .packageVisual {
+  position: relative;
+  overflow: visible;
+  border: 0;
+  border-bottom: 0;
+  border-radius: 0;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  padding: 12px 14px 16px;
+  background: radial-gradient(circle at 50% 48%, #fffdf5 0%, #edf7e9 48%, #e4f3e5 75%, #dff0e4 100%);
+}
+.packageSection .packageVisual::before,
+.packageSection .packageVisual::after { content: none; display: none; }
+.packageSection .packageProductImage { z-index: 3; }
+.packageSection .packageBody {
+  position: relative;
+  z-index: 3;
+  margin-top: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.bundleCardPremium .bundleVisual {
+  position: relative;
+  overflow: hidden;
+}
+.bundleCardPremium .bundleVisual::after { display: none; }
+.bundleCardPremium .bundleVisual::before {
+  content: none;
+  display: none;
+}
+.bundleCardPremium .bundleVisual img { position: relative; z-index: 3; }
+
+/* Product visual polish: keep the transparent artwork prominent without cropping. */
+.packageSection .packageVisual {
+  position: relative;
+  min-height: 0;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  padding: 12px 14px 16px;
+  overflow: visible;
+  background: radial-gradient(circle at 50% 48%, #fffdf5 0%, #edf7e9 48%, #e4f3e5 75%, #dff0e4 100%);
+}
+.packageSection .packageVisual::after {
+  content: none;
+  display: none;
+}
+.packageSection .packageProductImage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(1.12) contrast(1.05) brightness(1.04) drop-shadow(0 14px 16px rgba(25, 91, 52, 0.18));
+}
+@media (max-width: 767px) {
+  .packageSection .packageVisual { height: auto; padding: 12px 14px 16px; }
+  .packageSection .packageProductImage { width: 100%; height: 100%; }
+}
+
+/* Bundle card uses a slightly deeper mint surface while preserving the same product treatment. */
+.packageSection .bundleCardPremium {
+  background: #cfe8d7;
+  border: 1px solid rgba(13, 104, 51, 0.25);
+  box-shadow: 0 16px 34px rgba(21, 90, 49, 0.14);
+  color: #123d2a;
+}
+.packageSection .bundleCardPremium::before { opacity: 0; }
+.packageSection .bundleCardPremium .bundleTitle,
+.packageSection .bundleCardPremium .bundleCopyPremium,
+.packageSection .bundleCardPremium .bundlePricePremium { background: transparent; }
+.packageSection .bundleCardPremium .bundleStats span {
+  background: transparent;
+}
+.packageSection .bundleCardPremium .bundleVisual {
+  background: radial-gradient(circle at 50% 48%, #fffdf3 0%, #eaf5e7 46%, #d9eddc 74%, #cfe8d7 100%);
+}
+
+/* Keep each product image on the exact same surface as its card. */
+.packageSection .packageVisual {
+  background: #dff0e4;
+  border: 0;
+  box-shadow: none;
+}
+.packageSection .bundleCardPremium .bundleVisual {
+  background: #cfe8d7;
+  border: 0;
+  box-shadow: none;
+}
+.packageSection .packageVisual::before,
+.packageSection .packageVisual::after,
+.packageSection .bundleCardPremium .bundleVisual::before,
+.packageSection .bundleCardPremium .bundleVisual::after {
+  content: none;
+  display: none;
+}
+.packageSection .packageProductImage,
+.packageSection .bundleCardPremium .bundleVisual img {
+  filter: saturate(1.08) contrast(1.03) drop-shadow(0 12px 16px rgba(20, 82, 45, 0.16));
+}
+
+/* Use the actual package container width, not the outer browser viewport. */
+.packageSection > .container { container-type: inline-size; }
+.packageGrid { grid-template-columns: minmax(0, 1fr); }
+@container (min-width: 760px) {
+  .packageGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Bahagian 6: compact purchase path after the package section. */
+.howToBuySection {
+  position: relative;
+  margin-top: -2px;
+  padding: 72px 0 88px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #eef8f5 0, #f4f4eb 70px, #f8e8d0 170px, #f8e8d0 100%);
+}
+
+.howToBuyInner {
+  width: min(100% - 32px, 980px);
+  margin: 0 auto;
+  container-type: inline-size;
+}
+
+.howToBuyIntro { max-width: 640px; margin: 0 auto; text-align: center; }
+.howToBuyIntro h2 { margin: 12px 0 0; color: #10211a; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -.055em; }
+.howToBuyIntro > p:last-child { margin: 16px auto 0; color: #667169; font-size: 1rem; line-height: 1.65; }
+
+.howToBuySteps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.howToBuySteps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .56);
+}
+
+.howToBuyNumber {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: #0f6b3a;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.howToBuySteps h3 { margin: 2px 0 0; color: #0f6b3a; font-size: 1.08rem; }
+.howToBuySteps p { margin: 6px 0 0; color: #667169; font-size: .82rem; line-height: 1.5; }
+
+.howToBuyMicrocopy {
+  display: grid;
+  justify-content: center;
+  gap: 7px;
+  margin: 28px auto 0;
+  color: #0f6b3a;
+  font-size: .8rem;
+  font-weight: 850;
+  text-align: center;
+}
+
+@container (min-width: 760px) {
+  .howToBuySteps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .howToBuyMicrocopy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+  }
+}
+
+.howToBuyCta {
+  display: flex;
+  width: min(100%, 340px);
+  min-height: 50px;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-width: 230px;
-  padding: 17px 24px;
-  background: #22c55e;
-  color: #ffffff;
-  border-radius: 16px;
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: 800;
-  box-shadow: 0 14px 30px rgba(34, 197, 94, 0.27);
-  transition:
-    transform 180ms ease,
-    background 180ms ease,
-    box-shadow 180ms ease;
+  gap: 9px;
+  margin: 24px auto 0;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #0f6b3a;
+  color: #fff;
+  font-size: .95rem;
+  font-weight: 950;
+  box-shadow: 0 14px 28px rgba(15, 107, 58, .18);
 }
 
-.whatsappSupportButton:hover {
-  transform: translateY(-2px);
-  background: #16a34a;
-  box-shadow: 0 16px 34px rgba(34, 197, 94, 0.3);
+@media (max-width: 700px) {
+  .howToBuySection { padding: 56px 0 68px; }
+  .howToBuyInner { width: min(100% - 28px, 560px); }
+  .howToBuyIntro h2 { font-size: 2.35rem; }
+  .howToBuyIntro > p:last-child { font-size: .9rem; }
+  .howToBuySteps { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+  .howToBuySteps li { border-radius: 0; background: rgba(255,255,255,.4); }
+  .howToBuySteps li { border-radius: 18px; }
+  .howToBuySteps li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 56px;
+    bottom: -18px;
+    left: 34px;
+    width: 2px;
+    background: rgba(15, 107, 58, .24);
+  }
+  .howToBuyMicrocopy { display: grid; justify-content: start; gap: 7px; margin-top: 22px; text-align: left; }
 }
 
-.whatsappSupportButton:focus-visible {
-  outline: 3px solid rgba(34, 197, 94, 0.28);
-  outline-offset: 4px;
+@media (max-width: 767px) {
+  .bundleCardPremium { gap: 14px; padding: 18px 18px 22px; }
+  .bundleVisual { min-height: 190px; }
+  .bundleCopyPremium { margin: 0; }
+  .bundleStats { gap: 6px; margin-top: 0; }
+  .bundleStats span { padding: 8px 9px; font-size: .68rem; }
 }
 
-.whatsappSupportAction small {
-  color: #789080;
-  font-size: 12px;
+/* Final spacing overrides: these remain last so legacy responsive rules cannot undo them. */
+@media (min-width: 768px) {
+  .packageSection { padding-top: 96px; padding-bottom: 96px; }
+  .howToBuySection { padding-top: 64px; padding-bottom: 72px; }
+  .faqSection { padding-top: 60px; padding-bottom: 72px; }
+  .pandiSection { padding-top: 64px; padding-bottom: 76px; }
+  .part9Footer { padding-top: 46px; padding-bottom: 30px; }
 }
 
-@media (max-width: 820px) {
-  .whatsappSupport {
-    padding: 20px 16px 46px;
-  }
-
-  .whatsappSupportInner {
-  grid-template-columns: 1fr;
-  gap: 20px;
-  padding: 30px 24px;
-  text-align: center;
-  border-radius: 24px;
+@media (max-width: 767px) {
+  .packageSection { padding-top: 40px; padding-bottom: 56px; }
+  .packageGrid { gap: 14px; }
+  .packageTitle { padding-top: 48px; }
+  .packageVisual { min-height: 235px; padding-top: 32px; }
+  .packageBody { padding: 16px 18px 18px; }
+  .packageBody > p:not(.packageLabel):not(.packageMicrocopy) { margin-top: 10px; line-height: 1.55; }
+  .packageFeatureList { gap: 6px; margin-top: 12px; }
+  .packagePriceBlock { margin-top: 12px; }
+  .packageBuyButton { margin-top: 14px; }
+  .bundleCardPremium { gap: 18px; margin-top: 24px; padding-top: 48px; padding-bottom: 24px; }
+  .bundleVisual { min-height: 225px; }
+  .bundleStats { gap: 7px; margin-top: 18px; }
+  .bundlePricePremium { margin-top: 22px; }
+  .promoCountdownAfter { margin-top: 28px; }
+  .howToBuySection { padding-top: 48px; padding-bottom: 56px; }
+  .howToBuyIntro > p:last-child { margin-top: 14px; line-height: 1.55; }
+  .howToBuySteps { gap: 12px; margin-top: 24px; }
+  .howToBuyMicrocopy { margin-top: 20px; }
+  .howToBuyCta { margin-top: 18px; }
+  .faqSection { padding-top: 48px; padding-bottom: 56px; }
+  .faqIntro { margin-top: 12px; line-height: 1.55; }
+  .faqList { gap: 8px; margin-top: 22px; }
+  .faqQuestion { min-height: 50px; padding: 13px 15px; }
+  .faqAnswerOpen { padding-bottom: 13px; }
+  .faqCtaLead { margin-top: 24px; }
+  .faqCta { margin-top: 12px; }
+  .pandiSection { padding-top: 48px; padding-bottom: 60px; }
+  .pandiLead { margin-top: 14px; line-height: 1.55; }
+  .pandiVisual { margin-top: 18px; }
+  .pandiStory { margin-top: 6px; }
+  .pandiQuote { margin-top: 20px; padding: 16px 18px; }
+  .pandiCtaBlock { margin-top: 28px; }
+  .pandiCta { margin-top: 14px; }
+  .part9Footer { padding-top: 44px; padding-bottom: 30px; }
+  .part9Inner { gap: 22px; }
+  .part9Help { padding-top: 20px; }
+  .part9Brand p, .part9Help p { margin-top: 8px; line-height: 1.5; }
+  .part9ProductNote { line-height: 1.45; }
+  .part9Links { padding-top: 16px; }
+}
+/* seam overrides intentionally at EOF */
+/* Final long, colour-matched seams between the purchase story sections. */
+.packageSection {
+  margin-top: -1px;
+  border-top: 0;
+  background: linear-gradient(to bottom, #f8e8d0 0, #f8e8d0 44px, #f5ecd9 90px, #eef8f5 140px, #eef8f5 100%);
+}
+.howToBuySection {
+  margin-top: -1px;
+  border: 0;
+  box-shadow: none;
+  background: linear-gradient(to bottom, #eef8f5 0, #eef8f5 72px, #f2eee2 112px, #f8e8d0 170px, #f8e8d0 100%);
+}
+.faqSection {
+  margin-top: -1px;
+  border: 0;
+  box-shadow: none;
+  background: linear-gradient(to bottom, #f8e8d0 0, #f8e8d0 72px, #f2eee2 112px, #eef8f5 170px, #eef8f5 100%);
+}
+.pandiSection {
+  margin-top: -1px;
+  background: linear-gradient(to bottom, #eef8f5 0, #eef8f5 72px, #f2eee2 120px, #f8e8d0 180px, #f8e8d0 100%);
+}
+.part9Footer {
+  margin-top: -1px;
+  background: linear-gradient(to bottom, #f8e8d0 0, #f8e8d0 72px, #f2eee2 112px, #eaf5ec 170px, #eaf5ec 100%);
+}
+.part9Footer::before {
+  top: -72px;
+  height: 72px;
+  background: linear-gradient(to bottom, rgba(248, 232, 208, 0), #f8e8d0 100%);
 }
 
-  .whatsappSupportIcon {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
-    border-radius: 19px;
-    font-size: 27px;
-  }
-
-  .whatsappSupportCopy > p:last-child {
-    margin: 0 auto;
-  }
-
-  .whatsappSupportAction {
-    align-items: center;
-    text-align: center;
-  }
-
-  .whatsappSupportButton {
-    width: 100%;
-    max-width: 360px;
-  }
+main .packageSection {
+  background: linear-gradient(to bottom, #f8e8d0 0, #f8e8d0 44px, #f5ecd9 90px, #eef8f5 140px, #eef8f5 100%);
 }
-
-@media (max-width: 480px) {
-  .whatsappSupportInner {
-    padding: 24px 18px;
-  }
-
-  .whatsappSupportCopy h2 {
-    font-size: 27px;
-  }
-
-  .whatsappSupportCopy > p:last-child {
-    font-size: 15px;
-    line-height: 1.65;
-  }
-
-  .whatsappSupportNumber {
-    font-size: 18px;
-  }
+main .howToBuySection {
+  background: linear-gradient(to bottom, #eef8f5 0, #eef8f5 72px, #f2eee2 112px, #f8e8d0 170px, #f8e8d0 100%);
 }
-
-/* Fixed-date promotion pricing and countdown */
-.promoCountdown {
-  display: grid;
-  justify-items: center;
-  width: min(760px, 100%);
-  margin: -38px auto 42px;
-  padding: 20px 24px;
-  border: 1px solid rgba(239, 123, 22, 0.2);
-  border-radius: 24px;
-  background: #fff8ed;
-  box-shadow: 0 16px 38px rgba(80, 48, 16, 0.08);
-  text-align: center;
+main .faqSection {
+  background: linear-gradient(to bottom, #f8e8d0 0, #f8e8d0 72px, #f2eee2 112px, #eef8f5 170px, #eef8f5 100%);
 }
-.promoCountdownTitle { color: #b8520d; font-size: 0.82rem; letter-spacing: 0.08em; }
-.promoCountdownLabel { margin-top: 5px; color: #6f6258; font-size: 0.78rem; font-weight: 800; }
-.promoCountdownUnits { display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 100%; margin-top: 12px; }
-.promoCountdownUnit { position: relative; display: grid; min-width: 74px; }
-.promoCountdownUnit b { color: #153f27; font-size: 1.55rem; line-height: 1; }
-.promoCountdownUnit small { margin-top: 4px; color: #6f776f; font-size: 0.66rem; font-weight: 850; }
-.promoCountdownUnit i { position: absolute; top: 1px; right: -10px; color: #b8520d; font-size: 1.3rem; font-style: normal; font-weight: 900; }
-.inlinePromoPrice { white-space: nowrap; }
-.inlinePromoPrice del, .mobilePromoPrice del { color: #8c958f; }
-.inlinePromoPrice strong, .mobilePromoPrice strong { color: #17672f; }
-.mobilePromoPrice span { display: flex; align-items: baseline; gap: 6px; }
-.mobilePromoPrice del { font-size: 0.7rem; }
-
-@media (max-width: 760px) {
-  .promoCountdown { margin: -28px auto 30px; padding: 17px 10px; border-radius: 20px; }
-  .promoCountdownUnits { width: 100%; gap: 5px; }
-  .promoCountdownUnit { min-width: 0; flex: 1; }
-  .promoCountdownUnit b { font-size: 1.25rem; }
-  .promoCountdownUnit i { right: -5px; }
-  .promoCountdownUnit small { font-size: 0.58rem; }
+main .pandiSection {
+  background: linear-gradient(to bottom, #eef8f5 0, #eef8f5 72px, #f2eee2 120px, #f8e8d0 180px, #f8e8d0 100%);
+}
+main .part9Footer {
+  background: linear-gradient(to bottom, #f8e8d0 0, #f8e8d0 72px, #f2eee2 112px, #eaf5ec 170px, #eaf5ec 100%);
 }
