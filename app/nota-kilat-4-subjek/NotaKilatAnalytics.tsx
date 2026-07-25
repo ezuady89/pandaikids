@@ -5,8 +5,23 @@ import { useEffect } from "react";
 type CheckoutDetails = {
   value: number;
   currency: "MYR";
+  contentId: string;
   contentName: string;
+  description: string;
 };
+
+type TikTokParameters = Record<
+  string,
+  | string
+  | number
+  | string[]
+  | Array<{
+      content_id: string;
+      content_name: string;
+      quantity: number;
+      price: number;
+    }>
+>;
 
 type AnalyticsWindow = Window & {
   fbq?: (
@@ -19,17 +34,25 @@ type AnalyticsWindow = Window & {
   ttq?: {
     track?: (
       eventName: "ViewContent" | "InitiateCheckout",
-      parameters?: Record<string, string | number>,
+      parameters?: TikTokParameters,
     ) => void;
   };
 };
 
 const CHECKOUT_DETAILS_BY_PACKAGE = new Map<string, CheckoutDetails>([
-  ["year3", { value: 12.9, currency: "MYR", contentName: "PandaiKids Tahun 3" }],
-  ["year4", { value: 12.9, currency: "MYR", contentName: "PandaiKids Tahun 4" }],
-  ["year5", { value: 12.9, currency: "MYR", contentName: "PandaiKids Tahun 5" }],
-  ["bundle", { value: 29.9, currency: "MYR", contentName: "PandaiKids Bundle Tahun 3 4 5" }],
+  ["year3", { value: 12.9, currency: "MYR", contentId: "nota-kilat-tahun-3", contentName: "PandaiKids Tahun 3", description: "Nota digital KAFA Tahun 3" }],
+  ["year4", { value: 12.9, currency: "MYR", contentId: "nota-kilat-tahun-4", contentName: "PandaiKids Tahun 4", description: "Nota digital KAFA Tahun 4" }],
+  ["year5", { value: 12.9, currency: "MYR", contentId: "nota-kilat-tahun-5", contentName: "PandaiKids Tahun 5", description: "Nota digital KAFA Tahun 5" }],
+  ["bundle", { value: 29.9, currency: "MYR", contentId: "nota-kilat-bundle-t3-t5", contentName: "PandaiKids Bundle Tahun 3 4 5", description: "Bundle nota digital KAFA Tahun 3, 4 dan 5" }],
 ]);
+
+const LANDING_VIEW_CONTENT: CheckoutDetails = {
+  value: 12.9,
+  currency: "MYR",
+  contentId: "nota-kilat-4-subjek",
+  contentName: "Nota Digital KAFA PandaiKids",
+  description: "Landing page nota digital KAFA empat subjek PandaiKids",
+};
 
 const handledClickEvents = new WeakSet<Event>();
 const META_RETRY_INTERVAL_MS = 100;
@@ -83,7 +106,7 @@ function sendMetaEvent(
 
 function sendTikTokEvent(
   eventName: "ViewContent" | "InitiateCheckout",
-  parameters?: Record<string, string | number>,
+  parameters?: TikTokParameters,
 ) {
   let attempts = 0;
   let retryTimer: number | null = null;
@@ -112,6 +135,22 @@ function sendTikTokEvent(
   };
 }
 
+function createTikTokParameters(details: CheckoutDetails): TikTokParameters {
+  return {
+    content_ids: [details.contentId],
+    contents: [{
+      content_id: details.contentId,
+      content_name: details.contentName,
+      quantity: 1,
+      price: details.value,
+    }],
+    content_type: "product",
+    currency: details.currency,
+    value: details.value,
+    description: details.description,
+  };
+}
+
 function sendCheckoutEvents(details: CheckoutDetails) {
   const parameters = {
     value: details.value,
@@ -120,7 +159,7 @@ function sendCheckoutEvents(details: CheckoutDetails) {
   };
 
   sendMetaEvent("InitiateCheckout", parameters);
-  sendTikTokEvent("InitiateCheckout", parameters);
+  sendTikTokEvent("InitiateCheckout", createTikTokParameters(details));
 
   const analyticsWindow = window as AnalyticsWindow;
   const ga4Parameters = {
@@ -150,7 +189,10 @@ export default function NotaKilatAnalytics() {
 
     const viewContentTimer = window.setTimeout(() => {
       cancelViewContent = sendMetaEvent("ViewContent");
-      cancelTikTokViewContent = sendTikTokEvent("ViewContent");
+      cancelTikTokViewContent = sendTikTokEvent(
+        "ViewContent",
+        createTikTokParameters(LANDING_VIEW_CONTENT),
+      );
     }, 0);
 
     const handleCheckoutClick = (event: MouseEvent) => {
