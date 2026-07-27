@@ -946,7 +946,7 @@
   margin: 8px auto 0;
   padding: 6px 12px;
   border-radius: 999px;
-  background: #df6b63;
+  background: #d97870;
   color: #fff;
   font-family: var(--font-body, inherit);
   font-size: clamp(.7rem, 3.05vw, .82rem);
@@ -955,4 +955,7 @@
   letter-spacing: .01em;
   text-align: center;
   white-space: nowrap;
+  box-shadow: none;
 }
+
+:global(.notaKilatLanding .hero-action .hero-price-note) { margin-top: 8px; }
