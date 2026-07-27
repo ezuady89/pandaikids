@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
+import MicrosoftClarity from "./components/MicrosoftClarity";
+
 import "@fontsource/baloo-2/500.css";
 import "@fontsource/baloo-2/600.css";
 import "@fontsource/baloo-2/700.css";
@@ -36,6 +38,8 @@ export default function RootLayout({
     <html lang="ms">
       <body>
         {children}
+
+        <MicrosoftClarity />
 
         {/* Google Analytics 4 */}
         <Script
