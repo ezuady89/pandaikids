@@ -59,30 +59,23 @@ export default function NotaKilat4SubjekPage() {
         <div className="part2-copy">
           <p className="section-kicker">BUKU TEKS TETAP PENTING</p>
           <h2 id="part2-title">Buku teks memang lengkap.<br />Tapi ulang kaji harian perlukan cara yang lebih ringkas.</h2>
-          <p>Buku teks anak tetap menjadi rujukan utama di sekolah. PandaiKids membantu ibu bapa ringkaskan isi penting supaya anak lebih mudah ulang kaji di rumah.</p>
+          <p>Buku teks KAFA kekal menjadi rujukan utama di sekolah. PandaiKids membantu menyusun semula isi penting supaya anak lebih mudah mengulang kaji di rumah.</p>
         </div>
         <figure className="part2-reference-visual">
-          <span>Rujukan utama anak di sekolah</span>
           <img
-            src="/assets/textbook-vs-digital.png"
-            alt="Beberapa helaian buku teks KAFA di atas meja"
+            src="/assets/part2-textbook-vs-nota.png"
+            alt="Buku teks KAFA, buku terbuka dan nota PandaiKids pada telefon di atas meja"
             loading="lazy"
             decoding="async"
           />
         </figure>
-        <p className="part2-bridge">Sebab itu kami ringkaskan isi penting...</p>
-        <img
-          className="part2-phone-visual"
-          src="/assets/part2-textbook-phone.png"
-          alt="Telefon yang memaparkan Nota PandaiKids berwarna di atas meja"
-          loading="lazy"
-          decoding="async"
-        />
+        <p className="part2-bridge">Sebab itu isi penting kami ringkaskan semula...</p>
         <div className="part2-benefits part2-benefits-final" aria-label="Tiga manfaat Nota Kilat">
           <p>✓ <span>Dalam Rumi</span> — Mudah faham untuk semua.</p>
           <p>✓ <span>Penuh gambar</span> — Anak lebih tertarik untuk belajar.</p>
           <p>✓ <span>Mudah ulang kaji</span> — Ringkas, padat dan senang ingat.</p>
         </div>
+        <p className="part2-disclaimer">PandaiKids melengkapkan ulang kaji anak, bukan menggantikan buku teks.</p>
         <div className="part2-benefits part2-benefits-legacy" aria-hidden="true">
           <p>✓ <span>Ringkas kepada isi penting</span></p>
           <p>✓ <span>Berwarna dan mudah difahami</span></p>
