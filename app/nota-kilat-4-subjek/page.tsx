@@ -42,13 +42,13 @@ export default function NotaKilat4SubjekPage() {
             berwarna dan<br />
             mudah difahami.
           </p>
-          <UrgencyStrip />
         </div>
 
         <div className="hero-visual" role="img" aria-label="Ibu bertudung menemani anak perempuan yang sedang berusaha memahami buku KAFA" />
 
         <div className="hero-action">
           <a className="primary-cta" href="#contoh-nota">Lihat Sampel Nota Percuma <span aria-hidden="true">→</span></a>
+          <UrgencyStrip />
           <p className="hero-price-note">4 subjek digital • Bermula RM12.90 • Bayaran sekali</p>
           <p>✓ Boleh dibuka terus di telefon&nbsp;&nbsp; ✓ Tidak perlu daftar</p>
         </div>
