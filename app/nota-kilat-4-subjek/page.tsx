@@ -52,6 +52,10 @@ export default function NotaKilat4SubjekPage() {
         </div>
       </section>
 
+      <div className="urgency-strip" role="note">
+        UPKK bertulis 2 Nov 2026 • Masa ulang kaji makin singkat
+      </div>
+
       {/* Bahagian 2 — Buku teks dan nota yang lebih ringkas */}
       <section className="part2-section" aria-labelledby="part2-title">
         <div className="part2-copy">

@@ -935,3 +935,20 @@
   white-space: nowrap;
 }
 :global(.notaKilatLanding .hero-action > p:last-child) { margin-top: 5px; }
+
+:global(.notaKilatLanding .urgency-strip) {
+  display: grid;
+  min-height: 38px;
+  width: 100%;
+  box-sizing: border-box;
+  place-items: center;
+  padding: 7px 12px;
+  background: #df6b63;
+  color: #fff;
+  font-family: var(--font-body, inherit);
+  font-size: clamp(.7rem, 3.05vw, .82rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  text-align: center;
+}
