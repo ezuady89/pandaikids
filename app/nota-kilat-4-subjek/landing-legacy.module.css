@@ -987,10 +987,11 @@
   color: var(--green);
   font-size: 13px;
   font-weight: 700;
+  white-space: pre-line;
 }
-:global(.notaKilatLanding .part2-benefits-final p:nth-child(1)::before) { content: "\2713  Dalam Rumi \2014 lebih mudah anak faham"; }
-:global(.notaKilatLanding .part2-benefits-final p:nth-child(2)::before) { content: "\2713  Berwarna \2014 lebih menarik untuk dibaca"; }
-:global(.notaKilatLanding .part2-benefits-final p:nth-child(3)::before) { content: "\2713  Buka di telefon \2014 ulang kaji di mana-mana"; }
+:global(.notaKilatLanding .part2-benefits-final p:nth-child(1)::before) { content: "\2713  Dalam Rumi\A  Lebih mudah dibaca dan diingat"; }
+:global(.notaKilatLanding .part2-benefits-final p:nth-child(2)::before) { content: "\2713  Isi penting diringkaskan\A  Tak perlu cari panjang-panjang"; }
+:global(.notaKilatLanding .part2-benefits-final p:nth-child(3)::before) { content: "\2713  Buka di telefon\A  Ulang kaji bila ada masa"; }
 
 /* Textbook section visual order: reference pages first, then the compact-note answer. */
 :global(.notaKilatLanding .part2-section) {
@@ -1004,9 +1005,12 @@
   width: auto;
   padding: 24px 22px 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
-:global(.notaKilatLanding .part2-copy .section-kicker) { margin-inline: auto; }
-:global(.notaKilatLanding .part2-copy h2) { margin-bottom: 10px; }
+:global(.notaKilatLanding .part2-copy .section-kicker) { order: 0; margin-inline: auto; }
+:global(.notaKilatLanding .part2-copy h2) { order: 1; margin-bottom: 10px; }
+:global(.notaKilatLanding .part2-body-copy) { order: 2; }
 :global(.notaKilatLanding .part2-copy p:last-child) { max-width: 390px; margin-inline: auto; }
 :global(.notaKilatLanding .part2-copy > p:not(.section-kicker)) { display: none; }
 :global(.notaKilatLanding .part2-body-copy) {
@@ -1018,6 +1022,7 @@
 }
 :global(.notaKilatLanding .part2-body-copy p) { margin: 0 0 8px; }
 :global(.notaKilatLanding .part2-body-copy p:last-child) { margin-bottom: 0; }
+:global(.notaKilatLanding .part2-body-copy p:nth-child(2)) { display: none; }
 :global(.notaKilatLanding .part2-reference-visual) {
   position: relative;
   width: 100%;

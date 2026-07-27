@@ -59,7 +59,7 @@ export default function NotaKilat4SubjekPage() {
         <div className="part2-copy">
           <p className="section-kicker">BUKU TEKS TETAP PENTING</p>
           <div className="part2-body-copy">
-            <p>Kadang-kadang ibu ayah pun baru perasan buku anak banyak dalam Jawi. Nak bantu anak ulang kaji, tapi tak tahu nak mula dari mana.</p>
+            <p>Kadang-kadang ibu ayah baru sedar buku anak banyak dalam Jawi. Nota PandaiKids bantu susun isi penting dalam Rumi supaya anak lebih mudah ulang kaji di rumah.</p>
             <p>Sebab itu Nota PandaiKids susun semula isi penting dalam Rumi — supaya anak lebih mudah faham, mudah ingat dan ibu ayah lebih senang bantu di rumah.</p>
           </div>
           <h2 id="part2-title">Buku teks KAFA memang lengkap.<br />Tapi ulang kaji harian perlukan cara yang lebih ringkas.</h2>
