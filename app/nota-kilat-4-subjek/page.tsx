@@ -61,13 +61,23 @@ export default function NotaKilat4SubjekPage() {
           <h2 id="part2-title">Buku teks memang lengkap.<br />Tapi ulang kaji harian perlukan cara yang lebih ringkas.</h2>
           <p>Buku teks anak tetap menjadi rujukan utama di sekolah. PandaiKids membantu ibu bapa ringkaskan isi penting supaya anak lebih mudah ulang kaji di rumah.</p>
         </div>
+        <figure className="part2-reference-visual">
+          <span>Rujukan utama anak di sekolah</span>
+          <img
+            src="/assets/textbook-vs-digital.png"
+            alt="Beberapa helaian buku teks KAFA di atas meja"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <p className="part2-bridge">Sebab itu kami ringkaskan isi penting...</p>
         <img
+          className="part2-phone-visual"
           src="/assets/part2-textbook-phone.png"
-          alt="Buku KAFA Aqidah Tahun 5 dan telefon yang memaparkan Nota Adab pada stand"
+          alt="Telefon yang memaparkan Nota PandaiKids berwarna di atas meja"
           loading="lazy"
           decoding="async"
         />
-        <p className="part2-bridge">Sebab itu kami ringkaskan isi penting...</p>
         <div className="part2-benefits part2-benefits-final" aria-label="Tiga manfaat Nota Kilat">
           <p>✓ <span>Dalam Rumi</span> — Mudah faham untuk semua.</p>
           <p>✓ <span>Penuh gambar</span> — Anak lebih tertarik untuk belajar.</p>
