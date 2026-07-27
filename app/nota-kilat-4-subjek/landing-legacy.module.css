@@ -938,11 +938,14 @@
 
 :global(.notaKilatLanding .urgency-strip) {
   display: grid;
-  min-height: 38px;
-  width: 100%;
+  min-height: 32px;
+  width: fit-content;
+  max-width: calc(100% - 8px);
   box-sizing: border-box;
   place-items: center;
-  padding: 7px 12px;
+  margin: 12px auto 0;
+  padding: 6px 12px;
+  border-radius: 999px;
   background: #df6b63;
   color: #fff;
   font-family: var(--font-body, inherit);
@@ -951,4 +954,5 @@
   line-height: 1.2;
   letter-spacing: .01em;
   text-align: center;
+  white-space: nowrap;
 }

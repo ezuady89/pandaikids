@@ -8,6 +8,7 @@ import Part9Footer from "./components/Part9Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import YearPackages from "./components/YearPackages";
 import NotaKilatAnalytics from "./NotaKilatAnalytics";
+import UrgencyStrip from "./UrgencyStrip";
 
 export const metadata: Metadata = {
   title: "Nota Kilat PandaiKids | Ulang Kaji KAFA Lebih Mudah",
@@ -41,6 +42,7 @@ export default function NotaKilat4SubjekPage() {
             berwarna dan<br />
             mudah difahami.
           </p>
+          <UrgencyStrip />
         </div>
 
         <div className="hero-visual" role="img" aria-label="Ibu bertudung menemani anak perempuan yang sedang berusaha memahami buku KAFA" />
@@ -51,10 +53,6 @@ export default function NotaKilat4SubjekPage() {
           <p>✓ Boleh dibuka terus di telefon&nbsp;&nbsp; ✓ Tidak perlu daftar</p>
         </div>
       </section>
-
-      <div className="urgency-strip" role="note">
-        UPKK bertulis 2 Nov 2026 • Masa ulang kaji makin singkat
-      </div>
 
       {/* Bahagian 2 — Buku teks dan nota yang lebih ringkas */}
       <section className="part2-section" aria-labelledby="part2-title">
