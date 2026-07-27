@@ -80,17 +80,7 @@ export default function NotaKilat4SubjekPage() {
           <div className="part2-benefit-card"><span aria-hidden="true">✓</span><strong>Isi penting diringkaskan</strong><small>Tak perlu cari panjang-panjang.</small></div>
           <div className="part2-benefit-card"><span aria-hidden="true">✓</span><strong>Buka di telefon</strong><small>Ulang kaji bila ada masa.</small></div>
         </div>
-        <div className="part2-benefits-removed" aria-hidden="true">
-          <p>✓ <span>Dalam Rumi</span> — Mudah faham untuk semua.</p>
-          <p>✓ <span>Penuh gambar</span> — Anak lebih tertarik untuk belajar.</p>
-          <p>✓ <span>Mudah ulang kaji</span> — Ringkas, padat dan senang ingat.</p>
-        </div>
         <p className="part2-disclaimer">PandaiKids bukan menggantikan buku teks. Ia membantu anak ulang kaji dengan lebih mudah sebelum UPKK.</p>
-        <div className="part2-benefits part2-benefits-legacy" aria-hidden="true">
-          <p>✓ <span>Ringkas kepada isi penting</span></p>
-          <p>✓ <span>Berwarna dan mudah difahami</span></p>
-          <p>✓ <span>Boleh dibuka terus di telefon</span></p>
-        </div>
         <a className="secondary-cta" href="#contoh-nota">Lihat Contoh Nota <span aria-hidden="true">→</span></a>
       </section>
 
