@@ -959,3 +959,35 @@
 }
 
 :global(.notaKilatLanding .hero-action .hero-price-note) { margin-top: 8px; }
+
+/* Section 2: compact textbook-to-notes story and scannable benefits. */
+:global(.notaKilatLanding .part2-bridge) {
+  margin: -2px auto 0;
+  padding: 0 22px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: center;
+}
+:global(.notaKilatLanding .part2-benefits-legacy) { display: none; }
+:global(.notaKilatLanding .part2-benefits-final) {
+  display: grid;
+  gap: 7px;
+  padding-top: 16px;
+  padding-bottom: 2px;
+}
+:global(.notaKilatLanding .part2-benefits-final p) {
+  margin: 0;
+  color: transparent;
+  font-size: 0;
+  line-height: 1.35;
+}
+:global(.notaKilatLanding .part2-benefits-final p::before) {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+}
+:global(.notaKilatLanding .part2-benefits-final p:nth-child(1)::before) { content: "\2713  Dalam Rumi \2014 Mudah faham untuk semua."; }
+:global(.notaKilatLanding .part2-benefits-final p:nth-child(2)::before) { content: "\2713  Penuh gambar \2014 Anak lebih tertarik untuk belajar."; }
+:global(.notaKilatLanding .part2-benefits-final p:nth-child(3)::before) { content: "\2713  Mudah ulang kaji \2014 Ringkas, padat dan senang ingat."; }

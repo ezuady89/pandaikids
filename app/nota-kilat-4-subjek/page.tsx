@@ -58,8 +58,8 @@ export default function NotaKilat4SubjekPage() {
       <section className="part2-section" aria-labelledby="part2-title">
         <div className="part2-copy">
           <p className="section-kicker">BUKU TEKS TETAP PENTING</p>
-          <h2 id="part2-title">Tapi ulang kaji perlukan<br />cara yang <em>lebih ringkas.</em></h2>
-          <p>Buku teks membantu anak belajar dengan lengkap. Nota Kilat pula membantu anak mengulang kaji isi penting dengan lebih cepat dan mudah.</p>
+          <h2 id="part2-title">Buku teks memang lengkap.<br />Tapi ulang kaji harian perlukan cara yang lebih ringkas.</h2>
+          <p>Buku teks anak tetap menjadi rujukan utama di sekolah. PandaiKids membantu ibu bapa ringkaskan isi penting supaya anak lebih mudah ulang kaji di rumah.</p>
         </div>
         <img
           src="/assets/part2-textbook-phone.png"
@@ -67,7 +67,13 @@ export default function NotaKilat4SubjekPage() {
           loading="lazy"
           decoding="async"
         />
-        <div className="part2-benefits" aria-label="Tiga manfaat Nota Kilat">
+        <p className="part2-bridge">Sebab itu kami ringkaskan isi penting...</p>
+        <div className="part2-benefits part2-benefits-final" aria-label="Tiga manfaat Nota Kilat">
+          <p>✓ <span>Dalam Rumi</span> — Mudah faham untuk semua.</p>
+          <p>✓ <span>Penuh gambar</span> — Anak lebih tertarik untuk belajar.</p>
+          <p>✓ <span>Mudah ulang kaji</span> — Ringkas, padat dan senang ingat.</p>
+        </div>
+        <div className="part2-benefits part2-benefits-legacy" aria-hidden="true">
           <p>✓ <span>Ringkas kepada isi penting</span></p>
           <p>✓ <span>Berwarna dan mudah difahami</span></p>
           <p>✓ <span>Boleh dibuka terus di telefon</span></p>
