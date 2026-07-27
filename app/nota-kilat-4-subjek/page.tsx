@@ -80,7 +80,7 @@ export default function NotaKilat4SubjekPage() {
           <div className="part2-benefit-card"><span aria-hidden="true">✓</span><strong>Isi penting diringkaskan</strong><small>Tak perlu cari panjang-panjang.</small></div>
           <div className="part2-benefit-card"><span aria-hidden="true">✓</span><strong>Buka di telefon</strong><small>Ulang kaji bila ada masa.</small></div>
         </div>
-        <div className="part2-benefits part2-benefits-final" aria-hidden="true">
+        <div className="part2-benefits-removed" aria-hidden="true">
           <p>✓ <span>Dalam Rumi</span> — Mudah faham untuk semua.</p>
           <p>✓ <span>Penuh gambar</span> — Anak lebih tertarik untuk belajar.</p>
           <p>✓ <span>Mudah ulang kaji</span> — Ringkas, padat dan senang ingat.</p>

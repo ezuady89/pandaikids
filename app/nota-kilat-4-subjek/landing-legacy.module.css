@@ -1015,6 +1015,7 @@
 :global(.notaKilatLanding .part2-benefits-final p:nth-child(1)::before) { content: "\2713  Dalam Rumi\A  Lebih mudah dibaca dan diingat"; }
 :global(.notaKilatLanding .part2-benefits-final p:nth-child(2)::before) { content: "\2713  Isi penting diringkaskan\A  Tak perlu cari panjang-panjang"; }
 :global(.notaKilatLanding .part2-benefits-final p:nth-child(3)::before) { content: "\2713  Buka di telefon\A  Ulang kaji bila ada masa"; }
+:global(.notaKilatLanding .part2-benefits-removed) { display: none !important; }
 
 /* Textbook section visual order: reference pages first, then the compact-note answer. */
 :global(.notaKilatLanding .part2-section) {
