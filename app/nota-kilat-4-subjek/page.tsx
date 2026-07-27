@@ -58,7 +58,11 @@ export default function NotaKilat4SubjekPage() {
       <section className="part2-section" aria-labelledby="part2-title">
         <div className="part2-copy">
           <p className="section-kicker">BUKU TEKS TETAP PENTING</p>
-          <h2 id="part2-title">Buku teks memang lengkap.<br />Tapi ulang kaji harian perlukan cara yang lebih ringkas.</h2>
+          <div className="part2-body-copy">
+            <p>Kadang-kadang ibu ayah pun baru perasan buku anak banyak dalam Jawi. Nak bantu anak ulang kaji, tapi tak tahu nak mula dari mana.</p>
+            <p>Sebab itu Nota PandaiKids susun semula isi penting dalam Rumi — supaya anak lebih mudah faham, mudah ingat dan ibu ayah lebih senang bantu di rumah.</p>
+          </div>
+          <h2 id="part2-title">Buku teks KAFA memang lengkap.<br />Tapi ulang kaji harian perlukan cara yang lebih ringkas.</h2>
           <p>Buku teks KAFA/Jawi kekal menjadi rujukan utama di sekolah. PandaiKids membantu anak mengulang kaji isi penting dalam Rumi, berwarna dan mudah difahami — supaya masa yang tinggal sebelum UPKK dapat digunakan dengan lebih tersusun.</p>
         </div>
         <figure className="part2-reference-visual">
@@ -75,7 +79,7 @@ export default function NotaKilat4SubjekPage() {
           <p>✓ <span>Penuh gambar</span> — Anak lebih tertarik untuk belajar.</p>
           <p>✓ <span>Mudah ulang kaji</span> — Ringkas, padat dan senang ingat.</p>
         </div>
-        <p className="part2-disclaimer">Bukan menggantikan buku teks. PandaiKids membantu anak ulang kaji dengan lebih mudah.</p>
+        <p className="part2-disclaimer">PandaiKids bukan menggantikan buku teks. Ia membantu anak ulang kaji dengan lebih mudah sebelum UPKK.</p>
         <div className="part2-benefits part2-benefits-legacy" aria-hidden="true">
           <p>✓ <span>Ringkas kepada isi penting</span></p>
           <p>✓ <span>Berwarna dan mudah difahami</span></p>

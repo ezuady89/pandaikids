@@ -1008,10 +1008,20 @@
 :global(.notaKilatLanding .part2-copy .section-kicker) { margin-inline: auto; }
 :global(.notaKilatLanding .part2-copy h2) { margin-bottom: 10px; }
 :global(.notaKilatLanding .part2-copy p:last-child) { max-width: 390px; margin-inline: auto; }
+:global(.notaKilatLanding .part2-copy > p:not(.section-kicker)) { display: none; }
+:global(.notaKilatLanding .part2-body-copy) {
+  max-width: 390px;
+  margin: 0 auto;
+  color: #405047;
+  font-size: 13px;
+  line-height: 1.42;
+}
+:global(.notaKilatLanding .part2-body-copy p) { margin: 0 0 8px; }
+:global(.notaKilatLanding .part2-body-copy p:last-child) { margin-bottom: 0; }
 :global(.notaKilatLanding .part2-reference-visual) {
   position: relative;
   width: 100%;
-  height: auto;
+  height: clamp(520px, 155vw, 620px);
   margin: 18px 0 0;
   overflow: hidden;
   background: #f4e3c9;
@@ -1019,9 +1029,9 @@
 :global(.notaKilatLanding .part2-reference-visual img) {
   display: block;
   width: 100%;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
   mask-image: linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
 }
