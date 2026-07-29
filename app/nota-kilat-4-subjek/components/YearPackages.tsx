@@ -10,7 +10,7 @@ const FEATURES = [
   "Boleh baca di telefon & cetak",
 ];
 
-const PROMO_END = new Date("2026-07-29T23:59:59+08:00").getTime();
+const PROMO_END = new Date("2026-08-01T23:59:59+08:00").getTime();
 const packageOnpayUrl = (year: 3 | 4 | 5) => {
   if (year === 3) return ONPAY_URLS.year3;
   if (year === 4) return ONPAY_URLS.year4;

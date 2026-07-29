@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import styles from "./landing.module.css";
 
-const PROMO_END_MS = Date.parse("2026-07-26T23:59:59+08:00");
+const PROMO_END_MS = Date.parse("2026-08-01T23:59:59+08:00");
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number; ended: boolean };
 
 function getTimeLeft(): TimeLeft {
