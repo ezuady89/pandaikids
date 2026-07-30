@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ONPAY_URLS, years } from "../data";
+import { TOYYIBPAY_URLS, years } from "../data";
 import styles from "./landing.module.css";
 
 const FEATURES = [
@@ -12,9 +12,9 @@ const FEATURES = [
 
 const PROMO_END = new Date("2026-08-01T23:59:59+08:00").getTime();
 const packageOnpayUrl = (year: 3 | 4 | 5) => {
-  if (year === 3) return ONPAY_URLS.year3;
-  if (year === 4) return ONPAY_URLS.year4;
-  return ONPAY_URLS.year5;
+  if (year === 3) return TOYYIBPAY_URLS.year3;
+  if (year === 4) return TOYYIBPAY_URLS.year4;
+  return TOYYIBPAY_URLS.year5;
 };
 
 function usePromoCountdown() {
@@ -170,7 +170,7 @@ export default function YearPackages() {
             <del>RM45</del>
             <strong>RM29.90</strong>
             <em className={styles.bundleSavings}>JIMAT RM15.10</em>
-            <a className={styles.bundleCta} href={ONPAY_URLS.bundle} data-pandaikids-package="bundle" target="_blank" rel="noopener noreferrer">
+            <a className={styles.bundleCta} href={TOYYIBPAY_URLS.bundle} data-pandaikids-package="bundle" target="_blank" rel="noopener noreferrer">
               Dapatkan Bundle Tahun 3–5 <b>→</b>
             </a>
             <small>Bayaran sekali · Muat turun digital</small>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { faqs, ONPAY_URL } from "../data";
+import { faqs, TOYYIBPAY_URL } from "../data";
 import styles from "./landing.module.css";
 
 const WHATSAPP_URL =
@@ -101,7 +101,7 @@ export default function FaqSection() {
             </span>.
           </p>
 
-          <a href={ONPAY_URL} className={styles.finalButton}>
+          <a href={TOYYIBPAY_URL} className={styles.finalButton}>
             Pilih pakej sekarang
             <span aria-hidden="true">→</span>
           </a>

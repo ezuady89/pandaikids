@@ -3,7 +3,7 @@
 import "./PreviewReader.css";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ONPAY_URL } from "../../data";
+import { TOYYIBPAY_URL } from "../../data";
 import PreviewGallery from "./PreviewGallery";
 import {
   getPreviewCategory,
@@ -169,7 +169,7 @@ export default function PreviewReader() {
               <p>Lengkap dengan Nota Kilat, Uji Minda dan Skema Jawapan.</p>
             </div>
             <div className="preview-reader-cta-action">
-              <a href={ONPAY_URL} className="preview-reader-cta-button">
+              <a href={TOYYIBPAY_URL} className="preview-reader-cta-button">
                 Dapatkan Sekarang
                 <span aria-hidden="true">→</span>
               </a>
