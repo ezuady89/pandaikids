@@ -1,9 +1,12 @@
 {
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/kuiz/",
-      "destination": "https://freegames.pandaikids.com/premium-preview",
-      "permanent": false
+      "source": "/kuiz",
+      "destination": "https://pandaikids-kuiz-origin.vercel.app/kuiz"
+    },
+    {
+      "source": "/kuiz/:path*",
+      "destination": "https://pandaikids-kuiz-origin.vercel.app/kuiz/:path*"
     }
   ]
 }
