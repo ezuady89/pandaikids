@@ -1,7 +1,7 @@
 {
   "redirects": [
     {
-      "source": "/kuiz",
+      "source": "/kuiz/",
       "destination": "https://freegames.pandaikids.com/premium-preview",
       "permanent": false
     }
