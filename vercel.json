@@ -1,11 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/kuiz",
+      "source": "/kuiz/",
       "destination": "https://pandaikids-kuiz-origin.vercel.app/kuiz"
     },
     {
-      "source": "/kuiz/:path*",
+      "source": "/kuiz/:path*/",
       "destination": "https://pandaikids-kuiz-origin.vercel.app/kuiz/:path*"
     }
   ]
