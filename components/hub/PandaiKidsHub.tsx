@@ -39,22 +39,40 @@ export function PandaiKidsHub() {
 
       <section className={styles.hero}>
         <h1>
-          Ulang Kaji Ringkas.
+          Persediaan UPKK.
           <br />
-          Ingatan Lebih Lekat.
+          Belajar Lebih Terarah.
         </h1>
         <p>
-          Bahan ulang kaji Pendidikan Islam yang ringkas, tersusun dan mudah
-          digunakan bersama anak.
+          Pilih Kuiz UPKK interaktif, Nota UPKK lengkap atau terokai permainan
+          pendidikan PandaiKids.
         </p>
         <span className={styles.heroLine} aria-hidden="true" />
       </section>
 
       <section className={styles.cards} aria-label="Pilihan PandaiKids">
+        <article className={`${styles.card} ${styles.quizCard}`}>
+          <div className={styles.quizOverlay} aria-hidden="true" />
+          <div className={styles.quizCopy}>
+            <span className={`${styles.badge} ${styles.quizBadge}`}>
+              ★ Kuiz UPKK
+            </span>
+            <p className={styles.kicker}>Kuiz Interaktif</p>
+            <h2>Latihan UPKK bersama Pandi</h2>
+            <p className={styles.description}>
+              Cuba soalan percuma untuk Aqidah, Ibadah, Sirah dan Adab. Naik taraf
+              ke Premium untuk lebih banyak latihan dan akses selama 1 tahun.
+            </p>
+            <Link className={styles.quizButton} href="/kuiz/">
+              Mula Kuiz UPKK <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </article>
+
         <article className={`${styles.card} ${styles.notesCard}`}>
           <div className={styles.notesCopy}>
             <span className={`${styles.badge} ${styles.primaryBadge}`}>
-              ★ Pilihan utama sekarang
+              Nota UPKK
             </span>
 
             <p className={styles.kicker}>Nota Kilat UPKK</p>
@@ -72,7 +90,7 @@ export function PandaiKidsHub() {
             </div>
 
             <Link className={styles.primaryButton} href="/nota-kilat-4-subjek/">
-              Mula Ulang Kaji <span aria-hidden="true">→</span>
+              Lihat Nota UPKK <span aria-hidden="true">→</span>
             </Link>
           </div>
 
@@ -82,7 +100,7 @@ export function PandaiKidsHub() {
               alt="Pandi membaca Nota Kilat di atas sofa hijau"
               width={900}
               height={900}
-              sizes="(max-width: 760px) 84vw, 38vw"
+              sizes="(max-width: 760px) 84vw, 30vw"
               priority
             />
           </div>
@@ -97,7 +115,7 @@ export function PandaiKidsHub() {
             src={gameBgSrc}
             alt=""
             fill
-            sizes="(max-width: 920px) 100vw, 38vw"
+            sizes="(max-width: 920px) 100vw, 30vw"
             aria-hidden="true"
           />
           <div className={styles.gameOverlay} aria-hidden="true" />
@@ -110,8 +128,8 @@ export function PandaiKidsHub() {
             <p className={styles.kicker}>Game Pendidikan</p>
             <h2>Sedang ditambah baik</h2>
             <p className={styles.description}>
-              Kami sedang menyediakan pengalaman pembelajaran digital yang
-              lebih menarik dan menyeronokkan untuk anak-anak.
+              Pengalaman pembelajaran digital yang lebih menarik dan
+              menyeronokkan sedang disediakan.
             </p>
 
             <button className={styles.disabledButton} type="button" disabled>
@@ -125,22 +143,22 @@ export function PandaiKidsHub() {
             alt=""
             width={900}
             height={900}
-            sizes="240px"
+            sizes="220px"
             aria-hidden="true"
           />
         </article>
       </section>
 
       <section className={styles.features} aria-label="Kelebihan PandaiKids">
+        <div><b>Kuiz Interaktif</b><span>Latihan 4 subjek</span></div>
         <div><b>Nota Ringkas</b><span>Mudah difahami</span></div>
         <div><b>Uji Minda</b><span>Uji kefahaman</span></div>
-        <div><b>Skema Jawapan</b><span>Semak dengan mudah</span></div>
-        <div><b>Muat Turun</b><span>Selepas pembayaran</span></div>
+        <div><b>Akses Fleksibel</b><span>Belajar di mana-mana</span></div>
       </section>
 
       <footer className={styles.footer}>
         <p>© {new Date().getFullYear()} PandaiKids</p>
-        <p>Ulang Kaji Ringkas. Ingatan Lebih Lekat.</p>
+        <p>Belajar dengan ceria, melangkah dengan yakin.</p>
       </footer>
     </main>
   );
