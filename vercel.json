@@ -1,75 +1,63 @@
 {
+  "redirects": [
+    {
+      "source": "/kuiz/kuiz/:path*",
+      "destination": "/kuiz/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/kuiz/kuiz",
+      "destination": "/kuiz",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/journey",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
       "source": "/journey/:path*",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
       "source": "/world",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
       "source": "/world/:path*",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
       "source": "/game",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
       "source": "/game/:path*",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
       "source": "/games",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
       "source": "/games/:path*",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     }
   ],
