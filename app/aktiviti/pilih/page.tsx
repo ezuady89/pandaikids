@@ -55,13 +55,13 @@ export default function PilihAktivitiPage() {
   const toggleCurrent = () => question && setSelected((current) => current.includes(question.id) ? current.filter((id) => id !== question.id) : [...current, question.id]);
   const selectAll = () => setSelected((current) => Array.from(new Set([...current, ...questions.map((item) => item.id)])));
   const move = (amount: number) => { setPreviewIndex((current) => Math.max(0, Math.min(questions.length - 1, current + amount))); setShowAnswer(false); };
-  const launch = () => { if (selected.length) window.location.href = `/aktiviti/?bank=${bankKey}&soalan=${selected.join(",")}`; };
+  const launch = () => { if (selected.length) window.location.href = `/aktiviti/semak/?bank=${bankKey}&soalan=${selected.join(",")}`; };
 
   if (!manifest || !bank || !question) return <main className={styles.loading}>Memuatkan bank soalan Pandaikids…</main>;
 
   return <main className={styles.page}>
     <header className={styles.header}><a href="/" className={styles.logo}><img src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" /></a><a href="/" className={styles.exit}>← Kembali</a></header>
-    <section className={styles.hero}><span>AKTIVITI SIAP PANDAIKIDS</span><h1>Pilih soalan seperti<br />murid akan melihatnya.</h1><p>{manifest.questionCount.toLocaleString("ms-MY")} soalan untuk Tahun 1 hingga 6.</p></section>
+    <section className={styles.hero}><span>KOLEKSI KUIZ PANDAIKIDS</span><h1>Pilih soalan seperti<br />murid akan melihatnya.</h1><p>{manifest.questionCount.toLocaleString("ms-MY")} soalan untuk Tahun 1 hingga 6.</p></section>
     <section className={styles.workspace}>
       <div className={styles.filters}>
         <div><b>1</b><span>Subjek</span><div className={styles.subjects}>{manifest.subjects.map((item) => <button key={item} onClick={() => chooseSubject(item)} className={`${subject === item ? styles.active : ""} ${styles[subjectColours[item]]}`}>{item}</button>)}</div></div>
@@ -80,6 +80,6 @@ export default function PilihAktivitiPage() {
         {subject === "Pendidikan Islam" ? <p className={styles.reviewNote}>Semak kandungan dahulu sebelum dikongsi kepada murid.</p> : null}
       </article>
     </section>
-    <footer className={styles.bottomBar}><div><strong>{selected.length}</strong> soalan dipilih <span>· Cikgu boleh pilih dari lebih satu tajuk</span></div><button disabled={!selected.length} onClick={launch}>Buka kuiz pilihan cikgu <b>→</b></button></footer>
+    <footer className={styles.bottomBar}><div><strong>{selected.length}</strong> soalan dipilih <span>· Cikgu boleh pilih dari lebih satu tajuk</span></div><button disabled={!selected.length} onClick={launch}>Semak &amp; kongsi kuiz <b>→</b></button></footer>
   </main>;
 }
