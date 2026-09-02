@@ -15,10 +15,10 @@ function Icon({ name }: { name: IconName }) {
 }
 
 const quizzes = [
-  { year: "TAHUN 3", name: "Matematik", count: "24 soalan", icon: "math" as const, color: "math" },
-  { year: "TAHUN 3", name: "Bahasa Melayu", count: "20 soalan", icon: "book" as const, color: "bm" },
-  { year: "TAHUN 4", name: "Sains", count: "18 soalan", icon: "science" as const, color: "science" },
-  { year: "TAHUN 4", name: "Bahasa Inggeris", count: "16 soalan", icon: "language" as const, color: "english" },
+  { year: "TAHUN 3", name: "Matematik", count: "Pilih ikut tajuk", icon: "math" as const, color: "math" },
+  { year: "TAHUN 3", name: "Bahasa Melayu", count: "Pilih ikut tajuk", icon: "book" as const, color: "bm" },
+  { year: "TAHUN 4", name: "Sains", count: "Pilih ikut tajuk", icon: "science" as const, color: "science" },
+  { year: "TAHUN 4", name: "Bahasa Inggeris", count: "Pilih ikut tajuk", icon: "language" as const, color: "english" },
 ];
 
 export function CikguHomepage() {
@@ -32,19 +32,19 @@ export function CikguHomepage() {
       </header>
       <div className={styles.heroCopy}>
         <h1><span>Sediakan latihan untuk murid.</span><strong>Kongsi terus melalui DELIMa.</strong></h1>
-        <div className={styles.heroActions}><a className={styles.readyButton} href="#kuiz">Pilih Kuiz Siap</a><a className={styles.customButton} href="#bina">Bina Soalan Sendiri</a></div>
+        <div className={styles.heroActions}><a className={styles.readyButton} href="#kuiz">Pilih Kuiz Siap</a><a className={styles.customButton} href="/aktiviti/pilih/">Bina Soalan Sendiri</a></div>
         <p>Murid jawab melalui pautan.</p>
       </div>
       <a href="#kuiz" className={styles.scrollHint}>Lihat cara ia berfungsi <Icon name="down" /></a>
     </section>
     <section className={styles.quizzes} id="kuiz">
       <div className={styles.intro}><h2>Latihan percuma untuk terus dikongsi.</h2><p>Pilih satu, kemudian beri pautan kepada murid.</p></div>
-      <div className={styles.quizGrid}>{quizzes.map((quiz) => <a className={styles.quizCard} href="/aktiviti/" key={quiz.name}>
+      <div className={styles.quizGrid}>{quizzes.map((quiz) => <a className={styles.quizCard} href={`/aktiviti/pilih/?subjek=${encodeURIComponent(quiz.name)}`} key={quiz.name}>
         <span className={`${styles.quizIcon} ${styles[quiz.color]}`}><Icon name={quiz.icon} /></span><div><small>{quiz.year}</small><h3>{quiz.name}</h3><p>{quiz.count}</p></div><b>Buka &amp; Kongsi <Icon name="arrow" /></b>
       </a>)}</div>
     </section>
     <section className={styles.customSection} id="bina"><div className={styles.customCard}>
-      <span className={styles.sparkle}><Icon name="sparkle" /></span><div><small>IKUT BAHAN CIKGU SENDIRI</small><h2>Nak bina latihan sendiri?</h2><p>Guna nota, PDF atau teks cikgu. Kami bantu susun jadi latihan.</p></div><a className={styles.premiumButton} href="#log-masuk">Bina Soalan Sendiri <Icon name="arrow" /></a>
+      <span className={styles.sparkle}><Icon name="sparkle" /></span><div><small>IKUT BAHAN CIKGU SENDIRI</small><h2>Nak bina latihan sendiri?</h2><p>Guna nota, PDF atau teks cikgu. Kami bantu susun jadi latihan.</p></div><a className={styles.premiumButton} href="/aktiviti/pilih/">Bina Soalan Sendiri <Icon name="arrow" /></a>
     </div></section>
     <footer className={styles.footer} id="log-masuk">© 2026 Pandaikids Cikgu <span>•</span> Dibina untuk cikgu di Malaysia <b>♥</b></footer>
   </main>;
