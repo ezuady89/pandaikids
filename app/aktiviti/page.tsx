@@ -7,7 +7,7 @@ type Question = { id: string; subject: string; year: number; topic: string; ques
 const example: Question = { id: "contoh", subject: "Bahasa Melayu", year: 3, topic: "Kata ganti nama", question: "Aina membawa buku ke sekolah. ______ suka membaca.", choices: ["Saya", "Dia", "Kami", "Mereka"], answer: "B", explanation: "Aina dirujuk dengan kata ganti nama “Dia”." };
 
 function cleanQuestion(text: string) {
-  return text.replace(/^.*?Tahun\s+\d+[^:]*,\s*Set\s+\d+\s*:\s*/i, "").trim();
+  return text.replace(/^[^:]{0,220}:\s*/, "").trim();
 }
 
 export default function AktivitiPage() {

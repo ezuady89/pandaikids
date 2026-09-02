@@ -10,7 +10,7 @@ type Manifest = { questionCount: number; subjects: string[] };
 const subjectColours: Record<string, string> = { Matematik: "math", "Bahasa Melayu": "bm", Sains: "science", "Bahasa Inggeris": "english", "Pendidikan Islam": "islam" };
 
 function cleanQuestion(question: Question) {
-  return question.question.replace(/^.*?Tahun\s+\d+[^:]*,\s*Set\s+\d+\s*:\s*/i, "").trim();
+  return question.question.replace(/^[^:]{0,220}:\s*/, "").trim();
 }
 
 export default function PilihAktivitiPage() {
