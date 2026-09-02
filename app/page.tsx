@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
-import { PandaiKidsHub } from "@/components/hub/PandaiKidsHub";
+import { CikguHomepage } from "@/components/cikgu/CikguHomepage";
 
 export const metadata: Metadata = {
-  title: "PandaiKids | Kuiz & Nota UPKK Tahun 3, 4 & 5",
+  title: "Pandaikids Cikgu | Latihan untuk murid melalui DELIMa",
   description:
-    "Persediaan UPKK PandaiKids dengan Kuiz interaktif, Nota UPKK Tahun 3, 4 dan 5, Uji Minda dan bahan pembelajaran untuk Aqidah, Ibadah, Sirah dan Adab.",
+    "Pilih latihan siap untuk murid atau bina latihan sendiri daripada nota, PDF atau teks cikgu.",
 };
 
 export default function HomePage() {
-  return <PandaiKidsHub />;
+  return <CikguHomepage />;
 }
