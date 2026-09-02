@@ -15,10 +15,11 @@ function Icon({ name }: { name: IconName }) {
 }
 
 const quizzes = [
-  { year: "TAHUN 3", name: "Matematik", count: "Pilih ikut tajuk", icon: "math" as const, color: "math" },
-  { year: "TAHUN 3", name: "Bahasa Melayu", count: "Pilih ikut tajuk", icon: "book" as const, color: "bm" },
-  { year: "TAHUN 4", name: "Sains", count: "Pilih ikut tajuk", icon: "science" as const, color: "science" },
-  { year: "TAHUN 4", name: "Bahasa Inggeris", count: "Pilih ikut tajuk", icon: "language" as const, color: "english" },
+  { name: "Matematik", icon: "math" as const, color: "math" },
+  { name: "Bahasa Melayu", icon: "book" as const, color: "bm" },
+  { name: "Bahasa Inggeris", icon: "language" as const, color: "english" },
+  { name: "Sains", icon: "science" as const, color: "science" },
+  { name: "Pendidikan Islam", icon: "sparkle" as const, color: "islam" },
 ];
 
 export function CikguHomepage() {
@@ -32,19 +33,19 @@ export function CikguHomepage() {
       </header>
       <div className={styles.heroCopy}>
         <h1><span>Sediakan latihan untuk murid.</span><strong>Kongsi terus melalui DELIMa.</strong></h1>
-        <div className={styles.heroActions}><a className={styles.readyButton} href="#kuiz">Pilih Kuiz Siap</a><a className={styles.customButton} href="/aktiviti/pilih/">Bina Soalan Sendiri</a></div>
+        <div className={styles.heroActions}><a className={styles.readyButton} href="#kuiz">Pilih Kuiz Siap</a><a className={styles.customButton} href="#bina">Bina Kuiz Sendiri</a></div>
         <p>Murid jawab melalui pautan.</p>
       </div>
       <a href="#kuiz" className={styles.scrollHint}>Lihat cara ia berfungsi <Icon name="down" /></a>
     </section>
     <section className={styles.quizzes} id="kuiz">
-      <div className={styles.intro}><h2>Latihan percuma untuk terus dikongsi.</h2><p>Pilih satu, kemudian beri pautan kepada murid.</p></div>
+      <div className={styles.intro}><h2>Pilih subjek untuk mula.</h2><p>Tahun 1 hingga 6 · pilih tajuk dan soalan sendiri.</p></div>
       <div className={styles.quizGrid}>{quizzes.map((quiz) => <a className={styles.quizCard} href={`/aktiviti/pilih/?subjek=${encodeURIComponent(quiz.name)}`} key={quiz.name}>
-        <span className={`${styles.quizIcon} ${styles[quiz.color]}`}><Icon name={quiz.icon} /></span><div><small>{quiz.year}</small><h3>{quiz.name}</h3><p>{quiz.count}</p></div><b>Buka &amp; Kongsi <Icon name="arrow" /></b>
+        <span className={`${styles.quizIcon} ${styles[quiz.color]}`}><Icon name={quiz.icon} /></span><div><small>TAHUN 1–6</small><h3>{quiz.name}</h3><p>Pilih tajuk &amp; soalan</p></div><b>Mula pilih <Icon name="arrow" /></b>
       </a>)}</div>
     </section>
     <section className={styles.customSection} id="bina"><div className={styles.customCard}>
-      <span className={styles.sparkle}><Icon name="sparkle" /></span><div><small>IKUT BAHAN CIKGU SENDIRI</small><h2>Nak bina latihan sendiri?</h2><p>Guna nota, PDF atau teks cikgu. Kami bantu susun jadi latihan.</p></div><a className={styles.premiumButton} href="/aktiviti/pilih/">Bina Soalan Sendiri <Icon name="arrow" /></a>
+      <span className={styles.sparkle}><Icon name="sparkle" /></span><div><small>IKUT CARA CIKGU SENDIRI</small><h2>Bina kuiz ikut cara cikgu.</h2><p>Taip soalan sendiri, atau guna nota, gambar dan PDF.<span>Format soalan dan jawapan sudah disediakan.</span></p></div><a className={styles.premiumButton} href="/aktiviti/pilih/">Mula Bina Kuiz <Icon name="arrow" /></a>
     </div></section>
     <footer className={styles.footer} id="log-masuk">© 2026 Pandaikids Cikgu <span>•</span> Dibina untuk cikgu di Malaysia <b>♥</b></footer>
   </main>;

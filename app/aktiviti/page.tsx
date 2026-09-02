@@ -6,6 +6,10 @@ import styles from "./page.module.css";
 type Question = { id: string; subject: string; year: number; topic: string; question: string; choices: string[]; answer: string; explanation: string };
 const example: Question = { id: "contoh", subject: "Bahasa Melayu", year: 3, topic: "Kata ganti nama", question: "Aina membawa buku ke sekolah. ______ suka membaca.", choices: ["Saya", "Dia", "Kami", "Mereka"], answer: "B", explanation: "Aina dirujuk dengan kata ganti nama “Dia”." };
 
+function cleanQuestion(text: string) {
+  return text.replace(/^.*?Tahun\s+\d+[^:]*,\s*Set\s+\d+\s*:\s*/i, "").trim();
+}
+
 export default function AktivitiPage() {
   const [questions, setQuestions] = useState<Question[]>([example]);
   const [index, setIndex] = useState(0);
@@ -41,7 +45,7 @@ export default function AktivitiPage() {
       <div className={styles.title}><span>AKTIVITI PILIHAN CIKGU</span><h1>{title}</h1></div>
       <article className={styles.card}>
         <div className={styles.progressRow}><b>Soalan {index + 1} daripada {questions.length}</b><div className={styles.progress} style={{ "--progress": `${((index + 1) / questions.length) * 100}%` } as React.CSSProperties}><i /></div></div>
-        <h2>{question.topic}</h2><p className={styles.question}>{question.question}</p>
+        <h2>{question.topic}</h2><p className={styles.question}>{cleanQuestion(question.question)}</p>
         <div className={styles.answers}>{question.choices.map((answer, answerIndex) => {
           const state = choice === null ? "" : answerIndex === correctIndex ? styles.correct : choice === answerIndex ? styles.wrong : "";
           return <button className={`${styles.answer} ${state}`} key={answer} onClick={() => setChoice(answerIndex)}><b>{String.fromCharCode(65 + answerIndex)}</b>{answer}{answerIndex === correctIndex && choice !== null ? <span>✓</span> : null}</button>;
