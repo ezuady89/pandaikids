@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     if (!apiKey) throw new Error("GEMINI_API_KEY_MISSING");
 
     const google = createGoogleGenerativeAI({ apiKey });
-    const model = process.env.PANDAIKIDS_GEMINI_MODEL ?? "gemini-2.5-flash-lite";
+    const model = process.env.PANDAIKIDS_GEMINI_MODEL ?? "gemini-3.5-flash-lite";
     const { text } = await generateText({
       model: google(model),
       messages: [{ role: "user", content }],
