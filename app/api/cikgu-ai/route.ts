@@ -119,7 +119,6 @@ export async function POST(request: NextRequest) {
         : quotaError
           ? "Kuota percuma sedang sibuk atau telah dicapai. Cuba semula sebentar lagi."
           : "Soalan belum dapat dihasilkan. Pastikan bahan jelas dan cuba sekali lagi.",
-      ...(request.headers.get("x-pandaikids-diagnostic") === "owner-check" ? { diagnostic: detail } : {}),
     }, { status: quotaError ? 429 : 500 });
   }
 }
