@@ -33,7 +33,7 @@ export function CikguHomepage() {
       </header>
       <div className={styles.heroCopy}>
         <h1><span>Sediakan latihan untuk murid.</span><strong>Kongsi terus melalui DELIMa.</strong></h1>
-        <div className={styles.heroActions}><a className={styles.readyButton} href="#kuiz">Pilih Kuiz Siap</a><a className={styles.customButton} href="#bina">Bina Kuiz Sendiri</a></div>
+        <div className={styles.heroActions}><a className={styles.readyButton} href="#kuiz">Pilih Kuiz Siap</a><a className={styles.customButton} href="/aktiviti/bina/">Bina Kuiz Sendiri</a></div>
         <p>Murid jawab melalui pautan.</p>
       </div>
       <a href="#kuiz" className={styles.scrollHint}>Lihat cara ia berfungsi <Icon name="down" /></a>
@@ -45,7 +45,7 @@ export function CikguHomepage() {
       </a>)}</div>
     </section>
     <section className={styles.customSection} id="bina"><div className={styles.customCard}>
-      <span className={styles.sparkle}><Icon name="sparkle" /></span><div><small>IKUT CARA CIKGU SENDIRI</small><h2>Bina kuiz ikut cara cikgu.</h2><p>Taip soalan sendiri, atau guna nota, gambar dan PDF.<span>Format soalan dan jawapan sudah disediakan.</span></p></div><a className={styles.premiumButton} href="/aktiviti/pilih/">Mula Bina Kuiz <Icon name="arrow" /></a>
+      <span className={styles.sparkle}><Icon name="sparkle" /></span><div><small>IKUT CARA CIKGU SENDIRI</small><h2>Bina kuiz ikut cara cikgu.</h2><p>Taip soalan sendiri, atau guna nota, gambar dan PDF.<span>Format soalan dan jawapan sudah disediakan.</span></p></div><a className={styles.premiumButton} href="/aktiviti/bina/">Mula Bina Kuiz <Icon name="arrow" /></a>
     </div></section>
     <footer className={styles.footer} id="log-masuk">© 2026 Pandaikids Cikgu <span>•</span> Dibina untuk cikgu di Malaysia <b>♥</b></footer>
   </main>;

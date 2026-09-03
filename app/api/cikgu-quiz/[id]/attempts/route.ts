@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getCikguDb } from "@/lib/cikgu-db";
+import { verifyDelimaCredential } from "@/lib/delima-auth";
 
 export const runtime = "nodejs";
 
@@ -9,27 +10,44 @@ type AttemptBody = {
   score?: number;
   total?: number;
   durationSeconds?: number;
+  googleCredential?: string;
 };
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id: quizId } = await params;
   const body = await request.json() as AttemptBody;
-  const studentName = String(body.studentName ?? "").trim().replace(/\s+/g, " ").slice(0, 60);
+  let studentName = String(body.studentName ?? "").trim().replace(/\s+/g, " ").slice(0, 60);
   const score = Number(body.score);
   const total = Number(body.total);
   const durationSeconds = Math.max(0, Math.round(Number(body.durationSeconds)));
 
-  if (!studentName || !Number.isInteger(score) || !Number.isInteger(total) || total < 1 || total > 500 || score < 0 || score > total || !Number.isFinite(durationSeconds) || durationSeconds > 86400) {
+  if (!Number.isInteger(score) || !Number.isInteger(total) || total < 1 || total > 500 || score < 0 || score > total || !Number.isFinite(durationSeconds) || durationSeconds > 86400) {
     return NextResponse.json({ error: "Keputusan murid tidak lengkap." }, { status: 400 });
   }
 
   const client = await getCikguDb().connect();
   try {
     await client.query("BEGIN");
-    const quiz = await client.query("SELECT 1 FROM teacher_quizzes WHERE id = $1", [quizId]);
+    const quiz = await client.query("SELECT question_overrides FROM teacher_quizzes WHERE id = $1", [quizId]);
     if (!quiz.rowCount) {
       await client.query("ROLLBACK");
       return NextResponse.json({ error: "Kuiz tidak ditemui." }, { status: 404 });
+    }
+
+    const stored = quiz.rows[0].question_overrides ?? {};
+    const accessMode = stored.__settings?.accessMode === "delima" ? "delima" : "open";
+    if (accessMode === "delima") {
+      try {
+        const identity = await verifyDelimaCredential(String(body.googleCredential ?? ""));
+        studentName = identity.name;
+      } catch {
+        await client.query("ROLLBACK");
+        return NextResponse.json({ error: "Sila sahkan akaun DELIMa sebelum menghantar jawapan." }, { status: 401 });
+      }
+    }
+    if (!studentName) {
+      await client.query("ROLLBACK");
+      return NextResponse.json({ error: "Nama murid tidak lengkap." }, { status: 400 });
     }
 
     const attempt = await client.query(
