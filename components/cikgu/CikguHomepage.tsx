@@ -188,16 +188,18 @@ function ProductPreview() {
           <span className={`${styles.previewIcon} ${styles.coral}`}>
             <Icon name="file" />
           </span>
-          <b>Nota Cikgu</b>
-        </header>
-        <div className={styles.paper}>
-          <strong>Bab 2: Sistem Suria</strong>
-          <small>Nota ringkas</small>
-          <p>• Sistem suria terdiri daripada Matahari, planet dan satelit.</p>
-          <p>• Terdapat 8 planet dalam sistem suria.</p>
-          <span className={styles.fileChip}>
-            <Icon name="file" /> Nota_Sistem_Suria.pdf
+          <span>
+            <small>LANGKAH 1</small>
+            <b>Masukkan nota</b>
           </span>
+        </header>
+        <div className={`${styles.previewMedia} ${styles.noteMedia}`}>
+          <Image
+            src="/assets/cikgu/hero-note.webp"
+            alt="Contoh nota bergambar tentang fotosintesis"
+            fill
+            sizes="(max-width: 760px) 84vw, 240px"
+          />
         </div>
       </article>
 
@@ -211,30 +213,20 @@ function ProductPreview() {
           <span className={`${styles.previewIcon} ${styles.teal}`}>
             <Icon name="sparkle" />
           </span>
-          <b>10 soalan dihasilkan</b>
+          <span>
+            <small>LANGKAH 2</small>
+            <b>Soalan terus siap</b>
+          </span>
         </header>
-        <div className={styles.question}>
-          <strong>1. Apakah pusat sistem suria?</strong>
-          <span className={styles.selected}>
-            <i /> Matahari
-          </span>
-          <span>
-            <i /> Bumi
-          </span>
-          <span>
-            <i /> Bulan
-          </span>
+        <div className={`${styles.previewMedia} ${styles.quizMedia}`}>
+          <Image
+            src="/assets/cikgu/hero-quiz.webp"
+            alt="Contoh soalan kuiz yang dijana untuk murid"
+            fill
+            sizes="(max-width: 760px) 84vw, 290px"
+          />
         </div>
-        <div className={styles.question}>
-          <strong>2. Berapakah bilangan planet?</strong>
-          <span>
-            <i /> 7
-          </span>
-          <span className={styles.selected}>
-            <i /> 8
-          </span>
-        </div>
-        <div className={styles.reviewButton}>Semak Soalan</div>
+        <div className={styles.reviewButton}>Cikgu boleh semak &amp; ubah</div>
       </article>
 
       <span className={styles.flowArrow} aria-hidden="true">
@@ -247,7 +239,10 @@ function ProductPreview() {
           <span className={`${styles.previewIcon} ${styles.yellow}`}>
             <Icon name="share" />
           </span>
-          <b>Kongsi Pautan</b>
+          <span>
+            <small>LANGKAH 3</small>
+            <b>Kongsi pautan</b>
+          </span>
         </header>
         <div className={styles.linkPanel}>
           <span className={styles.linkIcon}>
