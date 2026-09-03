@@ -33,6 +33,14 @@ export default function AktivitiPage() {
   const [score, setScore] = useState(0);
   const [theme, setTheme] = useState("coral");
   const [loading, setLoading] = useState(true);
+  const [quizId, setQuizId] = useState("");
+  const [studentName, setStudentName] = useState("");
+  const [started, setStarted] = useState(false);
+  const [startedAt, setStartedAt] = useState(0);
+  const [durationSeconds, setDurationSeconds] = useState(0);
+  const [rank, setRank] = useState<number | null>(null);
+  const [participantCount, setParticipantCount] = useState<number | null>(null);
+  const [resultStatus, setResultStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -52,6 +60,7 @@ export default function AktivitiPage() {
     };
     const quizId = params.get("kuiz");
     if (quizId) {
+      setQuizId(quizId);
       fetch(`/api/cikgu-quiz/${quizId}`).then((response) => response.ok ? response.json() : undefined).then((quiz) => {
         if (quiz) loadQuestions(quiz.source_bank, quiz.question_ids, quiz.question_overrides ?? {}, quiz.theme);
         else setLoading(false);
@@ -73,12 +82,38 @@ export default function AktivitiPage() {
   };
   const next = () => {
     if (choice === null) return;
-    if (index + 1 === questions.length) setFinished(true);
+    if (index + 1 === questions.length) {
+      const seconds = Math.max(1, Math.round((Date.now() - startedAt) / 1000));
+      setDurationSeconds(seconds);
+      setFinished(true);
+      if (quizId) {
+        setResultStatus("saving");
+        fetch(`/api/cikgu-quiz/${quizId}/attempts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ studentName, score, total: questions.length, durationSeconds: seconds }),
+        }).then(async (response) => {
+          if (!response.ok) throw new Error("Keputusan belum dapat disimpan.");
+          const result = await response.json();
+          setRank(result.rank);
+          setParticipantCount(result.participantCount);
+          setResultStatus("saved");
+        }).catch(() => setResultStatus("error"));
+      }
+    }
     else { setIndex(index + 1); setChoice(null); }
   };
 
+  const percentage = Math.round((score / Math.max(1, questions.length)) * 100);
+  const encouragement = percentage >= 80 ? "Hebat! Teruskan usaha!" : percentage >= 50 ? "Bagus! Kamu semakin pandai!" : "Usaha yang baik—cuba lagi!";
+  const formattedTime = `${String(Math.floor(durationSeconds / 60)).padStart(2, "0")}:${String(durationSeconds % 60).padStart(2, "0")}`;
+
   if (loading) return <main className={styles.page} data-theme={theme}><section className={styles.finish}><span>✦</span><h1>Memuatkan kuiz…</h1></section></main>;
-  if (finished) return <main className={styles.page} data-theme={theme}><section className={styles.finish}><span>✦</span><h1>Kuiz selesai!</h1><p>Markah anda: <strong>{score}/{questions.length}</strong></p><a href="/">Kembali ke Pandaikids Cikgu</a></section></main>;
+  if (!started) return <main className={styles.page} data-theme={theme}>
+    <header className={styles.header}><a href="/" className={styles.logo}><img src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" /></a><a href="/aktiviti/pilih/" className={styles.exit}>← Pilih soalan</a></header>
+    <section className={styles.startShell}><form className={styles.startCard} onSubmit={(event) => { event.preventDefault(); if (!studentName.trim()) return; setStudentName(studentName.trim()); setStartedAt(Date.now()); setStarted(true); }}><span>✦</span><small>SEDIA UNTUK BERMULA?</small><h1>{title}</h1><p>Masukkan nama supaya markah dan ranking kamu boleh direkodkan.</p><label>Nama murid<input value={studentName} onChange={(event) => setStudentName(event.target.value)} maxLength={60} placeholder="Contoh: Aisyah" autoComplete="name" required /></label><button type="submit">Mula jawab <b>→</b></button></form></section>
+  </main>;
+  if (finished) return <main className={styles.page} data-theme={theme}><section className={styles.resultShell}><article className={styles.resultCard}><span className={styles.resultSpark}>✦</span><small>SYABAS, {studentName.toUpperCase()}!</small><h1>{encouragement}</h1><p>Kamu telah menamatkan {questions.length} soalan.</p><div className={styles.resultGrid}><div className={styles.scoreBox}><small>MARKAH</small><strong>{score}<i>/{questions.length}</i></strong><span>{percentage}% betul</span></div><div><small>NAMA</small><strong>{studentName}</strong></div><div><small>MASA</small><strong>{formattedTime}</strong></div><div><small>RANKING</small><strong>{rank ? `#${rank}` : "—"}</strong><span>{rank && participantCount ? `daripada ${participantCount} murid` : resultStatus === "saving" ? "Sedang dikira…" : resultStatus === "error" ? "Belum dapat direkod" : quizId ? "Menunggu keputusan" : "Kuiz percubaan"}</span></div></div><div className={styles.resultActions}><button type="button" onClick={() => window.location.reload()}>Jawab semula</button><a href="/">Kembali ke Pandaikids</a></div></article></section></main>;
   return <main className={styles.page} data-theme={theme}>
     <header className={styles.header}><a href="/" className={styles.logo}><img src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" /></a><a href="/aktiviti/pilih/" className={styles.exit}>← Pilih soalan</a></header>
     <section className={styles.shell}>
