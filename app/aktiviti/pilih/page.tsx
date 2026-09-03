@@ -31,8 +31,16 @@ export default function PilihAktivitiPage() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
     setBank(null);
-    fetch(`/data/cikgu-bank/${bankKey}.json`).then((response) => response.json()).then(setBank).catch(() => undefined);
+    fetch(`/data/cikgu-bank/${bankKey}.json`)
+      .then((response) => {
+        if (!response.ok) throw new Error("Bank soalan tidak ditemui.");
+        return response.json();
+      })
+      .then((nextBank: Bank) => { if (!cancelled) setBank(nextBank); })
+      .catch(() => { if (!cancelled) setBank(null); });
+    return () => { cancelled = true; };
   }, [bankKey]);
 
   const yearQuestions = bank?.questions ?? [];
