@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createGoogleGenerativeAI, type GoogleLanguageModelOptions } from "@ai-sdk/google";
 import { generateText, Output, type UserContent } from "ai";
 import { z } from "zod";
 
@@ -75,6 +75,11 @@ export async function POST(request: NextRequest) {
     const model = process.env.PANDAIKIDS_GEMINI_MODEL ?? "gemini-2.5-flash-lite";
     const { output } = await generateText({
       model: google(model),
+      providerOptions: {
+        google: {
+          structuredOutputs: false,
+        } satisfies GoogleLanguageModelOptions,
+      },
       output: Output.object({ schema: generatedSchema }),
       messages: [{ role: "user", content }],
       maxOutputTokens: 5000,
