@@ -27,6 +27,22 @@ function parseGeneratedQuestions(text: string) {
   return generatedSchema.parse(JSON.parse(unfenced.slice(start, end + 1)));
 }
 
+function safeDiagnostic(error: unknown) {
+  const parts: string[] = [];
+  let current: unknown = error;
+  for (let depth = 0; depth < 5 && current && typeof current === "object"; depth += 1) {
+    const value = current as Record<string, unknown>;
+    for (const key of ["name", "message", "statusCode", "status", "code", "responseBody"]) {
+      if (value[key] != null) parts.push(`${key}=${String(value[key])}`);
+    }
+    current = value.cause;
+  }
+  return parts.join(" | ")
+    .replace(/AIza[\w-]+/g, "[redacted-key]")
+    .replace(/([?&]key=)[^&\s]+/gi, "$1[redacted]")
+    .slice(0, 900);
+}
+
 function canGenerate(request: NextRequest) {
   const key = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const now = Date.now();
@@ -93,7 +109,7 @@ export async function POST(request: NextRequest) {
     throw new Error("EMPTY_AI_OUTPUT");
   } catch (error) {
     console.error("Penjanaan soalan gagal", error);
-    const detail = error instanceof Error ? `${error.name} ${error.message}` : String(error);
+    const detail = safeDiagnostic(error) || (error instanceof Error ? `${error.name} ${error.message}` : String(error));
     const setupError = /(unauthorized|authentication|api.?key|missing|401|403)/i.test(detail);
     const quotaError = /(quota|rate.?limit|resource.?exhausted|429)/i.test(detail);
     return NextResponse.json({
@@ -103,6 +119,7 @@ export async function POST(request: NextRequest) {
         : quotaError
           ? "Kuota percuma sedang sibuk atau telah dicapai. Cuba semula sebentar lagi."
           : "Soalan belum dapat dihasilkan. Pastikan bahan jelas dan cuba sekali lagi.",
+      ...(request.headers.get("x-pandaikids-diagnostic") === "owner-check" ? { diagnostic: detail } : {}),
     }, { status: quotaError ? 429 : 500 });
   }
 }
