@@ -12,14 +12,17 @@
   "dependencies": {
     "@fontsource/baloo-2": "5.2.7",
     "@fontsource/nunito": "5.2.7",
+    "@vercel/functions": "^3.9.5",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "next": "16.2.10",
+    "pg": "^8.23.0",
     "react": "19.2.7",
     "react-dom": "19.2.7"
   },
   "devDependencies": {
     "@types/node": "24.10.1",
+    "@types/pg": "^8.23.1",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "autoprefixer": "10.4.21",

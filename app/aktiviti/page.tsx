@@ -38,15 +38,25 @@ export default function AktivitiPage() {
     const ids = params.get("soalan")?.split(",").filter(Boolean) ?? [];
     const bankKey = params.get("bank");
     const edits = readEdits(params.get("ubah"));
-    if (!ids.length || !bankKey) return;
-    fetch(`/data/cikgu-bank/${bankKey}.json`).then((response) => response.json()).then((bank) => {
-      const map = new Map<string, Question>(bank.questions.map((question: Question) => [question.id, question]));
-      const selected = ids.map((id) => {
+    const loadQuestions = (selectedBank: string, selectedIds: string[], selectedEdits: Record<string, QuestionEdit>, selectedTheme?: string) => {
+      if (selectedTheme && themes.some((item) => item.id === selectedTheme)) setTheme(selectedTheme);
+      fetch(`/data/cikgu-bank/${selectedBank}.json`).then((response) => response.json()).then((bank) => {
+        const map = new Map<string, Question>(bank.questions.map((question: Question) => [question.id, question]));
+        const selected = selectedIds.map((id) => {
         const original = map.get(id);
-        return original ? { ...original, ...edits[id] } : undefined;
-      }).filter(Boolean) as Question[];
-      if (selected.length) setQuestions(selected);
-    }).catch(() => undefined);
+          return original ? { ...original, ...selectedEdits[id] } : undefined;
+        }).filter(Boolean) as Question[];
+        if (selected.length) setQuestions(selected);
+      }).catch(() => undefined);
+    };
+    const quizId = params.get("kuiz");
+    if (quizId) {
+      fetch(`/api/cikgu-quiz/${quizId}`).then((response) => response.ok ? response.json() : undefined).then((quiz) => {
+        if (quiz) loadQuestions(quiz.source_bank, quiz.question_ids, quiz.question_overrides ?? {}, quiz.theme);
+      }).catch(() => undefined);
+      return;
+    }
+    if (ids.length && bankKey) loadQuestions(bankKey, ids, edits);
   }, []);
 
   const question = questions[index] ?? example;
