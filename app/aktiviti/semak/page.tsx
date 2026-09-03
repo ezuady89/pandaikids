@@ -25,12 +25,21 @@ export default function SemakAktivitiPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const loadBank = (key: string, ids: string[], savedEdits: Record<string, QuestionEdit> = {}) => {
+    const loadBank = async (key: string, ids: string[], savedEdits: Record<string, QuestionEdit> = {}) => {
       setBankKey(key); setEdits(savedEdits);
-      fetch(`/data/cikgu-bank/${key}.json`).then((response) => response.json()).then((bank) => {
+      try {
+        const response = await fetch(`/data/cikgu-bank/${key}.json`);
+        if (!response.ok) throw new Error("Bank soalan tidak ditemui.");
+        const bank = await response.json();
         const source = new Map<string, Question>(bank.questions.map((item: Question) => [item.id, item]));
-        setQuestions(ids.map((id) => source.get(id)).filter(Boolean) as Question[]);
-      }).catch(() => setMessage("Soalan belum dapat dimuatkan."));
+        const selected = ids.map((id) => source.get(id)).filter(Boolean) as Question[];
+        if (!selected.length) {
+          setMessage("Soalan dalam pautan ini tidak sepadan dengan subjek. Sila pilih kuiz semula.");
+          return;
+        }
+        setQuestions(selected);
+        if (selected.length !== ids.length) setMessage("Sebahagian soalan tidak ditemui. Sila semak semula sebelum terbitkan.");
+      } catch { setMessage("Soalan belum dapat dimuatkan. Sila cuba pilih kuiz semula."); }
     };
 
     if (params.get("draf") === "custom") {
@@ -61,6 +70,7 @@ export default function SemakAktivitiPage() {
     const key = params.get("bank") ?? "";
     const ids = params.get("soalan")?.split(",").filter(Boolean) ?? [];
     if (key && ids.length) loadBank(key, ids);
+    else setMessage("Pautan kuiz tidak lengkap. Sila pilih kuiz semula.");
   }, []);
 
   const question = questions[index];
@@ -101,7 +111,7 @@ export default function SemakAktivitiPage() {
     setPublishing(false);
   };
 
-  if (!current) return <main className={styles.loading}>{message || "Memuatkan kuiz cikgu…"}</main>;
+  if (!current) return <main className={styles.loading}><div><p>{message || "Memuatkan kuiz cikgu…"}</p>{message ? <a className={styles.loadingLink} href="/aktiviti/pilih/">← Pilih kuiz semula</a> : null}</div></main>;
   return <main className={styles.page}>
     <header className={styles.header}><a href="/" className={styles.logo}><img src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" /></a><a className={styles.exit} href={bankKey === "custom" ? "/aktiviti/bina/" : "/aktiviti/pilih/"}>← Kembali</a></header>
     <section className={styles.shell}>
