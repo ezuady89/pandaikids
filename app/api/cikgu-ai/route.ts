@@ -67,19 +67,30 @@ export async function POST(request: NextRequest) {
         ]
       : instruction;
 
-    const { output } = await generateText({
-      model: process.env.PANDAIKIDS_AI_MODEL || "alibaba/qwen3.5-flash",
-      output: Output.object({ schema: generatedSchema }),
-      messages: [{ role: "user", content }],
-      maxOutputTokens: 5000,
-      temperature: 0.2,
-      providerOptions: { gateway: { tags: ["feature:quiz-builder", "app:pandaikids"] } },
-    });
-
-    if (!output?.questions?.length) throw new Error("EMPTY_AI_OUTPUT");
-    return NextResponse.json({ questions: output.questions });
+    const models = [...new Set([process.env.PANDAIKIDS_AI_MODEL, "alibaba/qwen3.5-flash", "google/gemini-2.5-flash-lite"].filter(Boolean))] as string[];
+    let lastError: unknown;
+    for (const model of models) {
+      try {
+        const { output } = await generateText({
+          model,
+          output: Output.object({ schema: generatedSchema }),
+          messages: [{ role: "user", content }],
+          maxOutputTokens: 5000,
+          temperature: 0.2,
+          providerOptions: { gateway: { tags: ["feature:quiz-builder", "app:pandaikids"] } },
+        });
+        if (output?.questions?.length) return NextResponse.json({ questions: output.questions });
+        lastError = new Error("EMPTY_AI_OUTPUT");
+      } catch (error) { lastError = error; }
+    }
+    throw lastError ?? new Error("EMPTY_AI_OUTPUT");
   } catch (error) {
     console.error("Penjanaan soalan gagal", error);
-    return NextResponse.json({ error: "Soalan belum dapat dihasilkan. Pastikan bahan jelas dan cuba sekali lagi." }, { status: 500 });
+    const detail = error instanceof Error ? `${error.name} ${error.message}` : String(error);
+    const setupError = /(unauthorized|authentication|api.?key|oidc|credit|billing|payment|401|402|403)/i.test(detail);
+    return NextResponse.json({
+      code: setupError ? "AI_SETUP_REQUIRED" : "AI_GENERATION_FAILED",
+      error: setupError ? "Sambungan AI belum diaktifkan. Cikgu masih boleh masukkan soalan sendiri." : "Soalan belum dapat dihasilkan. Pastikan bahan jelas dan cuba sekali lagi.",
+    }, { status: 500 });
   }
 }
