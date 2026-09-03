@@ -32,6 +32,7 @@ export default function AktivitiPage() {
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
   const [theme, setTheme] = useState("coral");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -47,16 +48,18 @@ export default function AktivitiPage() {
           return original ? { ...original, ...selectedEdits[id] } : undefined;
         }).filter(Boolean) as Question[];
         if (selected.length) setQuestions(selected);
-      }).catch(() => undefined);
+      }).catch(() => undefined).finally(() => setLoading(false));
     };
     const quizId = params.get("kuiz");
     if (quizId) {
       fetch(`/api/cikgu-quiz/${quizId}`).then((response) => response.ok ? response.json() : undefined).then((quiz) => {
         if (quiz) loadQuestions(quiz.source_bank, quiz.question_ids, quiz.question_overrides ?? {}, quiz.theme);
-      }).catch(() => undefined);
+        else setLoading(false);
+      }).catch(() => setLoading(false));
       return;
     }
     if (ids.length && bankKey) loadQuestions(bankKey, ids, edits);
+    else setLoading(false);
   }, []);
 
   const question = questions[index] ?? example;
@@ -74,6 +77,7 @@ export default function AktivitiPage() {
     else { setIndex(index + 1); setChoice(null); }
   };
 
+  if (loading) return <main className={styles.page} data-theme={theme}><section className={styles.finish}><span>✦</span><h1>Memuatkan kuiz…</h1></section></main>;
   if (finished) return <main className={styles.page} data-theme={theme}><section className={styles.finish}><span>✦</span><h1>Kuiz selesai!</h1><p>Markah anda: <strong>{score}/{questions.length}</strong></p><a href="/">Kembali ke Pandaikids Cikgu</a></section></main>;
   return <main className={styles.page} data-theme={theme}>
     <header className={styles.header}><a href="/" className={styles.logo}><img src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" /></a><a href="/aktiviti/pilih/" className={styles.exit}>← Pilih soalan</a></header>
