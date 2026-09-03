@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./CikguHomepage.module.css";
 
 type IconName =
@@ -271,9 +272,12 @@ export function CikguHomepage() {
             className={styles.logo}
             aria-label="Pandaikids Cikgu"
           >
-            <img
+            <Image
               src="/assets/pandaikids-logo-colour.png"
               alt="PandaiKids.com"
+              width={240}
+              height={64}
+              priority
             />
           </a>
           <nav className={styles.navigation} aria-label="Navigasi utama">
