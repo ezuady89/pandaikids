@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.120",
     "@fontsource/baloo-2": "5.2.7",
     "@fontsource/nunito": "5.2.7",
     "@vercel/functions": "^3.9.5",
