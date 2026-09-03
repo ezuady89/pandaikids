@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createGoogleGenerativeAI, type GoogleLanguageModelOptions } from "@ai-sdk/google";
-import { generateText, Output, type UserContent } from "ai";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { generateText, type UserContent } from "ai";
 import { z } from "zod";
 
 export const runtime = "nodejs";
@@ -18,6 +18,14 @@ const generatedSchema = z.object({
     explanation: z.string().max(350),
   })).min(1).max(20),
 });
+
+function parseGeneratedQuestions(text: string) {
+  const unfenced = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "");
+  const start = unfenced.indexOf("{");
+  const end = unfenced.lastIndexOf("}");
+  if (start < 0 || end <= start) throw new Error("INVALID_AI_JSON");
+  return generatedSchema.parse(JSON.parse(unfenced.slice(start, end + 1)));
+}
 
 function canGenerate(request: NextRequest) {
   const key = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
@@ -54,6 +62,7 @@ export async function POST(request: NextRequest) {
       "Setiap soalan mesti mempunyai tepat empat pilihan jawapan yang munasabah dan hanya satu jawapan betul.",
       "Elakkan soalan mengelirukan, fakta yang tidak terdapat dalam bahan, kandungan sensitif dan arahan yang meminta maklumat peribadi murid.",
       "Berikan penerangan jawapan yang pendek dan jelas.",
+      'Pulangkan JSON sahaja dalam bentuk {"questions":[{"question":"...","choices":["...","...","...","..."],"answer":"A","explanation":"..."}]}. Nilai answer mestilah A, B, C atau D mengikut kedudukan choices.',
       material
         ? `Bahan cikgu:\n${material}`
         : file
@@ -73,19 +82,14 @@ export async function POST(request: NextRequest) {
 
     const google = createGoogleGenerativeAI({ apiKey });
     const model = process.env.PANDAIKIDS_GEMINI_MODEL ?? "gemini-2.5-flash-lite";
-    const { output } = await generateText({
+    const { text } = await generateText({
       model: google(model),
-      providerOptions: {
-        google: {
-          structuredOutputs: false,
-        } satisfies GoogleLanguageModelOptions,
-      },
-      output: Output.object({ schema: generatedSchema }),
       messages: [{ role: "user", content }],
       maxOutputTokens: 5000,
       temperature: 0.2,
     });
-    if (output?.questions?.length) return NextResponse.json({ questions: output.questions });
+    const output = parseGeneratedQuestions(text);
+    if (output.questions.length) return NextResponse.json({ questions: output.questions });
     throw new Error("EMPTY_AI_OUTPUT");
   } catch (error) {
     console.error("Penjanaan soalan gagal", error);
