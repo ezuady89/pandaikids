@@ -8,6 +8,14 @@ export type DelimaIdentity = {
 
 let googleClient: OAuth2Client | undefined;
 
+function cleanDelimaName(value: string) {
+  return value
+    .replace(/\s+KPM[-\s]*(?:Murid|Pelajar|Guru)\s*$/i, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 60);
+}
+
 export async function verifyDelimaCredential(credential: string): Promise<DelimaIdentity> {
   const clientId = process.env.GOOGLE_CLIENT_ID ?? process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   if (!clientId) throw new Error("DELIMA_NOT_CONFIGURED");
@@ -16,7 +24,7 @@ export async function verifyDelimaCredential(credential: string): Promise<Delima
   const ticket = await googleClient.verifyIdToken({ idToken: credential, audience: clientId });
   const payload = ticket.getPayload();
   const email = String(payload?.email ?? "").trim().toLowerCase();
-  const name = String(payload?.name ?? payload?.given_name ?? "Murid DELIMa").trim().slice(0, 60);
+  const name = cleanDelimaName(String(payload?.name ?? payload?.given_name ?? "Murid DELIMa")) || "Murid DELIMa";
 
   if (!payload?.sub || payload.email_verified !== true || !email.endsWith("@moe-dl.edu.my")) {
     throw new Error("DELIMA_ACCOUNT_REQUIRED");
