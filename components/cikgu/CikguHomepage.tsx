@@ -226,31 +226,8 @@ function ProductPreview() {
             sizes="(max-width: 760px) 84vw, 290px"
           />
         </div>
-        <div className={styles.reviewButton}>Cikgu boleh semak &amp; ubah</div>
-      </article>
-
-      <span className={styles.flowArrow} aria-hidden="true">
-        <i />
-        <Icon name="arrow" />
-      </span>
-
-      <article className={`${styles.previewCard} ${styles.shareCard}`}>
-        <header>
-          <span className={`${styles.previewIcon} ${styles.yellow}`}>
-            <Icon name="share" />
-          </span>
-          <span>
-            <small>LANGKAH 3</small>
-            <b>Kongsi pautan</b>
-          </span>
-        </header>
-        <div className={styles.linkPanel}>
-          <span className={styles.linkIcon}>
-            <Icon name="link" />
-          </span>
-          <strong>Pautan kuiz sedia untuk dikongsi</strong>
-          <code>pandaikids.com/kuiz/abc123</code>
-          <div>Salin Pautan</div>
+        <div className={styles.reviewNote}>
+          <Icon name="check" /> Cikgu boleh semak &amp; ubah
         </div>
       </article>
     </div>
