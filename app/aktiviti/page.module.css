@@ -8,4 +8,27 @@
 .timeBox{background:#eaf8f5!important}
 .rankBox{grid-column:2/4;background:#fff0e8!important}
 .nameBox strong{font-size:clamp(18px,2vw,23px);line-height:1.18;overflow-wrap:anywhere;white-space:normal}
-@media(max-width:560px){.resultCard{padding:22px 16px 18px}.resultGrid{grid-template-columns:minmax(84px,.9fr) minmax(0,1.65fr)}.scoreBox{grid-row:span 2}.nameBox,.timeBox{grid-column:2}.rankBox{grid-column:1/3}.nameBox strong{font-size:16px}}
+/* Phone-first result layout. Every card stays within the Safari viewport. */
+@media(max-width:560px){
+  .page{max-width:100vw;overflow-x:hidden}
+  .resultShell{display:block;width:100%;min-height:0;padding:14px 12px 28px;overflow-x:hidden}
+  .resultCard{width:100%;max-width:100%;min-width:0;margin:0 auto;padding:18px 14px 16px;border-radius:25px}
+  .resultSpark{font-size:40px}
+  .resultCard>small{max-width:100%;margin-top:5px;font-size:10px;line-height:1.35;letter-spacing:.1em;overflow-wrap:anywhere;white-space:normal}
+  .resultCard h1{margin:5px 0 4px;font-size:clamp(27px,8vw,33px);line-height:1.08;overflow-wrap:anywhere}
+  .resultCard>p{margin:0 auto 12px;font-size:14px;line-height:1.35}
+  .resultGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+  .resultGrid>div{min-width:0;min-height:66px;padding:9px 7px;border-radius:14px}
+  .scoreBox{grid-row:auto;grid-column:1}
+  .timeBox{grid-column:2}
+  .nameBox{grid-column:1/3}
+  .rankBox{grid-column:1/3}
+  .resultGrid small{font-size:9px;letter-spacing:.1em}
+  .resultGrid strong{font-size:18px;line-height:1.15}
+  .scoreBox strong{font-size:39px}
+  .scoreBox strong i{font-size:19px}
+  .nameBox strong{font-size:16px;overflow-wrap:anywhere;white-space:normal}
+  .resultGrid span{font-size:10px}
+  .resultActions{grid-template-columns:1fr;gap:8px}
+  .resultActions button,.resultActions a{padding:12px;font-size:16px}
+}
