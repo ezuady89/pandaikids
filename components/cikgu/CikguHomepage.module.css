@@ -260,27 +260,23 @@
   color: #049ba0 !important;
 }
 .productPreview {
-  min-height: 470px;
+  min-height: 430px;
   display: grid;
-  grid-template-columns:
-    minmax(190px, 0.82fr) 22px minmax(220px, 1.02fr) 22px
-    minmax(155px, 0.72fr);
+  grid-template-columns: minmax(210px, 245px) 42px minmax(280px, 325px);
   align-items: center;
-  gap: 7px;
+  justify-content: center;
+  gap: 12px;
   perspective: 1200px;
 }
 .previewCard {
   min-width: 0;
-  padding: 13px;
-  border: 1px solid rgba(24, 59, 54, 0.1);
-  border-radius: 20px;
-  background: rgba(255, 253, 249, 0.94);
-  box-shadow:
-    0 18px 44px rgba(62, 49, 36, 0.13),
-    inset 0 1px 0 #fff;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 .previewCard header {
   min-height: 44px;
+  margin: 0 0 10px 5px;
   display: flex;
   align-items: center;
   gap: 9px;
@@ -292,13 +288,13 @@
 }
 .previewCard header small {
   color: #78908c;
-  font-size: 8px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.12em;
 }
 .previewCard header b {
   color: #183b36;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.15;
   white-space: nowrap;
 }
@@ -314,24 +310,18 @@
   width: 19px;
 }
 .noteCard {
-  transform: rotate(-1.2deg) translateY(-6px);
+  transform: rotate(-1deg) translateY(-5px);
 }
 .questionCard {
   z-index: 2;
-  transform: translateY(8px);
-}
-.shareCard {
-  transform: rotate(1.2deg) translateY(3px);
+  transform: translateY(7px);
 }
 .previewMedia {
-  height: 318px;
   position: relative;
-  margin-top: 10px;
   overflow: hidden;
-  border: 1px solid rgba(24, 59, 54, 0.1);
-  border-radius: 12px;
+  border-radius: 18px;
   background: #f4f8f6;
-  box-shadow: 0 7px 15px rgba(24, 59, 54, 0.07);
+  box-shadow: 0 20px 42px rgba(47, 54, 45, 0.17);
 }
 .previewMedia img {
   object-fit: cover;
@@ -340,8 +330,11 @@
 .noteMedia img {
   object-position: top center;
 }
+.noteMedia {
+  aspect-ratio: 620 / 804;
+}
 .quizMedia {
-  height: 285px;
+  aspect-ratio: 620 / 593;
   background: #ffa88e;
 }
 .quizMedia img {
@@ -359,15 +352,18 @@
 .flowArrow svg {
   width: 20px;
 }
-.reviewButton {
-  margin-top: 9px;
-  padding: 9px;
-  text-align: center;
-  border: 1.5px solid #049da1;
-  border-radius: 10px;
+.reviewNote {
+  margin-top: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   color: #087779;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 900;
+}
+.reviewNote svg {
+  width: 15px;
 }
 .linkPanel {
   margin-top: 10px;
@@ -777,10 +773,8 @@
     font-size: 12px;
   }
   .productPreview {
-    grid-template-columns:
-      minmax(170px, 0.82fr) 18px minmax(205px, 1.02fr) 18px
-      minmax(145px, 0.72fr);
-    gap: 6px;
+    grid-template-columns: minmax(190px, 225px) 36px minmax(250px, 300px);
+    gap: 10px;
   }
   .benefitStrip {
     margin-inline: 32px;
@@ -875,21 +869,21 @@
     gap: 10px;
   }
   .previewCard {
-    width: min(100%, 420px);
+    width: min(100%, 390px);
     margin: auto;
     transform: none;
+  }
+  .noteCard {
+    width: min(100%, 270px);
+  }
+  .questionCard {
+    width: min(100%, 390px);
   }
   .flowArrow {
     width: 24px;
     height: 28px;
     margin: auto;
     transform: rotate(90deg);
-  }
-  .previewMedia {
-    height: 330px;
-  }
-  .quizMedia {
-    height: 300px;
   }
   .benefitStrip {
     margin-inline: 18px;
