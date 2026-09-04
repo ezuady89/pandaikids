@@ -200,8 +200,13 @@ function ProductPreview() {
     >
       <article className={`${styles.previewCard} ${styles.noteCard}`}>
         <header>
-          <span className={`${styles.previewIcon} ${styles.coral}`}>
-            <Icon name="file" />
+          <span className={styles.previewIcon}>
+            <Image
+              src="/assets/cikgu/steps/masukkan-nota.webp"
+              alt=""
+              width={180}
+              height={180}
+            />
           </span>
           <span>
             <small>LANGKAH 1</small>
@@ -225,8 +230,13 @@ function ProductPreview() {
 
       <article className={`${styles.previewCard} ${styles.questionCard}`}>
         <header>
-          <span className={`${styles.previewIcon} ${styles.teal}`}>
-            <Icon name="sparkle" />
+          <span className={styles.previewIcon}>
+            <Image
+              src="/assets/cikgu/steps/soalan-siap.webp"
+              alt=""
+              width={180}
+              height={180}
+            />
           </span>
           <span>
             <small>LANGKAH 2</small>
