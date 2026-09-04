@@ -1,6 +1,7 @@
 "use client";
 
 import Script from "next/script";
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import baseStyles from "./page.module.css";
 import extraStyles from "./player-extras.module.css";
@@ -146,7 +147,15 @@ export default function AktivitiPage() {
   if (finished) return <main className={styles.page} data-theme={theme}>
     <section className={styles.resultShell}>
       <article className={styles.resultCard}>
-        <span className={styles.resultSpark}>✦</span>
+        <span className={styles.resultSpark}>
+          <Image
+            src="/assets/cikgu/result/kuiz-selesai.webp"
+            alt="Kuiz berjaya diselesaikan"
+            width={200}
+            height={200}
+            priority
+          />
+        </span>
         <small>SYABAS, {greetingName}!</small>
         <h1>{encouragement}</h1>
         <p>Kamu telah menamatkan {questions.length} soalan.</p>
