@@ -3,7 +3,7 @@
 
 /* Result view: keep long DELIMa names inside the card on every screen size. */
 .resultCard{width:min(680px,100%);padding:34px 40px 30px}
-.resultSpark{width:72px;height:72px;margin:0 auto;display:grid;place-items:center;font-size:0}
+.resultSpark{width:92px;height:92px;margin:0 auto;display:grid;place-items:center;font-size:0}
 .resultSpark img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 7px 8px rgba(47,91,79,.14))}
 .resultGrid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:"score score score" "name time rank";align-items:stretch}
 .resultGrid>div{min-width:0}
@@ -18,7 +18,7 @@
   .page{max-width:100vw;overflow-x:hidden}
   .resultShell{display:block;width:100%;min-height:0;padding:14px 12px 28px;overflow-x:hidden}
   .resultCard{width:100%;max-width:100%;min-width:0;margin:0 auto;padding:18px 14px 16px;border-radius:25px}
-  .resultSpark{width:58px;height:58px;font-size:0}
+  .resultSpark{width:82px;height:82px;font-size:0}
   .resultCard>small{max-width:100%;margin-top:5px;font-size:10px;line-height:1.35;letter-spacing:.1em;overflow-wrap:anywhere;white-space:normal}
   .resultCard h1{margin:5px 0 4px;font-size:clamp(27px,8vw,33px);line-height:1.08;overflow-wrap:anywhere}
   .resultCard>p{margin:0 auto 12px;font-size:14px;line-height:1.35}
