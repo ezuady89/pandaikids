@@ -534,33 +534,20 @@
   box-shadow: 0 20px 39px rgba(125, 81, 53, 0.14);
 }
 .quizIcon {
-  width: 53px;
-  height: 53px;
+  width: 69px;
+  height: 69px;
   display: grid;
   place-items: center;
-  border-radius: 17px;
-  color: #fff !important;
+  flex: 0 0 auto;
 }
-.quizIcon svg {
-  width: 26px;
-}
-.math {
-  background: #078b7d;
-}
-.bm {
-  background: #f07765;
-}
-.science {
-  background: #e9a936;
-}
-.english {
-  background: #5b8dca;
-}
-.islam {
-  background: #758d76;
+.quizIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 8px rgba(59, 64, 43, 0.12));
 }
 .quizCard div {
-  margin-top: 19px;
+  margin-top: 13px;
 }
 .quizCard small {
   color: #6d8d87;
@@ -997,13 +984,9 @@
   .quizIcon {
     position: absolute;
     left: 19px;
-    top: 28px;
-    width: 48px;
-    height: 48px;
-    border-radius: 15px;
-  }
-  .quizIcon svg {
-    width: 23px;
+    top: 26px;
+    width: 54px;
+    height: 54px;
   }
   .quizCard div {
     margin: 0;

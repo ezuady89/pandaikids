@@ -139,11 +139,11 @@ function Icon({ name }: { name: IconName }) {
 }
 
 const quizzes = [
-  { name: "Matematik", icon: "math" as const, color: "math" },
-  { name: "Bahasa Melayu", icon: "book" as const, color: "bm" },
-  { name: "Bahasa Inggeris", icon: "language" as const, color: "english" },
-  { name: "Sains", icon: "science" as const, color: "science" },
-  { name: "Pendidikan Islam", icon: "sparkle" as const, color: "islam" },
+  { name: "Matematik", image: "/assets/cikgu/subjects/matematik.webp" },
+  { name: "Bahasa Melayu", image: "/assets/cikgu/subjects/bahasa-melayu.webp" },
+  { name: "Bahasa Inggeris", image: "/assets/cikgu/subjects/bahasa-inggeris.webp" },
+  { name: "Sains", image: "/assets/cikgu/subjects/sains.webp" },
+  { name: "Pendidikan Islam", image: "/assets/cikgu/subjects/pendidikan-islam.webp" },
 ];
 
 const benefits = [
@@ -344,8 +344,8 @@ export function CikguHomepage() {
               href={`/aktiviti/pilih/?subjek=${encodeURIComponent(quiz.name)}`}
               key={quiz.name}
             >
-              <span className={`${styles.quizIcon} ${styles[quiz.color]}`}>
-                <Icon name={quiz.icon} />
+              <span className={styles.quizIcon}>
+                <Image src={quiz.image} alt="" width={220} height={220} />
               </span>
               <div>
                 <small>TAHUN 1–6</small>
