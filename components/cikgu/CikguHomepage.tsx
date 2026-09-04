@@ -220,8 +220,8 @@ function ProductPreview() {
         </header>
         <div className={`${styles.previewMedia} ${styles.quizMedia}`}>
           <Image
-            src="/assets/cikgu/hero-quiz.webp"
-            alt="Contoh soalan kuiz yang dijana untuk murid"
+            src="/assets/cikgu/hero-quiz-fotosintesis.webp"
+            alt="Contoh soalan kuiz Fotosintesis yang dijana untuk murid"
             fill
             sizes="(max-width: 760px) 84vw, 290px"
           />
