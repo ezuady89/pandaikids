@@ -84,7 +84,7 @@ export default function SemakAktivitiPage() {
   const displayQuestion = (text: string) => bankKey === "custom" ? text.trim() : cleanQuestion(text);
 
   const saveEdit = (formData: FormData) => {
-    if (!question) return;
+    if (!question || !current) return;
     const choices = current.choices.map((_, index) => { const letter = String.fromCharCode(65 + index); return String(formData.get(`choice-${letter}`) ?? "").trim(); });
     setEdits((all) => ({ ...all, [question.id]: { question: String(formData.get("question") ?? "").trim(), choices, answer: String(formData.get("answer") ?? "A"), explanation: String(formData.get("explanation") ?? "").trim() } }));
     setEditing(false); setMessage("Perubahan sedia untuk diterbitkan.");
