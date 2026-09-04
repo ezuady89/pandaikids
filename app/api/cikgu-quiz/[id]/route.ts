@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 type QuestionEdit = { question: string; choices: string[]; answer: string; explanation: string };
 type CustomQuestion = QuestionEdit & { id: string; subject: string; year: number; topic: string };
 type Correction = { questionId: string; original: unknown; corrected: unknown };
-type QuizBody = { ownerToken?: string; edits?: Record<string, QuestionEdit>; customQuestions?: CustomQuestion[]; corrections?: Correction[]; theme?: string; accessMode?: "delima" | "open" };
+type QuizBody = { ownerToken?: string; edits?: Record<string, QuestionEdit>; customQuestions?: CustomQuestion[]; corrections?: Correction[]; theme?: string; accessMode?: "delima" | "open"; teacherName?: string };
 const tokenHash = (token: string) => createHash("sha256").update(token).digest("hex");
 const sameToken = (left: string, right: string) => timingSafeEqual(Buffer.from(left), Buffer.from(right));
 
@@ -20,10 +20,11 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
     const stored = row.question_overrides && typeof row.question_overrides === "object" ? row.question_overrides : {};
     const { __settings, ...questionOverrides } = stored;
     const accessMode = __settings?.accessMode === "delima" ? "delima" : "open";
+    const teacherName = String(__settings?.teacherName ?? "");
     const questions = row.source_bank === "custom"
       ? row.question_ids.map((questionId: string) => questionOverrides[questionId]).filter(Boolean)
       : undefined;
-    return NextResponse.json({ ...row, question_overrides: questionOverrides, access_mode: accessMode, questions });
+    return NextResponse.json({ ...row, question_overrides: questionOverrides, access_mode: accessMode, teacher_name: teacherName, questions });
   } catch (error) {
     console.error("Tidak dapat membaca kuiz cikgu", error);
     return NextResponse.json({ error: "Kuiz belum dapat dibuka." }, { status: 500 });
@@ -50,7 +51,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       const questionOverrides = sourceBank === "custom"
         ? Object.fromEntries(body.customQuestions!.map((question) => [question.id, question]))
         : { ...(body.edits ?? {}) };
-      const storedOverrides = { ...questionOverrides, __settings: { accessMode: body.accessMode === "delima" ? "delima" : "open" } };
+      const storedOverrides = { ...questionOverrides, __settings: { accessMode: body.accessMode === "delima" ? "delima" : "open", teacherName: String(body.teacherName ?? "").trim().replace(/\s+/g, " ").slice(0, 80) } };
       await client.query("UPDATE teacher_quizzes SET question_overrides = $1::jsonb, theme = $2, updated_at = NOW() WHERE id = $3", [JSON.stringify(storedOverrides), body.theme ?? "coral", id]);
       for (const correction of body.corrections ?? []) {
         await client.query("DELETE FROM bank_question_corrections WHERE quiz_id = $1 AND question_id = $2", [id, correction.questionId]);

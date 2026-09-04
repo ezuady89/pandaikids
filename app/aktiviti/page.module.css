@@ -34,3 +34,5 @@
   .resultActions{grid-template-columns:1fr;gap:8px}
   .resultActions button,.resultActions a{padding:12px;font-size:16px}
 }
+
+.teacherCredit{margin:7px auto 0;color:#46736c;font-size:12px;font-weight:900;line-height:1.35}.startCard .teacherCredit{margin-top:8px}.resultCard .teacherCredit{margin-top:8px}

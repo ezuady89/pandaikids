@@ -9,7 +9,7 @@ type GeneratedQuestion = Omit<DraftQuestion, "id">;
 
 const subjects = ["Bahasa Melayu", "Bahasa Inggeris", "Matematik", "Sains", "Pendidikan Islam"];
 const letters = ["A", "B", "C", "D"] as const;
-const blankQuestion = (id = "manual-1"): DraftQuestion => ({ id, question: "", choices: ["", "", "", ""], answer: "A", explanation: "" });
+const blankQuestion = (id = "manual-1"): DraftQuestion => ({ id, question: "", choices: ["", "", ""], answer: "A", explanation: "" });
 
 export default function BinaKuizPage() {
   const [mode, setMode] = useState<Mode>("choose");
@@ -36,7 +36,7 @@ export default function BinaKuizPage() {
   const reviewQuestions = (drafts: DraftQuestion[]) => {
     if (!validateMetadata()) return;
     const complete = drafts.every((question) => question.question.trim() && question.choices.every((choice) => choice.trim()));
-    if (!complete) { setMessage("Lengkapkan soalan dan semua jawapan A hingga D."); return; }
+    if (!complete) { setMessage("Lengkapkan soalan dan semua pilihan jawapan."); return; }
     const fullQuestions = drafts.map((question) => ({ ...question, subject, year, topic: topic.trim() }));
     window.sessionStorage.setItem("pandaikids-cikgu-custom-draft", JSON.stringify({ questions: fullQuestions }));
     window.location.href = "/aktiviti/semak/?draf=custom";
@@ -80,7 +80,7 @@ export default function BinaKuizPage() {
       <div className={styles.intro}><span>BINA IKUT CARA CIKGU</span><h1>Pilih cara bina kuiz.</h1><p>Taip sendiri atau biar AI bantu.</p></div>
 
       {mode === "choose" ? <div className={styles.modeGrid}>
-        <button type="button" onClick={() => setMode("manual")}><i>✎</i><small>CARA 1 · BUAT SENDIRI</small><h2>Taip Soalan Sendiri</h2><p>Masukkan soalan, pilihan A–D dan jawapan betul.</p><b>Bina sendiri <span>→</span></b></button>
+        <button type="button" onClick={() => setMode("manual")}><i>✎</i><small>CARA 1 · BUAT SENDIRI</small><h2>Taip Soalan Sendiri</h2><p>Mulakan dengan 3 pilihan jawapan. Tambah jawapan D jika perlu.</p><b>Bina sendiri <span>→</span></b></button>
         <button type="button" onClick={() => setMode("material")}><i>✦</i><small>CARA 2 · GUNA AI</small><h2>Jana Soalan dengan AI</h2><p>Masukkan tajuk atau muat naik nota, gambar dan PDF. AI akan menyediakan soalannya.</p><b>Jana dengan AI <span>→</span></b></button>
       </div> : <>
         <div className={styles.modeSwitch}><button className={mode === "manual" ? styles.active : ""} onClick={() => setMode("manual")}>Buat sendiri</button><button className={mode === "material" ? styles.active : ""} onClick={() => setMode("material")}>Guna AI</button></div>
@@ -94,8 +94,9 @@ export default function BinaKuizPage() {
           </div> : <div className={styles.manualPanel}>
             <div className={styles.questionNav}><div><small>SOALAN {active + 1} DARIPADA {questions.length}</small><div>{questions.map((question, index) => <button type="button" aria-label={`Soalan ${index + 1}`} className={index === active ? styles.currentPill : question.question.trim() ? styles.donePill : ""} key={question.id} onClick={() => setActive(index)}>{index + 1}</button>)}</div></div><button type="button" onClick={addQuestion}>＋ Tambah soalan</button></div>
             <label>Soalan<textarea value={current.question} onChange={(event) => updateCurrent({ question: event.target.value })} placeholder="Taip soalan di sini…" maxLength={500} /></label>
-            <div className={styles.choiceGrid}>{letters.map((letter, index) => <label key={letter}><b>{letter}</b><input value={current.choices[index]} onChange={(event) => updateChoice(index, event.target.value)} placeholder={`Jawapan ${letter}`} maxLength={180} /></label>)}</div>
-            <div className={styles.answerRow}><label>Jawapan betul<select value={current.answer} onChange={(event) => updateCurrent({ answer: event.target.value as DraftQuestion["answer"] })}>{letters.map((letter) => <option key={letter}>{letter}</option>)}</select></label><label>Penerangan ringkas <input value={current.explanation} onChange={(event) => updateCurrent({ explanation: event.target.value })} placeholder="Pilihan" maxLength={350} /></label></div>
+            <div className={styles.choiceGrid}>{letters.slice(0, current.choices.length).map((letter, index) => <label key={letter}><b>{letter}</b><input value={current.choices[index]} onChange={(event) => updateChoice(index, event.target.value)} placeholder={`Jawapan ${letter}`} maxLength={180} /></label>)}</div>
+            {current.choices.length < 4 ? <button className={styles.addChoice} type="button" onClick={() => updateCurrent({ choices: [...current.choices, ""] })}>＋ Tambah jawapan D</button> : null}
+            <div className={styles.answerRow}><label>Jawapan betul<select value={current.answer} onChange={(event) => updateCurrent({ answer: event.target.value as DraftQuestion["answer"] })}>{letters.slice(0, current.choices.length).map((letter) => <option key={letter}>{letter}</option>)}</select></label><label>Penerangan ringkas <input value={current.explanation} onChange={(event) => updateCurrent({ explanation: event.target.value })} placeholder="Pilihan" maxLength={350} /></label></div>
             <div className={styles.manualActions}><button type="button" disabled={questions.length === 1} onClick={removeQuestion}>Padam soalan</button><button type="button" onClick={() => reviewQuestions(questions)}>Semak Kuiz <span>→</span></button></div>
           </div>}
           {message ? <p className={styles.message}>{message}</p> : null}

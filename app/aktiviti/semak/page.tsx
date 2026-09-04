@@ -22,8 +22,10 @@ export default function SemakAktivitiPage() {
   const [editing, setEditing] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [message, setMessage] = useState("");
+  const [teacherName, setTeacherName] = useState("");
 
   useEffect(() => {
+    setTeacherName(window.localStorage.getItem("pandaikids-cikgu-display-name") ?? "");
     const params = new URLSearchParams(window.location.search);
     const loadBank = async (key: string, ids: string[], savedEdits: Record<string, QuestionEdit> = {}) => {
       setBankKey(key); setEdits(savedEdits);
@@ -60,6 +62,7 @@ export default function SemakAktivitiPage() {
       fetch(`/api/cikgu-quiz/${savedId}`).then((response) => response.ok ? response.json() : undefined).then((quiz) => {
         if (!quiz) { setMessage("Kuiz tidak ditemui."); return; }
         setAccessMode(quiz.access_mode === "delima" ? "delima" : "open");
+        setTeacherName(String(quiz.teacher_name ?? ""));
         if (quiz.source_bank === "custom" && Array.isArray(quiz.questions)) {
           setBankKey("custom"); setQuestions(quiz.questions); setEdits({});
         } else loadBank(quiz.source_bank, quiz.question_ids, quiz.question_overrides ?? {});
@@ -82,7 +85,7 @@ export default function SemakAktivitiPage() {
 
   const saveEdit = (formData: FormData) => {
     if (!question) return;
-    const choices = ["A", "B", "C", "D"].map((letter) => String(formData.get(`choice-${letter}`) ?? "").trim());
+    const choices = current.choices.map((_, index) => { const letter = String.fromCharCode(65 + index); return String(formData.get(`choice-${letter}`) ?? "").trim(); });
     setEdits((all) => ({ ...all, [question.id]: { question: String(formData.get("question") ?? "").trim(), choices, answer: String(formData.get("answer") ?? "A"), explanation: String(formData.get("explanation") ?? "").trim() } }));
     setEditing(false); setMessage("Perubahan sedia untuk diterbitkan.");
   };
@@ -94,14 +97,16 @@ export default function SemakAktivitiPage() {
 
   const publishQuiz = async () => {
     if (!questions.length || !bankKey || publishing) return;
+    if (!teacherName.trim()) { setMessage("Masukkan nama cikgu untuk dipaparkan pada kuiz."); return; }
     setPublishing(true); setMessage("");
     const id = quizId || crypto.randomUUID();
     const token = ownerToken || makeOwnerToken();
-    const body = { id, ownerToken: token, bankKey, questionIds: currentQuestions.map((item) => item.id), edits: bankKey === "custom" ? {} : edits, customQuestions: bankKey === "custom" ? currentQuestions : undefined, corrections: corrections(), theme: "coral", accessMode };
+    const body = { id, ownerToken: token, bankKey, questionIds: currentQuestions.map((item) => item.id), edits: bankKey === "custom" ? {} : edits, customQuestions: bankKey === "custom" ? currentQuestions : undefined, corrections: corrections(), theme: "coral", accessMode, teacherName: teacherName.trim() };
     const response = await fetch(quizId ? `/api/cikgu-quiz/${id}` : "/api/cikgu-quiz", { method: quizId ? "PATCH" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     const result = await response.json().catch(() => ({}));
     if (!response.ok) { setMessage(result.error ?? "Kuiz belum dapat diterbitkan."); setPublishing(false); return; }
     window.localStorage.setItem(`pandaikids-cikgu-owner:${id}`, token);
+    window.localStorage.setItem("pandaikids-cikgu-display-name", teacherName.trim());
     if (bankKey === "custom") window.sessionStorage.removeItem("pandaikids-cikgu-custom-draft");
     setQuizId(id); setOwnerToken(token);
     window.history.replaceState({}, "", `/aktiviti/semak/?id=${id}`);
@@ -118,11 +123,11 @@ export default function SemakAktivitiPage() {
       <div className={styles.intro}><span>LANGKAH AKHIR</span><h1>Semak sebelum kongsi.</h1><p>Cikgu boleh ubah soalan dahulu, kemudian terbitkan satu pautan untuk murid.</p></div>
       <article className={styles.card}>
         <div className={styles.cardTop}><div><span>{current.topic}</span><p>Soalan {index + 1} daripada {questions.length}</p></div><button className={styles.editButton} disabled={!canEdit} onClick={() => setEditing(true)}>✎ Edit soalan</button></div>
-        {editing ? <form className={styles.editor} action={saveEdit}><label>Soalan<textarea name="question" defaultValue={displayQuestion(current.question)} required /></label><div className={styles.choiceEditor}>{["A", "B", "C", "D"].map((letter, itemIndex) => <label key={letter}><b>{letter}</b><input name={`choice-${letter}`} defaultValue={current.choices[itemIndex]} required /></label>)}</div><label className={styles.answerField}>Jawapan betul<select name="answer" defaultValue={current.answer}><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></label><label>Penerangan ringkas (pilihan)<input name="explanation" defaultValue={current.explanation} /></label><div className={styles.editorActions}><button type="button" onClick={() => setEditing(false)}>Batal</button><button type="submit">Simpan versi cikgu</button></div></form> : <><div className={styles.studentCard}><p>PAPARAN MURID</p><h2>{displayQuestion(current.question)}</h2><div className={styles.answers}>{current.choices.map((answer, answerIndex) => <div key={`${answerIndex}-${answer}`}><b>{String.fromCharCode(65 + answerIndex)}</b><span>{answer}</span></div>)}</div></div><p className={styles.keepNote}>{canEdit ? "Pembetulan cikgu hanya digunakan dalam kuiz ini dan rekod asal masih disimpan." : "Ini ialah paparan kuiz yang telah diterbitkan."}</p></>}
+        {editing ? <form className={styles.editor} action={saveEdit}><label>Soalan<textarea name="question" defaultValue={displayQuestion(current.question)} required /></label><div className={styles.choiceEditor}>{current.choices.map((_, itemIndex) => String.fromCharCode(65 + itemIndex)).map((letter, itemIndex) => <label key={letter}><b>{letter}</b><input name={`choice-${letter}`} defaultValue={current.choices[itemIndex]} required /></label>)}</div><label className={styles.answerField}>Jawapan betul<select name="answer" defaultValue={current.answer}>{current.choices.map((_, itemIndex) => { const letter = String.fromCharCode(65 + itemIndex); return <option key={letter} value={letter}>{letter}</option>; })}</select></label><label>Penerangan ringkas (pilihan)<input name="explanation" defaultValue={current.explanation} /></label><div className={styles.editorActions}><button type="button" onClick={() => setEditing(false)}>Batal</button><button type="submit">Simpan versi cikgu</button></div></form> : <><div className={styles.studentCard}><p>PAPARAN MURID</p><h2>{displayQuestion(current.question)}</h2><div className={styles.answers}>{current.choices.map((answer, answerIndex) => <div key={`${answerIndex}-${answer}`}><b>{String.fromCharCode(65 + answerIndex)}</b><span>{answer}</span></div>)}</div></div><p className={styles.keepNote}>{canEdit ? "Pembetulan cikgu hanya digunakan dalam kuiz ini dan rekod asal masih disimpan." : "Ini ialah paparan kuiz yang telah diterbitkan."}</p></>}
         <div className={styles.navigation}><button disabled={index === 0} onClick={() => { setIndex((value) => value - 1); setEditing(false); }}>← Sebelum</button><span>{index + 1} / {questions.length}</span><button disabled={index + 1 === questions.length} onClick={() => { setIndex((value) => value + 1); setEditing(false); }}>Seterusnya →</button></div>
       </article>
       <section className={styles.publish}>
-        <div className={styles.publishCopy}><span>SIAP UNTUK DIKONGSI</span><h2>Terbitkan pautan untuk murid.</h2><p>Pilih cara murid masuk. Pautan yang sama boleh ditampal pada tugasan atau bahan dalam DELIMa.</p>{message ? <p className={styles.publishMessage}>{message}</p> : null}</div>
+        <div className={styles.publishCopy}><span>SIAP UNTUK DIKONGSI</span><h2>Terbitkan pautan untuk murid.</h2><p>Pilih cara murid masuk. Pautan yang sama boleh ditampal pada tugasan atau bahan dalam DELIMa.</p><label className={styles.teacherName}>Nama cikgu<input value={teacherName} onChange={(event) => setTeacherName(event.target.value)} placeholder="Contoh: Aisyah" maxLength={80} required /></label>{message ? <p className={styles.publishMessage}>{message}</p> : null}</div>
         <div className={styles.accessModes} aria-label="Cara murid masuk"><button type="button" disabled={!delimaConfigured} className={accessMode === "delima" ? styles.accessActive : ""} onClick={() => setAccessMode("delima")}><b>Akaun DELIMa</b><small>{delimaConfigured ? "Nama dikesan selepas pengesahan" : "Perlu Google Client ID"}</small></button><button type="button" className={accessMode === "open" ? styles.accessActive : ""} onClick={() => setAccessMode("open")}><b>Latihan terbuka</b><small>Murid taip nama sendiri</small></button></div>
         <div className={styles.publishActions}>{quizUrl ? <a href={quizUrl} target="_blank" rel="noreferrer">Lihat sebagai murid ↗</a> : null}<button disabled={!canEdit || publishing} onClick={publishQuiz}>{publishing ? "Menyimpan…" : quizId ? "Simpan & salin pautan" : "Terbitkan & salin pautan"} <b>→</b></button></div>
       </section>
