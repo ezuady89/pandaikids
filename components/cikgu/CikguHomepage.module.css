@@ -236,16 +236,12 @@
 .microBenefits span:last-child {
   border-right: 0;
 }
-.microBenefits i {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  font-style: normal;
-}
-.microBenefits svg {
-  width: 19px;
+.microIcon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 6px rgba(59, 64, 43, 0.1));
 }
 .coral {
   background: #fff0eb !important;

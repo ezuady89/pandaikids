@@ -160,6 +160,21 @@ const benefits = [
   },
 ];
 
+const microBenefits = [
+  {
+    text: "Murid tanpa daftar",
+    image: "/assets/cikgu/benefits/murid-tanpa-daftar.webp",
+  },
+  {
+    text: "Boleh semak dahulu",
+    image: "/assets/cikgu/benefits/semak-dahulu.webp",
+  },
+  {
+    text: "Sesuai untuk telefon",
+    image: "/assets/cikgu/benefits/telefon.webp",
+  },
+];
+
 function MobileNavigation() {
   return (
     <details className={styles.mobileNavigation}>
@@ -284,24 +299,18 @@ export function CikguHomepage() {
               </a>
             </div>
             <div className={styles.microBenefits}>
-              <span>
-                <i className={styles.coral}>
-                  <Icon name="user" />
-                </i>
-                Murid tanpa daftar
-              </span>
-              <span>
-                <i className={styles.yellow}>
-                  <Icon name="edit" />
-                </i>
-                Boleh semak dahulu
-              </span>
-              <span>
-                <i className={styles.teal}>
-                  <Icon name="phone" />
-                </i>
-                Sesuai untuk telefon
-              </span>
+              {microBenefits.map((benefit) => (
+                <span key={benefit.text}>
+                  <Image
+                    className={styles.microIcon}
+                    src={benefit.image}
+                    alt=""
+                    width={180}
+                    height={180}
+                  />
+                  {benefit.text}
+                </span>
+              ))}
             </div>
           </div>
           <ProductPreview />
