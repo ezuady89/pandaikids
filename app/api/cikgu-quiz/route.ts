@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomUUID } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
+import { FREE_TEACHER_PLAN } from "@/lib/cikgu-plans";
+import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, validAiReceipt } from "@/lib/cikgu-quota";
 
 export const runtime = "nodejs";
 
 type QuestionEdit = { question: string; choices: string[]; answer: string; explanation: string };
 type CustomQuestion = QuestionEdit & { id: string; subject: string; year: number; topic: string };
 type Correction = { questionId: string; original: unknown; corrected: unknown };
-type QuizBody = { id?: string; ownerToken?: string; bankKey?: string; questionIds?: string[]; edits?: Record<string, QuestionEdit>; customQuestions?: CustomQuestion[]; corrections?: Correction[]; theme?: string; accessMode?: "delima" | "open"; teacherName?: string };
+type QuizBody = { id?: string; ownerToken?: string; bankKey?: string; questionIds?: string[]; edits?: Record<string, QuestionEdit>; customQuestions?: CustomQuestion[]; corrections?: Correction[]; theme?: string; accessMode?: "delima" | "open"; teacherName?: string; creationMethod?: "manual" | "ai" | "ready"; aiReceipt?: string };
 
 const tokenHash = (token: string) => createHash("sha256").update(token).digest("hex");
 const validQuestion = (question: CustomQuestion) => Boolean(
@@ -16,18 +18,31 @@ const validQuestion = (question: CustomQuestion) => Boolean(
   question.choices.every((choice) => String(choice).trim()) && /^[A-D]$/.test(question.answer) && question.answer.charCodeAt(0) - 64 <= question.choices.length,
 );
 const valid = (body: QuizBody) => Boolean(
-  body.id && body.ownerToken && body.bankKey && Array.isArray(body.questionIds) && body.questionIds.length &&
+  body.id && body.ownerToken && body.bankKey && Array.isArray(body.questionIds) && body.questionIds.length && body.questionIds.length <= FREE_TEACHER_PLAN.questionLimit &&
   (body.bankKey !== "custom" || (Array.isArray(body.customQuestions) && body.customQuestions.length === body.questionIds.length && body.customQuestions.every(validQuestion))),
 );
 
 export async function POST(request: NextRequest) {
+  const identity = getTeacherQuotaIdentity(request);
   try {
     const body = await request.json() as QuizBody;
-    if (!valid(body)) return NextResponse.json({ error: "Maklumat kuiz tidak lengkap." }, { status: 400 });
+    if (!valid(body)) return attachTeacherQuotaCookie(NextResponse.json({ error: `Maklumat kuiz tidak lengkap atau melebihi ${FREE_TEACHER_PLAN.questionLimit} soalan.` }, { status: 400 }), identity);
     const db = getCikguDb();
     const client = await db.connect();
     try {
       await client.query("BEGIN");
+      let quota;
+      const isAiQuiz = body.bankKey === "custom" && body.creationMethod === "ai" && validAiReceipt(body.aiReceipt, identity.key);
+      if (body.bankKey === "custom" && !isAiQuiz) {
+        quota = await claimTeacherQuota(identity.key, "manual", client);
+        if (!quota) {
+          await client.query("ROLLBACK");
+          return attachTeacherQuotaCookie(NextResponse.json({
+            code: "MANUAL_MONTHLY_LIMIT_REACHED",
+            error: "5 kuiz Buat Sendiri percuma bulan ini telah diterbitkan. Draf cikgu masih disimpan.",
+          }, { status: 429 }), identity);
+        }
+      }
       const questionOverrides = body.bankKey === "custom"
         ? Object.fromEntries(body.customQuestions!.map((question) => [question.id, question]))
         : { ...(body.edits ?? {}) };
@@ -43,10 +58,10 @@ export async function POST(request: NextRequest) {
         );
       }
       await client.query("COMMIT");
-      return NextResponse.json({ id: body.id });
+      return attachTeacherQuotaCookie(NextResponse.json({ id: body.id, quota }), identity);
     } catch (error) { await client.query("ROLLBACK"); throw error; } finally { client.release(); }
   } catch (error) {
     console.error("Tidak dapat menerbitkan kuiz cikgu", error);
-    return NextResponse.json({ error: "Kuiz belum dapat diterbitkan. Cuba sebentar lagi." }, { status: 500 });
+    return attachTeacherQuotaCookie(NextResponse.json({ error: "Kuiz belum dapat diterbitkan. Cuba sebentar lagi." }, { status: 500 }), identity);
   }
 }

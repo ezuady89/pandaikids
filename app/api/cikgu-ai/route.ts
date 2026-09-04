@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText, type UserContent } from "ai";
 import { z } from "zod";
+import {
+  attachTeacherQuotaCookie,
+  claimTeacherQuota,
+  createAiReceipt,
+  getTeacherQuotaIdentity,
+  refundTeacherQuota,
+} from "@/lib/cikgu-quota";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -57,7 +64,10 @@ function canGenerate(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!canGenerate(request)) return NextResponse.json({ error: "Had percubaan sementara telah dicapai. Cuba semula dalam 10 minit." }, { status: 429 });
+  const identity = getTeacherQuotaIdentity(request);
+  if (!canGenerate(request)) return attachTeacherQuotaCookie(NextResponse.json({ error: "Terlalu banyak percubaan dibuat serentak. Cuba semula dalam 10 minit." }, { status: 429 }), identity);
+
+  let quotaClaimed = false;
 
   try {
     const form = await request.formData();
@@ -69,8 +79,15 @@ export async function POST(request: NextRequest) {
     const fileValue = form.get("file");
     const file = fileValue instanceof File && fileValue.size > 0 ? fileValue : undefined;
 
-    if (!subject || !topic) return NextResponse.json({ error: "Pilih subjek dan masukkan tajuk pembelajaran." }, { status: 400 });
-    if (file && (file.size > MAX_FILE_BYTES || !allowedTypes.has(file.type))) return NextResponse.json({ error: "Fail mestilah PDF, gambar atau teks dan tidak melebihi 4 MB." }, { status: 400 });
+    if (!subject || !topic) return attachTeacherQuotaCookie(NextResponse.json({ error: "Pilih subjek dan masukkan tajuk pembelajaran." }, { status: 400 }), identity);
+    if (file && (file.size > MAX_FILE_BYTES || !allowedTypes.has(file.type))) return attachTeacherQuotaCookie(NextResponse.json({ error: "Fail mestilah PDF, gambar atau teks dan tidak melebihi 4 MB." }, { status: 400 }), identity);
+
+    const quota = await claimTeacherQuota(identity.key, "ai");
+    if (!quota) return attachTeacherQuotaCookie(NextResponse.json({
+      code: "AI_MONTHLY_LIMIT_REACHED",
+      error: "3 penggunaan AI percuma bulan ini telah digunakan. Cikgu masih boleh bina soalan sendiri.",
+    }, { status: 429 }), identity);
+    quotaClaimed = true;
 
     const instruction = [
       `Hasilkan tepat ${count} soalan kuiz aneka pilihan untuk ${subject}, Tahun ${year}, tajuk “${topic}”.`,
@@ -105,20 +122,25 @@ export async function POST(request: NextRequest) {
       temperature: 0.2,
     });
     const output = parseGeneratedQuestions(text);
-    if (output.questions.length) return NextResponse.json({ questions: output.questions });
+    if (output.questions.length) return attachTeacherQuotaCookie(NextResponse.json({
+      questions: output.questions,
+      quota,
+      aiReceipt: createAiReceipt(identity.key),
+    }), identity);
     throw new Error("EMPTY_AI_OUTPUT");
   } catch (error) {
+    if (quotaClaimed) await refundTeacherQuota(identity.key, "ai").catch((refundError) => console.error("Kuota AI belum dapat dipulangkan", refundError));
     console.error("Penjanaan soalan gagal", error);
     const detail = safeDiagnostic(error) || (error instanceof Error ? `${error.name} ${error.message}` : String(error));
     const setupError = /(unauthorized|authentication|api.?key|missing|401|403)/i.test(detail);
     const quotaError = /(quota|rate.?limit|resource.?exhausted|429)/i.test(detail);
-    return NextResponse.json({
+    return attachTeacherQuotaCookie(NextResponse.json({
       code: setupError ? "AI_SETUP_REQUIRED" : quotaError ? "AI_FREE_QUOTA_REACHED" : "AI_GENERATION_FAILED",
       error: setupError
         ? "Sambungan Gemini belum diaktifkan. Cikgu masih boleh masukkan soalan sendiri."
         : quotaError
           ? "Kuota percuma sedang sibuk atau telah dicapai. Cuba semula sebentar lagi."
           : "Soalan belum dapat dihasilkan. Pastikan bahan jelas dan cuba sekali lagi.",
-    }, { status: quotaError ? 429 : 500 });
+    }, { status: quotaError ? 429 : 500 }), identity);
   }
 }
