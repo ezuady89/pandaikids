@@ -135,7 +135,7 @@ export default function AktivitiPage() {
   const formattedTime = `${String(Math.floor(durationSeconds / 60)).padStart(2, "0")}:${String(durationSeconds % 60).padStart(2, "0")}`;
   const displayName = cleanDisplayName(studentName) || "Murid DELIMa";
   const greetingName = getGreetingName(displayName).toLocaleUpperCase("ms-MY");
-  const hasComparableRanking = Boolean(rank && participantCount && participantCount > 1);
+  const hasRanking = Boolean(rank && participantCount);
 
   if (loading) return <main className={styles.page} data-theme={theme}><section className={styles.finish}><span>✦</span><h1>Memuatkan kuiz…</h1></section></main>;
   if (!started) return <main className={styles.page} data-theme={theme}>
@@ -156,8 +156,8 @@ export default function AktivitiPage() {
           <div className={styles.timeBox}><small>MASA</small><strong>{formattedTime}</strong></div>
           <div className={styles.rankBox}>
             <small>RANKING</small>
-            <strong>{hasComparableRanking ? `#${rank}` : "—"}</strong>
-            <span>{hasComparableRanking ? `daripada ${participantCount} murid` : participantCount === 1 ? "Peserta pertama" : resultStatus === "saving" ? "Sedang dikira…" : resultStatus === "error" ? "Belum dapat direkod" : quizId ? "Menunggu keputusan" : "Kuiz percubaan"}</span>
+            <strong>{hasRanking ? `#${rank}` : "—"}</strong>
+            <span>{hasRanking ? `daripada ${participantCount} murid` : resultStatus === "saving" ? "Sedang dikira…" : resultStatus === "error" ? "Belum dapat direkod" : quizId ? "Menunggu keputusan" : "Kuiz percubaan"}</span>
           </div>
         </div>
         <div className={styles.resultActions}><button type="button" onClick={() => window.location.reload()}>Jawab semula</button><a href="/">Kembali ke Pandaikids</a></div>

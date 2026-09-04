@@ -3,10 +3,13 @@
 
 /* Result view: keep long DELIMa names inside the card on every screen size. */
 .resultCard{width:min(680px,100%);padding:34px 40px 30px}
-.resultGrid{grid-template-columns:minmax(104px,.9fr) minmax(0,2.15fr) minmax(104px,.9fr)}
+.resultGrid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:"score score score" "name time rank";align-items:stretch}
 .resultGrid>div{min-width:0}
 .timeBox{background:#eaf8f5!important}
-.rankBox{grid-column:2/4;background:#fff0e8!important}
+.resultGrid>div.scoreBox{grid-area:score;min-height:128px}
+.resultGrid>div.nameBox{grid-area:name}
+.resultGrid>div.timeBox{grid-area:time}
+.resultGrid>div.rankBox{grid-area:rank;background:#fff0e8!important}
 .nameBox strong{font-size:clamp(18px,2vw,23px);line-height:1.18;overflow-wrap:anywhere;white-space:normal}
 /* Phone-first result layout. Every card stays within the Safari viewport. */
 @media(max-width:560px){
@@ -17,17 +20,14 @@
   .resultCard>small{max-width:100%;margin-top:5px;font-size:10px;line-height:1.35;letter-spacing:.1em;overflow-wrap:anywhere;white-space:normal}
   .resultCard h1{margin:5px 0 4px;font-size:clamp(27px,8vw,33px);line-height:1.08;overflow-wrap:anywhere}
   .resultCard>p{margin:0 auto 12px;font-size:14px;line-height:1.35}
-  .resultGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
-  .resultGrid>div{min-width:0;min-height:66px;padding:9px 7px;border-radius:14px}
-  .scoreBox{grid-row:auto;grid-column:1}
-  .timeBox{grid-column:2}
-  .nameBox{grid-column:1/3}
-  .rankBox{grid-column:1/3}
+  .resultGrid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:"score score score" "name time rank";gap:7px;margin:12px 0 14px}
+  .resultGrid>div{min-width:0;min-height:76px;padding:9px 5px;border-radius:14px}
+  .resultGrid>div.scoreBox{min-height:100px}
   .resultGrid small{font-size:9px;letter-spacing:.1em}
   .resultGrid strong{font-size:18px;line-height:1.15}
   .scoreBox strong{font-size:39px}
   .scoreBox strong i{font-size:19px}
-  .nameBox strong{font-size:16px;overflow-wrap:anywhere;white-space:normal}
+  .nameBox strong{font-size:15px;overflow-wrap:anywhere;white-space:normal}
   .resultGrid span{font-size:10px}
   .resultActions{grid-template-columns:1fr;gap:8px}
   .resultActions button,.resultActions a{padding:12px;font-size:16px}
