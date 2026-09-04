@@ -434,16 +434,12 @@
 .benefitStrip > div:last-child {
   border-right: 0;
 }
-.benefitStrip > div > span {
-  width: 50px;
-  height: 50px;
+.benefitIcon {
+  width: 58px;
+  height: 58px;
   flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-}
-.benefitStrip > div > span svg {
-  width: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 7px rgba(59, 64, 43, 0.1));
 }
 .benefitStrip b {
   display: flex;
@@ -951,9 +947,9 @@
     padding-inline: 6px;
     gap: 12px;
   }
-  .benefitStrip > div > span {
-    width: 44px;
-    height: 44px;
+  .benefitIcon {
+    width: 54px;
+    height: 54px;
   }
   .benefitStrip b {
     font-size: 13px;

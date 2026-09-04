@@ -147,16 +147,17 @@ const quizzes = [
 ];
 
 const benefits = [
-  { icon: "user" as const, text: "Murid jawab tanpa daftar", color: "coral" },
   {
-    icon: "edit" as const,
-    text: "Cikgu boleh ubah semua soalan",
-    color: "yellow",
+    image: "/assets/cikgu/benefits/murid-tanpa-daftar.webp",
+    text: "Murid jawab tanpa daftar",
   },
   {
-    icon: "share" as const,
+    image: "/assets/cikgu/benefits/semak-dahulu.webp",
+    text: "Cikgu boleh ubah semua soalan",
+  },
+  {
+    image: "/assets/cikgu/benefits/kongsi-pautan.webp",
     text: "Kongsi melalui DELIMa, Classroom & WhatsApp",
-    color: "teal",
   },
 ];
 
@@ -329,9 +330,13 @@ export function CikguHomepage() {
         <div className={styles.benefitStrip} id="cara">
           {benefits.map((benefit) => (
             <div key={benefit.text}>
-              <span className={styles[benefit.color]}>
-                <Icon name={benefit.icon} />
-              </span>
+              <Image
+                className={styles.benefitIcon}
+                src={benefit.image}
+                alt=""
+                width={180}
+                height={180}
+              />
               <b>
                 <Icon name="check" /> {benefit.text}
               </b>
