@@ -176,6 +176,52 @@ const microBenefits = [
   },
 ];
 
+const pricingPlans = [
+  {
+    name: "Percuma",
+    price: "RM0",
+    description: "Untuk cikgu cuba dan mula berkongsi latihan.",
+    features: [
+      "5 kuiz Buat Sendiri sebulan",
+      "3 penggunaan AI sebulan",
+      "Maksimum 20 soalan setiap kuiz",
+      "Sehingga 30 murid setiap aktiviti",
+      "Keputusan disimpan selama 30 hari",
+    ],
+    cta: "Mula Percuma",
+    href: "/aktiviti/bina/",
+  },
+  {
+    name: "Cikgu Plus",
+    price: "RM9.90",
+    period: "/ 30 hari",
+    description: "Pilihan sesuai untuk kegunaan kelas setiap minggu.",
+    features: [
+      "50 kuiz Buat Sendiri",
+      "30 penggunaan AI",
+      "Maksimum 30 soalan setiap kuiz",
+      "Sehingga 100 murid setiap aktiviti",
+      "Keputusan disimpan selama 90 hari",
+    ],
+    cta: "Pilih Cikgu Plus",
+    featured: true,
+  },
+  {
+    name: "Cikgu Pro",
+    price: "RM19.90",
+    period: "/ 30 hari",
+    description: "Untuk cikgu aktif dan penggunaan banyak kelas.",
+    features: [
+      "200 kuiz Buat Sendiri",
+      "100 penggunaan AI",
+      "Maksimum 50 soalan setiap kuiz",
+      "Sehingga 300 murid setiap aktiviti",
+      "Keputusan disimpan selama 12 bulan",
+    ],
+    cta: "Pilih Cikgu Pro",
+  },
+];
+
 function MobileNavigation() {
   return (
     <details className={styles.mobileNavigation}>
@@ -404,16 +450,44 @@ export function CikguHomepage() {
       </section>
 
       <section className={styles.priceSection} id="harga">
-        <div>
-          <span className={styles.priceEyebrow}>MULAKAN PERCUMA</span>
-          <h2>Uji dahulu sebelum melanggan.</h2>
-          <p>
-            Hasilkan sehingga 3 aktiviti AI setiap bulan. Murid boleh menjawab
-            melalui pautan tanpa membuka akaun.
-          </p>
-          <a href="/aktiviti/bina/">
-            Bina Kuiz Percuma <Icon name="arrow" />
-          </a>
+        <div className={styles.priceInner}>
+          <div className={styles.priceIntro}>
+            <span className={styles.priceEyebrow}>PAKEJ PANDAIKIDS CIKGU</span>
+            <h2>Pilih ikut penggunaan cikgu.</h2>
+            <p>
+              Mulakan percuma dan naik taraf apabila cikgu memerlukan lebih
+              banyak kuiz, penggunaan AI dan rekod murid.
+            </p>
+          </div>
+          <div className={styles.priceGrid}>
+            {pricingPlans.map((plan) => (
+              <article
+                className={`${styles.priceCard} ${plan.featured ? styles.featuredPlan : ""}`}
+                key={plan.name}
+              >
+                {plan.featured ? <span className={styles.popular}>PALING BERBALOI</span> : null}
+                <h3>{plan.name}</h3>
+                <p className={styles.planDescription}>{plan.description}</p>
+                <div className={styles.planPrice}>
+                  <strong>{plan.price}</strong>
+                  {plan.period ? <small>{plan.period}</small> : null}
+                </div>
+                <ul>
+                  {plan.features.map((feature) => (
+                    <li key={feature}><Icon name="check" /> {feature}</li>
+                  ))}
+                </ul>
+                {plan.href ? (
+                  <a className={styles.planCta} href={plan.href}>
+                    {plan.cta} <Icon name="arrow" />
+                  </a>
+                ) : (
+                  <span className={styles.planPending}>{plan.cta}</span>
+                )}
+                {!plan.href ? <small className={styles.paymentNote}>Pembayaran ToyyibPay akan dibuka</small> : null}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
