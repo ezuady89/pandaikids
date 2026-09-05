@@ -204,6 +204,7 @@ const pricingPlans = [
       "Keputusan disimpan selama 90 hari",
     ],
     cta: "Pilih Cikgu Plus",
+    badge: "PILIHAN POPULAR",
     featured: true,
   },
   {
@@ -219,6 +220,8 @@ const pricingPlans = [
       "Keputusan disimpan selama 12 bulan",
     ],
     cta: "Pilih Cikgu Pro",
+    badge: "PALING BERBALOI",
+    bestValue: true,
   },
 ];
 
@@ -462,10 +465,10 @@ export function CikguHomepage() {
           <div className={styles.priceGrid}>
             {pricingPlans.map((plan) => (
               <article
-                className={`${styles.priceCard} ${plan.featured ? styles.featuredPlan : ""}`}
+                className={`${styles.priceCard} ${plan.featured ? styles.featuredPlan : ""} ${plan.bestValue ? styles.bestValuePlan : ""}`}
                 key={plan.name}
               >
-                {plan.featured ? <span className={styles.popular}>PALING BERBALOI</span> : null}
+                {plan.badge ? <span className={styles.popular}>{plan.badge}</span> : null}
                 <h3>{plan.name}</h3>
                 <p className={styles.planDescription}>{plan.description}</p>
                 <div className={styles.planPrice}>

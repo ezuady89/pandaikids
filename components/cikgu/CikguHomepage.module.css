@@ -706,6 +706,12 @@
   box-shadow: 0 22px 50px rgba(7, 145, 145, 0.18);
   transform: translateY(-8px);
 }
+.bestValuePlan {
+  border-color: rgba(229, 161, 44, 0.7);
+}
+.bestValuePlan .popular {
+  background: #e5a12c;
+}
 .popular {
   position: absolute;
   top: 0;
