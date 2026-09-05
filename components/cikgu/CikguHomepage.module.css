@@ -677,6 +677,21 @@
   color: #083f3b;
   font-size: 44px;
 }
+.pricePageSection {
+  min-height: calc(100vh - 172px);
+  padding-top: 74px;
+  background:
+    radial-gradient(45% 75% at 0% 15%, rgba(249, 135, 126, 0.2), transparent 72%),
+    radial-gradient(40% 70% at 100% 80%, rgba(10, 178, 180, 0.13), transparent 72%),
+    #fffaf2;
+}
+.pricePageSection .priceIntro h1 {
+  margin: 7px 0 0;
+  color: #083f3b;
+  font-family: "Baloo 2", "Arial Rounded MT Bold", sans-serif;
+  font-size: 44px;
+  line-height: 1.08;
+}
 .priceIntro p {
   margin: 8px auto 0;
   color: #56736e;
@@ -726,6 +741,7 @@
   transform: translateX(-50%);
   white-space: nowrap;
 }
+.priceCard h2,
 .priceCard h3 {
   margin: 6px 0 4px;
   color: #164f49;
@@ -1156,6 +1172,12 @@
     margin-bottom: 27px;
   }
   .priceSection h2 {
+    font-size: 34px;
+  }
+  .pricePageSection {
+    padding-top: 48px;
+  }
+  .pricePageSection .priceIntro h1 {
     font-size: 34px;
   }
   .priceCard {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./CikguHomepage.module.css";
 
 type IconName =
@@ -232,11 +233,11 @@ function MobileNavigation() {
         <Icon name="menu" />
       </summary>
       <div>
-        <a href="#kuiz">Aktiviti Siap</a>
+        <Link href="/#kuiz">Aktiviti Siap</Link>
         <a href="/aktiviti/bina/">Bina dengan AI</a>
-        <a href="#cara">Cara Guna</a>
-        <a href="#harga">Harga</a>
-        <a href="#log-masuk">Log Masuk</a>
+        <Link href="/#cara">Cara Guna</Link>
+        <a href="/harga/">Harga</a>
+        <Link href="/#log-masuk">Log Masuk</Link>
       </div>
     </details>
   );
@@ -331,7 +332,7 @@ export function CikguHomepage() {
             <a href="#kuiz">Aktiviti Siap</a>
             <a href="/aktiviti/bina/">Bina dengan AI</a>
             <a href="#cara">Cara Guna</a>
-            <a href="#harga">Harga</a>
+            <a href="/harga/">Harga</a>
             <a href="#log-masuk">Log Masuk</a>
             <a className={styles.headerCta} href="/aktiviti/bina/">
               Bina Kuiz Percuma
@@ -452,11 +453,48 @@ export function CikguHomepage() {
         </div>
       </section>
 
-      <section className={styles.priceSection} id="harga">
+      <footer className={styles.footer} id="log-masuk">
+        <span>© 2026 Pandaikids Cikgu</span>
+        <i>•</i>
+        <span>Dibina untuk cikgu di Malaysia</span>
+        <i>•</i>
+        <a href="/upkk/">Pandaikids UPKK</a>
+      </footer>
+    </main>
+  );
+}
+
+export function CikguPricingPage() {
+  return (
+    <main className={styles.page}>
+      <header className={styles.header}>
+        <Link href="/" className={styles.logo} aria-label="Kembali ke Pandaikids Cikgu">
+          <Image
+            src="/assets/pandaikids-logo-colour.png"
+            alt="PandaiKids.com"
+            width={240}
+            height={64}
+            priority
+          />
+        </Link>
+        <nav className={styles.navigation} aria-label="Navigasi utama">
+          <Link href="/#kuiz">Aktiviti Siap</Link>
+          <a href="/aktiviti/bina/">Bina dengan AI</a>
+          <Link href="/#cara">Cara Guna</Link>
+          <a href="/harga/" aria-current="page">Harga</a>
+          <Link href="/#log-masuk">Log Masuk</Link>
+          <a className={styles.headerCta} href="/aktiviti/bina/">
+            Bina Kuiz Percuma
+          </a>
+        </nav>
+        <MobileNavigation />
+      </header>
+
+      <section className={`${styles.priceSection} ${styles.pricePageSection}`} id="harga">
         <div className={styles.priceInner}>
           <div className={styles.priceIntro}>
             <span className={styles.priceEyebrow}>PAKEJ PANDAIKIDS CIKGU</span>
-            <h2>Pilih ikut penggunaan cikgu.</h2>
+            <h1>Pilih ikut penggunaan cikgu.</h1>
             <p>
               Mulakan percuma dan naik taraf apabila cikgu memerlukan lebih
               banyak kuiz, penggunaan AI dan rekod murid.
@@ -469,7 +507,7 @@ export function CikguHomepage() {
                 key={plan.name}
               >
                 {plan.badge ? <span className={styles.popular}>{plan.badge}</span> : null}
-                <h3>{plan.name}</h3>
+                <h2>{plan.name}</h2>
                 <p className={styles.planDescription}>{plan.description}</p>
                 <div className={styles.planPrice}>
                   <strong>{plan.price}</strong>
@@ -494,12 +532,12 @@ export function CikguHomepage() {
         </div>
       </section>
 
-      <footer className={styles.footer} id="log-masuk">
+      <footer className={styles.footer}>
         <span>© 2026 Pandaikids Cikgu</span>
         <i>•</i>
         <span>Dibina untuk cikgu di Malaysia</span>
         <i>•</i>
-        <a href="/upkk/">Pandaikids UPKK</a>
+        <Link href="/">Kembali ke halaman utama</Link>
       </footer>
     </main>
   );
