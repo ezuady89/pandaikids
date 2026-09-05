@@ -35,4 +35,23 @@
   .resultActions button,.resultActions a{padding:12px;font-size:16px}
 }
 
-.teacherCredit{margin:7px auto 0;color:#46736c;font-size:12px;font-weight:900;line-height:1.35}.startCard .teacherCredit{margin-top:8px}.resultCard .teacherCredit{margin-top:8px}
+.teacherCredit{margin:7px auto 0;color:#46736c;font-size:15px;font-weight:1000;line-height:1.35}.startCard .teacherCredit{margin-top:8px}.resultCard .teacherCredit{margin-top:8px}
+
+/* Keep the answered-question controls fully visible above mobile browser chrome. */
+@media(max-width:560px){
+  .page{height:100dvh}
+  .shell{box-sizing:border-box;height:calc(100dvh - 62px);padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  .title span{display:block;max-width:94%;margin-inline:auto;font-size:13px;line-height:1.25;letter-spacing:.08em;overflow-wrap:anywhere}
+  .card{box-sizing:border-box;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+  .card::-webkit-scrollbar{display:none}
+  .next{flex:0 0 auto}
+  .card:has(.next){padding-top:11px;padding-bottom:10px}
+  .card:has(.next) .progress{margin:6px 0 8px}
+  .card:has(.next) h2{font-size:23px}
+  .card:has(.next) .question{margin:7px 0 8px;font-size:15px;line-height:1.28}
+  .card:has(.next) .answers{gap:5px}
+  .card:has(.next) .answer{min-height:42px;padding:5px 9px;font-size:15px;line-height:1.22}
+  .card:has(.next) .answer b{width:27px;height:27px;font-size:15px;flex:0 0 auto}
+  .card:has(.next) .feedback{margin-top:7px;font-size:11px;line-height:1.22}
+  .card:has(.next) .next{min-height:44px;margin-top:7px}
+}
