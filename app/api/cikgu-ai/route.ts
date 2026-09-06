@@ -7,6 +7,7 @@ import {
   claimTeacherQuota,
   createAiReceipt,
   getTeacherQuotaIdentity,
+  readTeacherQuota,
   refundTeacherQuota,
 } from "@/lib/cikgu-quota";
 
@@ -23,7 +24,7 @@ const generatedSchema = z.object({
     choices: z.array(z.string().min(1).max(180)).length(4),
     answer: z.enum(["A", "B", "C", "D"]),
     explanation: z.string().max(350),
-  })).min(1).max(20),
+  })).min(1).max(50),
 });
 
 function parseGeneratedQuestions(text: string) {
@@ -75,17 +76,18 @@ export async function POST(request: NextRequest) {
     const year = Math.min(6, Math.max(1, Number(form.get("year") ?? 1)));
     const topic = String(form.get("topic") ?? "").trim().slice(0, 160);
     const material = String(form.get("material") ?? "").trim().slice(0, 16000);
-    const count = Math.min(20, Math.max(3, Number(form.get("count") ?? 10)));
+    const currentQuota = await readTeacherQuota(identity.key, identity.teacherId);
+    const count = Math.min(currentQuota.plan.questionLimit, Math.max(3, Number(form.get("count") ?? 10)));
     const fileValue = form.get("file");
     const file = fileValue instanceof File && fileValue.size > 0 ? fileValue : undefined;
 
     if (!subject || !topic) return attachTeacherQuotaCookie(NextResponse.json({ error: "Pilih subjek dan masukkan tajuk pembelajaran." }, { status: 400 }), identity);
     if (file && (file.size > MAX_FILE_BYTES || !allowedTypes.has(file.type))) return attachTeacherQuotaCookie(NextResponse.json({ error: "Fail mestilah PDF, gambar atau teks dan tidak melebihi 4 MB." }, { status: 400 }), identity);
 
-    const quota = await claimTeacherQuota(identity.key, "ai");
+    const quota = await claimTeacherQuota(identity.key, "ai", identity.teacherId);
     if (!quota) return attachTeacherQuotaCookie(NextResponse.json({
       code: "AI_MONTHLY_LIMIT_REACHED",
-      error: "3 penggunaan AI percuma bulan ini telah digunakan. Cikgu masih boleh bina soalan sendiri.",
+      error: `${currentQuota.plan.aiLimit} penggunaan AI untuk pakej ${currentQuota.plan.name} bulan ini telah digunakan. Cikgu masih boleh bina soalan sendiri.`,
     }, { status: 429 }), identity);
     quotaClaimed = true;
 
