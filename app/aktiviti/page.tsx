@@ -139,7 +139,10 @@ export default function AktivitiPage() {
   const displayName = cleanDisplayName(studentName) || "Murid DELIMa";
   const greetingName = getGreetingName(displayName).toLocaleUpperCase("ms-MY");
   const resultName = getGreetingName(displayName);
-  const teacherCredit = teacherName ? `Aktiviti oleh Cikgu ${teacherName.replace(/^Cikgu\s+/i, "")}` : "";
+  const cleanTeacherName = teacherName.replace(/^(?:Cikgu+\s*)+/i, "").trim();
+  const teacherCredit = teacherName.trim()
+    ? `Aktiviti oleh Cikgu${cleanTeacherName ? ` ${cleanTeacherName}` : ""}`
+    : "";
   const hasRanking = Boolean(rank && participantCount && participantCount >= 3);
 
   if (loading) return <main className={styles.page} data-theme={theme}><section className={styles.finish}><span>✦</span><h1>Memuatkan kuiz…</h1></section></main>;

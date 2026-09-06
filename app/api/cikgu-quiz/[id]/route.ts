@@ -51,7 +51,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       const questionOverrides = sourceBank === "custom"
         ? Object.fromEntries(body.customQuestions!.map((question) => [question.id, question]))
         : { ...(body.edits ?? {}) };
-      const storedOverrides = { ...questionOverrides, __settings: { accessMode: body.accessMode === "delima" ? "delima" : "open", teacherName: String(body.teacherName ?? "").trim().replace(/\s+/g, " ").slice(0, 80) } };
+      const storedOverrides = { ...questionOverrides, __settings: { accessMode: body.accessMode === "delima" ? "delima" : "open", teacherName: String(body.teacherName ?? "").trim().replace(/^(?:Cikgu+\s*)+/i, "").replace(/\s+/g, " ").slice(0, 80) } };
       await client.query("UPDATE teacher_quizzes SET question_overrides = $1::jsonb, theme = $2, updated_at = NOW() WHERE id = $3", [JSON.stringify(storedOverrides), body.theme ?? "coral", id]);
       for (const correction of body.corrections ?? []) {
         await client.query("DELETE FROM bank_question_corrections WHERE quiz_id = $1 AND question_id = $2", [id, correction.questionId]);

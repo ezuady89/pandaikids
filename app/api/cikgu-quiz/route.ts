@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       const questionOverrides = body.bankKey === "custom"
         ? Object.fromEntries(body.customQuestions!.map((question) => [question.id, question]))
         : { ...(body.edits ?? {}) };
-      const storedOverrides = { ...questionOverrides, __settings: { accessMode: body.accessMode === "delima" ? "delima" : "open", teacherName: String(body.teacherName ?? "").trim().replace(/\s+/g, " ").slice(0, 80) } };
+      const storedOverrides = { ...questionOverrides, __settings: { accessMode: body.accessMode === "delima" ? "delima" : "open", teacherName: String(body.teacherName ?? "").trim().replace(/^(?:Cikgu+\s*)+/i, "").replace(/\s+/g, " ").slice(0, 80) } };
       await client.query(
         "INSERT INTO teacher_quizzes (id, owner_token_hash, source_bank, question_ids, question_overrides, theme) VALUES ($1, $2, $3, $4::jsonb, $5::jsonb, $6)",
         [body.id, tokenHash(body.ownerToken!), body.bankKey, JSON.stringify(body.questionIds), JSON.stringify(storedOverrides), body.theme ?? "coral"],
