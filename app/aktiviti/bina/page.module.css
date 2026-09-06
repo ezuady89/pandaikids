@@ -3,3 +3,6 @@
 
 .addChoice{margin:-3px 0 14px;padding:10px 13px;border:1.5px dashed rgba(8,126,117,.34);border-radius:12px;background:#f0faf7;color:#087e75;font:900 13px "Nunito",Arial,sans-serif;cursor:pointer}
 .quotaBadge{width:max-content;margin-top:12px;padding:7px 10px;display:block;border-radius:999px;background:#e6f7f3;color:#087a72;font-size:12px;font-weight:1000}.modeGrid>button:nth-child(2) .quotaBadge{background:#e5f7fa;color:#087e87}.quotaLine{margin:7px 0 0;color:#087e75;font-size:12px;font-weight:900}.questionNav>button:disabled{opacity:.48;cursor:not-allowed}
+
+.modeIcon{width:86px;height:86px;margin-bottom:14px;display:block}.modeIcon img{width:100%;height:100%;display:block;object-fit:contain;filter:drop-shadow(0 8px 11px rgba(48,79,71,.16))}
+@media(max-width:700px){.modeIcon{width:72px;height:72px;margin-bottom:10px}}
