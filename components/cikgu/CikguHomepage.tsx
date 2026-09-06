@@ -205,6 +205,7 @@ const pricingPlans = [
       "Keputusan disimpan selama 90 hari",
     ],
     cta: "Pilih Cikgu Plus",
+    href: "/checkout/?plan=plus",
     badge: "PILIHAN POPULAR",
     featured: true,
   },
@@ -221,6 +222,7 @@ const pricingPlans = [
       "Keputusan disimpan selama 12 bulan",
     ],
     cta: "Pilih Cikgu Pro",
+    href: "/checkout/?plan=pro",
     badge: "PALING BERBALOI",
     bestValue: true,
   },
@@ -237,7 +239,7 @@ function MobileNavigation() {
         <a href="/aktiviti/bina/">Bina dengan AI</a>
         <Link href="/#cara">Cara Guna</Link>
         <a href="/harga/">Harga</a>
-        <Link href="/#log-masuk">Log Masuk</Link>
+        <Link href="/log-masuk/">Log Masuk</Link>
       </div>
     </details>
   );
@@ -333,7 +335,7 @@ export function CikguHomepage() {
             <a href="/aktiviti/bina/">Bina dengan AI</a>
             <a href="#cara">Cara Guna</a>
             <a href="/harga/">Harga</a>
-            <a href="#log-masuk">Log Masuk</a>
+            <a href="/log-masuk/">Log Masuk</a>
             <a className={styles.headerCta} href="/aktiviti/bina/">
               Bina Kuiz Percuma
             </a>
@@ -482,7 +484,7 @@ export function CikguPricingPage() {
           <a href="/aktiviti/bina/">Bina dengan AI</a>
           <Link href="/#cara">Cara Guna</Link>
           <a href="/harga/" aria-current="page">Harga</a>
-          <Link href="/#log-masuk">Log Masuk</Link>
+          <Link href="/log-masuk/">Log Masuk</Link>
           <a className={styles.headerCta} href="/aktiviti/bina/">
             Bina Kuiz Percuma
           </a>
@@ -525,7 +527,7 @@ export function CikguPricingPage() {
                 ) : (
                   <span className={styles.planPending}>{plan.cta}</span>
                 )}
-                {!plan.href ? <small className={styles.paymentNote}>Pembayaran ToyyibPay akan dibuka</small> : null}
+                {plan.name !== "Percuma" ? <small className={styles.paymentNote}>Log masuk diperlukan sebelum bayaran ToyyibPay</small> : null}
               </article>
             ))}
           </div>

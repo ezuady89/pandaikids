@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomUUID } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
-import { FREE_TEACHER_PLAN } from "@/lib/cikgu-plans";
-import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, validAiReceipt } from "@/lib/cikgu-quota";
+import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, readTeacherQuota, validAiReceipt } from "@/lib/cikgu-quota";
 
 export const runtime = "nodejs";
 
@@ -17,8 +16,8 @@ const validQuestion = (question: CustomQuestion) => Boolean(
   question.topic && question.question && Array.isArray(question.choices) && question.choices.length >= 3 && question.choices.length <= 4 &&
   question.choices.every((choice) => String(choice).trim()) && /^[A-D]$/.test(question.answer) && question.answer.charCodeAt(0) - 64 <= question.choices.length,
 );
-const valid = (body: QuizBody) => Boolean(
-  body.id && body.ownerToken && body.bankKey && Array.isArray(body.questionIds) && body.questionIds.length && body.questionIds.length <= FREE_TEACHER_PLAN.questionLimit &&
+const valid = (body: QuizBody, questionLimit: number) => Boolean(
+  body.id && body.ownerToken && body.bankKey && Array.isArray(body.questionIds) && body.questionIds.length && body.questionIds.length <= questionLimit &&
   (body.bankKey !== "custom" || (Array.isArray(body.customQuestions) && body.customQuestions.length === body.questionIds.length && body.customQuestions.every(validQuestion))),
 );
 
@@ -26,7 +25,8 @@ export async function POST(request: NextRequest) {
   const identity = getTeacherQuotaIdentity(request);
   try {
     const body = await request.json() as QuizBody;
-    if (!valid(body)) return attachTeacherQuotaCookie(NextResponse.json({ error: `Maklumat kuiz tidak lengkap atau melebihi ${FREE_TEACHER_PLAN.questionLimit} soalan.` }, { status: 400 }), identity);
+    const currentQuota = await readTeacherQuota(identity.key, identity.teacherId);
+    if (!valid(body, currentQuota.plan.questionLimit)) return attachTeacherQuotaCookie(NextResponse.json({ error: `Maklumat kuiz tidak lengkap atau melebihi ${currentQuota.plan.questionLimit} soalan.` }, { status: 400 }), identity);
     const db = getCikguDb();
     const client = await db.connect();
     try {
@@ -34,12 +34,12 @@ export async function POST(request: NextRequest) {
       let quota;
       const isAiQuiz = body.bankKey === "custom" && body.creationMethod === "ai" && validAiReceipt(body.aiReceipt, identity.key);
       if (body.bankKey === "custom" && !isAiQuiz) {
-        quota = await claimTeacherQuota(identity.key, "manual", client);
+        quota = await claimTeacherQuota(identity.key, "manual", identity.teacherId, client);
         if (!quota) {
           await client.query("ROLLBACK");
           return attachTeacherQuotaCookie(NextResponse.json({
             code: "MANUAL_MONTHLY_LIMIT_REACHED",
-            error: "5 kuiz Buat Sendiri percuma bulan ini telah diterbitkan. Draf cikgu masih disimpan.",
+            error: `${currentQuota.plan.manualLimit} kuiz Buat Sendiri untuk pakej ${currentQuota.plan.name} bulan ini telah diterbitkan. Draf cikgu masih disimpan.`,
           }, { status: 429 }), identity);
         }
       }
