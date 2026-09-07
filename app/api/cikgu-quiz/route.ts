@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomUUID } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, readTeacherQuota, validAiReceipt } from "@/lib/cikgu-quota";
-import { ensureAdminSchema } from "@/lib/admin-schema";
 
 export const runtime = "nodejs";
 
@@ -26,7 +25,6 @@ export async function POST(request: NextRequest) {
   const identity = getTeacherQuotaIdentity(request);
   try {
     const body = await request.json() as QuizBody;
-    await ensureAdminSchema();
     const currentQuota = await readTeacherQuota(identity.key, identity.teacherId);
     if (!valid(body, currentQuota.plan.questionLimit)) return attachTeacherQuotaCookie(NextResponse.json({ error: `Maklumat kuiz tidak lengkap atau melebihi ${currentQuota.plan.questionLimit} soalan.` }, { status: 400 }), identity);
     const db = getCikguDb();
