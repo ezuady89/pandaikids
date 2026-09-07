@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   try {
     const identity = getTeacherQuotaIdentity(request);
-    const quota = await readTeacherQuota(identity.key);
+    const quota = await readTeacherQuota(identity.key, identity.teacherId);
     return attachTeacherQuotaCookie(NextResponse.json({ quota }), identity);
   } catch (error) {
     console.error("Tidak dapat membaca kuota cikgu", error);
