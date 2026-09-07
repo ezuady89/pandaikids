@@ -49,7 +49,7 @@ export async function createToyyibpayCheckout(session: TeacherSession, planId: T
     billName: `Pandaikids ${plan.name}`,
     billDescription: `${plan.name} untuk 30 hari`,
     billPriceSetting: "1",
-    billPayorInfo: "1",
+    billPayorInfo: "0",
     billAmount: String(plan.amountCents),
     billReturnUrl: `${site}/pembayaran/status/`,
     billCallbackUrl: `${site}/api/payments/toyyibpay/callback/`,
