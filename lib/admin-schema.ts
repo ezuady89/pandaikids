@@ -1,0 +1,38 @@
+import { getCikguDb } from "@/lib/cikgu-db";
+
+let ready: Promise<void> | undefined;
+
+export function ensureAdminSchema() {
+  ready ??= (async () => {
+    const db = getCikguDb();
+    await db.query("ALTER TABLE teacher_quizzes ADD COLUMN IF NOT EXISTS teacher_id UUID REFERENCES teacher_accounts(id)");
+    await db.query("ALTER TABLE teacher_monthly_usage ADD COLUMN IF NOT EXISTS teacher_id UUID REFERENCES teacher_accounts(id)");
+    await db.query("CREATE INDEX IF NOT EXISTS teacher_quizzes_teacher_idx ON teacher_quizzes (teacher_id, created_at DESC)");
+    await db.query("CREATE INDEX IF NOT EXISTS teacher_usage_teacher_idx ON teacher_monthly_usage (teacher_id, period_start DESC)");
+    await db.query("ALTER TABLE teacher_subscriptions ALTER COLUMN payment_order_id DROP NOT NULL");
+    await db.query("ALTER TABLE teacher_subscriptions ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'toyyibpay'");
+    await db.query("ALTER TABLE teacher_subscriptions ADD COLUMN IF NOT EXISTS cancelled_at TIMESTAMPTZ");
+    await db.query("ALTER TABLE teacher_subscriptions ADD COLUMN IF NOT EXISTS admin_note TEXT");
+    await db.query(`CREATE TABLE IF NOT EXISTS admin_audit_logs (
+      id UUID PRIMARY KEY, admin_email TEXT NOT NULL, action TEXT NOT NULL,
+      target_type TEXT NOT NULL, target_id TEXT NOT NULL, reason TEXT NOT NULL,
+      before_value JSONB, after_value JSONB, result TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )`);
+    await db.query("CREATE INDEX IF NOT EXISTS admin_audit_created_idx ON admin_audit_logs (created_at DESC)");
+    await db.query(`CREATE TABLE IF NOT EXISTS admin_system_events (
+      id UUID PRIMARY KEY, event_type TEXT NOT NULL, route TEXT NOT NULL,
+      status TEXT NOT NULL, teacher_id UUID, payment_order_id UUID,
+      message TEXT, metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )`);
+    await db.query("CREATE INDEX IF NOT EXISTS admin_system_events_created_idx ON admin_system_events (created_at DESC)");
+    await db.query("CREATE INDEX IF NOT EXISTS admin_system_events_type_idx ON admin_system_events (event_type, status, created_at DESC)");
+    await db.query(`CREATE TABLE IF NOT EXISTS admin_commerce_events (
+      id UUID PRIMARY KEY, stage TEXT NOT NULL CHECK (stage IN ('PRICE_VISIT','PLAN_SELECTED','LOGIN','TOYYIBPAY_OPEN','PAYMENT_SUCCESS')),
+      teacher_id UUID, anonymous_key TEXT, plan_id TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )`);
+    await db.query("CREATE INDEX IF NOT EXISTS admin_commerce_stage_idx ON admin_commerce_events (stage, created_at DESC)");
+  })().catch((error) => { ready = undefined; throw error; });
+  return ready;
+}

@@ -6,6 +6,7 @@ import {
   signInTeacherWithGoogle,
 } from "@/lib/teacher-auth";
 import { getActiveTeacherPlan } from "@/lib/teacher-commerce";
+import { recordCommerceEvent } from "@/lib/admin-events";
 
 export const runtime = "nodejs";
 
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json() as { credential?: string };
     if (!body.credential) return NextResponse.json({ error: "Pengesahan Google tidak lengkap." }, { status: 400 });
     const session = await signInTeacherWithGoogle(body.credential);
+    await recordCommerceEvent("LOGIN", { teacherId: session.teacherId });
     const response = NextResponse.json({ authenticated: true, user: { name: session.name, email: session.email } });
     return attachTeacherSession(response, session);
   } catch (error) {

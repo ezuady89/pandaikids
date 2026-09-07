@@ -62,6 +62,7 @@ export async function ensureQuotaTable() {
   quotaTableReady ??= getCikguDb().query(`
     CREATE TABLE IF NOT EXISTS teacher_monthly_usage (
       teacher_key TEXT NOT NULL,
+      teacher_id UUID REFERENCES teacher_accounts(id),
       period_start DATE NOT NULL,
       manual_published INTEGER NOT NULL DEFAULT 0 CHECK (manual_published >= 0),
       ai_generated INTEGER NOT NULL DEFAULT 0 CHECK (ai_generated >= 0),
@@ -72,6 +73,8 @@ export async function ensureQuotaTable() {
     quotaTableReady = undefined;
     throw error;
   });
+  await quotaTableReady;
+  await getCikguDb().query("ALTER TABLE teacher_monthly_usage ADD COLUMN IF NOT EXISTS teacher_id UUID REFERENCES teacher_accounts(id)");
   return quotaTableReady;
 }
 
@@ -106,13 +109,13 @@ export async function claimTeacherQuota(key: string, kind: QuotaKind, teacherId?
   const column = kind === "manual" ? "manual_published" : "ai_generated";
   const limit = kind === "manual" ? plan.manualLimit : plan.aiLimit;
   const result = await (client ?? getCikguDb()).query(`
-    INSERT INTO teacher_monthly_usage (teacher_key, period_start, ${column})
-    VALUES ($1, $2::date, 1)
+    INSERT INTO teacher_monthly_usage (teacher_key, period_start, ${column}, teacher_id)
+    VALUES ($1, $2::date, 1, $4)
     ON CONFLICT (teacher_key, period_start) DO UPDATE
-      SET ${column} = teacher_monthly_usage.${column} + 1, updated_at = NOW()
+      SET ${column} = teacher_monthly_usage.${column} + 1, teacher_id = COALESCE(teacher_monthly_usage.teacher_id, EXCLUDED.teacher_id), updated_at = NOW()
       WHERE teacher_monthly_usage.${column} < $3
     RETURNING manual_published, ai_generated
-  `, [key, periodStart, limit]);
+  `, [key, periodStart, limit, teacherId ?? null]);
   if (!result.rowCount) return undefined;
   return quotaFromCounts(plan, Number(result.rows[0].manual_published), Number(result.rows[0].ai_generated));
 }

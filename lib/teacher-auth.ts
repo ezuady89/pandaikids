@@ -86,7 +86,10 @@ export function encodeTeacherSession(session: TeacherSession) {
 }
 
 export function readTeacherSession(request: NextRequest): TeacherSession | undefined {
-  const value = request.cookies.get(SESSION_COOKIE)?.value;
+  return readTeacherSessionValue(request.cookies.get(SESSION_COOKIE)?.value);
+}
+
+export function readTeacherSessionValue(value?: string): TeacherSession | undefined {
   if (!value) return undefined;
   const [payload, received] = value.split(".");
   if (!payload || !received) return undefined;
@@ -102,6 +105,8 @@ export function readTeacherSession(request: NextRequest): TeacherSession | undef
     return undefined;
   }
 }
+
+export { SESSION_COOKIE };
 
 export function attachTeacherSession(response: NextResponse, session: TeacherSession) {
   response.cookies.set(SESSION_COOKIE, encodeTeacherSession(session), {

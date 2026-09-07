@@ -10,6 +10,7 @@ import {
   readTeacherQuota,
   refundTeacherQuota,
 } from "@/lib/cikgu-quota";
+import { recordSystemEvent } from "@/lib/admin-events";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -124,16 +125,16 @@ export async function POST(request: NextRequest) {
       temperature: 0.2,
     });
     const output = parseGeneratedQuestions(text);
-    if (output.questions.length) return attachTeacherQuotaCookie(NextResponse.json({
-      questions: output.questions,
-      quota,
-      aiReceipt: createAiReceipt(identity.key),
-    }), identity);
+    if (output.questions.length) {
+      await recordSystemEvent({ eventType: "AI", route: "/api/cikgu-ai", status: "SUCCESS", teacherId: identity.teacherId, metadata: { count: output.questions.length } });
+      return attachTeacherQuotaCookie(NextResponse.json({ questions: output.questions, quota, aiReceipt: createAiReceipt(identity.key) }), identity);
+    }
     throw new Error("EMPTY_AI_OUTPUT");
   } catch (error) {
     if (quotaClaimed) await refundTeacherQuota(identity.key, "ai").catch((refundError) => console.error("Kuota AI belum dapat dipulangkan", refundError));
     console.error("Penjanaan soalan gagal", error);
     const detail = safeDiagnostic(error) || (error instanceof Error ? `${error.name} ${error.message}` : String(error));
+    await recordSystemEvent({ eventType: "AI", route: "/api/cikgu-ai", status: "FAILED", teacherId: identity.teacherId, message: detail });
     const setupError = /(unauthorized|authentication|api.?key|missing|401|403)/i.test(detail);
     const quotaError = /(quota|rate.?limit|resource.?exhausted|429)/i.test(detail);
     return attachTeacherQuotaCookie(NextResponse.json({

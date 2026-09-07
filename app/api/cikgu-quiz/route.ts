@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomUUID } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, readTeacherQuota, validAiReceipt } from "@/lib/cikgu-quota";
+import { ensureAdminSchema } from "@/lib/admin-schema";
 
 export const runtime = "nodejs";
 
@@ -25,6 +26,7 @@ export async function POST(request: NextRequest) {
   const identity = getTeacherQuotaIdentity(request);
   try {
     const body = await request.json() as QuizBody;
+    await ensureAdminSchema();
     const currentQuota = await readTeacherQuota(identity.key, identity.teacherId);
     if (!valid(body, currentQuota.plan.questionLimit)) return attachTeacherQuotaCookie(NextResponse.json({ error: `Maklumat kuiz tidak lengkap atau melebihi ${currentQuota.plan.questionLimit} soalan.` }, { status: 400 }), identity);
     const db = getCikguDb();
@@ -48,8 +50,8 @@ export async function POST(request: NextRequest) {
         : { ...(body.edits ?? {}) };
       const storedOverrides = { ...questionOverrides, __settings: { accessMode: body.accessMode === "delima" ? "delima" : "open", teacherName: String(body.teacherName ?? "").trim().replace(/^(?:Cikgu+\s*)+/i, "").replace(/\s+/g, " ").slice(0, 80) } };
       await client.query(
-        "INSERT INTO teacher_quizzes (id, owner_token_hash, source_bank, question_ids, question_overrides, theme) VALUES ($1, $2, $3, $4::jsonb, $5::jsonb, $6)",
-        [body.id, tokenHash(body.ownerToken!), body.bankKey, JSON.stringify(body.questionIds), JSON.stringify(storedOverrides), body.theme ?? "coral"],
+        "INSERT INTO teacher_quizzes (id, owner_token_hash, source_bank, question_ids, question_overrides, theme, teacher_id) VALUES ($1, $2, $3, $4::jsonb, $5::jsonb, $6, $7)",
+        [body.id, tokenHash(body.ownerToken!), body.bankKey, JSON.stringify(body.questionIds), JSON.stringify(storedOverrides), body.theme ?? "coral", identity.teacherId ?? null],
       );
       for (const correction of body.corrections ?? []) {
         await client.query(
