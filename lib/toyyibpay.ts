@@ -32,8 +32,8 @@ export function paidPlan(planId: string | null | undefined) {
 export async function createToyyibpayCheckout(session: TeacherSession, planId: TeacherPlanId, requestOrigin: string) {
   const plan = paidPlan(planId);
   if (!plan) throw new Error("PAYMENT_PLAN_INVALID");
-  const secret = process.env.TOYYIBPAY_SECRET_KEY;
-  const categoryCode = process.env.TOYYIBPAY_CATEGORY_CODE;
+  const secret = process.env.TOYYIBPAY_SECRET_KEY?.trim();
+  const categoryCode = process.env.TOYYIBPAY_CATEGORY_CODE?.trim();
   if (!secret || !categoryCode) throw new Error("TOYYIBPAY_NOT_CONFIGURED");
 
   const existing = await findRecentPendingOrder(session.teacherId, plan.id);
@@ -49,7 +49,7 @@ export async function createToyyibpayCheckout(session: TeacherSession, planId: T
     billName: `Pandaikids ${plan.name}`,
     billDescription: `${plan.name} untuk 30 hari`,
     billPriceSetting: "1",
-    billPayorInfo: "1",
+    billPayorInfo: "0",
     billAmount: String(plan.amountCents),
     billReturnUrl: `${site}/pembayaran/status/`,
     billCallbackUrl: `${site}/api/payments/toyyibpay/callback/`,
@@ -57,7 +57,9 @@ export async function createToyyibpayCheckout(session: TeacherSession, planId: T
     billTo: session.name,
     billEmail: session.email,
     billPhone: "",
-    billPaymentChannel: "2",
+    billSplitPayment: "0",
+    billSplitPaymentArgs: "",
+    billPaymentChannel: "0",
     billExpiryDays: "1",
   });
 
@@ -70,9 +72,13 @@ export async function createToyyibpayCheckout(session: TeacherSession, planId: T
     });
     const text = await response.text();
     if (!response.ok) throw new Error(`ToyyibPay HTTP ${response.status}`);
-    const payload = JSON.parse(text) as Array<{ BillCode?: string }>;
-    const billCode = String(payload?.[0]?.BillCode ?? "");
-    if (!/^[a-z0-9]+$/i.test(billCode)) throw new Error("ToyyibPay tidak memulangkan BillCode yang sah.");
+    const payload = JSON.parse(text) as Array<{ BillCode?: unknown; billCode?: unknown; error?: unknown; message?: unknown }> | { BillCode?: unknown; billCode?: unknown; error?: unknown; message?: unknown };
+    const first = Array.isArray(payload) ? payload[0] : payload;
+    const billCode = String(first?.BillCode ?? first?.billCode ?? "");
+    if (!/^[a-z0-9]+$/i.test(billCode)) {
+      const providerMessage = String(first?.message ?? first?.error ?? "").replace(secret, "[SECRET]").slice(0, 160);
+      throw new Error(providerMessage ? `ToyyibPay menolak penciptaan bil: ${providerMessage}` : "ToyyibPay tidak memulangkan BillCode yang sah.");
+    }
     await attachBillCode(order.id, billCode);
     return { orderId: order.external_reference, checkoutUrl: `${apiBase()}/${billCode}` };
   } catch (error) {
