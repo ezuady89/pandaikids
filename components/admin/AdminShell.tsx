@@ -1,23 +1,27 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import type { TeacherSession } from "@/lib/teacher-auth";
 import styles from "@/app/admin/admin.module.css";
-
-const links = [
-  ["/admin","Overview","▦"], ["/admin/pengguna","Pengguna","♙"], ["/admin/aktiviti","Aktiviti","✎"],
-  ["/admin/kewangan","Kewangan","RM"], ["/admin/ai-kuota","AI & Kuota","✦"], ["/admin/sistem","Sistem","⚙"],
-];
+import { AdminNav } from "@/components/admin/AdminNav";
 
 export function AdminShell({session,children}:{session:TeacherSession;children:ReactNode}) {
   return <div className={styles.adminRoot}>
     <aside className={styles.sidebar}>
-      <Link href="/admin" className={styles.brand}><span>🐼</span><b>PandaiKids</b><small>Admin</small></Link>
-      <nav aria-label="Navigasi admin">{links.map(([href,label,icon])=><Link key={href} href={href}><span aria-hidden>{icon}</span>{label}</Link>)}</nav>
+      <Link href="/admin" className={styles.brand} aria-label="Pandaikids Admin">
+        <Image src="/assets/pandaikids-logo.png" width={1852} height={392} sizes="170px" priority alt="Pandaikids" />
+        <small>Admin</small>
+      </Link>
+      <AdminNav />
       <div className={styles.adminIdentity}><span>{session.name.slice(0,1).toUpperCase()}</span><div><b>{session.name}</b><small>{session.email}</small></div></div>
       <Link className={styles.backSite} href="/">← Laman Pandaikids</Link>
     </aside>
-    <div className={styles.mobileNav}><details><summary>☰ Menu Admin</summary><nav>{links.map(([href,label])=><Link key={href} href={href}>{label}</Link>)}</nav></details><Link href="/">Pandaikids ↗</Link></div>
+    <header className={styles.mobileHeader}>
+      <Link href="/admin" className={styles.mobileBrand} aria-label="Pandaikids Admin"><Image src="/assets/pandaikids-logo.png" width={1852} height={392} sizes="125px" priority alt="Pandaikids" /><small>Admin</small></Link>
+      <Link className={styles.mobileSiteLink} href="/">Laman utama ↗</Link>
+    </header>
     <main className={styles.content}>{children}</main>
+    <AdminNav mobile />
   </div>;
 }
 
