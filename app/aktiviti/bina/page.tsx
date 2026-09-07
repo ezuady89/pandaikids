@@ -44,6 +44,12 @@ export default function BinaKuizPage() {
   const current = questions[active];
   const updateCurrent = (patch: Partial<DraftQuestion>) => setQuestions((all) => all.map((question, index) => index === active ? { ...question, ...patch } : question));
   const updateChoice = (choiceIndex: number, value: string) => updateCurrent({ choices: current.choices.map((choice, index) => index === choiceIndex ? value : choice) });
+  const removeChoiceD = () => {
+    if (current.choices.length < 4) return;
+    const answerWasD = current.answer === "D";
+    updateCurrent({ choices: current.choices.slice(0, 3), answer: answerWasD ? "A" : current.answer });
+    setMessage(answerWasD ? "Jawapan D telah dibuang. Jawapan betul ditukar kepada A — sila semak semula." : "Jawapan D telah dibuang.");
+  };
 
   const validateMetadata = () => {
     if (!topic.trim()) { setMessage("Masukkan tajuk pembelajaran dahulu."); return false; }
@@ -115,7 +121,7 @@ export default function BinaKuizPage() {
             <div className={styles.questionNav}><div><small>SOALAN {active + 1} DARIPADA {questions.length}</small><div>{questions.map((question, index) => <button type="button" aria-label={`Soalan ${index + 1}`} className={index === active ? styles.currentPill : question.question.trim() ? styles.donePill : ""} key={question.id} onClick={() => setActive(index)}>{index + 1}</button>)}</div></div><button type="button" disabled={questions.length >= (quota?.plan.questionLimit ?? 20)} onClick={addQuestion}>＋ Tambah soalan</button></div>
             <label>Soalan<textarea value={current.question} onChange={(event) => updateCurrent({ question: event.target.value })} placeholder="Taip soalan di sini…" maxLength={500} /></label>
             <div className={styles.choiceGrid}>{letters.slice(0, current.choices.length).map((letter, index) => <label key={letter}><b>{letter}</b><input value={current.choices[index]} onChange={(event) => updateChoice(index, event.target.value)} placeholder={`Jawapan ${letter}`} maxLength={180} /></label>)}</div>
-            {current.choices.length < 4 ? <button className={styles.addChoice} type="button" onClick={() => updateCurrent({ choices: [...current.choices, ""] })}>＋ Tambah jawapan D</button> : null}
+            {current.choices.length < 4 ? <button className={styles.addChoice} type="button" onClick={() => { updateCurrent({ choices: [...current.choices, ""] }); setMessage(""); }}>＋ Tambah jawapan D</button> : <button className={styles.removeChoice} type="button" onClick={removeChoiceD}>− Buang jawapan D</button>}
             <div className={styles.answerRow}><label>Jawapan betul<select value={current.answer} onChange={(event) => updateCurrent({ answer: event.target.value as DraftQuestion["answer"] })}>{letters.slice(0, current.choices.length).map((letter) => <option key={letter}>{letter}</option>)}</select></label><label>Penerangan ringkas <input value={current.explanation} onChange={(event) => updateCurrent({ explanation: event.target.value })} placeholder="Pilihan" maxLength={350} /></label></div>
             <div className={styles.manualActions}><button type="button" disabled={questions.length === 1} onClick={removeQuestion}>Padam soalan</button><button type="button" onClick={() => reviewQuestions(questions)}>Semak Kuiz <span>→</span></button></div>
           </div>}
