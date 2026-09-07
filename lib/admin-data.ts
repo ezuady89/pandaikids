@@ -20,39 +20,24 @@ export function resolveAdminRange(key = "30d", from?: string, to?: string): Admi
 export async function getOverview(range: AdminRange) {
   const db = getCikguDb();
   const values = [range.from, range.to];
-  const [metrics, previous, alerts, revenueSeries, funnel, latestPayments, latestTeachers, topActivities, expiring, errors] = await Promise.all([
+  const [metrics, alerts, revenueSeries, latestPayments] = await Promise.all([
     db.query(`SELECT
-      COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at BETWEEN $1 AND $2),0)::bigint revenue,
-      COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at >= date_trunc('day',NOW() AT TIME ZONE 'Asia/Kuala_Lumpur') AT TIME ZONE 'Asia/Kuala_Lumpur'),0)::bigint revenue_today,
       COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at >= date_trunc('month',NOW() AT TIME ZONE 'Asia/Kuala_Lumpur') AT TIME ZONE 'Asia/Kuala_Lumpur'),0)::bigint revenue_month,
       (SELECT COUNT(*) FROM teacher_accounts)::int teachers,
-      (SELECT COUNT(*) FROM teacher_accounts WHERE last_login_at BETWEEN $1 AND $2)::int active_teachers,
       (SELECT COUNT(*) FROM teacher_subscriptions WHERE starts_at <= NOW() AND ends_at > NOW() AND cancelled_at IS NULL)::int active_subscriptions,
-      (SELECT COUNT(*) FROM teacher_subscriptions WHERE plan_id='plus' AND starts_at <= NOW() AND ends_at > NOW() AND cancelled_at IS NULL)::int plus,
-      (SELECT COUNT(*) FROM teacher_subscriptions WHERE plan_id='pro' AND starts_at <= NOW() AND ends_at > NOW() AND cancelled_at IS NULL)::int pro,
       (SELECT COUNT(*) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int attempts,
       (SELECT COUNT(DISTINCT lower(student_name)) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int active_students,
       COALESCE((SELECT SUM(ai_generated) FROM teacher_monthly_usage WHERE updated_at BETWEEN $1 AND $2),0)::int ai`, values.slice(0,2)),
-    db.query(`SELECT
-      COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at BETWEEN $1 AND $2),0)::bigint revenue,
-      (SELECT COUNT(*) FROM teacher_accounts WHERE last_login_at BETWEEN $1 AND $2)::int active_teachers,
-      (SELECT COUNT(*) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int attempts,
-      (SELECT COUNT(DISTINCT lower(student_name)) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int active_students`, [range.previousFrom,range.from]),
     db.query(`SELECT 'Bayaran berjaya belum aktif' label, COUNT(*)::int count FROM teacher_payment_orders o WHERE o.status='PAID' AND NOT EXISTS (SELECT 1 FROM teacher_subscriptions s WHERE s.payment_order_id=o.id)
       UNION ALL SELECT 'Bayaran pending lebih 30 minit', COUNT(*)::int FROM teacher_payment_orders WHERE status='PENDING' AND created_at < NOW()-INTERVAL '30 minutes'
       UNION ALL SELECT 'Langganan tamat dalam 3 hari', COUNT(*)::int FROM teacher_subscriptions WHERE cancelled_at IS NULL AND ends_at BETWEEN NOW() AND NOW()+INTERVAL '3 days'
       UNION ALL SELECT 'Langganan telah tamat', COUNT(*)::int FROM teacher_subscriptions WHERE ends_at < NOW()
       UNION ALL SELECT 'Permintaan AI gagal', COUNT(*)::int FROM admin_system_events WHERE event_type='AI' AND status='FAILED' AND created_at BETWEEN $1 AND $2
       UNION ALL SELECT 'Kuota mencapai 80%', COUNT(*)::int FROM teacher_monthly_usage u WHERE u.period_start=date_trunc('month',NOW())::date AND (u.ai_generated>=3 OR u.manual_published>=5)`, values.slice(0,2)),
-    db.query(`SELECT to_char((day AT TIME ZONE 'Asia/Kuala_Lumpur')::date,'DD Mon') label, amount::bigint value FROM generate_series(date_trunc('day',$1::timestamptz),date_trunc('day',$2::timestamptz),INTERVAL '1 day') day LEFT JOIN LATERAL (SELECT COALESCE(SUM(amount_cents),0) amount FROM teacher_payment_orders WHERE status='PAID' AND paid_at>=day AND paid_at<day+INTERVAL '1 day') p ON true ORDER BY day`, values.slice(0,2)),
-    db.query(`SELECT stage, COUNT(*)::int value FROM admin_commerce_events WHERE created_at BETWEEN $1 AND $2 GROUP BY stage`, values.slice(0,2)),
+    db.query(`SELECT to_char((day AT TIME ZONE 'Asia/Kuala_Lumpur')::date,'DD Mon') label, amount::bigint value FROM generate_series(GREATEST(date_trunc('day',$1::timestamptz),date_trunc('day',$2::timestamptz)-INTERVAL '6 days'),date_trunc('day',$2::timestamptz),INTERVAL '1 day') day LEFT JOIN LATERAL (SELECT COALESCE(SUM(amount_cents),0) amount FROM teacher_payment_orders WHERE status='PAID' AND paid_at>=day AND paid_at<day+INTERVAL '1 day') p ON true ORDER BY day`, values.slice(0,2)),
     db.query(`SELECT o.id,o.created_at,o.plan_id,o.amount_cents,o.status,o.external_reference,t.name,t.email FROM teacher_payment_orders o JOIN teacher_accounts t ON t.id=o.teacher_id ORDER BY o.created_at DESC LIMIT 5`),
-    db.query(`SELECT id,name,email,created_at,last_login_at FROM teacher_accounts ORDER BY created_at DESC LIMIT 5`),
-    db.query(`SELECT q.id,q.source_bank,COUNT(a.id)::int responses,ROUND(AVG(a.score::numeric/NULLIF(a.total,0))*100)::int average FROM teacher_quizzes q LEFT JOIN quiz_attempts a ON a.quiz_id=q.id GROUP BY q.id ORDER BY responses DESC,q.created_at DESC LIMIT 5`),
-    db.query(`SELECT s.id,s.plan_id,s.ends_at,t.name,t.email,CEIL(EXTRACT(EPOCH FROM(s.ends_at-NOW()))/86400)::int days_left FROM teacher_subscriptions s JOIN teacher_accounts t ON t.id=s.teacher_id WHERE s.cancelled_at IS NULL AND s.ends_at BETWEEN NOW() AND NOW()+INTERVAL '14 days' ORDER BY s.ends_at LIMIT 5`),
-    db.query(`SELECT event_type,route,status,message,created_at FROM admin_system_events WHERE status<>'SUCCESS' ORDER BY created_at DESC LIMIT 5`),
   ]);
-  return { metrics: metrics.rows[0], previous: previous.rows[0], alerts: alerts.rows, revenueSeries: revenueSeries.rows, funnel: funnel.rows, latestPayments: latestPayments.rows, latestTeachers: latestTeachers.rows, topActivities: topActivities.rows, expiring: expiring.rows, errors: errors.rows };
+  return { metrics: metrics.rows[0], alerts: alerts.rows, revenueSeries: revenueSeries.rows, latestPayments: latestPayments.rows };
 }
 
 export async function getUsers(input: {q?: string; plan?: string; status?: string; page?: number}) {
@@ -87,7 +72,7 @@ export async function getActivities(input:{q?:string;page?:number}) {
     db.query(`SELECT q.id,q.source_bank,q.created_at,q.published_at,q.updated_at,t.name teacher_name,COUNT(a.id)::int responses,COUNT(DISTINCT lower(a.student_name))::int students,ROUND(AVG(a.score::numeric/NULLIF(a.total,0))*100)::int average,MAX(a.completed_at) last_used FROM teacher_quizzes q LEFT JOIN teacher_accounts t ON t.id=q.teacher_id LEFT JOIN quiz_attempts a ON a.quiz_id=q.id WHERE q.id ILIKE $1 OR COALESCE(t.name,'') ILIKE $1 GROUP BY q.id,t.name ORDER BY q.created_at DESC LIMIT $2 OFFSET $3`,[q,limit,offset]),
     db.query(`SELECT COUNT(*)::int count FROM teacher_quizzes q LEFT JOIN teacher_accounts t ON t.id=q.teacher_id WHERE q.id ILIKE $1 OR COALESCE(t.name,'') ILIKE $1`,[q]),
     db.query(`SELECT (SELECT COUNT(*) FROM teacher_quizzes)::int activities,(SELECT COUNT(*) FROM quiz_attempts)::int responses,(SELECT COUNT(*) FROM teacher_quizzes q WHERE EXISTS(SELECT 1 FROM quiz_attempts a WHERE a.quiz_id=q.id))::int used,COALESCE((SELECT ROUND(AVG(score::numeric/NULLIF(total,0))*100) FROM quiz_attempts),0)::int average`),
-    db.query(`SELECT to_char(day::date,'DD Mon') label,COUNT(a.id)::int value FROM generate_series(NOW()-INTERVAL '13 days',NOW(),INTERVAL '1 day') day LEFT JOIN quiz_attempts a ON a.completed_at>=day AND a.completed_at<day+INTERVAL '1 day' GROUP BY day ORDER BY day`)
+    db.query(`SELECT to_char(day::date,'DD Mon') label,COUNT(a.id)::int value FROM generate_series(NOW()-INTERVAL '6 days',NOW(),INTERVAL '1 day') day LEFT JOIN quiz_attempts a ON a.completed_at>=day AND a.completed_at<day+INTERVAL '1 day' GROUP BY day ORDER BY day`)
   ]);
   return {rows:rows.rows,total:count.rows[0].count,page,pages:Math.max(1,Math.ceil(count.rows[0].count/limit)),summary:summary.rows[0],series:series.rows};
 }
