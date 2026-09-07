@@ -19,7 +19,7 @@ export function resolveAdminRange(key = "30d", from?: string, to?: string): Admi
 
 export async function getOverview(range: AdminRange) {
   const db = getCikguDb();
-  const values = [range.from, range.to, range.previousFrom];
+  const values = [range.from, range.to];
   const [metrics, previous, alerts, revenueSeries, funnel, latestPayments, latestTeachers, topActivities, expiring, errors] = await Promise.all([
     db.query(`SELECT
       COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at BETWEEN $1 AND $2),0)::bigint revenue,
@@ -34,10 +34,10 @@ export async function getOverview(range: AdminRange) {
       (SELECT COUNT(DISTINCT lower(student_name)) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int active_students,
       COALESCE((SELECT SUM(ai_generated) FROM teacher_monthly_usage WHERE updated_at BETWEEN $1 AND $2),0)::int ai`, values.slice(0,2)),
     db.query(`SELECT
-      COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at BETWEEN $3 AND $1),0)::bigint revenue,
-      (SELECT COUNT(*) FROM teacher_accounts WHERE last_login_at BETWEEN $3 AND $1)::int active_teachers,
-      (SELECT COUNT(*) FROM quiz_attempts WHERE completed_at BETWEEN $3 AND $1)::int attempts,
-      (SELECT COUNT(DISTINCT lower(student_name)) FROM quiz_attempts WHERE completed_at BETWEEN $3 AND $1)::int active_students`, values),
+      COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at BETWEEN $1 AND $2),0)::bigint revenue,
+      (SELECT COUNT(*) FROM teacher_accounts WHERE last_login_at BETWEEN $1 AND $2)::int active_teachers,
+      (SELECT COUNT(*) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int attempts,
+      (SELECT COUNT(DISTINCT lower(student_name)) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int active_students`, [range.previousFrom,range.from]),
     db.query(`SELECT 'Bayaran berjaya belum aktif' label, COUNT(*)::int count FROM teacher_payment_orders o WHERE o.status='PAID' AND NOT EXISTS (SELECT 1 FROM teacher_subscriptions s WHERE s.payment_order_id=o.id)
       UNION ALL SELECT 'Bayaran pending lebih 30 minit', COUNT(*)::int FROM teacher_payment_orders WHERE status='PENDING' AND created_at < NOW()-INTERVAL '30 minutes'
       UNION ALL SELECT 'Langganan tamat dalam 3 hari', COUNT(*)::int FROM teacher_subscriptions WHERE cancelled_at IS NULL AND ends_at BETWEEN NOW() AND NOW()+INTERVAL '3 days'
