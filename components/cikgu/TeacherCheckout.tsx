@@ -59,7 +59,7 @@ export function TeacherCheckout({ planId, planName, price }: { planId: TeacherPl
         <p className={styles.lead}>Pakej aktif selama 30 hari selepas bayaran disahkan.</p>
         <div className={styles.summary}>
           <div className={styles.summaryRow}><h2>{planName}</h2><strong>{price}<small> / 30 hari</small></strong></div>
-          <p>Bayaran sekali melalui ToyyibPay. Tiada pembaharuan automatik.</p>
+          <p>Harga pakej kekal seperti di atas. Caj FPX ToyyibPay ditambah semasa bayaran. Tiada pembaharuan automatik.</p>
         </div>
         {account ? <div className={styles.account}><b>{account.name}</b><span>{account.email}</span></div> : null}
         {message ? <p className={message.includes("Menyediakan") ? styles.message : styles.error}>{message}</p> : null}

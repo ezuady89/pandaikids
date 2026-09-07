@@ -60,6 +60,7 @@ export async function createToyyibpayCheckout(session: TeacherSession, planId: T
     billSplitPayment: "0",
     billSplitPaymentArgs: "",
     billPaymentChannel: "0",
+    billChargeToCustomer: "0",
     billExpiryDays: "1",
   });
 
