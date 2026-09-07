@@ -32,7 +32,7 @@ export async function getOverview(range: AdminRange) {
       (SELECT COUNT(*) FROM teacher_subscriptions WHERE plan_id='pro' AND starts_at <= NOW() AND ends_at > NOW() AND cancelled_at IS NULL)::int pro,
       (SELECT COUNT(*) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int attempts,
       (SELECT COUNT(DISTINCT lower(student_name)) FROM quiz_attempts WHERE completed_at BETWEEN $1 AND $2)::int active_students,
-      COALESCE((SELECT SUM(ai_generated) FROM teacher_monthly_usage WHERE updated_at BETWEEN $1 AND $2),0)::int ai`, values),
+      COALESCE((SELECT SUM(ai_generated) FROM teacher_monthly_usage WHERE updated_at BETWEEN $1 AND $2),0)::int ai`, values.slice(0,2)),
     db.query(`SELECT
       COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at BETWEEN $3 AND $1),0)::bigint revenue,
       (SELECT COUNT(*) FROM teacher_accounts WHERE last_login_at BETWEEN $3 AND $1)::int active_teachers,
