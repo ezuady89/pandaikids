@@ -3,9 +3,13 @@ import type { NextRequest } from "next/server";
 import { redirect } from "next/navigation";
 import { readTeacherSession, readTeacherSessionValue, SESSION_COOKIE, type TeacherSession } from "@/lib/teacher-auth";
 
+const PRIMARY_ADMIN_EMAIL = "ezuady89@gmail.com";
+
 function allowedEmails() {
-  return new Set((process.env.PANDAIKIDS_ADMIN_EMAILS ?? "")
-    .split(",")
+  return new Set([
+    PRIMARY_ADMIN_EMAIL,
+    ...(process.env.PANDAIKIDS_ADMIN_EMAILS ?? "").split(","),
+  ]
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean));
 }
