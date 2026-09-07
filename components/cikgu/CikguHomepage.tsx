@@ -268,8 +268,8 @@ function ProductPreview() {
         </header>
         <div className={`${styles.previewMedia} ${styles.noteMedia}`}>
           <Image
-            src="/assets/cikgu/hero-note.webp"
-            alt="Contoh nota bergambar tentang fotosintesis"
+            src="/assets/cikgu/hero-note-sirah.webp"
+            alt="Contoh nota bergambar Strategi Perang Uhud"
             fill
             sizes="(max-width: 760px) 84vw, 240px"
           />
@@ -298,8 +298,8 @@ function ProductPreview() {
         </header>
         <div className={`${styles.previewMedia} ${styles.quizMedia}`}>
           <Image
-            src="/assets/cikgu/hero-quiz-fotosintesis.webp"
-            alt="Contoh soalan kuiz Fotosintesis yang dijana untuk murid"
+            src="/assets/cikgu/hero-quiz-perang-uhud.webp"
+            alt="Contoh soalan kuiz Perang Uhud yang dijana untuk murid"
             fill
             sizes="(max-width: 760px) 84vw, 290px"
           />

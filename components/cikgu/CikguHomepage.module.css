@@ -258,7 +258,7 @@
 .productPreview {
   min-height: 430px;
   display: grid;
-  grid-template-columns: minmax(210px, 245px) 42px minmax(280px, 325px);
+  grid-template-columns: minmax(220px, 285px) 42px minmax(220px, 285px);
   align-items: center;
   justify-content: center;
   gap: 12px;
@@ -322,21 +322,15 @@
   box-shadow: 0 20px 42px rgba(47, 54, 45, 0.17);
 }
 .previewMedia img {
-  object-fit: cover;
-  object-position: top center;
+  object-fit: contain;
+  object-position: center;
 }
-.noteMedia img {
-  object-position: top center;
-}
-.noteMedia {
-  aspect-ratio: 620 / 804;
+.noteMedia,
+.quizMedia {
+  aspect-ratio: 1122 / 1402;
 }
 .quizMedia {
-  aspect-ratio: 620 / 593;
   background: #ffa88e;
-}
-.quizMedia img {
-  object-fit: contain;
 }
 .flowArrow {
   display: flex;
@@ -877,7 +871,7 @@
     font-size: 12px;
   }
   .productPreview {
-    grid-template-columns: minmax(190px, 225px) 36px minmax(250px, 300px);
+    grid-template-columns: minmax(205px, 250px) 36px minmax(205px, 250px);
     gap: 10px;
   }
   .benefitStrip {
@@ -977,11 +971,9 @@
     margin: auto;
     transform: none;
   }
-  .noteCard {
-    width: min(100%, 270px);
-  }
+  .noteCard,
   .questionCard {
-    width: min(100%, 390px);
+    width: min(100%, 310px);
   }
   .flowArrow {
     width: 24px;
