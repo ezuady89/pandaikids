@@ -1,5 +1,4 @@
 import { getCikguDb } from "@/lib/cikgu-db";
-import { ensureAdminSchema } from "@/lib/admin-schema";
 
 export type AdminRange = { key: string; from: Date; to: Date; previousFrom: Date };
 
@@ -19,7 +18,6 @@ export function resolveAdminRange(key = "30d", from?: string, to?: string): Admi
 }
 
 export async function getOverview(range: AdminRange) {
-  await ensureAdminSchema();
   const db = getCikguDb();
   const values = [range.from, range.to, range.previousFrom];
   const [metrics, previous, alerts, revenueSeries, funnel, latestPayments, latestTeachers, topActivities, expiring, errors] = await Promise.all([
@@ -58,7 +56,6 @@ export async function getOverview(range: AdminRange) {
 }
 
 export async function getUsers(input: {q?: string; plan?: string; status?: string; page?: number}) {
-  await ensureAdminSchema();
   const page = Math.max(1, input.page ?? 1), limit = 20, offset = (page - 1) * limit;
   const q = `%${input.q?.trim() ?? ""}%`, plan = input.plan ?? "all", status = input.status ?? "all";
   const db = getCikguDb();
@@ -72,7 +69,7 @@ export async function getUsers(input: {q?: string; plan?: string; status?: strin
 }
 
 export async function getTeacherDetail(id:string) {
-  await ensureAdminSchema(); const db=getCikguDb();
+  const db=getCikguDb();
   const [teacher,subscriptions,payments,activities,usage,audits]=await Promise.all([
     db.query("SELECT id,name,email,created_at,updated_at,last_login_at FROM teacher_accounts WHERE id=$1",[id]),
     db.query("SELECT * FROM teacher_subscriptions WHERE teacher_id=$1 ORDER BY starts_at DESC",[id]),
@@ -85,7 +82,6 @@ export async function getTeacherDetail(id:string) {
 }
 
 export async function getActivities(input:{q?:string;page?:number}) {
-  await ensureAdminSchema();
   const page=Math.max(1,input.page??1),limit=20,offset=(page-1)*limit,q=`%${input.q?.trim()??""}%`,db=getCikguDb();
   const [rows,count,summary,series]=await Promise.all([
     db.query(`SELECT q.id,q.source_bank,q.created_at,q.published_at,q.updated_at,t.name teacher_name,COUNT(a.id)::int responses,COUNT(DISTINCT lower(a.student_name))::int students,ROUND(AVG(a.score::numeric/NULLIF(a.total,0))*100)::int average,MAX(a.completed_at) last_used FROM teacher_quizzes q LEFT JOIN teacher_accounts t ON t.id=q.teacher_id LEFT JOIN quiz_attempts a ON a.quiz_id=q.id WHERE q.id ILIKE $1 OR COALESCE(t.name,'') ILIKE $1 GROUP BY q.id,t.name ORDER BY q.created_at DESC LIMIT $2 OFFSET $3`,[q,limit,offset]),
@@ -97,7 +93,6 @@ export async function getActivities(input:{q?:string;page?:number}) {
 }
 
 export async function getFinance(input:{q?:string;status?:string;plan?:string;page?:number}) {
-  await ensureAdminSchema();
   const page=Math.max(1,input.page??1),limit=20,offset=(page-1)*limit,q=`%${input.q?.trim()??""}%`,status=input.status??"all",plan=input.plan??"all",db=getCikguDb();
   const where=`WHERE (o.external_reference ILIKE $1 OR COALESCE(o.toyyibpay_bill_code,'') ILIKE $1 OR t.email ILIKE $1) AND ($2='all' OR o.status=$2) AND ($3='all' OR o.plan_id=$3)`;
   const [rows,count,summary,series]=await Promise.all([
@@ -110,7 +105,6 @@ export async function getFinance(input:{q?:string;status?:string;plan?:string;pa
 }
 
 export async function getAiQuota() {
-  await ensureAdminSchema();
   const db=getCikguDb();
   const [rows,failures]=await Promise.all([
     db.query(`SELECT t.id,t.name,t.email,COALESCE(s.plan_id,'free') plan_id,u.period_start,u.ai_generated,u.manual_published,CASE COALESCE(s.plan_id,'free') WHEN 'pro' THEN 100 WHEN 'plus' THEN 30 ELSE 3 END ai_limit,CASE COALESCE(s.plan_id,'free') WHEN 'pro' THEN 200 WHEN 'plus' THEN 50 ELSE 5 END manual_limit FROM teacher_monthly_usage u LEFT JOIN teacher_accounts t ON t.id=u.teacher_id LEFT JOIN LATERAL(SELECT plan_id FROM teacher_subscriptions x WHERE x.teacher_id=t.id AND x.ends_at>NOW() AND x.cancelled_at IS NULL ORDER BY ends_at DESC LIMIT 1)s ON true ORDER BY u.ai_generated DESC LIMIT 100`),
@@ -120,7 +114,6 @@ export async function getAiQuota() {
 }
 
 export async function getSystem() {
-  await ensureAdminSchema();
   const db=getCikguDb(),started=Date.now();
   const [events,audits,callback]=await Promise.all([
     db.query(`SELECT e.*,t.name,t.email FROM admin_system_events e LEFT JOIN teacher_accounts t ON t.id=e.teacher_id ORDER BY e.created_at DESC LIMIT 100`),
