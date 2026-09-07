@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readTeacherSession } from "@/lib/teacher-auth";
 import { createToyyibpayCheckout, paidPlan } from "@/lib/toyyibpay";
+import { recordCommerceEvent, recordSystemEvent } from "@/lib/admin-events";
 
 export const runtime = "nodejs";
 
@@ -24,6 +25,7 @@ export async function POST(request: NextRequest) {
     const plan = paidPlan(body.plan);
     if (!plan) return NextResponse.json({ error: "Pakej yang dipilih tidak sah." }, { status: 400 });
     const checkout = await createToyyibpayCheckout(session, plan.id, request.nextUrl.origin);
+    await recordCommerceEvent("TOYYIBPAY_OPEN", { teacherId: session.teacherId, planId: plan.id });
     return NextResponse.json(checkout);
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
@@ -31,6 +33,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Pembayaran ToyyibPay belum diaktifkan sepenuhnya." }, { status: 503 });
     }
     console.error("Checkout ToyyibPay gagal", error);
+    await recordSystemEvent({ eventType: "TOYYIBPAY_CHECKOUT", route: "/api/payments/toyyibpay/checkout", status: "FAILED", message });
     return NextResponse.json({ error: "Halaman bayaran belum dapat dibuka. Cuba sebentar lagi." }, { status: 502 });
   }
 }

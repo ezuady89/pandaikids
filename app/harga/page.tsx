@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { CikguPricingPage } from "@/components/cikgu/CikguHomepage";
+import { CommerceTracker } from "@/components/cikgu/CommerceTracker";
 
 export const metadata: Metadata = {
   title: "Harga Pandaikids Cikgu | Pilih Pakej",
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function HargaPage() {
-  return <CikguPricingPage />;
+  return <><CommerceTracker stage="PRICE_VISIT" /><CikguPricingPage /></>;
 }

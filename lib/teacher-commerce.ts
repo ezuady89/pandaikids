@@ -46,6 +46,9 @@ export async function ensureCommerceTables() {
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       )
     `);
+    await db.query("ALTER TABLE teacher_subscriptions ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'toyyibpay'");
+    await db.query("ALTER TABLE teacher_subscriptions ADD COLUMN IF NOT EXISTS cancelled_at TIMESTAMPTZ");
+    await db.query("ALTER TABLE teacher_subscriptions ADD COLUMN IF NOT EXISTS admin_note TEXT");
     await db.query("CREATE INDEX IF NOT EXISTS teacher_subscriptions_active_idx ON teacher_subscriptions (teacher_id, ends_at DESC)");
   })().catch((error) => {
     commerceTablesReady = undefined;
@@ -59,7 +62,7 @@ export async function getActiveTeacherPlan(teacherId?: string): Promise<TeacherP
   await ensureCommerceTables();
   const result = await getCikguDb().query(`
     SELECT plan_id FROM teacher_subscriptions
-    WHERE teacher_id = $1 AND starts_at <= NOW() AND ends_at > NOW()
+    WHERE teacher_id = $1 AND starts_at <= NOW() AND ends_at > NOW() AND cancelled_at IS NULL
     ORDER BY CASE plan_id WHEN 'pro' THEN 2 ELSE 1 END DESC, ends_at DESC
     LIMIT 1
   `, [teacherId]);
