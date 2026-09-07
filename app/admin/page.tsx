@@ -3,10 +3,24 @@ import { Badge, delta, Empty, fmtDate, KpiGrid, money, PageHeader, Panel, Simple
 import styles from "./admin.module.css";
 import { getOverview, resolveAdminRange } from "@/lib/admin-data";
 import { requireAdmin } from "@/lib/admin-auth";
+import { recordSystemEvent } from "@/lib/admin-events";
 
 type Params={range?:string;from?:string;to?:string};
 export default async function OverviewPage({searchParams}:{searchParams:Promise<Params>}){
-  await requireAdmin("/admin"); const p=await searchParams,range=resolveAdminRange(p.range,p.from,p.to),data=await getOverview(range),m=data.metrics,prev=data.previous;
+  await requireAdmin("/admin");
+  const p=await searchParams,range=resolveAdminRange(p.range,p.from,p.to);
+  let data;
+  try {
+    data=await getOverview(range);
+  } catch (error) {
+    const message=(error instanceof Error?error.message:String(error))
+      .replace(/postgres(?:ql)?:\/\/\S+/gi,"[database]")
+      .replace(/AIza[\w-]+/g,"[secret]")
+      .slice(0,400);
+    await recordSystemEvent({eventType:"ADMIN",route:"/admin",status:"FAILED",message});
+    return <section style={{padding:32,background:"white",borderRadius:24}}><h2>Data belum dapat dimuatkan</h2><p>Diagnosis server: <code>{message||"Ralat tidak dikenal pasti"}</code></p><p>Sila hantar paparan mesej ini untuk pembetulan tepat.</p></section>;
+  }
+  const m=data.metrics,prev=data.previous;
   const funnelStages=["PRICE_VISIT","PLAN_SELECTED","LOGIN","TOYYIBPAY_OPEN","PAYMENT_SUCCESS"],funnelLabels=["Lawat Harga","Pilih Pakej","Login","Buka ToyyibPay","Bayaran Berjaya"],funnelMap=new Map(data.funnel.map(r=>[r.stage,Number(r.value)]));
   const formatPct=(a:unknown,b:unknown)=>delta(a,b);
   return <>
