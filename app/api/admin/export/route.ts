@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminRequest } from "@/lib/admin-auth";
-import { ensureAdminSchema } from "@/lib/admin-schema";
 import { getCikguDb } from "@/lib/cikgu-db";
 
 export const runtime="nodejs";
 const esc=(v:unknown)=>`"${String(v??"").replaceAll('"','""')}"`;
-export async function GET(request:NextRequest){const auth=requireAdminRequest(request);if(!auth.ok)return NextResponse.json({error:auth.error},{status:auth.status});await ensureAdminSchema();const type=request.nextUrl.searchParams.get("type")??"guru",db=getCikguDb();let headers:string[],rows:unknown[][];
+export async function GET(request:NextRequest){const auth=requireAdminRequest(request);if(!auth.ok)return NextResponse.json({error:auth.error},{status:auth.status});const type=request.nextUrl.searchParams.get("type")??"guru",db=getCikguDb();let headers:string[],rows:unknown[][];
   if(type==="kewangan"){headers=["Tarikh","Nama","Email","Pakej","Harga MYR","BillCode","Rujukan","Status","Tamat langganan"];const r=await db.query("SELECT o.created_at,t.name,t.email,o.plan_id,o.amount_cents,o.toyyibpay_bill_code,o.external_reference,o.status,s.ends_at FROM teacher_payment_orders o JOIN teacher_accounts t ON t.id=o.teacher_id LEFT JOIN teacher_subscriptions s ON s.payment_order_id=o.id ORDER BY o.created_at DESC LIMIT 10000");rows=r.rows.map(x=>[x.created_at,x.name,x.email,x.plan_id,(Number(x.amount_cents)/100).toFixed(2),x.toyyibpay_bill_code,x.external_reference,x.status,x.ends_at]);}
   else if(type==="aktiviti"){headers=["ID","Jenis","Guru","Dicipta","Respons","Pelajar unik","Purata markah"];const r=await db.query("SELECT q.id,q.source_bank,t.name,q.created_at,COUNT(a.id) responses,COUNT(DISTINCT lower(a.student_name)) students,ROUND(AVG(a.score::numeric/NULLIF(a.total,0))*100) average FROM teacher_quizzes q LEFT JOIN teacher_accounts t ON t.id=q.teacher_id LEFT JOIN quiz_attempts a ON a.quiz_id=q.id GROUP BY q.id,t.name ORDER BY q.created_at DESC LIMIT 10000");rows=r.rows.map(x=>Object.values(x));}
   else if(type==="langganan"){headers=["Nama","Email","Pakej","Mula","Tamat","Batal","Sumber","Transaksi"];const r=await db.query("SELECT t.name,t.email,s.plan_id,s.starts_at,s.ends_at,s.cancelled_at,s.source,s.payment_order_id FROM teacher_subscriptions s JOIN teacher_accounts t ON t.id=s.teacher_id ORDER BY s.ends_at DESC LIMIT 10000");rows=r.rows.map(x=>Object.values(x));}
