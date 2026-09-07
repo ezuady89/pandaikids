@@ -236,7 +236,7 @@ function MobileNavigation() {
       </summary>
       <div>
         <Link href="/#kuiz">Aktiviti Siap</Link>
-        <a href="/aktiviti/bina/">Bina dengan AI</a>
+        <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
         <Link href="/#cara">Cara Guna</Link>
         <a href="/harga/">Harga</a>
         <Link href="/log-masuk/">Log Masuk</Link>
@@ -332,7 +332,7 @@ export function CikguHomepage() {
           </a>
           <nav className={styles.navigation} aria-label="Navigasi utama">
             <a href="#kuiz">Aktiviti Siap</a>
-            <a href="/aktiviti/bina/">Bina dengan AI</a>
+            <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
             <a href="#cara">Cara Guna</a>
             <a href="/harga/">Harga</a>
             <a href="/log-masuk/">Log Masuk</a>
@@ -354,7 +354,7 @@ export function CikguHomepage() {
               Cikgu boleh semak dahulu sebelum berkongsi.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.customButton} href="/aktiviti/bina/">
+              <a className={styles.customButton} href="/aktiviti/bina/?cara=ai">
                 <Icon name="sparkle" /> Bina dengan AI
               </a>
               <a className={styles.readyButton} href="#kuiz">
@@ -379,7 +379,7 @@ export function CikguHomepage() {
           <ProductPreview />
         </div>
 
-        <div className={styles.benefitStrip} id="cara">
+        <div className={styles.benefitStrip}>
           {benefits.map((benefit) => (
             <div key={benefit.text}>
               <Image
@@ -402,6 +402,43 @@ export function CikguHomepage() {
         >
           <Icon name="down" />
         </a>
+      </section>
+
+      <section className={styles.howSection} id="cara">
+        <div className={styles.howIntro}>
+          <span>CARA GUNA PANDAIKIDS</span>
+          <h2>Tiga langkah, terus boleh dikongsi.</h2>
+          <p>
+            Tak perlu mahir teknologi. Cikgu hanya pilih bahan, semak soalan dan
+            kongsi pautan.
+          </p>
+        </div>
+        <div className={styles.howGrid}>
+          <article className={styles.howStep}>
+            <span>1</span>
+            <h3>Pilih cara bina</h3>
+            <p>
+              Gunakan kuiz siap, taip soalan sendiri atau jana daripada nota
+              dengan AI.
+            </p>
+          </article>
+          <article className={styles.howStep}>
+            <span>2</span>
+            <h3>Semak dan ubah</h3>
+            <p>
+              Cikgu boleh menyemak soalan, jawapan dan penerangan sebelum
+              diterbitkan.
+            </p>
+          </article>
+          <article className={styles.howStep}>
+            <span>3</span>
+            <h3>Kongsi kepada murid</h3>
+            <p>
+              Salin pautan dan kongsi melalui DELIMa, Google Classroom atau
+              WhatsApp.
+            </p>
+          </article>
+        </div>
       </section>
 
       <section className={styles.quizzes} id="kuiz">
@@ -481,7 +518,7 @@ export function CikguPricingPage() {
         </Link>
         <nav className={styles.navigation} aria-label="Navigasi utama">
           <Link href="/#kuiz">Aktiviti Siap</Link>
-          <a href="/aktiviti/bina/">Bina dengan AI</a>
+          <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
           <Link href="/#cara">Cara Guna</Link>
           <a href="/harga/" aria-current="page">Harga</a>
           <Link href="/log-masuk/">Log Masuk</Link>

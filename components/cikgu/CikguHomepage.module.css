@@ -461,6 +461,83 @@
 .scrollHint svg {
   width: 18px;
 }
+.howSection {
+  scroll-margin-top: 24px;
+  padding: 72px 24px 66px;
+  background: linear-gradient(180deg, #ffffff 0%, #fffaf4 100%);
+}
+.howIntro {
+  max-width: 720px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+.howIntro > span {
+  color: #df7164;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+.howIntro h2 {
+  margin: 8px 0 0;
+  color: #083f3b;
+  font-family: "Baloo 2", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
+  font-size: clamp(34px, 3.6vw, 50px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+.howIntro p {
+  max-width: 620px;
+  margin: 12px auto 0;
+  color: #56736e;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.howGrid {
+  max-width: 1120px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.howStep {
+  position: relative;
+  min-height: 170px;
+  padding: 27px 25px 25px 82px;
+  border: 1px solid rgba(24, 59, 54, 0.1);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 34px rgba(75, 64, 50, 0.08);
+}
+.howStep > span {
+  position: absolute;
+  top: 25px;
+  left: 24px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #07999e, #0bb7b8);
+  color: #fff;
+  font-family: "Baloo 2", "Arial Rounded MT Bold", sans-serif;
+  font-size: 23px;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(4, 169, 175, 0.2);
+}
+.howStep h3 {
+  margin: 2px 0 8px;
+  color: #164f49;
+  font-family: "Baloo 2", "Arial Rounded MT Bold", sans-serif;
+  font-size: 23px;
+  line-height: 1.1;
+}
+.howStep p {
+  margin: 0;
+  color: #56736e;
+  font-size: 14px;
+  line-height: 1.55;
+}
 .quizzes {
   padding: 70px 24px 48px;
   background: linear-gradient(180deg, #fff 0%, #fffaf2 100%);
@@ -983,6 +1060,17 @@
   }
   .benefitStrip {
     margin-inline: 18px;
+  }
+  .howSection {
+    padding: 56px 18px 52px;
+  }
+  .howGrid {
+    max-width: 520px;
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+  .howStep {
+    min-height: 0;
   }
   .sectionLead h2 {
     font-size: 40px;

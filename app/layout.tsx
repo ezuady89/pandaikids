@@ -15,12 +15,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "PandaiKids — Perjalanan Bersama Pandi",
-    template: "%s — PandaiKids",
+    default: "Pandaikids Cikgu | Bina Latihan untuk Murid",
+    template: "%s | Pandaikids",
   },
   description:
-    "Kenali Pandi dan mulakan perjalanan pembelajaran yang dibina khas untuk anak anda.",
-  applicationName: "PandaiKids",
+    "Bina, semak dan kongsi latihan digital kepada murid melalui DELIMa, Google Classroom atau WhatsApp.",
+  applicationName: "Pandaikids",
 };
 
 export const viewport: Viewport = {
