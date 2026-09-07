@@ -1,7 +1,6 @@
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminRequest } from "@/lib/admin-auth";
-import { ensureAdminSchema } from "@/lib/admin-schema";
 import { getCikguDb } from "@/lib/cikgu-db";
 
 export const runtime="nodejs";
@@ -14,7 +13,7 @@ export async function POST(request:NextRequest){
   const auth=requireAdminRequest(request);if(!auth.ok)return NextResponse.json({error:auth.error},{status:auth.status});if(!sameOrigin(request))return NextResponse.json({error:"Permintaan tidak sah."},{status:403});if(!permitted(auth.session.email))return NextResponse.json({error:"Terlalu banyak tindakan. Cuba semula sebentar lagi."},{status:429});
   const form=await request.formData(),teacherId=String(form.get("teacherId")??""),action=String(form.get("action")??""),reason=String(form.get("reason")??"").trim().slice(0,240),plan=String(form.get("plan")??""),days=Math.min(365,Math.max(1,Number(form.get("days")??30)));
   if(!/^[0-9a-f-]{36}$/i.test(teacherId)||reason.length<5||!["extend","change_plan","deactivate","reactivate"].includes(action)||!["plus","pro"].includes(plan))return NextResponse.json({error:"Maklumat tindakan tidak lengkap."},{status:400});
-  await ensureAdminSchema();const client=await getCikguDb().connect();let before:unknown=null;
+  const client=await getCikguDb().connect();let before:unknown=null;
   try{await client.query("BEGIN");const found=await client.query("SELECT * FROM teacher_subscriptions WHERE teacher_id=$1 ORDER BY ends_at DESC LIMIT 1 FOR UPDATE",[teacherId]);before=found.rows[0]??null;
     if(!found.rowCount){if(!["reactivate","change_plan"].includes(action))throw new Error("Tiada langganan untuk tindakan ini.");await client.query("INSERT INTO teacher_subscriptions(id,teacher_id,plan_id,payment_order_id,starts_at,ends_at,source,admin_note) VALUES($1,$2,$3,NULL,NOW(),NOW()+($4||' days')::interval,'admin',$5)",[randomUUID(),teacherId,plan,String(days),reason]);}
     else if(action==="extend")await client.query("UPDATE teacher_subscriptions SET ends_at=GREATEST(ends_at,NOW())+($1||' days')::interval,admin_note=$2 WHERE id=$3",[String(days),reason,found.rows[0].id]);
