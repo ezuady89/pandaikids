@@ -33,7 +33,7 @@ export async function GET(
 
   const result = await db.query(
     `SELECT
-       ROW_NUMBER() OVER (ORDER BY score DESC,duration_seconds ASC,completed_at ASC)::int kedudukan,
+       (ROW_NUMBER() OVER (ORDER BY score DESC,duration_seconds ASC,completed_at ASC))::int kedudukan,
        student_name,
        score::int,
        total::int,
