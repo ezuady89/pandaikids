@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { readTeacherSession } from "@/lib/teacher-auth";
+import { ensureQuizAttemptIdentitySchema } from "@/lib/quiz-attempt-identity";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,7 @@ export async function GET(
     return NextResponse.json({ error: "ID kuiz tidak sah." }, { status: 400 });
   }
 
+  await ensureQuizAttemptIdentitySchema();
   const db = getCikguDb();
   const owner = await db.query(
     "SELECT id FROM teacher_quizzes WHERE id=$1 AND teacher_id=$2 LIMIT 1",
@@ -35,6 +37,7 @@ export async function GET(
     `SELECT
        (ROW_NUMBER() OVER (ORDER BY score DESC,duration_seconds ASC,completed_at ASC))::int kedudukan,
        student_name,
+       identity_source,
        score::int,
        total::int,
        ROUND(score::numeric/NULLIF(total,0)*100)::int peratus,
@@ -47,10 +50,11 @@ export async function GET(
     [id],
   );
 
-  const headers = ["Kedudukan", "Nama murid", "Markah", "Jumlah soalan", "Peratus", "Masa (saat)", "Dihantar"];
+  const headers = ["Kedudukan", "Nama murid", "Sumber nama", "Markah", "Jumlah soalan", "Peratus", "Masa (saat)", "Dihantar"];
   const rows = result.rows.map((row) => [
     row.kedudukan,
     row.student_name,
+    row.identity_source === "delima" ? "DELIMa disahkan" : row.identity_source === "open" ? "Nama ditaip" : "Rekod terdahulu",
     row.score,
     row.total,
     row.peratus,
