@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { verifyDelimaCredential } from "@/lib/delima-auth";
+import { ensureQuizAttemptIdentitySchema, makeDelimaIdentityKey } from "@/lib/quiz-attempt-identity";
 
 export const runtime = "nodejs";
 
@@ -17,6 +18,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const { id: quizId } = await params;
   const body = await request.json() as AttemptBody;
   let studentName = String(body.studentName ?? "").trim().replace(/\s+/g, " ").slice(0, 60);
+  let identitySource: "delima" | "open" = "open";
+  let studentIdentityKey: string | null = null;
   const score = Number(body.score);
   const total = Number(body.total);
   const durationSeconds = Math.max(0, Math.round(Number(body.durationSeconds)));
@@ -25,6 +28,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json({ error: "Keputusan murid tidak lengkap." }, { status: 400 });
   }
 
+  await ensureQuizAttemptIdentitySchema();
   const client = await getCikguDb().connect();
   try {
     await client.query("BEGIN");
@@ -40,6 +44,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       try {
         const identity = await verifyDelimaCredential(String(body.googleCredential ?? ""));
         studentName = identity.name;
+        identitySource = "delima";
+        studentIdentityKey = makeDelimaIdentityKey(identity.subject);
       } catch {
         await client.query("ROLLBACK");
         return NextResponse.json({ error: "Sila sahkan akaun DELIMa sebelum menghantar jawapan." }, { status: 401 });
@@ -51,8 +57,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     }
 
     const attempt = await client.query(
-      "INSERT INTO quiz_attempts (id, quiz_id, student_name, score, total, duration_seconds) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, completed_at",
-      [randomUUID(), quizId, studentName, score, total, durationSeconds],
+      "INSERT INTO quiz_attempts (id, quiz_id, student_name, score, total, duration_seconds, student_identity_key, identity_source) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, completed_at",
+      [randomUUID(), quizId, studentName, score, total, durationSeconds, studentIdentityKey, identitySource],
     );
     const ranking = await client.query(
       `SELECT
