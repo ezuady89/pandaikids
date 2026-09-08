@@ -69,7 +69,7 @@ export default async function TeacherActivityDetailPage({
           </div>
           <div className={styles.detailActions}>
             <CopyQuizLink quizId={data.quiz.id} />
-            <Link href={`/aktiviti/?kuiz=${data.quiz.id}`} target="_blank">Lihat sebagai murid ↗</Link>
+            <Link href={`/aktiviti/?kuiz=${data.quiz.id}`} target="_blank" rel="noreferrer">Lihat sebagai murid ↗</Link>
             <a href={`/api/cikgu-dashboard/aktiviti/${data.quiz.id}/export/`}>Muat turun CSV</a>
           </div>
         </section>
