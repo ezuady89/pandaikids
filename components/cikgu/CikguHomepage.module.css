@@ -697,31 +697,77 @@
   font-weight: 700;
 }
 .premiumButton {
-  min-height: 56px;
-  padding: 12px 16px 12px 22px;
-  display: flex;
+  min-width: 286px;
+  min-height: 72px;
+  padding: 9px 10px;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #058f93, #08b8bd 58%, #24c3c0);
-  box-shadow: 0 13px 24px rgba(5, 142, 146, 0.27);
+  gap: 11px;
+  border: 1px solid rgba(238, 199, 108, 0.92);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #073f3a 0%, #087b72 54%, #09a7a0 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 14px 28px rgba(5, 94, 88, 0.25);
   color: #fff;
   text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.premiumButtonMark,
+.premiumButtonArrow {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+}
+.premiumButtonMark {
+  color: #ffe3a0;
+  background: rgba(255, 255, 255, 0.11);
+}
+.premiumButtonMark svg {
+  width: 21px;
+  height: 21px;
+}
+.premiumButtonCopy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.premiumButtonCopy strong {
   font-size: 16px;
   font-weight: 900;
-  white-space: nowrap;
-  transition: transform 0.2s;
+  line-height: 1.2;
+}
+.premiumButtonCopy small {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+.premiumButtonArrow {
+  border: 1px solid rgba(255, 227, 160, 0.72);
+  background: #fff6dd;
+  color: #075f59;
+}
+.premiumButtonArrow svg {
+  width: 20px;
+  height: 20px;
 }
 .premiumButton:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 18px 34px rgba(5, 94, 88, 0.32);
 }
-.premiumButton svg {
-  width: 28px;
-  height: 28px;
-  padding: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.44);
-  border-radius: 50%;
+.premiumButton:focus-visible {
+  outline: 3px solid rgba(8, 143, 147, 0.28);
+  outline-offset: 4px;
 }
 .priceSection {
   scroll-margin-top: 22px;
@@ -1093,6 +1139,8 @@
     align-self: start;
   }
   .premiumButton {
+    width: 100%;
+    min-width: 0;
     grid-column: 1/-1;
     margin-top: 3px;
   }
