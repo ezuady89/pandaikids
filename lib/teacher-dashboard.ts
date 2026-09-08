@@ -41,17 +41,17 @@ const quizSelect = `
         WHEN q.source_bank='custom' THEN 'Kuiz Cikgu'
         ELSE initcap(replace(replace(q.source_bank,'-',' '),'_',' '))
       END
-    ) title,
-    NULLIF(sample.value->>'subject','') subject,
-    NULLIF(sample.value->>'year','') year,
+    ) AS title,
+    NULLIF(sample.value->>'subject','') AS subject,
+    NULLIF(sample.value->>'year','') AS "year",
     CASE
       WHEN q.question_overrides->'__settings'->>'accessMode'='delima' THEN 'delima'
       ELSE 'open'
-    END access_mode,
-    jsonb_array_length(COALESCE(q.question_ids,'[]'::jsonb))::int question_count,
-    COALESCE(stats.responses,0)::int responses,
-    COALESCE(stats.students,0)::int students,
-    COALESCE(stats.average,0)::int average,
+    END AS access_mode,
+    jsonb_array_length(COALESCE(q.question_ids,'[]'::jsonb))::int AS question_count,
+    COALESCE(stats.responses,0)::int AS responses,
+    COALESCE(stats.students,0)::int AS students,
+    COALESCE(stats.average,0)::int AS average,
     stats.last_response
   FROM teacher_quizzes q
   LEFT JOIN LATERAL (
@@ -66,7 +66,7 @@ const quizSelect = `
       COUNT(*)::int responses,
       COUNT(DISTINCT lower(student_name))::int students,
       ROUND(AVG(score::numeric/NULLIF(total,0))*100)::int average,
-      MAX(completed_at) last_response
+      MAX(completed_at) AS last_response
     FROM quiz_attempts
     WHERE quiz_id=q.id
   ) stats ON true
@@ -124,7 +124,7 @@ export async function getTeacherQuizDetail(teacherId: string, quizId: string) {
        completed_at,
        (ROW_NUMBER() OVER (
          ORDER BY score DESC,duration_seconds ASC,completed_at ASC
-       ))::int rank
+       ))::int AS rank
      FROM quiz_attempts
      WHERE quiz_id=$1
      ORDER BY score DESC,duration_seconds ASC,completed_at ASC
