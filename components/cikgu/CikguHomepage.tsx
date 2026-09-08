@@ -487,7 +487,16 @@ export function CikguHomepage() {
             </p>
           </div>
           <a className={styles.premiumButton} href="/aktiviti/bina/">
-            Mula Bina Kuiz <Icon name="arrow" />
+            <span className={styles.premiumButtonMark} aria-hidden="true">
+              <Icon name="sparkle" />
+            </span>
+            <span className={styles.premiumButtonCopy}>
+              <strong>Cipta Kuiz Saya</strong>
+              <small>Taip sendiri atau dibantu AI</small>
+            </span>
+            <span className={styles.premiumButtonArrow} aria-hidden="true">
+              <Icon name="arrow" />
+            </span>
           </a>
         </div>
       </section>
