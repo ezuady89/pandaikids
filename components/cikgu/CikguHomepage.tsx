@@ -239,7 +239,7 @@ function MobileNavigation() {
         <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
         <Link href="/#cara">Cara Guna</Link>
         <a href="/harga/">Harga</a>
-        <Link href="/log-masuk/">Log Masuk</Link>
+        <Link href="/log-masuk/?next=%2Fdashboard%2F">Dashboard Guru</Link>
       </div>
     </details>
   );
@@ -335,7 +335,7 @@ export function CikguHomepage() {
             <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
             <a href="#cara">Cara Guna</a>
             <a href="/harga/">Harga</a>
-            <a href="/log-masuk/">Log Masuk</a>
+            <a href="/log-masuk/?next=%2Fdashboard%2F">Dashboard Guru</a>
             <a className={styles.headerCta} href="/aktiviti/bina/">
               Bina Kuiz Percuma
             </a>
@@ -521,7 +521,7 @@ export function CikguPricingPage() {
           <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
           <Link href="/#cara">Cara Guna</Link>
           <a href="/harga/" aria-current="page">Harga</a>
-          <Link href="/log-masuk/">Log Masuk</Link>
+          <Link href="/log-masuk/?next=%2Fdashboard%2F">Dashboard Guru</Link>
           <a className={styles.headerCta} href="/aktiviti/bina/">
             Bina Kuiz Percuma
           </a>
