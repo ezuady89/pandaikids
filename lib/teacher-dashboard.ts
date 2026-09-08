@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { readTeacherQuota } from "@/lib/cikgu-quota";
+import { ensureCommerceTables } from "@/lib/teacher-commerce";
 
 export type TeacherDashboardQuiz = {
   id: string;
@@ -69,6 +70,7 @@ const quizSelect = `
 `;
 
 export async function getTeacherDashboard(teacherId: string) {
+  await ensureCommerceTables();
   const db = getCikguDb();
   const quotaKey = createHash("sha256").update(teacherId).digest("hex");
   const [quota, quizzes, subscription, summary] = await Promise.all([
