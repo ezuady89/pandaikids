@@ -91,9 +91,9 @@ export default async function FeedbackPage({
             {params.status === "invalid" ? <p className={styles.error}>Pilih jenis maklum balas dan tulis sekurang-kurangnya 10 aksara.</p> : null}
             {params.status === "limit" ? <p className={styles.error}>Terlalu banyak kiriman dalam masa singkat. Cuba semula sebentar lagi.</p> : null}
 
-            <div className={styles.identity}>
-              <b>{session.name}</b>
-              <span>{session.email}</span>
+            <div className={styles.recipient}>
+              <span>Kepada</span>
+              <b>PandaiKids</b>
             </div>
 
             <form action={submitFeedback}>
