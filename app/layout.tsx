@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
 import MicrosoftClarity from "./components/MicrosoftClarity";
+import { TeacherFeedbackButton } from "@/components/cikgu/TeacherFeedbackButton";
 
 import "@fontsource/baloo-2/500.css";
 import "@fontsource/baloo-2/600.css";
@@ -38,6 +39,7 @@ export default function RootLayout({
     <html lang="ms">
       <body>
         {children}
+        <TeacherFeedbackButton />
 
         <MicrosoftClarity />
 
