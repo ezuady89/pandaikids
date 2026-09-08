@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-
-import { JourneyExperience } from "@/components/journey/JourneyExperience";
+import { permanentRedirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Perjalanan Saya",
-  description: "Pilih dunia pembelajaran PandaiKids bersama Pandi."
+  title: "Pandaikids",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
 };
 
 export default function JourneyPage() {
-  return <JourneyExperience />;
+  permanentRedirect("/");
 }
