@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomUUID, timingSafeEqual } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
+import { readTeacherSession } from "@/lib/teacher-auth";
 
 export const runtime = "nodejs";
 
@@ -32,6 +33,12 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
 }
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = readTeacherSession(request);
+  if (!session) return NextResponse.json({
+    code: "LOGIN_REQUIRED",
+    error: "Log masuk sebagai cikgu sebelum menyimpan perubahan.",
+    loginUrl: "/log-masuk/",
+  }, { status: 401 });
   try {
     const { id } = await params;
     const body = await request.json() as QuizBody;
@@ -40,9 +47,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const client = await db.connect();
     try {
       await client.query("BEGIN");
-      const owner = await client.query("SELECT owner_token_hash, source_bank FROM teacher_quizzes WHERE id = $1 FOR UPDATE", [id]);
+      const owner = await client.query("SELECT owner_token_hash, source_bank, teacher_id FROM teacher_quizzes WHERE id = $1 FOR UPDATE", [id]);
       if (!owner.rowCount) { await client.query("ROLLBACK"); return NextResponse.json({ error: "Kuiz tidak ditemui." }, { status: 404 }); }
       if (!sameToken(owner.rows[0].owner_token_hash, tokenHash(body.ownerToken))) { await client.query("ROLLBACK"); return NextResponse.json({ error: "Kuiz ini hanya boleh dikemas kini oleh cikgu yang menerbitkannya." }, { status: 403 }); }
+      if (owner.rows[0].teacher_id && String(owner.rows[0].teacher_id) !== session.teacherId) { await client.query("ROLLBACK"); return NextResponse.json({ error: "Kuiz ini dimiliki oleh akaun cikgu yang lain." }, { status: 403 }); }
       const sourceBank = owner.rows[0].source_bank;
       if (sourceBank === "custom" && (!Array.isArray(body.customQuestions) || !body.customQuestions.length)) {
         await client.query("ROLLBACK");
