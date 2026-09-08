@@ -2,6 +2,7 @@ import { createHash } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { readTeacherQuota } from "@/lib/cikgu-quota";
 import { ensureCommerceTables } from "@/lib/teacher-commerce";
+import { ensureQuizAttemptIdentitySchema } from "@/lib/quiz-attempt-identity";
 
 export type TeacherDashboardQuiz = {
   id: string;
@@ -27,6 +28,7 @@ export type TeacherQuizAttempt = {
   duration_seconds: number;
   completed_at: Date;
   rank: number;
+  identity_source: "delima" | "open" | null;
 };
 
 const quizSelect = `
@@ -64,7 +66,7 @@ const quizSelect = `
   LEFT JOIN LATERAL (
     SELECT
       COUNT(*)::int responses,
-      COUNT(DISTINCT lower(student_name))::int students,
+      COUNT(DISTINCT COALESCE(student_identity_key,'name:'||lower(student_name)))::int students,
       ROUND(AVG(score::numeric/NULLIF(total,0))*100)::int average,
       MAX(completed_at) AS last_response
     FROM quiz_attempts
@@ -73,7 +75,7 @@ const quizSelect = `
 `;
 
 export async function getTeacherDashboard(teacherId: string) {
-  await ensureCommerceTables();
+  await Promise.all([ensureCommerceTables(), ensureQuizAttemptIdentitySchema()]);
   const db = getCikguDb();
   const quotaKey = createHash("sha256").update(teacherId).digest("hex");
   const [quota, quizzes, subscription, summary] = await Promise.all([
@@ -92,7 +94,7 @@ export async function getTeacherDashboard(teacherId: string) {
          COUNT(DISTINCT q.id)::int activities,
          COUNT(a.id)::int responses,
          COALESCE(ROUND(AVG(a.score::numeric/NULLIF(a.total,0))*100),0)::int average,
-         COUNT(DISTINCT lower(a.student_name))::int students
+         COUNT(DISTINCT COALESCE(a.student_identity_key,'name:'||lower(a.student_name)))::int students
        FROM teacher_quizzes q
        LEFT JOIN quiz_attempts a ON a.quiz_id=q.id
        WHERE q.teacher_id=$1`,
@@ -109,7 +111,7 @@ export async function getTeacherDashboard(teacherId: string) {
 }
 
 export async function getTeacherQuizDetail(teacherId: string, quizId: string) {
-  await ensureCommerceTables();
+  await Promise.all([ensureCommerceTables(), ensureQuizAttemptIdentitySchema()]);
   const db = getCikguDb();
   const quiz = await db.query(`${quizSelect} WHERE q.teacher_id=$1 AND q.id=$2 LIMIT 1`, [teacherId, quizId]);
   if (!quiz.rowCount) return undefined;
@@ -122,6 +124,7 @@ export async function getTeacherQuizDetail(teacherId: string, quizId: string) {
        total::int,
        duration_seconds::int,
        completed_at,
+       identity_source,
        (ROW_NUMBER() OVER (
          ORDER BY score DESC,duration_seconds ASC,completed_at ASC
        ))::int AS rank
