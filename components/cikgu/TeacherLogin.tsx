@@ -59,7 +59,7 @@ export function TeacherLogin({ nextPath, googleClientId }: { nextPath: string; g
       <article className={styles.card}>
         <span className={styles.eyebrow}>AKAUN PANDAIKIDS CIKGU</span>
         <h1>Log masuk untuk teruskan.</h1>
-        <p className={styles.lead}>Pilih akaun Google cikgu. Pembayaran dan pakej akan disimpan pada akaun ini.</p>
+        <p className={styles.lead}>Pilih akaun Google cikgu. Jika pertama kali, akaun Pandaikids akan didaftarkan automatik. Kuiz, keputusan murid dan pakej akan disimpan di Dashboard Guru.</p>
         {busy ? <div className={styles.spinner} aria-label="Sedang memuatkan" /> : null}
         {!busy && googleClientId ? <div className={styles.googleButton} ref={button} /> : null}
         {!busy && !googleClientId ? <p className={styles.error}>Log masuk Google belum diaktifkan.</p> : null}
