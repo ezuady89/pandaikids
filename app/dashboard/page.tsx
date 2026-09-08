@@ -155,7 +155,7 @@ export default async function TeacherDashboardPage() {
                   </div>
 
                   <div className={styles.activityStats}>
-                    <div><span>Murid</span><strong>{quiz.responses}</strong></div>
+                    <div><span>Murid</span><strong>{quiz.students}</strong></div>
                     <div><span>Purata</span><strong>{quiz.responses ? `${quiz.average}%` : "—"}</strong></div>
                     <div><span>Jawapan akhir</span><strong>{quiz.last_response ? fmtDate(quiz.last_response) : "Belum ada"}</strong></div>
                   </div>
@@ -163,7 +163,7 @@ export default async function TeacherDashboardPage() {
                   <div className={styles.activityActions}>
                     <Link href={`/dashboard/aktiviti/${quiz.id}/`}>Lihat keputusan</Link>
                     <CopyQuizLink quizId={quiz.id} />
-                    <Link href={`/aktiviti/?kuiz=${quiz.id}`} target="_blank">Lihat kuiz ↗</Link>
+                    <Link href={`/aktiviti/?kuiz=${quiz.id}`} target="_blank" rel="noreferrer">Lihat kuiz ↗</Link>
                   </div>
                 </article>
               ))}
