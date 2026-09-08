@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomUUID } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
-import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, readTeacherQuota, validAiReceipt } from "@/lib/cikgu-quota";
+import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, readTeacherQuota, validAiReceipt, type QuotaKind } from "@/lib/cikgu-quota";
+import { readTeacherSession } from "@/lib/teacher-auth";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,12 @@ const valid = (body: QuizBody, questionLimit: number) => Boolean(
 );
 
 export async function POST(request: NextRequest) {
+  const session = readTeacherSession(request);
+  if (!session) return NextResponse.json({
+    code: "LOGIN_REQUIRED",
+    error: "Log masuk sebagai cikgu sebelum menerbitkan kuiz.",
+    loginUrl: "/log-masuk/",
+  }, { status: 401 });
   const identity = getTeacherQuotaIdentity(request);
   try {
     const body = await request.json() as QuizBody;
@@ -33,13 +40,19 @@ export async function POST(request: NextRequest) {
       await client.query("BEGIN");
       let quota;
       const isAiQuiz = body.bankKey === "custom" && body.creationMethod === "ai" && validAiReceipt(body.aiReceipt, identity.key);
-      if (body.bankKey === "custom" && !isAiQuiz) {
-        quota = await claimTeacherQuota(identity.key, "manual", identity.teacherId, client);
+      const quotaKind: QuotaKind | undefined = body.bankKey === "custom" ? (isAiQuiz ? undefined : "manual") : "ready";
+      if (quotaKind) {
+        quota = await claimTeacherQuota(identity.key, quotaKind, identity.teacherId, client);
         if (!quota) {
           await client.query("ROLLBACK");
+          const isReady = quotaKind === "ready";
+          const limit = isReady ? currentQuota.plan.readyLimit : currentQuota.plan.manualLimit;
           return attachTeacherQuotaCookie(NextResponse.json({
-            code: "MANUAL_MONTHLY_LIMIT_REACHED",
-            error: `${currentQuota.plan.manualLimit} kuiz Buat Sendiri untuk pakej ${currentQuota.plan.name} bulan ini telah diterbitkan. Draf cikgu masih disimpan.`,
+            code: isReady ? "READY_MONTHLY_LIMIT_REACHED" : "MANUAL_MONTHLY_LIMIT_REACHED",
+            error: isReady
+              ? `${limit} kuiz siap untuk pakej ${currentQuota.plan.name} bulan ini telah diterbitkan. Naik taraf untuk menerbitkan lebih banyak kuiz.`
+              : `${limit} kuiz Buat Sendiri untuk pakej ${currentQuota.plan.name} bulan ini telah diterbitkan. Draf cikgu masih disimpan.`,
+            upgradeUrl: "/harga/",
           }, { status: 429 }), identity);
         }
       }
