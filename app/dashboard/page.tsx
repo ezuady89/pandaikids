@@ -161,7 +161,7 @@ export default async function TeacherDashboardPage() {
                   </div>
 
                   <div className={styles.activityActions}>
-                    <Link href={`/dashboard/aktiviti/${quiz.id}/`}>Lihat keputusan</Link>
+                    <Link href={`/dashboard/aktiviti/${quiz.id}/`}>Lihat nama & keputusan</Link>
                     <CopyQuizLink quizId={quiz.id} />
                     <Link href={`/aktiviti/?kuiz=${quiz.id}`} target="_blank" rel="noreferrer">Lihat kuiz ↗</Link>
                   </div>
