@@ -10,7 +10,7 @@ const COOKIE_NAME = "pandaikids_teacher";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 let quotaTableReady: Promise<void> | undefined;
 
-export type QuotaKind = "manual" | "ai";
+export type QuotaKind = "manual" | "ai" | "ready";
 export type TeacherQuotaIdentity = { id: string; key: string; isNew: boolean; teacherId?: string };
 export type TeacherQuota = {
   plan: TeacherPlan;
@@ -20,6 +20,8 @@ export type TeacherQuota = {
   manualRemaining: number;
   aiUsed: number;
   aiRemaining: number;
+  readyUsed: number;
+  readyRemaining: number;
 };
 
 function malaysiaMonth() {
@@ -66,6 +68,7 @@ export async function ensureQuotaTable() {
       period_start DATE NOT NULL,
       manual_published INTEGER NOT NULL DEFAULT 0 CHECK (manual_published >= 0),
       ai_generated INTEGER NOT NULL DEFAULT 0 CHECK (ai_generated >= 0),
+      ready_published INTEGER NOT NULL DEFAULT 0 CHECK (ready_published >= 0),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       PRIMARY KEY (teacher_key, period_start)
     )
@@ -75,10 +78,11 @@ export async function ensureQuotaTable() {
   });
   await quotaTableReady;
   await getCikguDb().query("ALTER TABLE teacher_monthly_usage ADD COLUMN IF NOT EXISTS teacher_id UUID REFERENCES teacher_accounts(id)");
+  await getCikguDb().query("ALTER TABLE teacher_monthly_usage ADD COLUMN IF NOT EXISTS ready_published INTEGER NOT NULL DEFAULT 0 CHECK (ready_published >= 0)");
   return quotaTableReady;
 }
 
-function quotaFromCounts(plan: TeacherPlan, manualUsed: number, aiUsed: number): TeacherQuota {
+function quotaFromCounts(plan: TeacherPlan, manualUsed: number, aiUsed: number, readyUsed: number): TeacherQuota {
   const { periodStart, renewsAt } = malaysiaMonth();
   return {
     plan,
@@ -88,6 +92,8 @@ function quotaFromCounts(plan: TeacherPlan, manualUsed: number, aiUsed: number):
     manualRemaining: Math.max(0, plan.manualLimit - manualUsed),
     aiUsed,
     aiRemaining: Math.max(0, plan.aiLimit - aiUsed),
+    readyUsed,
+    readyRemaining: Math.max(0, plan.readyLimit - readyUsed),
   };
 }
 
@@ -96,34 +102,34 @@ export async function readTeacherQuota(key: string, teacherId?: string, client?:
   const plan = await getActiveTeacherPlan(teacherId);
   const { periodStart } = malaysiaMonth();
   const result = await (client ?? getCikguDb()).query(
-    "SELECT manual_published, ai_generated FROM teacher_monthly_usage WHERE teacher_key = $1 AND period_start = $2::date",
+    "SELECT manual_published, ai_generated, ready_published FROM teacher_monthly_usage WHERE teacher_key = $1 AND period_start = $2::date",
     [key, periodStart],
   );
-  return quotaFromCounts(plan, Number(result.rows[0]?.manual_published ?? 0), Number(result.rows[0]?.ai_generated ?? 0));
+  return quotaFromCounts(plan, Number(result.rows[0]?.manual_published ?? 0), Number(result.rows[0]?.ai_generated ?? 0), Number(result.rows[0]?.ready_published ?? 0));
 }
 
 export async function claimTeacherQuota(key: string, kind: QuotaKind, teacherId?: string, client?: PoolClient) {
   await ensureQuotaTable();
   const plan = await getActiveTeacherPlan(teacherId);
   const { periodStart } = malaysiaMonth();
-  const column = kind === "manual" ? "manual_published" : "ai_generated";
-  const limit = kind === "manual" ? plan.manualLimit : plan.aiLimit;
+  const column = kind === "manual" ? "manual_published" : kind === "ai" ? "ai_generated" : "ready_published";
+  const limit = kind === "manual" ? plan.manualLimit : kind === "ai" ? plan.aiLimit : plan.readyLimit;
   const result = await (client ?? getCikguDb()).query(`
     INSERT INTO teacher_monthly_usage (teacher_key, period_start, ${column}, teacher_id)
     VALUES ($1, $2::date, 1, $4)
     ON CONFLICT (teacher_key, period_start) DO UPDATE
       SET ${column} = teacher_monthly_usage.${column} + 1, teacher_id = COALESCE(teacher_monthly_usage.teacher_id, EXCLUDED.teacher_id), updated_at = NOW()
       WHERE teacher_monthly_usage.${column} < $3
-    RETURNING manual_published, ai_generated
+    RETURNING manual_published, ai_generated, ready_published
   `, [key, periodStart, limit, teacherId ?? null]);
   if (!result.rowCount) return undefined;
-  return quotaFromCounts(plan, Number(result.rows[0].manual_published), Number(result.rows[0].ai_generated));
+  return quotaFromCounts(plan, Number(result.rows[0].manual_published), Number(result.rows[0].ai_generated), Number(result.rows[0].ready_published));
 }
 
 export async function refundTeacherQuota(key: string, kind: QuotaKind) {
   await ensureQuotaTable();
   const { periodStart } = malaysiaMonth();
-  const column = kind === "manual" ? "manual_published" : "ai_generated";
+  const column = kind === "manual" ? "manual_published" : kind === "ai" ? "ai_generated" : "ready_published";
   await getCikguDb().query(`
     UPDATE teacher_monthly_usage SET ${column} = GREATEST(0, ${column} - 1), updated_at = NOW()
     WHERE teacher_key = $1 AND period_start = $2::date

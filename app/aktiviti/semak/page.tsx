@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 type Question = { id: string; subject: string; year: number; topic: string; question: string; choices: string[]; answer: string; explanation: string };
 type QuestionEdit = Pick<Question, "question" | "choices" | "answer" | "explanation">;
 type AccessMode = "delima" | "open";
-type Quota = { plan: { name: string; manualLimit: number; aiLimit: number; questionLimit: number }; manualRemaining: number; aiRemaining: number };
+type Quota = { plan: { name: string; manualLimit: number; aiLimit: number; readyLimit: number; questionLimit: number }; manualRemaining: number; aiRemaining: number; readyRemaining: number };
 
 function cleanQuestion(text: string) { return text.replace(/^[^:]{0,220}:\s*/, "").trim(); }
 function makeOwnerToken() { return `${crypto.randomUUID()}-${crypto.randomUUID()}`; }
@@ -27,11 +27,12 @@ export default function SemakAktivitiPage() {
   const [quota, setQuota] = useState<Quota | null>(null);
   const [creationMethod, setCreationMethod] = useState<"manual" | "ai" | "ready">("ready");
   const [aiReceipt, setAiReceipt] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     setTeacherName(window.localStorage.getItem("pandaikids-cikgu-display-name") ?? "");
     fetch("/api/cikgu-quota").then((response) => response.ok ? response.json() : undefined)
-      .then((result) => { if (result?.quota) setQuota(result.quota); })
+      .then((result) => { if (result?.quota) setQuota(result.quota); setAuthenticated(result?.authenticated === true); })
       .catch(() => undefined);
     const params = new URLSearchParams(window.location.search);
     const loadBank = async (key: string, ids: string[], savedEdits: Record<string, QuestionEdit> = {}) => {
@@ -106,6 +107,11 @@ export default function SemakAktivitiPage() {
   });
 
   const publishQuiz = async () => {
+    if (!authenticated) {
+      const next = `${window.location.pathname}${window.location.search}`;
+      window.location.href = `/log-masuk/?next=${encodeURIComponent(next)}`;
+      return;
+    }
     if (!questions.length || !bankKey || publishing) return;
     const cleanTeacherName = teacherName.replace(/^(?:Cikgu+\s*)+/i, "").trim();
     if (!cleanTeacherName) { setMessage("Masukkan nama cikgu untuk dipaparkan pada kuiz."); return; }
@@ -115,6 +121,7 @@ export default function SemakAktivitiPage() {
     const body = { id, ownerToken: token, bankKey, questionIds: currentQuestions.map((item) => item.id), edits: bankKey === "custom" ? {} : edits, customQuestions: bankKey === "custom" ? currentQuestions : undefined, corrections: corrections(), theme: "coral", accessMode, teacherName: cleanTeacherName, creationMethod, aiReceipt };
     const response = await fetch(quizId ? `/api/cikgu-quiz/${id}` : "/api/cikgu-quiz", { method: quizId ? "PATCH" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     const result = await response.json().catch(() => ({}));
+    if (response.status === 401) { const next = `${window.location.pathname}${window.location.search}`; window.location.href = `/log-masuk/?next=${encodeURIComponent(next)}`; return; }
     if (!response.ok) { setMessage(result.error ?? "Kuiz belum dapat diterbitkan."); setPublishing(false); return; }
     if (result.quota) setQuota(result.quota);
     window.localStorage.setItem(`pandaikids-cikgu-owner:${id}`, token);
@@ -139,9 +146,9 @@ export default function SemakAktivitiPage() {
         <div className={styles.navigation}><button disabled={index === 0} onClick={() => { setIndex((value) => value - 1); setEditing(false); }}>← Sebelum</button><span>{index + 1} / {questions.length}</span><button disabled={index + 1 === questions.length} onClick={() => { setIndex((value) => value + 1); setEditing(false); }}>Seterusnya →</button></div>
       </article>
       <section className={styles.publish}>
-        <div className={styles.publishCopy}><span>SIAP UNTUK DIKONGSI</span><h2>Terbitkan pautan untuk murid.</h2><p>Pilih cara murid masuk. Pautan yang sama boleh ditampal pada tugasan atau bahan dalam DELIMa.</p>{!quizId && bankKey === "custom" ? <p className={styles.quotaNotice}>{creationMethod === "ai" ? `Kuiz ini menggunakan kuota AI. Baki: ${quota?.aiRemaining ?? "–"} daripada ${quota?.plan.aiLimit ?? 3}.` : `Kuota hanya ditolak selepas pautan berjaya diterbitkan. Baki Buat Sendiri: ${quota?.manualRemaining ?? "–"} daripada ${quota?.plan.manualLimit ?? 5}.`}</p> : null}<label className={styles.teacherName}>Nama cikgu<input value={teacherName} onChange={(event) => setTeacherName(event.target.value)} placeholder="Contoh: Aisyah (tanpa perkataan Cikgu)" maxLength={80} required /></label>{message ? <p className={styles.publishMessage}>{message}</p> : null}</div>
+        <div className={styles.publishCopy}><span>SIAP UNTUK DIKONGSI</span><h2>Terbitkan pautan untuk murid.</h2><p>Pilih cara murid masuk. Pautan yang sama boleh ditampal pada tugasan atau bahan dalam DELIMa.</p>{!quizId ? <p className={styles.quotaNotice}>{bankKey !== "custom" ? `Baki Kuiz Siap: ${quota?.readyRemaining ?? "–"} daripada ${quota?.plan.readyLimit ?? 5}.` : creationMethod === "ai" ? `Kuiz ini menggunakan kuota AI. Baki: ${quota?.aiRemaining ?? "–"} daripada ${quota?.plan.aiLimit ?? 3}.` : `Kuota hanya ditolak selepas pautan berjaya diterbitkan. Baki Buat Sendiri: ${quota?.manualRemaining ?? "–"} daripada ${quota?.plan.manualLimit ?? 5}.`}</p> : null}<label className={styles.teacherName}>Nama cikgu<input value={teacherName} onChange={(event) => setTeacherName(event.target.value)} placeholder="Contoh: Aisyah (tanpa perkataan Cikgu)" maxLength={80} required /></label>{message ? <p className={styles.publishMessage}>{message}</p> : null}</div>
         <div className={styles.accessModes} aria-label="Cara murid masuk"><button type="button" disabled={!delimaConfigured} className={accessMode === "delima" ? styles.accessActive : ""} onClick={() => setAccessMode("delima")}><b>Akaun DELIMa</b><small>{delimaConfigured ? "Nama dikesan selepas pengesahan" : "Perlu Google Client ID"}</small></button><button type="button" className={accessMode === "open" ? styles.accessActive : ""} onClick={() => setAccessMode("open")}><b>Latihan terbuka</b><small>Murid taip nama sendiri</small></button></div>
-        <div className={styles.publishActions}>{quizUrl ? <a href={quizUrl} target="_blank" rel="noreferrer">Lihat sebagai murid ↗</a> : null}<button disabled={!canEdit || publishing} onClick={publishQuiz}>{publishing ? "Menyimpan…" : quizId ? "Simpan & salin pautan" : "Terbitkan & salin pautan"} <b>→</b></button></div>
+        <div className={styles.publishActions}>{quizUrl ? <a href={quizUrl} target="_blank" rel="noreferrer">Lihat sebagai murid ↗</a> : null}<button disabled={!canEdit || publishing} onClick={publishQuiz}>{publishing ? "Menyimpan…" : !authenticated ? "Log masuk & terbitkan" : quizId ? "Simpan & salin pautan" : "Terbitkan & salin pautan"} <b>→</b></button></div>
       </section>
     </section>
   </main>;

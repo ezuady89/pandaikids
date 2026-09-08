@@ -28,16 +28,24 @@ export default function BinaKuizPage() {
   const [quota, setQuota] = useState<Quota | null>(null);
   const [creationMethod, setCreationMethod] = useState<"manual" | "ai">("manual");
   const [aiReceipt, setAiReceipt] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     const requestedMethod = new URLSearchParams(window.location.search).get("cara");
-    if (requestedMethod === "ai") {
-      setMode("material");
-      setCreationMethod("ai");
-    }
-
     fetch("/api/cikgu-quota").then((response) => response.ok ? response.json() : undefined)
-      .then((result) => { if (result?.quota) setQuota(result.quota); })
+      .then((result) => {
+        if (result?.quota) setQuota(result.quota);
+        const signedIn = result?.authenticated === true;
+        setAuthenticated(signedIn);
+        if (requestedMethod === "ai") {
+          if (!signedIn) {
+            window.location.replace("/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai");
+            return;
+          }
+          setMode("material");
+          setCreationMethod("ai");
+        }
+      })
       .catch(() => undefined);
   }, []);
 
@@ -80,6 +88,10 @@ export default function BinaKuizPage() {
   };
 
   const generateQuestions = async () => {
+    if (!authenticated) {
+      window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai";
+      return;
+    }
     if (!validateMetadata() || busy) return;
     if (file && file.size > 4 * 1024 * 1024) { setMessage("Fail terlalu besar. Gunakan fail tidak melebihi 4 MB."); return; }
     setBusy(true); setMessage("Sedang membaca bahan dan menyusun soalan…");
@@ -90,6 +102,7 @@ export default function BinaKuizPage() {
     try {
       const response = await fetch("/api/cikgu-ai", { method: "POST", body: form });
       const result = await response.json().catch(() => ({}));
+      if (response.status === 401) { window.location.href = String(result.loginUrl ?? "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"); return; }
       if (!response.ok) throw new Error(result.error ?? "Soalan belum dapat dihasilkan.");
       const generated = (result.questions as GeneratedQuestion[]).map((question) => ({ ...question, id: crypto.randomUUID() }));
       setQuestions(generated); setActive(0); setMode("manual"); setCreationMethod("ai"); setAiReceipt(String(result.aiReceipt ?? ""));
@@ -107,9 +120,9 @@ export default function BinaKuizPage() {
 
       {mode === "choose" ? <div className={styles.modeGrid}>
         <button type="button" onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/buat-sendiri.webp" alt="" width={160} height={160} /></span><small>CARA 1 · BUAT SENDIRI</small><h2>Taip Soalan Sendiri</h2><p>Mulakan dengan 3 pilihan jawapan. Tambah jawapan D jika perlu.</p><strong className={styles.quotaBadge}>{quota ? `${quota.manualRemaining}/${quota.plan.manualLimit} kuiz percuma berbaki` : "5 kuiz percuma sebulan"}</strong><b>Bina sendiri <span>→</span></b></button>
-        <button type="button" onClick={() => { setMode("material"); setCreationMethod("ai"); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/guna-ai.webp" alt="" width={160} height={160} /></span><small>CARA 2 · GUNA AI</small><h2>Jana Soalan dengan AI</h2><p>Masukkan tajuk atau muat naik nota, gambar dan PDF. AI akan menyediakan soalannya.</p><strong className={styles.quotaBadge}>{quota ? `${quota.aiRemaining}/${quota.plan.aiLimit} penggunaan AI berbaki` : "3 penggunaan AI sebulan"}</strong><b>Jana dengan AI <span>→</span></b></button>
+        <button type="button" onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/guna-ai.webp" alt="" width={160} height={160} /></span><small>CARA 2 · GUNA AI</small><h2>Jana Soalan dengan AI</h2><p>Masukkan tajuk atau muat naik nota, gambar dan PDF. AI akan menyediakan soalannya.</p><strong className={styles.quotaBadge}>{quota ? `${quota.aiRemaining}/${quota.plan.aiLimit} penggunaan AI berbaki` : "3 penggunaan AI sebulan"}</strong><b>Jana dengan AI <span>→</span></b></button>
       </div> : <>
-        <div className={styles.modeSwitch}><button className={mode === "manual" ? styles.active : ""} onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}>Buat sendiri</button><button className={mode === "material" ? styles.active : ""} onClick={() => { setMode("material"); setCreationMethod("ai"); }}>Guna AI</button></div>
+        <div className={styles.modeSwitch}><button className={mode === "manual" ? styles.active : ""} onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}>Buat sendiri</button><button className={mode === "material" ? styles.active : ""} onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}>Guna AI</button></div>
         <section className={styles.workspace}>
           <div className={styles.metaGrid}><label>Subjek<select value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((item) => <option key={item}>{item}</option>)}</select></label><label>Tahun<select value={year} onChange={(event) => setYear(Number(event.target.value))}>{[1,2,3,4,5,6].map((item) => <option key={item} value={item}>Tahun {item}</option>)}</select></label><label className={styles.topic}>Tajuk pembelajaran<input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Contoh: Kata ganti nama" maxLength={160} /></label></div>
 

@@ -11,6 +11,7 @@ import {
   refundTeacherQuota,
 } from "@/lib/cikgu-quota";
 import { recordSystemEvent } from "@/lib/admin-events";
+import { readTeacherSession } from "@/lib/teacher-auth";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -66,6 +67,12 @@ function canGenerate(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const session = readTeacherSession(request);
+  if (!session) return NextResponse.json({
+    code: "LOGIN_REQUIRED",
+    error: "Log masuk sebagai cikgu untuk menggunakan AI.",
+    loginUrl: "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai",
+  }, { status: 401 });
   const identity = getTeacherQuotaIdentity(request);
   if (!canGenerate(request)) return attachTeacherQuotaCookie(NextResponse.json({ error: "Terlalu banyak percubaan dibuat serentak. Cuba semula dalam 10 minit." }, { status: 429 }), identity);
 
