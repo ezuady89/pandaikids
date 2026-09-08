@@ -28,6 +28,7 @@ export default async function SystemPage() {
           { label: "Cadangan guru", value: d.feedback.length },
           { label: "Callback berjaya", value: d.callback.success },
           { label: "Callback gagal", value: d.callback.failed },
+          { label: "Versi deployment", value: d.version },
         ]}
       />
 
