@@ -14,6 +14,7 @@ export type TeacherDashboardQuiz = {
   access_mode: "delima" | "open";
   question_count: number;
   responses: number;
+  students: number;
   average: number;
   last_response: Date | null;
 };
@@ -49,6 +50,7 @@ const quizSelect = `
     END access_mode,
     jsonb_array_length(COALESCE(q.question_ids,'[]'::jsonb))::int question_count,
     COALESCE(stats.responses,0)::int responses,
+    COALESCE(stats.students,0)::int students,
     COALESCE(stats.average,0)::int average,
     stats.last_response
   FROM teacher_quizzes q
@@ -62,6 +64,7 @@ const quizSelect = `
   LEFT JOIN LATERAL (
     SELECT
       COUNT(*)::int responses,
+      COUNT(DISTINCT lower(student_name))::int students,
       ROUND(AVG(score::numeric/NULLIF(total,0))*100)::int average,
       MAX(completed_at) last_response
     FROM quiz_attempts
@@ -106,6 +109,7 @@ export async function getTeacherDashboard(teacherId: string) {
 }
 
 export async function getTeacherQuizDetail(teacherId: string, quizId: string) {
+  await ensureCommerceTables();
   const db = getCikguDb();
   const quiz = await db.query(`${quizSelect} WHERE q.teacher_id=$1 AND q.id=$2 LIMIT 1`, [teacherId, quizId]);
   if (!quiz.rowCount) return undefined;
@@ -118,9 +122,9 @@ export async function getTeacherQuizDetail(teacherId: string, quizId: string) {
        total::int,
        duration_seconds::int,
        completed_at,
-       ROW_NUMBER() OVER (
+       (ROW_NUMBER() OVER (
          ORDER BY score DESC,duration_seconds ASC,completed_at ASC
-       )::int rank
+       ))::int rank
      FROM quiz_attempts
      WHERE quiz_id=$1
      ORDER BY score DESC,duration_seconds ASC,completed_at ASC
