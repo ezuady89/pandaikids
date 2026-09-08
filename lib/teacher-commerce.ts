@@ -1,6 +1,6 @@
 import { createHash, randomUUID, timingSafeEqual } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
-import { FREE_TEACHER_PLAN, TEACHER_PLANS, type TeacherPlan, type TeacherPlanId } from "@/lib/cikgu-plans";
+import { ADMIN_TEACHER_PLAN, FREE_TEACHER_PLAN, TEACHER_PLANS, type TeacherPlan, type TeacherPlanId } from "@/lib/cikgu-plans";
 
 type PaymentOrder = {
   id: string;
@@ -61,11 +61,17 @@ export async function getActiveTeacherPlan(teacherId?: string): Promise<TeacherP
   if (!teacherId) return FREE_TEACHER_PLAN;
   await ensureCommerceTables();
   const result = await getCikguDb().query(`
-    SELECT plan_id FROM teacher_subscriptions
-    WHERE teacher_id = $1 AND starts_at <= NOW() AND ends_at > NOW() AND cancelled_at IS NULL
-    ORDER BY CASE plan_id WHEN 'pro' THEN 2 ELSE 1 END DESC, ends_at DESC
-    LIMIT 1
+    SELECT t.email, (
+      SELECT s.plan_id FROM teacher_subscriptions s
+      WHERE s.teacher_id = t.id AND s.starts_at <= NOW() AND s.ends_at > NOW() AND s.cancelled_at IS NULL
+      ORDER BY CASE s.plan_id WHEN 'pro' THEN 2 ELSE 1 END DESC, s.ends_at DESC
+      LIMIT 1
+    ) plan_id
+    FROM teacher_accounts t WHERE t.id = $1 LIMIT 1
   `, [teacherId]);
+  const email = String(result.rows[0]?.email ?? "").trim().toLowerCase();
+  const configuredAdmins = (process.env.PANDAIKIDS_ADMIN_EMAILS ?? "").split(",").map((value) => value.trim().toLowerCase()).filter(Boolean);
+  if (email === "ezuady89@gmail.com" || configuredAdmins.includes(email)) return ADMIN_TEACHER_PLAN;
   const planId = result.rows[0]?.plan_id as TeacherPlanId | undefined;
   return planId && TEACHER_PLANS[planId] ? TEACHER_PLANS[planId] : FREE_TEACHER_PLAN;
 }
