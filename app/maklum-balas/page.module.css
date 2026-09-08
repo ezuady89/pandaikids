@@ -1,0 +1,211 @@
+.page {
+  min-height: 100svh;
+  padding: 0 20px 48px;
+  color: #173f3a;
+  background:
+    radial-gradient(circle at 8% 18%, rgba(255, 137, 119, 0.28), transparent 34%),
+    radial-gradient(circle at 90% 10%, rgba(255, 207, 139, 0.38), transparent 38%),
+    #fffaf4;
+  font-family: "Nunito", Arial, sans-serif;
+}
+
+.header {
+  height: 82px;
+  max-width: 920px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header img {
+  width: 184px;
+  height: auto;
+  display: block;
+}
+
+.header > a:last-child {
+  color: #17665e;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.card {
+  width: min(100%, 620px);
+  margin: 44px auto 0;
+  padding: 36px;
+  border: 1px solid rgba(23, 63, 58, 0.1);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 24px 60px rgba(91, 67, 45, 0.13);
+}
+
+.eyebrow {
+  margin: 0;
+  color: #dd6c60;
+  font-size: 11px;
+  font-weight: 1000;
+  letter-spacing: 0.13em;
+}
+
+.card h1 {
+  margin: 7px 0 0;
+  color: #084f49;
+  font-family: "Baloo 2", Arial, sans-serif;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.lead,
+.success > p:not(.eyebrow) {
+  margin: 14px 0 0;
+  color: #57756f;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.identity {
+  margin: 22px 0 18px;
+  padding: 13px 15px;
+  display: grid;
+  gap: 2px;
+  border-radius: 14px;
+  background: #f1faf7;
+}
+
+.identity b {
+  font-size: 14px;
+}
+
+.identity span {
+  color: #66827d;
+  font-size: 13px;
+}
+
+.card form {
+  display: grid;
+  gap: 17px;
+}
+
+.card label {
+  display: grid;
+  gap: 7px;
+  color: #315f59;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.card select,
+.card textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid rgba(10, 116, 107, 0.2);
+  border-radius: 13px;
+  background: #fffdfa;
+  color: #173f3b;
+  font: 800 15px "Nunito", Arial, sans-serif;
+  outline: none;
+}
+
+.card textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.card select:focus,
+.card textarea:focus {
+  border-color: #0c9d98;
+  box-shadow: 0 0 0 4px rgba(12, 157, 152, 0.1);
+}
+
+.card label small {
+  color: #78908b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.card button,
+.success a {
+  min-height: 52px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #078f93, #15b7b7);
+  box-shadow: 0 8px 0 #087a7b;
+  color: #fff;
+  text-decoration: none;
+  font: 1000 15px "Nunito", Arial, sans-serif;
+  cursor: pointer;
+}
+
+.error {
+  margin: 18px 0 0;
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: #fff0eb;
+  color: #b24d43;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.success {
+  padding: 16px 0;
+  text-align: center;
+}
+
+.success > span {
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #def6ef;
+  color: #078b80;
+  font-size: 34px;
+  font-weight: 1000;
+}
+
+.success .eyebrow {
+  text-align: center;
+}
+
+.success a {
+  margin-top: 25px;
+}
+
+@media (max-width: 620px) {
+  .page {
+    padding-inline: 14px;
+  }
+
+  .header {
+    height: 68px;
+    padding-inline: 3px;
+  }
+
+  .header img {
+    width: 148px;
+  }
+
+  .card {
+    margin-top: 24px;
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .card h1 {
+    font-size: 35px;
+  }
+
+  .lead,
+  .success > p:not(.eyebrow) {
+    font-size: 15px;
+  }
+}
