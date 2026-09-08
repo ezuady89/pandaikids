@@ -21,6 +21,12 @@ function fmtDate(value: Date | string) {
   return dateTime.format(new Date(value));
 }
 
+function identityLabel(source: "delima" | "open" | null) {
+  if (source === "delima") return "DELIMa disahkan";
+  if (source === "open") return "Nama ditaip";
+  return "Rekod terdahulu";
+}
+
 function fmtDuration(seconds: number) {
   const minutes = Math.floor(seconds / 60);
   const rest = seconds % 60;
@@ -76,7 +82,7 @@ export default async function TeacherActivityDetailPage({
 
         <section className={styles.summary} aria-label="Ringkasan keputusan">
           <article><span>Jumlah jawapan</span><strong>{data.attempts.length}</strong></article>
-          <article><span>Murid direkodkan</span><strong>{new Set(data.attempts.map((item) => item.student_name.toLowerCase())).size}</strong></article>
+          <article><span>Murid direkodkan</span><strong>{data.quiz.students}</strong></article>
           <article><span>Purata markah</span><strong>{data.quiz.responses ? `${data.quiz.average}%` : "—"}</strong></article>
           <article><span>Markah tertinggi</span><strong>{data.attempts.length ? `${topScore}%` : "—"}</strong></article>
         </section>
@@ -85,7 +91,7 @@ export default async function TeacherActivityDetailPage({
           <div className={styles.sectionHeading}>
             <div>
               <span>SENARAI JAWAPAN</span>
-              <h2>Prestasi murid</h2>
+              <h2>Nama dan prestasi murid</h2>
             </div>
             <small>Kemas kini apabila halaman dibuka semula</small>
           </div>
@@ -98,6 +104,7 @@ export default async function TeacherActivityDetailPage({
                     <tr>
                       <th>Kedudukan</th>
                       <th>Nama murid</th>
+                      <th>Sumber nama</th>
                       <th>Markah</th>
                       <th>Peratus</th>
                       <th>Masa</th>
@@ -109,6 +116,7 @@ export default async function TeacherActivityDetailPage({
                       <tr key={attempt.id}>
                         <td><b>#{attempt.rank}</b></td>
                         <td><strong>{attempt.student_name}</strong></td>
+                        <td><span className={attempt.identity_source === "delima" ? styles.identityBadge : styles.identityMuted}>{identityLabel(attempt.identity_source)}</span></td>
                         <td>{attempt.score}/{attempt.total}</td>
                         <td><span className={styles.scoreBadge}>{Math.round((attempt.score / attempt.total) * 100)}%</span></td>
                         <td>{fmtDuration(attempt.duration_seconds)}</td>
@@ -123,6 +131,7 @@ export default async function TeacherActivityDetailPage({
                 {data.attempts.map((attempt) => (
                   <article key={attempt.id}>
                     <header><b>#{attempt.rank} · {attempt.student_name}</b><span>{Math.round((attempt.score / attempt.total) * 100)}%</span></header>
+                    <p className={attempt.identity_source === "delima" ? styles.identityBadge : styles.identityMuted}>{identityLabel(attempt.identity_source)}</p>
                     <div><span>Markah <b>{attempt.score}/{attempt.total}</b></span><span>Masa <b>{fmtDuration(attempt.duration_seconds)}</b></span></div>
                     <small>{fmtDate(attempt.completed_at)}</small>
                   </article>
