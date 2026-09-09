@@ -1,4 +1,5 @@
 import { getCikguDb } from "@/lib/cikgu-db";
+import { ensureClickTrackingTable } from "@/lib/admin-clicks";
 
 export type AdminRange = { key: string; from: Date; to: Date; previousFrom: Date };
 
@@ -18,9 +19,10 @@ export function resolveAdminRange(key = "30d", from?: string, to?: string): Admi
 }
 
 export async function getOverview(range: AdminRange) {
+  await ensureClickTrackingTable();
   const db = getCikguDb();
   const values = [range.from, range.to];
-  const [metrics, alerts, revenueSeries, latestPayments] = await Promise.all([
+  const [metrics, alerts, revenueSeries, latestPayments, clickSummary] = await Promise.all([
     db.query(`SELECT
       COALESCE((SELECT SUM(amount_cents) FROM teacher_payment_orders WHERE status='PAID' AND paid_at >= date_trunc('month',NOW() AT TIME ZONE 'Asia/Kuala_Lumpur') AT TIME ZONE 'Asia/Kuala_Lumpur'),0)::bigint revenue_month,
       (SELECT COUNT(*) FROM teacher_accounts)::int teachers,
@@ -36,8 +38,9 @@ export async function getOverview(range: AdminRange) {
       UNION ALL SELECT 'Kuota mencapai 80%', COUNT(*)::int FROM teacher_monthly_usage u WHERE u.period_start=date_trunc('month',NOW())::date AND (u.ai_generated>=3 OR u.manual_published>=5)`, values.slice(0,2)),
     db.query(`SELECT to_char((day AT TIME ZONE 'Asia/Kuala_Lumpur')::date,'DD Mon') label, amount::bigint value FROM generate_series(GREATEST(date_trunc('day',$1::timestamptz),date_trunc('day',$2::timestamptz)-INTERVAL '6 days'),date_trunc('day',$2::timestamptz),INTERVAL '1 day') day LEFT JOIN LATERAL (SELECT COALESCE(SUM(amount_cents),0) amount FROM teacher_payment_orders WHERE status='PAID' AND paid_at>=day AND paid_at<day+INTERVAL '1 day') p ON true ORDER BY day`, values.slice(0,2)),
     db.query(`SELECT o.id,o.created_at,o.plan_id,o.amount_cents,o.status,o.external_reference,t.name,t.email FROM teacher_payment_orders o JOIN teacher_accounts t ON t.id=o.teacher_id ORDER BY o.created_at DESC LIMIT 5`),
+    db.query(`SELECT action,COUNT(*)::int clicks,COUNT(DISTINCT anonymous_key)::int visitors FROM admin_click_events WHERE created_at BETWEEN $1 AND $2 GROUP BY action`, values.slice(0,2)),
   ]);
-  return { metrics: metrics.rows[0], alerts: alerts.rows, revenueSeries: revenueSeries.rows, latestPayments: latestPayments.rows };
+  return { metrics: metrics.rows[0], alerts: alerts.rows, revenueSeries: revenueSeries.rows, latestPayments: latestPayments.rows, clickSummary: clickSummary.rows };
 }
 
 export async function getUsers(input: {q?: string; plan?: string; status?: string; page?: number}) {

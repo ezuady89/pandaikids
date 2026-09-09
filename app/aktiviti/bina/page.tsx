@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { ClickTracker } from "@/components/cikgu/ClickTracker";
 import styles from "./page.module.css";
 
 type Mode = "choose" | "manual" | "material";
@@ -114,15 +115,16 @@ export default function BinaKuizPage() {
   };
 
   return <main className={styles.page}>
+    <ClickTracker />
     <header className={styles.header}><a href="/"><Image src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" width={240} height={64} priority /></a><a href="/">← Kembali</a></header>
     <section className={styles.shell}>
       <div className={styles.intro}><span>BINA IKUT CARA CIKGU</span><h1>Pilih cara bina kuiz.</h1><p>Taip sendiri atau biar AI bantu.</p></div>
 
       {mode === "choose" ? <div className={styles.modeGrid}>
-        <button type="button" onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/buat-sendiri.webp" alt="" width={160} height={160} /></span><small>CARA 1 · BUAT SENDIRI</small><h2>Taip Soalan Sendiri</h2><p>Mulakan dengan 3 pilihan jawapan. Tambah jawapan D jika perlu.</p><strong className={styles.quotaBadge}>{quota ? `${quota.manualRemaining}/${quota.plan.manualLimit} kuiz percuma berbaki` : "5 kuiz percuma sebulan"}</strong><b>Bina sendiri <span>→</span></b></button>
-        <button type="button" onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/guna-ai.webp" alt="" width={160} height={160} /></span><small>CARA 2 · GUNA AI</small><h2>Jana Soalan dengan AI</h2><p>Masukkan tajuk atau muat naik nota, gambar dan PDF. AI akan menyediakan soalannya.</p><strong className={styles.quotaBadge}>{quota ? `${quota.aiRemaining}/${quota.plan.aiLimit} penggunaan AI berbaki` : "3 penggunaan AI sebulan"}</strong><b>Jana dengan AI <span>→</span></b></button>
+        <button type="button" data-track-click="MANUAL" onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/buat-sendiri.webp" alt="" width={160} height={160} /></span><small>CARA 1 · BUAT SENDIRI</small><h2>Taip Soalan Sendiri</h2><p>Mulakan dengan 3 pilihan jawapan. Tambah jawapan D jika perlu.</p><strong className={styles.quotaBadge}>{quota ? `${quota.manualRemaining}/${quota.plan.manualLimit} kuiz percuma berbaki` : "5 kuiz percuma sebulan"}</strong><b>Bina sendiri <span>→</span></b></button>
+        <button type="button" data-track-click="AI" onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/guna-ai.webp" alt="" width={160} height={160} /></span><small>CARA 2 · GUNA AI</small><h2>Jana Soalan dengan AI</h2><p>Masukkan tajuk atau muat naik nota, gambar dan PDF. AI akan menyediakan soalannya.</p><strong className={styles.quotaBadge}>{quota ? `${quota.aiRemaining}/${quota.plan.aiLimit} penggunaan AI berbaki` : "3 penggunaan AI sebulan"}</strong><b>Jana dengan AI <span>→</span></b></button>
       </div> : <>
-        <div className={styles.modeSwitch}><button className={mode === "manual" ? styles.active : ""} onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}>Buat sendiri</button><button className={mode === "material" ? styles.active : ""} onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}>Guna AI</button></div>
+        <div className={styles.modeSwitch}><button data-track-click="MANUAL" className={mode === "manual" ? styles.active : ""} onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}>Buat sendiri</button><button data-track-click="AI" className={mode === "material" ? styles.active : ""} onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}>Guna AI</button></div>
         <section className={styles.workspace}>
           <div className={styles.metaGrid}><label>Subjek<select value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((item) => <option key={item}>{item}</option>)}</select></label><label>Tahun<select value={year} onChange={(event) => setYear(Number(event.target.value))}>{[1,2,3,4,5,6].map((item) => <option key={item} value={item}>Tahun {item}</option>)}</select></label><label className={styles.topic}>Tajuk pembelajaran<input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Contoh: Kata ganti nama" maxLength={160} /></label></div>
 

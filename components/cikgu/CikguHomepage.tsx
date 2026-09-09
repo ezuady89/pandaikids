@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ClickTracker } from "./ClickTracker";
 import styles from "./CikguHomepage.module.css";
 
 type IconName =
@@ -235,8 +236,8 @@ function MobileNavigation() {
         <Icon name="menu" />
       </summary>
       <div>
-        <Link href="/#kuiz">Aktiviti Siap</Link>
-        <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
+        <Link href="/#kuiz" data-track-click="READY">Aktiviti Siap</Link>
+        <a href="/aktiviti/bina/?cara=ai" data-track-click="AI">Bina dengan AI</a>
         <Link href="/#cara">Cara Guna</Link>
         <a href="/harga/">Harga</a>
         <Link href="/log-masuk/?next=%2Fdashboard%2F">Dashboard Guru</Link>
@@ -315,6 +316,7 @@ function ProductPreview() {
 export function CikguHomepage() {
   return (
     <main className={styles.page}>
+      <ClickTracker />
       <section className={styles.hero} id="utama">
         <header className={styles.header}>
           <a
@@ -331,8 +333,8 @@ export function CikguHomepage() {
             />
           </a>
           <nav className={styles.navigation} aria-label="Navigasi utama">
-            <a href="#kuiz">Aktiviti Siap</a>
-            <a href="/aktiviti/bina/?cara=ai">Bina dengan AI</a>
+            <a href="#kuiz" data-track-click="READY">Aktiviti Siap</a>
+            <a href="/aktiviti/bina/?cara=ai" data-track-click="AI">Bina dengan AI</a>
             <a href="#cara">Cara Guna</a>
             <a href="/harga/">Harga</a>
             <a href="/log-masuk/?next=%2Fdashboard%2F">Dashboard Guru</a>
@@ -354,10 +356,10 @@ export function CikguHomepage() {
               Cikgu boleh semak dahulu sebelum berkongsi.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.customButton} href="/aktiviti/bina/?cara=ai">
+              <a className={styles.customButton} href="/aktiviti/bina/?cara=ai" data-track-click="AI">
                 <Icon name="sparkle" /> Bina dengan AI
               </a>
-              <a className={styles.readyButton} href="#kuiz">
+              <a className={styles.readyButton} href="#kuiz" data-track-click="READY">
                 Pilih Kuiz Siap
               </a>
             </div>
@@ -455,6 +457,7 @@ export function CikguHomepage() {
             <a
               className={styles.quizCard}
               href={`/aktiviti/pilih/?subjek=${encodeURIComponent(quiz.name)}`}
+              data-track-click="READY"
               key={quiz.name}
             >
               <span className={styles.quizIcon}>
