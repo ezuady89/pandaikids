@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ClickTracker } from "@/components/cikgu/ClickTracker";
 import styles from "./page.module.css";
@@ -116,7 +117,7 @@ export default function BinaKuizPage() {
 
   return <main className={styles.page}>
     <ClickTracker />
-    <header className={styles.header}><a href="/"><Image src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" width={240} height={64} priority /></a><a href="/">← Kembali</a></header>
+    <header className={styles.header}><Link href="/"><Image src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" width={240} height={64} priority /></Link><Link href="/">← Kembali</Link></header>
     <section className={styles.shell}>
       <div className={styles.intro}><span>BINA IKUT CARA CIKGU</span><h1>Pilih cara bina kuiz.</h1><p>Taip sendiri atau biar AI bantu.</p></div>
 
@@ -129,7 +130,7 @@ export default function BinaKuizPage() {
           <div className={styles.metaGrid}><label>Subjek<select value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((item) => <option key={item}>{item}</option>)}</select></label><label>Tahun<select value={year} onChange={(event) => setYear(Number(event.target.value))}>{[1,2,3,4,5,6].map((item) => <option key={item} value={item}>Tahun {item}</option>)}</select></label><label className={styles.topic}>Tajuk pembelajaran<input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Contoh: Kata ganti nama" maxLength={160} /></label></div>
 
           {mode === "material" ? <div className={styles.materialPanel}>
-            <div className={styles.materialTop}><div><small>AI BANTU CIKGU</small><h2>AI hasilkan soalan secara automatik.</h2><p className={styles.quotaLine}>{quota ? `Baki AI bulan ini: ${quota.aiRemaining} daripada ${quota.plan.aiLimit}` : "Pakej Percuma: 3 penggunaan AI sebulan"}</p></div><label>Bilangan<select value={count} onChange={(event) => setCount(Number(event.target.value))}>{[5,10,15,20].map((item) => <option key={item} value={item}>{item} soalan</option>)}</select></label></div>
+            <div className={styles.materialTop}><div><small>AI BANTU CIKGU</small><h2>AI baca isi nota dan hasilkan soalan.</h2><p>Soalan menguji isi pelajaran, bukan rupa poster atau ikon.</p><p className={styles.quotaLine}>{quota ? `Baki AI bulan ini: ${quota.aiRemaining} daripada ${quota.plan.aiLimit}` : "Pakej Percuma: 3 penggunaan AI sebulan"}</p></div><label>Bilangan<select value={count} onChange={(event) => setCount(Number(event.target.value))}>{[5,10,15,20].map((item) => <option key={item} value={item}>{item} soalan</option>)}</select></label></div>
             <label>Nota atau kandungan teks <textarea value={material} onChange={(event) => setMaterial(event.target.value)} placeholder="Tampal kandungan nota di sini, atau hanya masukkan tajuk di atas…" maxLength={16000} /></label>
             <div className={styles.uploadRow}><label className={styles.upload}><input type="file" accept=".pdf,.txt,image/jpeg,image/png,image/webp" onChange={(event) => setFile(event.target.files?.[0] ?? null)} /><span>＋ Pilih gambar, PDF atau teks</span><small>{file ? file.name : "Maksimum 4 MB"}</small></label><button className={styles.generate} disabled={busy || quota?.aiRemaining === 0} type="button" onClick={generateQuestions}>{busy ? "Sedang menghasilkan…" : quota?.aiRemaining === 0 ? "Kuota AI bulan ini habis" : "Jana Soalan dengan AI"} <span>✦</span></button></div>
           </div> : <div className={styles.manualPanel}>
