@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { recordWebsiteClick, type WebsiteClickAction } from "@/lib/admin-clicks";
+import { isAdminEmail } from "@/lib/admin-auth";
 import { readTeacherSession } from "@/lib/teacher-auth";
 
 export const runtime = "nodejs";
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
   const savedVisitor = request.cookies.get(COOKIE)?.value;
   const anonymousId = savedVisitor && /^[a-f0-9-]{36}$/i.test(savedVisitor) ? savedVisitor : randomUUID();
   const session = readTeacherSession(request);
+  if (session && isAdminEmail(session.email)) return new NextResponse(null, { status: 204 });
 
   await recordWebsiteClick(body.action as WebsiteClickAction, {
     anonymousId,
