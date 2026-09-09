@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     error: "Log masuk sebagai cikgu sebelum menerbitkan kuiz.",
     loginUrl: "/log-masuk/",
   }, { status: 401 });
-  const identity = getTeacherQuotaIdentity(request);
+  const identity = await getTeacherQuotaIdentity(request);
   try {
     const body = await request.json() as QuizBody;
     const currentQuota = await readTeacherQuota(identity.key, identity.teacherId);
