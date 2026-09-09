@@ -37,6 +37,25 @@ function parseGeneratedQuestions(text: string) {
   return generatedSchema.parse(JSON.parse(unfenced.slice(start, end + 1)));
 }
 
+const visualQuestionPatterns = [
+  /\b(?:poster|imej|gambar|ilustrasi|paparan|reka bentuk)\b/i,
+  /\b(?:ikon|lambang|logo|warna|maskot|alamat laman web|nama laman web|font|jenis tulisan)\b/i,
+  /\b(?:penjuru|sudut|bahagian atas|bahagian bawah|di sebelah|di tengah)\b/i,
+  /\b(?:dalam|pada)\s+(?:bahagian|nota|bahan)\b/i,
+];
+
+function hasVisualOrDocumentQuestion(question: z.infer<typeof generatedSchema>["questions"][number]) {
+  const text = `${question.question} ${question.explanation}`;
+  return visualQuestionPatterns.some((pattern) => pattern.test(text));
+}
+
+function generatedQuestionsNeedCorrection(output: z.infer<typeof generatedSchema>, count: number) {
+  if (output.questions.length !== count) return true;
+  if (output.questions.some(hasVisualOrDocumentQuestion)) return true;
+  const normalized = output.questions.map(({ question }) => question.toLocaleLowerCase("ms-MY").replace(/[^a-z0-9]+/gi, " ").trim());
+  return new Set(normalized).size !== normalized.length;
+}
+
 function safeDiagnostic(error: unknown) {
   const parts: string[] = [];
   let current: unknown = error;
@@ -101,6 +120,11 @@ export async function POST(request: NextRequest) {
 
     const instruction = [
       `Hasilkan tepat ${count} soalan kuiz aneka pilihan untuk ${subject}, Tahun ${year}, tajuk “${topic}”.`,
+      "TUGAS UTAMA: Uji kefahaman murid terhadap ISI PELAJARAN dan fakta penting dalam bahan. Gambar, poster atau PDF hanyalah sumber untuk membaca isi nota.",
+      "Murid TIDAK akan melihat bahan asal ketika menjawab. Oleh itu setiap soalan mesti lengkap, berdiri sendiri dan boleh dijawab tanpa melihat gambar, poster, PDF atau nota tersebut.",
+      "DILARANG bertanya tentang rupa atau susun atur bahan: tajuk di atas, teks di bawah, penjuru, bahagian, warna, ikon, lambang, logo, maskot, haiwan dalam gambar, alamat laman web, nama jenama, jenis tulisan atau kedudukan sesuatu objek.",
+      "DILARANG menggunakan frasa seperti ‘berdasarkan poster’, ‘dalam gambar’, ‘pada nota’, ‘dalam bahagian Fakta Penting’ atau apa-apa rujukan kepada dokumen asal.",
+      "Abaikan hiasan, logo dan maklumat penerbit. Ambil hanya fakta pembelajaran. Pelbagaikan soalan kepada ingatan fakta, kefahaman sebab/tujuan dan aplikasi mudah yang benar-benar disokong oleh isi bahan.",
       "Gunakan Bahasa Melayu yang mudah difahami murid sekolah rendah Malaysia, kecuali subjek Bahasa Inggeris yang perlu menggunakan bahasa Inggeris.",
       "Setiap soalan mesti mempunyai tepat empat pilihan jawapan yang munasabah dan hanya satu jawapan betul.",
       "Elakkan soalan mengelirukan, fakta yang tidak terdapat dalam bahan, kandungan sensitif dan arahan yang meminta maklumat peribadi murid.",
@@ -113,25 +137,34 @@ export async function POST(request: NextRequest) {
           : "Tiada bahan dilampirkan. Hasilkan soalan berdasarkan tajuk yang diberi dan pengetahuan kurikulum sekolah rendah Malaysia.",
     ].join("\n\n");
 
-    const content: UserContent = file
+    const fileData = file ? new Uint8Array(await file.arrayBuffer()) : undefined;
+    const buildContent = (extraInstruction = ""): UserContent => file && fileData
       ? [
-          { type: "text", text: instruction },
-          { type: "file", data: new Uint8Array(await file.arrayBuffer()), mediaType: file.type, filename: file.name },
+          { type: "text", text: `${instruction}${extraInstruction}` },
+          { type: "file", data: fileData, mediaType: file.type, filename: file.name },
         ]
-      : instruction;
+      : `${instruction}${extraInstruction}`;
 
     const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_GENERATIVE_AI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY_MISSING");
 
     const google = createGoogleGenerativeAI({ apiKey });
     const model = process.env.PANDAIKIDS_GEMINI_MODEL ?? "gemini-3.5-flash-lite";
-    const { text } = await generateText({
-      model: google(model),
-      messages: [{ role: "user", content }],
-      maxOutputTokens: 5000,
-      temperature: 0.2,
-    });
-    const output = parseGeneratedQuestions(text);
+    const generateDraft = async (extraInstruction = "") => {
+      const { text } = await generateText({
+        model: google(model),
+        messages: [{ role: "user", content: buildContent(extraInstruction) }],
+        maxOutputTokens: 5000,
+        temperature: extraInstruction ? 0.1 : 0.2,
+      });
+      return parseGeneratedQuestions(text);
+    };
+
+    let output = await generateDraft();
+    if (generatedQuestionsNeedCorrection(output, count)) {
+      output = await generateDraft("\n\nPEMBETULAN WAJIB: Draf sebelumnya gagal kerana mengandungi soalan tentang rupa/dokumen, soalan berulang atau bilangan tidak tepat. Tulis semula semua soalan. Gunakan fakta isi pelajaran sahaja dan pastikan murid boleh menjawab tanpa melihat bahan asal.");
+    }
+    if (generatedQuestionsNeedCorrection(output, count)) throw new Error("AI_QUESTION_QUALITY_FAILED");
     if (output.questions.length) {
       await recordSystemEvent({ eventType: "AI", route: "/api/cikgu-ai", status: "SUCCESS", teacherId: identity.teacherId, metadata: { count: output.questions.length } });
       return attachTeacherQuotaCookie(NextResponse.json({ questions: output.questions, quota, aiReceipt: createAiReceipt(identity.key) }), identity);
