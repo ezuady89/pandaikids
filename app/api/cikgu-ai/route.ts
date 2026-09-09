@@ -49,11 +49,15 @@ function hasVisualOrDocumentQuestion(question: z.infer<typeof generatedSchema>["
   return visualQuestionPatterns.some((pattern) => pattern.test(text));
 }
 
-function generatedQuestionsNeedCorrection(output: z.infer<typeof generatedSchema>, count: number) {
-  if (output.questions.length !== count) return true;
-  if (output.questions.some(hasVisualOrDocumentQuestion)) return true;
-  const normalized = output.questions.map(({ question }) => question.toLocaleLowerCase("ms-MY").replace(/[^a-z0-9]+/gi, " ").trim());
-  return new Set(normalized).size !== normalized.length;
+function selectContentQuestions(questions: z.infer<typeof generatedSchema>["questions"]) {
+  const seen = new Set<string>();
+  return questions.filter((question) => {
+    if (hasVisualOrDocumentQuestion(question)) return false;
+    const normalized = question.question.toLocaleLowerCase("ms-MY").replace(/[^a-z0-9]+/gi, " ").trim();
+    if (!normalized || seen.has(normalized)) return false;
+    seen.add(normalized);
+    return true;
+  });
 }
 
 function safeDiagnostic(error: unknown) {
@@ -92,7 +96,7 @@ export async function POST(request: NextRequest) {
     error: "Log masuk sebagai cikgu untuk menggunakan AI.",
     loginUrl: "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai",
   }, { status: 401 });
-  const identity = getTeacherQuotaIdentity(request);
+  const identity = await getTeacherQuotaIdentity(request);
   if (!canGenerate(request)) return attachTeacherQuotaCookie(NextResponse.json({ error: "Terlalu banyak percubaan dibuat serentak. Cuba semula dalam 10 minit." }, { status: 429 }), identity);
 
   let quotaClaimed = false;
@@ -160,11 +164,14 @@ export async function POST(request: NextRequest) {
       return parseGeneratedQuestions(text);
     };
 
-    let output = await generateDraft();
-    if (generatedQuestionsNeedCorrection(output, count)) {
-      output = await generateDraft("\n\nPEMBETULAN WAJIB: Draf sebelumnya gagal kerana mengandungi soalan tentang rupa/dokumen, soalan berulang atau bilangan tidak tepat. Tulis semula semua soalan. Gunakan fakta isi pelajaran sahaja dan pastikan murid boleh menjawab tanpa melihat bahan asal.");
+    const firstDraft = await generateDraft();
+    let contentQuestions = selectContentQuestions(firstDraft.questions);
+    if (contentQuestions.length < count) {
+      const correctedDraft = await generateDraft("\n\nPEMBETULAN WAJIB: Hasilkan set alternatif yang langsung tidak menyebut rupa atau dokumen. Gunakan fakta isi pelajaran sahaja dan pastikan murid boleh menjawab tanpa melihat bahan asal.");
+      contentQuestions = selectContentQuestions([...contentQuestions, ...correctedDraft.questions]);
     }
-    if (generatedQuestionsNeedCorrection(output, count)) throw new Error("AI_QUESTION_QUALITY_FAILED");
+    if (!contentQuestions.length) throw new Error("AI_QUESTION_QUALITY_FAILED");
+    const output = { questions: contentQuestions.slice(0, count) };
     if (output.questions.length) {
       await recordSystemEvent({ eventType: "AI", route: "/api/cikgu-ai", status: "SUCCESS", teacherId: identity.teacherId, metadata: { count: output.questions.length } });
       return attachTeacherQuotaCookie(NextResponse.json({ questions: output.questions, quota, aiReceipt: createAiReceipt(identity.key) }), identity);
