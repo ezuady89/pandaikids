@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
         readyRemaining: FREE_TEACHER_PLAN.readyLimit,
       },
     });
-    const identity = getTeacherQuotaIdentity(request);
+    const identity = await getTeacherQuotaIdentity(request);
     const quota = await readTeacherQuota(identity.key, identity.teacherId);
     return NextResponse.json({ authenticated: true, user: { name: session.name, email: session.email }, quota });
   } catch (error) {

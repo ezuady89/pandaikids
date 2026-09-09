@@ -3,7 +3,7 @@ import type { NextRequest, NextResponse } from "next/server";
 import type { PoolClient } from "pg";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { type TeacherPlan } from "@/lib/cikgu-plans";
-import { readTeacherSession } from "@/lib/teacher-auth";
+import { ensureTeacherTable, readTeacherSession } from "@/lib/teacher-auth";
 import { getActiveTeacherPlan } from "@/lib/teacher-commerce";
 
 const COOKIE_NAME = "pandaikids_teacher";
@@ -41,9 +41,29 @@ function quotaSecret() {
   return process.env.PANDAIKIDS_QUOTA_SECRET ?? process.env.DATABASE_URL ?? "pandaikids-local-quota";
 }
 
-export function getTeacherQuotaIdentity(request: NextRequest): TeacherQuotaIdentity {
+export async function getTeacherQuotaIdentity(request: NextRequest): Promise<TeacherQuotaIdentity> {
   const session = readTeacherSession(request);
-  if (session) return { id: session.teacherId, key: teacherKey(session.teacherId), isNew: false, teacherId: session.teacherId };
+  if (session) {
+    await ensureTeacherTable();
+    const db = getCikguDb();
+    const existing = await db.query(
+      "SELECT id FROM teacher_accounts WHERE id = $1 OR email = $2 ORDER BY CASE WHEN id = $1 THEN 0 ELSE 1 END LIMIT 1",
+      [session.teacherId, session.email.toLowerCase()],
+    );
+    let teacherId = String(existing.rows[0]?.id ?? "");
+    if (!teacherId) {
+      const recoveredSubject = `recovered:${teacherKey(session.email.toLowerCase())}`;
+      const recovered = await db.query(
+        `INSERT INTO teacher_accounts (id, google_subject, email, name)
+         VALUES ($1, $2, $3, $4)
+         ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name, updated_at = NOW(), last_login_at = NOW()
+         RETURNING id`,
+        [session.teacherId, recoveredSubject, session.email.toLowerCase(), session.name],
+      );
+      teacherId = String(recovered.rows[0].id);
+    }
+    return { id: teacherId, key: teacherKey(teacherId), isNew: false, teacherId };
+  }
   const saved = request.cookies.get(COOKIE_NAME)?.value;
   const id = saved && /^[a-f0-9-]{36}$/i.test(saved) ? saved : randomUUID();
   return { id, key: teacherKey(id), isNew: !saved };
