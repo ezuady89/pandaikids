@@ -23,6 +23,12 @@ export default async function OverviewPage({searchParams}:{searchParams:Promise<
   const m=data.metrics;
   const actionableAlerts=data.alerts.filter(a=>Number(a.count)>0);
   const recentRevenue=data.revenueSeries.slice(-7);
+  const clickFor=(action:string)=>data.clickSummary.find(row=>row.action===action)??{clicks:0,visitors:0};
+  const clickCards=[
+    {label:"Cara 1 · Buat sendiri",data:clickFor("MANUAL")},
+    {label:"Cara 2 · Guna AI",data:clickFor("AI")},
+    {label:"Kuiz Siap Pandaikids",data:clickFor("READY")},
+  ];
   return <>
     <PageHeader eyebrow="Pusat kawalan" title="Overview" description="Ringkasan penting Pandaikids. Butiran lengkap tersedia melalui menu di sebelah."/>
     <form className={styles.filters}><select name="range" defaultValue={range.key}><option value="today">Hari ini</option><option value="7d">7 hari</option><option value="30d">30 hari</option><option value="month">Bulan ini</option></select><button>Terapkan</button></form>
@@ -34,6 +40,9 @@ export default async function OverviewPage({searchParams}:{searchParams:Promise<
       {label:"Pelajar aktif",value:m.active_students,hint:"Mengikut tempoh dipilih",href:"/admin/aktiviti"},
       {label:"Penggunaan AI",value:m.ai,hint:"Mengikut tempoh dipilih",href:"/admin/ai-kuota"},
     ]}/>
+    <Panel title="Pilihan yang diklik" description="Orang ialah pelayar unik dalam tempoh dipilih; tiada nama atau e-mel pelawat disimpan.">
+      <div className={styles.clickGrid}>{clickCards.map(item=><article className={styles.clickCard} key={item.label}><small>{item.label}</small><div><strong>{item.data.visitors}</strong><span>orang</span></div><p>{item.data.clicks} jumlah klik</p></article>)}</div>
+    </Panel>
     <div className={styles.twoCols}>
       <Panel title="Perlu tindakan">{actionableAlerts.length?<div className={styles.alertList}>{actionableAlerts.map(a=><Link href={String(a.label).includes("Bayaran")?"/admin/kewangan":"/admin/sistem"} className={styles.alert} key={a.label}><b>{a.label}</b><strong>{a.count}</strong></Link>)}</div>:<Empty text="Tiada perkara mendesak."/>}</Panel>
       <Panel title="Hasil 7 hari terakhir" description="Transaksi PAID sahaja.">{recentRevenue.length?<SimpleBars rows={recentRevenue} valueFormatter={money}/>:<Empty/>}</Panel>
