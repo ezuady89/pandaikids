@@ -3,6 +3,24 @@ import { ensureClickTrackingTable } from "@/lib/admin-clicks";
 
 export type AdminRange = { key: string; from: Date; to: Date; previousFrom: Date };
 
+export function teacherJourneyLabel(stage: unknown, message?: unknown) {
+  const labels: Record<string, string> = {
+    LOGIN_SUCCESS: "Log masuk sahaja",
+    AI_FORM_VIEW: "Buka borang AI",
+    AI_INPUT_STARTED: "Mula isi bahan",
+    AI_GENERATE_CLICKED: "Tekan butang jana",
+    AI_GENERATED: "Soalan AI berjaya dijana",
+    AI_FAILED: "Jana AI gagal",
+    AI_REQUEST_BLOCKED: "Jana AI tersekat",
+    REVIEW_OPENED: "Sedang semak soalan",
+    QUIZ_PUBLISHED: "Kuiz diterbitkan",
+    SUCCESS: "Soalan AI berjaya dijana",
+    FAILED: "Jana AI gagal",
+  };
+  const label = labels[String(stage ?? "")] ?? "Log masuk sahaja";
+  return message && ["AI_FAILED", "AI_REQUEST_BLOCKED", "FAILED"].includes(String(stage ?? "")) ? `${label}: ${String(message)}` : label;
+}
+
 export function resolveAdminRange(key = "30d", from?: string, to?: string): AdminRange {
   const now = new Date();
   const malaysiaNow = new Date(now.getTime() + 8 * 60 * 60 * 1000);
@@ -47,9 +65,9 @@ export async function getUsers(input: {q?: string; plan?: string; status?: strin
   const page = Math.max(1, input.page ?? 1), limit = 20, offset = (page - 1) * limit;
   const q = `%${input.q?.trim() ?? ""}%`, plan = input.plan ?? "all", status = input.status ?? "all";
   const db = getCikguDb();
-  const base = `FROM teacher_accounts t LEFT JOIN LATERAL (SELECT s.* FROM teacher_subscriptions s WHERE s.teacher_id=t.id ORDER BY s.ends_at DESC LIMIT 1) s ON true LEFT JOIN LATERAL (SELECT COUNT(*)::int activities FROM teacher_quizzes q WHERE q.teacher_id=t.id) qa ON true LEFT JOIN LATERAL (SELECT COALESCE(SUM(amount_cents),0)::bigint paid FROM teacher_payment_orders o WHERE o.teacher_id=t.id AND o.status='PAID') po ON true WHERE (t.name ILIKE $1 OR t.email ILIKE $1) AND ($2='all' OR COALESCE(s.plan_id,'free')=$2) AND ($3='all' OR ($3='active' AND s.ends_at>NOW() AND s.cancelled_at IS NULL) OR ($3='expired' AND s.ends_at<=NOW()) OR ($3='none' AND s.id IS NULL))`;
+  const base = `FROM teacher_accounts t LEFT JOIN LATERAL (SELECT s.* FROM teacher_subscriptions s WHERE s.teacher_id=t.id ORDER BY s.ends_at DESC LIMIT 1) s ON true LEFT JOIN LATERAL (SELECT COUNT(*)::int activities FROM teacher_quizzes q WHERE q.teacher_id=t.id) qa ON true LEFT JOIN LATERAL (SELECT COALESCE(SUM(ai_generated),0)::int ai_generated FROM teacher_monthly_usage u WHERE u.teacher_id=t.id) qu ON true LEFT JOIN LATERAL (SELECT e.status journey_stage,e.message journey_message,e.created_at journey_at FROM admin_system_events e WHERE e.teacher_id=t.id AND e.event_type='TEACHER_JOURNEY' ORDER BY e.created_at DESC LIMIT 1) je ON true LEFT JOIN LATERAL (SELECT COALESCE(SUM(amount_cents),0)::bigint paid FROM teacher_payment_orders o WHERE o.teacher_id=t.id AND o.status='PAID') po ON true WHERE (t.name ILIKE $1 OR t.email ILIKE $1) AND ($2='all' OR COALESCE(s.plan_id,'free')=$2) AND ($3='all' OR ($3='active' AND s.ends_at>NOW() AND s.cancelled_at IS NULL) OR ($3='expired' AND s.ends_at<=NOW()) OR ($3='none' AND s.id IS NULL))`;
   const [rows,count,subscriptions] = await Promise.all([
-    db.query(`SELECT t.id,t.name,t.email,t.created_at,t.last_login_at,COALESCE(s.plan_id,'free') plan_id,s.starts_at,s.ends_at,s.cancelled_at,COALESCE(qa.activities,0)::int activities,COALESCE(po.paid,0)::bigint paid ${base} ORDER BY t.created_at DESC LIMIT $4 OFFSET $5`,[q,plan,status,limit,offset]),
+    db.query(`SELECT t.id,t.name,t.email,t.created_at,t.last_login_at,COALESCE(s.plan_id,'free') plan_id,s.starts_at,s.ends_at,s.cancelled_at,COALESCE(qa.activities,0)::int activities,COALESCE(qu.ai_generated,0)::int ai_generated,je.journey_stage,je.journey_message,je.journey_at,COALESCE(po.paid,0)::bigint paid ${base} ORDER BY t.created_at DESC LIMIT $4 OFFSET $5`,[q,plan,status,limit,offset]),
     db.query(`SELECT COUNT(*)::int count ${base}`,[q,plan,status]),
     db.query(`SELECT s.id,s.teacher_id,t.name,t.email,s.plan_id,s.starts_at,s.ends_at,s.cancelled_at,s.source,s.payment_order_id,CEIL(EXTRACT(EPOCH FROM(s.ends_at-NOW()))/86400)::int days_left FROM teacher_subscriptions s JOIN teacher_accounts t ON t.id=s.teacher_id ORDER BY s.ends_at DESC LIMIT 100`),
   ]);
@@ -58,15 +76,16 @@ export async function getUsers(input: {q?: string; plan?: string; status?: strin
 
 export async function getTeacherDetail(id:string) {
   const db=getCikguDb();
-  const [teacher,subscriptions,payments,activities,usage,audits]=await Promise.all([
+  const [teacher,subscriptions,payments,activities,usage,audits,journey]=await Promise.all([
     db.query("SELECT id,name,email,created_at,updated_at,last_login_at FROM teacher_accounts WHERE id=$1",[id]),
     db.query("SELECT * FROM teacher_subscriptions WHERE teacher_id=$1 ORDER BY starts_at DESC",[id]),
     db.query("SELECT id,plan_id,amount_cents,status,toyyibpay_bill_code,external_reference,paid_at,created_at FROM teacher_payment_orders WHERE teacher_id=$1 ORDER BY created_at DESC",[id]),
     db.query("SELECT q.id,q.source_bank,q.created_at,COUNT(a.id)::int responses,ROUND(AVG(a.score::numeric/NULLIF(a.total,0))*100)::int average FROM teacher_quizzes q LEFT JOIN quiz_attempts a ON a.quiz_id=q.id WHERE q.teacher_id=$1 GROUP BY q.id ORDER BY q.created_at DESC LIMIT 50",[id]),
     db.query("SELECT period_start,manual_published,ai_generated,updated_at FROM teacher_monthly_usage WHERE teacher_id=$1 ORDER BY period_start DESC",[id]),
-    db.query("SELECT * FROM admin_audit_logs WHERE target_id=$1 ORDER BY created_at DESC LIMIT 50",[id])
+    db.query("SELECT * FROM admin_audit_logs WHERE target_id=$1 ORDER BY created_at DESC LIMIT 50",[id]),
+    db.query("SELECT event_type,status,message,metadata,created_at FROM admin_system_events WHERE teacher_id=$1 AND event_type='TEACHER_JOURNEY' ORDER BY created_at DESC LIMIT 50",[id])
   ]);
-  return {teacher:teacher.rows[0],subscriptions:subscriptions.rows,payments:payments.rows,activities:activities.rows,usage:usage.rows,audits:audits.rows};
+  return {teacher:teacher.rows[0],subscriptions:subscriptions.rows,payments:payments.rows,activities:activities.rows,usage:usage.rows,audits:audits.rows,journey:journey.rows};
 }
 
 export async function getActivities(input:{q?:string;page?:number}) {
