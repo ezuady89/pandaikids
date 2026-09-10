@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import type { TeacherSession } from "@/lib/teacher-auth";
 import styles from "@/app/admin/admin.module.css";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { AdminRefreshButton } from "@/components/admin/AdminRefreshButton";
 
 export function AdminShell({session,children}:{session:TeacherSession;children:ReactNode}) {
   return <div className={styles.adminRoot}>
@@ -14,11 +15,12 @@ export function AdminShell({session,children}:{session:TeacherSession;children:R
       </Link>
       <AdminNav />
       <div className={styles.adminIdentity}><span>{session.name.slice(0,1).toUpperCase()}</span><div><b>{session.name}</b><small>{session.email}</small></div></div>
+      <AdminRefreshButton />
       <Link className={styles.backSite} href="/">← Laman Pandaikids</Link>
     </aside>
     <header className={styles.mobileHeader}>
       <Link href="/admin" className={styles.mobileBrand} aria-label="Pandaikids Admin"><Image src="/assets/pandaikids-logo.png" width={1852} height={392} sizes="125px" priority alt="Pandaikids" /><small>Admin</small></Link>
-      <Link className={styles.mobileSiteLink} href="/">Laman utama ↗</Link>
+      <div className={styles.mobileHeaderActions}><AdminRefreshButton mobile /><Link className={styles.mobileSiteLink} href="/">Laman utama ↗</Link></div>
     </header>
     <main className={styles.content}>{children}</main>
     <AdminNav mobile />
