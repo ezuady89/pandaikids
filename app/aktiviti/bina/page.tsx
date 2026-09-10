@@ -105,6 +105,7 @@ export default function BinaKuizPage() {
       const response = await fetch("/api/cikgu-ai", { method: "POST", body: form });
       const result = await response.json().catch(() => ({}));
       if (response.status === 401) { window.location.href = String(result.loginUrl ?? "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"); return; }
+      if (result.code === "AI_MONTHLY_LIMIT_REACHED") setQuota((currentQuota) => currentQuota ? { ...currentQuota, aiRemaining: 0 } : currentQuota);
       if (!response.ok) throw new Error(result.error ?? "Soalan belum dapat dihasilkan.");
       const generated = (result.questions as GeneratedQuestion[]).map((question) => ({ ...question, id: crypto.randomUUID() }));
       setQuestions(generated); setActive(0); setMode("manual"); setCreationMethod("ai"); setAiReceipt(String(result.aiReceipt ?? ""));
@@ -131,8 +132,13 @@ export default function BinaKuizPage() {
 
           {mode === "material" ? <div className={styles.materialPanel}>
             <div className={styles.materialTop}><div><small>AI BANTU CIKGU</small><h2>AI baca isi nota dan hasilkan soalan.</h2><p>Soalan menguji isi pelajaran, bukan rupa poster atau ikon.</p><p className={styles.quotaLine}>{quota ? `Baki AI bulan ini: ${quota.aiRemaining} daripada ${quota.plan.aiLimit}` : "Pakej Percuma: 3 penggunaan AI sebulan"}</p></div><label>Bilangan<select value={count} onChange={(event) => setCount(Number(event.target.value))}>{[5,10,15,20].map((item) => <option key={item} value={item}>{item} soalan</option>)}</select></label></div>
-            <label>Nota atau kandungan teks <textarea value={material} onChange={(event) => setMaterial(event.target.value)} placeholder="Tampal kandungan nota di sini, atau hanya masukkan tajuk di atas…" maxLength={16000} /></label>
-            <div className={styles.uploadRow}><label className={styles.upload}><input type="file" accept=".pdf,.txt,image/jpeg,image/png,image/webp" onChange={(event) => setFile(event.target.files?.[0] ?? null)} /><span>＋ Pilih gambar, PDF atau teks</span><small>{file ? file.name : "Maksimum 4 MB"}</small></label><button className={styles.generate} disabled={busy || quota?.aiRemaining === 0} type="button" onClick={generateQuestions}>{busy ? "Sedang menghasilkan…" : quota?.aiRemaining === 0 ? "Kuota AI bulan ini habis" : "Jana Soalan dengan AI"} <span>✦</span></button></div>
+            {quota?.aiRemaining === 0 ? <div className={styles.upgradeNotice}>
+              <div><strong>{quota.plan.name === "Percuma" ? "Cikgu sudah menghasilkan 3 aktiviti percuma bulan ini 🎉" : `Semua penggunaan AI pakej ${quota.plan.name} bulan ini telah digunakan.`}</strong><p>Naik taraf untuk terus menghasilkan aktiviti baharu, atau tunggu sehingga baki diperbaharui bulan hadapan.</p></div>
+              <div className={styles.upgradeActions}><Link href="/harga/">Lihat Pakej Plus &amp; Pro</Link><Link href="/dashboard/">Kembali ke Dashboard</Link></div>
+            </div> : <>
+              <label>Nota atau kandungan teks <textarea value={material} onChange={(event) => setMaterial(event.target.value)} placeholder="Tampal kandungan nota di sini, atau hanya masukkan tajuk di atas…" maxLength={16000} /></label>
+              <div className={styles.uploadRow}><label className={styles.upload}><input type="file" accept=".pdf,.txt,image/jpeg,image/png,image/webp" onChange={(event) => setFile(event.target.files?.[0] ?? null)} /><span>＋ Pilih gambar, PDF atau teks</span><small>{file ? file.name : "Maksimum 4 MB"}</small></label><button className={styles.generate} disabled={busy} type="button" onClick={generateQuestions}>{busy ? "Sedang menghasilkan…" : "Jana Soalan dengan AI"} <span>✦</span></button></div>
+            </>}
           </div> : <div className={styles.manualPanel}>
             <div className={styles.questionNav}><div><small>SOALAN {active + 1} DARIPADA {questions.length}</small><div>{questions.map((question, index) => <button type="button" aria-label={`Soalan ${index + 1}`} className={index === active ? styles.currentPill : question.question.trim() ? styles.donePill : ""} key={question.id} onClick={() => setActive(index)}>{index + 1}</button>)}</div></div><button type="button" disabled={questions.length >= (quota?.plan.questionLimit ?? 20)} onClick={addQuestion}>＋ Tambah soalan</button></div>
             <label>Soalan<textarea value={current.question} onChange={(event) => updateCurrent({ question: event.target.value })} placeholder="Taip soalan di sini…" maxLength={500} /></label>
