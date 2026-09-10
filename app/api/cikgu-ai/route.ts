@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText, type UserContent } from "ai";
+import { generateText, Output, type UserContent } from "ai";
 import { z } from "zod";
 import {
   attachTeacherQuotaCookie,
@@ -28,14 +28,6 @@ const generatedSchema = z.object({
     explanation: z.string().max(350),
   })).min(1).max(50),
 });
-
-function parseGeneratedQuestions(text: string) {
-  const unfenced = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "");
-  const start = unfenced.indexOf("{");
-  const end = unfenced.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("INVALID_AI_JSON");
-  return generatedSchema.parse(JSON.parse(unfenced.slice(start, end + 1)));
-}
 
 const visualQuestionPatterns = [
   /\b(?:poster|imej|gambar|ilustrasi|paparan|reka bentuk)\b/i,
@@ -133,7 +125,7 @@ export async function POST(request: NextRequest) {
       "Setiap soalan mesti mempunyai tepat empat pilihan jawapan yang munasabah dan hanya satu jawapan betul.",
       "Elakkan soalan mengelirukan, fakta yang tidak terdapat dalam bahan, kandungan sensitif dan arahan yang meminta maklumat peribadi murid.",
       "Berikan penerangan jawapan yang pendek dan jelas.",
-      'Pulangkan JSON sahaja dalam bentuk {"questions":[{"question":"...","choices":["...","...","...","..."],"answer":"A","explanation":"..."}]}. Nilai answer mestilah A, B, C atau D mengikut kedudukan choices.',
+      "Patuhi struktur output yang ditetapkan. Nilai answer mestilah A, B, C atau D mengikut kedudukan choices.",
       material
         ? `Bahan cikgu:\n${material}`
         : file
@@ -155,13 +147,14 @@ export async function POST(request: NextRequest) {
     const google = createGoogleGenerativeAI({ apiKey });
     const model = process.env.PANDAIKIDS_GEMINI_MODEL ?? "gemini-3.5-flash-lite";
     const generateDraft = async (extraInstruction = "") => {
-      const { text } = await generateText({
+      const { output } = await generateText({
         model: google(model),
+        output: Output.object({ schema: generatedSchema }),
         messages: [{ role: "user", content: buildContent(extraInstruction) }],
-        maxOutputTokens: 5000,
+        maxOutputTokens: Math.min(16000, Math.max(6000, count * 280)),
         temperature: extraInstruction ? 0.1 : 0.2,
       });
-      return parseGeneratedQuestions(text);
+      return output;
     };
 
     const firstDraft = await generateDraft();
