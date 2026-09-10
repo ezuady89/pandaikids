@@ -3,6 +3,7 @@ import { createHash, randomUUID } from "crypto";
 import { getCikguDb } from "@/lib/cikgu-db";
 import { attachTeacherQuotaCookie, claimTeacherQuota, getTeacherQuotaIdentity, readTeacherQuota, validAiReceipt, type QuotaKind } from "@/lib/cikgu-quota";
 import { readTeacherSession } from "@/lib/teacher-auth";
+import { recordSystemEvent } from "@/lib/admin-events";
 
 export const runtime = "nodejs";
 
@@ -71,6 +72,7 @@ export async function POST(request: NextRequest) {
         );
       }
       await client.query("COMMIT");
+      await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-quiz", status: "QUIZ_PUBLISHED", teacherId: identity.teacherId, metadata: { creationMethod: body.creationMethod ?? "ready" } });
       return attachTeacherQuotaCookie(NextResponse.json({ id: body.id, quota }), identity);
     } catch (error) { await client.query("ROLLBACK"); throw error; } finally { client.release(); }
   } catch (error) {
