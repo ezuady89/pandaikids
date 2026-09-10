@@ -52,6 +52,11 @@ export default function BinaKuizPage() {
   }, []);
 
   const current = questions[active];
+  const questionLimit = quota?.plan.questionLimit ?? 20;
+  const questionCountOptions = Array.from(
+    { length: Math.floor(questionLimit / 5) },
+    (_, index) => (index + 1) * 5,
+  );
   const updateCurrent = (patch: Partial<DraftQuestion>) => setQuestions((all) => all.map((question, index) => index === active ? { ...question, ...patch } : question));
   const updateChoice = (choiceIndex: number, value: string) => updateCurrent({ choices: current.choices.map((choice, index) => index === choiceIndex ? value : choice) });
   const removeChoiceD = () => {
@@ -131,7 +136,7 @@ export default function BinaKuizPage() {
           <div className={styles.metaGrid}><label>Subjek<select value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((item) => <option key={item}>{item}</option>)}</select></label><label>Tahun<select value={year} onChange={(event) => setYear(Number(event.target.value))}>{[1,2,3,4,5,6].map((item) => <option key={item} value={item}>Tahun {item}</option>)}</select></label><label className={styles.topic}>Tajuk pembelajaran<input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Contoh: Kata ganti nama" maxLength={160} /></label></div>
 
           {mode === "material" ? <div className={styles.materialPanel}>
-            <div className={styles.materialTop}><div><small>AI BANTU CIKGU</small><h2>AI baca isi nota dan hasilkan soalan.</h2><p>Soalan menguji isi pelajaran, bukan rupa poster atau ikon.</p><p className={styles.quotaLine}>{quota ? `Baki AI bulan ini: ${quota.aiRemaining} daripada ${quota.plan.aiLimit}` : "Pakej Percuma: 3 penggunaan AI sebulan"}</p></div><label>Bilangan<select value={count} onChange={(event) => setCount(Number(event.target.value))}>{[5,10,15,20].map((item) => <option key={item} value={item}>{item} soalan</option>)}</select></label></div>
+            <div className={styles.materialTop}><div><small>AI BANTU CIKGU</small><h2>AI baca isi nota dan hasilkan soalan.</h2><p>Soalan menguji isi pelajaran, bukan rupa poster atau ikon.</p><p className={styles.quotaLine}>{quota ? `Baki AI bulan ini: ${quota.aiRemaining} daripada ${quota.plan.aiLimit}` : "Pakej Percuma: 3 penggunaan AI sebulan"}</p></div><label>Bilangan<select value={count} onChange={(event) => setCount(Number(event.target.value))}>{questionCountOptions.map((item) => <option key={item} value={item}>{item} soalan</option>)}</select></label></div>
             {quota?.aiRemaining === 0 ? <div className={styles.upgradeNotice}>
               <div><strong>{quota.plan.name === "Percuma" ? "Cikgu sudah menghasilkan 3 aktiviti percuma bulan ini 🎉" : `Semua penggunaan AI pakej ${quota.plan.name} bulan ini telah digunakan.`}</strong><p>Naik taraf untuk terus menghasilkan aktiviti baharu, atau tunggu sehingga baki diperbaharui bulan hadapan.</p></div>
               <div className={styles.upgradeActions}><Link href="/harga/">Lihat Pakej Plus &amp; Pro</Link><Link href="/dashboard/">Kembali ke Dashboard</Link></div>
