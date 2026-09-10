@@ -34,7 +34,7 @@ export function TeacherLogin({ nextPath, googleClientId }: { nextPath: string; g
           const response = await fetch("/api/auth/teacher/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ credential }),
+            body: JSON.stringify({ credential, nextPath }),
           });
           const result = await response.json().catch(() => ({}));
           if (!response.ok) throw new Error(result.error ?? "Akaun belum dapat disahkan.");

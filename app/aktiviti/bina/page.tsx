@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClickTracker } from "@/components/cikgu/ClickTracker";
 import styles from "./page.module.css";
 
@@ -31,6 +31,18 @@ export default function BinaKuizPage() {
   const [creationMethod, setCreationMethod] = useState<"manual" | "ai">("manual");
   const [aiReceipt, setAiReceipt] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
+  const journeyStages = useRef(new Set<string>());
+
+  const trackJourney = (stage: "AI_FORM_VIEW" | "AI_INPUT_STARTED" | "REVIEW_OPENED", source = "") => {
+    if (journeyStages.current.has(stage)) return;
+    journeyStages.current.add(stage);
+    fetch("/api/analytics/journey/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ stage, source }),
+      keepalive: true,
+    }).catch(() => undefined);
+  };
 
   useEffect(() => {
     const requestedMethod = new URLSearchParams(window.location.search).get("cara");
@@ -46,6 +58,7 @@ export default function BinaKuizPage() {
           }
           setMode("material");
           setCreationMethod("ai");
+          trackJourney("AI_FORM_VIEW", "direct_link");
         }
       })
       .catch(() => undefined);
@@ -76,6 +89,7 @@ export default function BinaKuizPage() {
     const complete = drafts.every((question) => question.question.trim() && question.choices.every((choice) => choice.trim()));
     if (!complete) { setMessage("Lengkapkan soalan dan semua pilihan jawapan."); return; }
     const fullQuestions = drafts.map((question) => ({ ...question, subject, year, topic: topic.trim() }));
+    trackJourney("REVIEW_OPENED", creationMethod);
     window.sessionStorage.setItem("pandaikids-cikgu-custom-draft", JSON.stringify({ questions: fullQuestions, creationMethod, aiReceipt }));
     window.location.href = "/aktiviti/semak/?draf=custom";
   };
@@ -129,11 +143,11 @@ export default function BinaKuizPage() {
 
       {mode === "choose" ? <div className={styles.modeGrid}>
         <button type="button" data-track-click="MANUAL" onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/buat-sendiri.webp" alt="" width={160} height={160} /></span><small>CARA 1 · BUAT SENDIRI</small><h2>Taip Soalan Sendiri</h2><p>Mulakan dengan 3 pilihan jawapan. Tambah jawapan D jika perlu.</p><strong className={styles.quotaBadge}>{quota ? `${quota.manualRemaining}/${quota.plan.manualLimit} kuiz percuma berbaki` : "5 kuiz percuma sebulan"}</strong><b>Bina sendiri <span>→</span></b></button>
-        <button type="button" data-track-click="AI" onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/guna-ai.webp" alt="" width={160} height={160} /></span><small>CARA 2 · GUNA AI</small><h2>Jana Soalan dengan AI</h2><p>Masukkan tajuk atau muat naik nota, gambar dan PDF. AI akan menyediakan soalannya.</p><strong className={styles.quotaBadge}>{quota ? `${quota.aiRemaining}/${quota.plan.aiLimit} penggunaan AI berbaki` : "3 penggunaan AI sebulan"}</strong><b>Jana dengan AI <span>→</span></b></button>
+        <button type="button" data-track-click="AI" onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); trackJourney("AI_FORM_VIEW", "mode_card"); }}><span className={styles.modeIcon}><Image src="/assets/cikgu/modes/guna-ai.webp" alt="" width={160} height={160} /></span><small>CARA 2 · GUNA AI</small><h2>Jana Soalan dengan AI</h2><p>Masukkan tajuk atau muat naik nota, gambar dan PDF. AI akan menyediakan soalannya.</p><strong className={styles.quotaBadge}>{quota ? `${quota.aiRemaining}/${quota.plan.aiLimit} penggunaan AI berbaki` : "3 penggunaan AI sebulan"}</strong><b>Jana dengan AI <span>→</span></b></button>
       </div> : <>
-        <div className={styles.modeSwitch}><button data-track-click="MANUAL" className={mode === "manual" ? styles.active : ""} onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}>Buat sendiri</button><button data-track-click="AI" className={mode === "material" ? styles.active : ""} onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); }}>Guna AI</button></div>
+        <div className={styles.modeSwitch}><button data-track-click="MANUAL" className={mode === "manual" ? styles.active : ""} onClick={() => { setMode("manual"); setCreationMethod("manual"); setAiReceipt(""); }}>Buat sendiri</button><button data-track-click="AI" className={mode === "material" ? styles.active : ""} onClick={() => { if (!authenticated) { window.location.href = "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai"; return; } setMode("material"); setCreationMethod("ai"); trackJourney("AI_FORM_VIEW", "mode_switch"); }}>Guna AI</button></div>
         <section className={styles.workspace}>
-          <div className={styles.metaGrid}><label>Subjek<select value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((item) => <option key={item}>{item}</option>)}</select></label><label>Tahun<select value={year} onChange={(event) => setYear(Number(event.target.value))}>{[1,2,3,4,5,6].map((item) => <option key={item} value={item}>Tahun {item}</option>)}</select></label><label className={styles.topic}>Tajuk pembelajaran<input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="Contoh: Kata ganti nama" maxLength={160} /></label></div>
+          <div className={styles.metaGrid}><label>Subjek<select value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((item) => <option key={item}>{item}</option>)}</select></label><label>Tahun<select value={year} onChange={(event) => setYear(Number(event.target.value))}>{[1,2,3,4,5,6].map((item) => <option key={item} value={item}>Tahun {item}</option>)}</select></label><label className={styles.topic}>Tajuk pembelajaran<input value={topic} onChange={(event) => { setTopic(event.target.value); if (mode === "material" && event.target.value.trim()) trackJourney("AI_INPUT_STARTED", "topic"); }} placeholder="Contoh: Kata ganti nama" maxLength={160} /></label></div>
 
           {mode === "material" ? <div className={styles.materialPanel}>
             <div className={styles.materialTop}><div><small>AI BANTU CIKGU</small><h2>AI baca isi nota dan hasilkan soalan.</h2><p>Soalan menguji isi pelajaran, bukan rupa poster atau ikon.</p><p className={styles.quotaLine}>{quota ? `Baki AI bulan ini: ${quota.aiRemaining} daripada ${quota.plan.aiLimit}` : "Pakej Percuma: 3 penggunaan AI sebulan"}</p></div><label>Bilangan<select value={count} onChange={(event) => setCount(Number(event.target.value))}>{questionCountOptions.map((item) => <option key={item} value={item}>{item} soalan</option>)}</select></label></div>
@@ -141,8 +155,8 @@ export default function BinaKuizPage() {
               <div><strong>{quota.plan.name === "Percuma" ? "Cikgu sudah menghasilkan 3 aktiviti percuma bulan ini 🎉" : `Semua penggunaan AI pakej ${quota.plan.name} bulan ini telah digunakan.`}</strong><p>Naik taraf untuk terus menghasilkan aktiviti baharu, atau tunggu sehingga baki diperbaharui bulan hadapan.</p></div>
               <div className={styles.upgradeActions}><Link href="/harga/">Lihat Pakej Plus &amp; Pro</Link><Link href="/dashboard/">Kembali ke Dashboard</Link></div>
             </div> : <>
-              <label>Nota atau kandungan teks <textarea value={material} onChange={(event) => setMaterial(event.target.value)} placeholder="Tampal kandungan nota di sini, atau hanya masukkan tajuk di atas…" maxLength={16000} /></label>
-              <div className={styles.uploadRow}><label className={styles.upload}><input type="file" accept=".pdf,.txt,image/jpeg,image/png,image/webp" onChange={(event) => setFile(event.target.files?.[0] ?? null)} /><span>＋ Pilih gambar, PDF atau teks</span><small>{file ? file.name : "Maksimum 4 MB"}</small></label><button className={styles.generate} disabled={busy} type="button" onClick={generateQuestions}>{busy ? "Sedang menghasilkan…" : "Jana Soalan dengan AI"} <span>✦</span></button></div>
+              <label>Nota atau kandungan teks <textarea value={material} onChange={(event) => { setMaterial(event.target.value); if (event.target.value.trim()) trackJourney("AI_INPUT_STARTED", "text"); }} placeholder="Tampal kandungan nota di sini, atau hanya masukkan tajuk di atas…" maxLength={16000} /></label>
+              <div className={styles.uploadRow}><label className={styles.upload}><input type="file" accept=".pdf,.txt,image/jpeg,image/png,image/webp" onChange={(event) => { const selected = event.target.files?.[0] ?? null; setFile(selected); if (selected) trackJourney("AI_INPUT_STARTED", "file"); }} /><span>＋ Pilih gambar, PDF atau teks</span><small>{file ? file.name : "Maksimum 4 MB"}</small></label><button className={styles.generate} disabled={busy} type="button" onClick={generateQuestions}>{busy ? "Sedang menghasilkan…" : "Jana Soalan dengan AI"} <span>✦</span></button></div>
             </>}
           </div> : <div className={styles.manualPanel}>
             <div className={styles.questionNav}><div><small>SOALAN {active + 1} DARIPADA {questions.length}</small><div>{questions.map((question, index) => <button type="button" aria-label={`Soalan ${index + 1}`} className={index === active ? styles.currentPill : question.question.trim() ? styles.donePill : ""} key={question.id} onClick={() => setActive(index)}>{index + 1}</button>)}</div></div><button type="button" disabled={questions.length >= (quota?.plan.questionLimit ?? 20)} onClick={addQuestion}>＋ Tambah soalan</button></div>

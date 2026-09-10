@@ -89,7 +89,10 @@ export async function POST(request: NextRequest) {
     loginUrl: "/log-masuk/?next=%2Faktiviti%2Fbina%2F%3Fcara%3Dai",
   }, { status: 401 });
   const identity = await getTeacherQuotaIdentity(request);
-  if (!canGenerate(request)) return attachTeacherQuotaCookie(NextResponse.json({ error: "Terlalu banyak percubaan dibuat serentak. Cuba semula dalam 10 minit." }, { status: 429 }), identity);
+  if (!canGenerate(request)) {
+    await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-ai", status: "AI_REQUEST_BLOCKED", teacherId: identity.teacherId, message: "Terlalu banyak percubaan serentak" });
+    return attachTeacherQuotaCookie(NextResponse.json({ error: "Terlalu banyak percubaan dibuat serentak. Cuba semula dalam 10 minit." }, { status: 429 }), identity);
+  }
 
   let quotaClaimed = false;
 
@@ -104,14 +107,31 @@ export async function POST(request: NextRequest) {
     const fileValue = form.get("file");
     const file = fileValue instanceof File && fileValue.size > 0 ? fileValue : undefined;
 
-    if (!subject || !topic) return attachTeacherQuotaCookie(NextResponse.json({ error: "Pilih subjek dan masukkan tajuk pembelajaran." }, { status: 400 }), identity);
-    if (file && (file.size > MAX_FILE_BYTES || !allowedTypes.has(file.type))) return attachTeacherQuotaCookie(NextResponse.json({ error: "Fail mestilah PDF, gambar atau teks dan tidak melebihi 4 MB." }, { status: 400 }), identity);
+    await recordSystemEvent({
+      eventType: "TEACHER_JOURNEY",
+      route: "/api/cikgu-ai",
+      status: "AI_GENERATE_CLICKED",
+      teacherId: identity.teacherId,
+      metadata: { input: file ? "file" : material ? "text" : "topic", count },
+    });
+
+    if (!subject || !topic) {
+      await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-ai", status: "AI_REQUEST_BLOCKED", teacherId: identity.teacherId, message: "Tajuk pembelajaran belum diisi" });
+      return attachTeacherQuotaCookie(NextResponse.json({ error: "Pilih subjek dan masukkan tajuk pembelajaran." }, { status: 400 }), identity);
+    }
+    if (file && (file.size > MAX_FILE_BYTES || !allowedTypes.has(file.type))) {
+      await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-ai", status: "AI_REQUEST_BLOCKED", teacherId: identity.teacherId, message: "Format atau saiz fail tidak diterima" });
+      return attachTeacherQuotaCookie(NextResponse.json({ error: "Fail mestilah PDF, gambar atau teks dan tidak melebihi 4 MB." }, { status: 400 }), identity);
+    }
 
     const quota = await claimTeacherQuota(identity.key, "ai", identity.teacherId);
-    if (!quota) return attachTeacherQuotaCookie(NextResponse.json({
-      code: "AI_MONTHLY_LIMIT_REACHED",
-      error: `${currentQuota.plan.aiLimit} penggunaan AI untuk pakej ${currentQuota.plan.name} bulan ini telah digunakan. Cikgu masih boleh bina soalan sendiri.`,
-    }, { status: 429 }), identity);
+    if (!quota) {
+      await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-ai", status: "AI_REQUEST_BLOCKED", teacherId: identity.teacherId, message: "Kuota AI bulanan habis" });
+      return attachTeacherQuotaCookie(NextResponse.json({
+        code: "AI_MONTHLY_LIMIT_REACHED",
+        error: `${currentQuota.plan.aiLimit} penggunaan AI untuk pakej ${currentQuota.plan.name} bulan ini telah digunakan. Cikgu masih boleh bina soalan sendiri.`,
+      }, { status: 429 }), identity);
+    }
     quotaClaimed = true;
 
     const instruction = [
@@ -167,6 +187,7 @@ export async function POST(request: NextRequest) {
     const output = { questions: contentQuestions.slice(0, count) };
     if (output.questions.length) {
       await recordSystemEvent({ eventType: "AI", route: "/api/cikgu-ai", status: "SUCCESS", teacherId: identity.teacherId, metadata: { count: output.questions.length } });
+      await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-ai", status: "AI_GENERATED", teacherId: identity.teacherId, metadata: { count: output.questions.length } });
       return attachTeacherQuotaCookie(NextResponse.json({ questions: output.questions, quota, aiReceipt: createAiReceipt(identity.key) }), identity);
     }
     throw new Error("EMPTY_AI_OUTPUT");
@@ -175,6 +196,7 @@ export async function POST(request: NextRequest) {
     console.error("Penjanaan soalan gagal", error);
     const detail = safeDiagnostic(error) || (error instanceof Error ? `${error.name} ${error.message}` : String(error));
     await recordSystemEvent({ eventType: "AI", route: "/api/cikgu-ai", status: "FAILED", teacherId: identity.teacherId, message: detail });
+    await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-ai", status: "AI_FAILED", teacherId: identity.teacherId, message: detail });
     const setupError = /(unauthorized|authentication|api.?key|missing|401|403)/i.test(detail);
     const quotaError = /(quota|rate.?limit|resource.?exhausted|429)/i.test(detail);
     return attachTeacherQuotaCookie(NextResponse.json({

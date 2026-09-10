@@ -3,7 +3,7 @@ import { Badge, Empty, fmtDate, money, PageHeader, Panel, TableWrap } from "@/co
 import { SubscriptionActionForm } from "@/components/admin/SubscriptionActionForm";
 import styles from "../../admin.module.css";
 import { requireAdmin } from "@/lib/admin-auth";
-import { getTeacherDetail } from "@/lib/admin-data";
+import { getTeacherDetail, teacherJourneyLabel } from "@/lib/admin-data";
 
 export default async function TeacherDetailPage({params,searchParams}:{params:Promise<{id:string}>;searchParams:Promise<{ok?:string;error?:string}>}) {
   await requireAdmin("/admin/pengguna");
@@ -13,6 +13,7 @@ export default async function TeacherDetailPage({params,searchParams}:{params:Pr
   return <>
     <PageHeader eyebrow="Butiran guru" title={t.name} description={`${t.email} · Daftar ${fmtDate(t.created_at)} · Login terakhir ${fmtDate(t.last_login_at)}`}/>
     {p.ok?<div className={styles.notice}>{p.ok}</div>:null}{p.error?<div className={`${styles.notice} ${styles.dangerNotice}`}>{p.error}</div>:null}
+    <Panel title="Perjalanan guru" description="Menunjukkan langkah terakhir guru tanpa menyimpan isi nota atau soalan dalam log.">{data.journey.length?<div className={styles.journeyList}>{data.journey.map((r,i)=><div className={styles.journeyItem} key={`${r.created_at}-${i}`}><span className={styles.journeyDot}/><div><b>{teacherJourneyLabel(r.status,r.message)}</b><small>{fmtDate(r.created_at)}</small></div></div>)}</div>:<div className={styles.notice}>Guru ini hanya berjaya log masuk. Tiada rekod membuka borang AI, mengisi bahan atau menekan butang Jana.</div>}</Panel>
     <Panel title="Tindakan langganan" description="Semua tindakan perlu sebab, confirmation dan akan direkodkan."><SubscriptionActionForm teacherId={id}/></Panel>
     <div className={styles.twoCols}>
       <Panel title="Sejarah langganan">{data.subscriptions.length?<TableWrap><table><thead><tr><th>Pakej</th><th>Mula</th><th>Tamat</th><th>Status</th></tr></thead><tbody>{data.subscriptions.map(r=><tr key={r.id}><td>{r.plan_id}</td><td>{fmtDate(r.starts_at)}</td><td>{fmtDate(r.ends_at)}</td><td><Badge value={r.cancelled_at?"Dibatalkan":new Date(r.ends_at)>new Date()?"Aktif":"Tamat"}/></td></tr>)}</tbody></table></TableWrap>:<Empty/>}</Panel>
