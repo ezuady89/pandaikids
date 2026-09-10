@@ -80,6 +80,24 @@ export async function getActivities(input:{q?:string;page?:number}) {
   return {rows:rows.rows,total:count.rows[0].count,page,pages:Math.max(1,Math.ceil(count.rows[0].count/limit)),summary:summary.rows[0],series:series.rows};
 }
 
+export async function getActivityDetail(id:string) {
+  const db=getCikguDb();
+  const result=await db.query(`SELECT q.id,q.source_bank,q.question_ids,q.question_overrides,q.theme,q.created_at,q.published_at,q.updated_at,t.name teacher_account_name,t.email teacher_email,COUNT(a.id)::int responses,COUNT(DISTINCT lower(a.student_name))::int students,ROUND(AVG(a.score::numeric/NULLIF(a.total,0))*100)::int average
+    FROM teacher_quizzes q
+    LEFT JOIN teacher_accounts t ON t.id=q.teacher_id
+    LEFT JOIN quiz_attempts a ON a.quiz_id=q.id
+    WHERE q.id=$1
+    GROUP BY q.id,t.name,t.email`,[id]);
+  if(!result.rowCount)return null;
+  const row=result.rows[0];
+  const stored=row.question_overrides&&typeof row.question_overrides==="object"?row.question_overrides:{};
+  const settings=stored.__settings&&typeof stored.__settings==="object"?stored.__settings:{};
+  const questions=row.source_bank==="custom"&&Array.isArray(row.question_ids)
+    ? row.question_ids.map((questionId:string)=>stored[questionId]).filter((question:unknown)=>question&&typeof question==="object")
+    : [];
+  return {...row,questions,teacher_name:String(settings.teacherName??row.teacher_account_name??"Guru tidak direkod"),access_mode:settings.accessMode==="delima"?"DELIMa":"Terbuka"};
+}
+
 export async function getFinance(input:{q?:string;status?:string;plan?:string;page?:number}) {
   const page=Math.max(1,input.page??1),limit=20,offset=(page-1)*limit,q=`%${input.q?.trim()??""}%`,status=input.status??"all",plan=input.plan??"all",db=getCikguDb();
   const where=`WHERE (o.external_reference ILIKE $1 OR COALESCE(o.toyyibpay_bill_code,'') ILIKE $1 OR t.email ILIKE $1) AND ($2='all' OR o.status=$2) AND ($3='all' OR o.plan_id=$3)`;
