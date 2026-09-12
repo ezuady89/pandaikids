@@ -7,7 +7,14 @@ const feedbackLabels: Record<string, string> = {
   CADANGAN: "Cadangan",
   MASALAH: "Masalah",
   PAPARAN: "Paparan",
+  PENGALAMAN: "Pengalaman pertama",
   LAIN_LAIN: "Lain-lain",
+};
+
+const helpfulLabels: Record<string, string> = {
+  AI: "AI jana soalan",
+  KUIZ_SIAP: "Kuiz siap",
+  REKOD_MURID: "Rekod murid",
 };
 
 export default async function SystemPage() {
@@ -44,6 +51,8 @@ export default async function SystemPage() {
                   <th>Masa</th>
                   <th>Jenis</th>
                   <th>Guru</th>
+                  <th>Penilaian</th>
+                  <th>Paling membantu</th>
                   <th>Maklum balas</th>
                   <th>Halaman</th>
                   <th>Status</th>
@@ -59,6 +68,8 @@ export default async function SystemPage() {
                       <br />
                       <small>{item.email ?? "—"}</small>
                     </td>
+                    <td>{item.rating ? `${item.rating}/5 ★` : "—"}</td>
+                    <td>{helpfulLabels[item.helpful] ?? "—"}</td>
                     <td>{item.message}</td>
                     <td><small>{item.route}</small></td>
                     <td><Badge value={item.status === "NEW" ? "Baharu" : item.status} /></td>
