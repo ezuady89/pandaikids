@@ -39,6 +39,11 @@ export async function POST(request: NextRequest) {
     const client = await db.connect();
     try {
       await client.query("BEGIN");
+      const existingQuizCount = await client.query(
+        "SELECT COUNT(*)::int count FROM teacher_quizzes WHERE teacher_id = $1",
+        [session.teacherId],
+      );
+      const shouldAskFeedback = Number(existingQuizCount.rows[0]?.count ?? 0) === 0;
       let quota;
       const isAiQuiz = body.bankKey === "custom" && body.creationMethod === "ai" && validAiReceipt(body.aiReceipt, identity.key);
       const quotaKind: QuotaKind | undefined = body.bankKey === "custom" ? (isAiQuiz ? undefined : "manual") : "ready";
@@ -73,7 +78,7 @@ export async function POST(request: NextRequest) {
       }
       await client.query("COMMIT");
       await recordSystemEvent({ eventType: "TEACHER_JOURNEY", route: "/api/cikgu-quiz", status: "QUIZ_PUBLISHED", teacherId: identity.teacherId, metadata: { creationMethod: body.creationMethod ?? "ready" } });
-      return attachTeacherQuotaCookie(NextResponse.json({ id: body.id, quota }), identity);
+      return attachTeacherQuotaCookie(NextResponse.json({ id: body.id, quota, shouldAskFeedback }), identity);
     } catch (error) { await client.query("ROLLBACK"); throw error; } finally { client.release(); }
   } catch (error) {
     console.error("Tidak dapat menerbitkan kuiz cikgu", error);
