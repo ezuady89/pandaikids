@@ -144,7 +144,7 @@ export async function getSystem() {
     db.query(`SELECT e.*,t.name,t.email FROM admin_system_events e LEFT JOIN teacher_accounts t ON t.id=e.teacher_id WHERE e.event_type<>'FEEDBACK' ORDER BY e.created_at DESC LIMIT 100`),
     db.query(`SELECT * FROM admin_audit_logs ORDER BY created_at DESC LIMIT 100`),
     db.query(`SELECT COUNT(*) FILTER(WHERE event_type='TOYYIBPAY_CALLBACK' AND status='SUCCESS')::int success,COUNT(*) FILTER(WHERE event_type='TOYYIBPAY_CALLBACK' AND status<>'SUCCESS')::int failed FROM admin_system_events`),
-    db.query(`SELECT e.id,e.created_at,e.status,e.route,e.message,e.metadata->>'category' category,t.name,t.email FROM admin_system_events e LEFT JOIN teacher_accounts t ON t.id=e.teacher_id WHERE e.event_type='FEEDBACK' ORDER BY e.created_at DESC LIMIT 50`)
+    db.query(`SELECT e.id,e.created_at,e.status,e.route,e.message,e.metadata->>'category' category,e.metadata->>'rating' rating,e.metadata->>'helpful' helpful,t.name,t.email FROM admin_system_events e LEFT JOIN teacher_accounts t ON t.id=e.teacher_id WHERE e.event_type='FEEDBACK' ORDER BY e.created_at DESC LIMIT 50`)
   ]);
   return {events:events.rows,audits:audits.rows,callback:callback.rows[0],feedback:feedback.rows,databaseMs:Date.now()-started,config:{database:Boolean(process.env.DATABASE_URL),toyyibpaySecret:Boolean(process.env.TOYYIBPAY_SECRET_KEY),toyyibpayCategory:Boolean(process.env.TOYYIBPAY_CATEGORY_CODE),appUrl:Boolean(process.env.PANDAIKIDS_APP_URL),sessionSecret:Boolean(process.env.PANDAIKIDS_SESSION_SECRET),adminAllowlist:Boolean(process.env.PANDAIKIDS_ADMIN_EMAILS)},version:process.env.VERCEL_GIT_COMMIT_SHA?.slice(0,7)??"local"};
 }
