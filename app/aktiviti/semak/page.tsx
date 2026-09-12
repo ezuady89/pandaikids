@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { QuickTeacherFeedback } from "@/components/cikgu/QuickTeacherFeedback";
 import styles from "./page.module.css";
 
 type Question = { id: string; subject: string; year: number; topic: string; question: string; choices: string[]; answer: string; explanation: string };
@@ -28,6 +29,7 @@ export default function SemakAktivitiPage() {
   const [creationMethod, setCreationMethod] = useState<"manual" | "ai" | "ready">("ready");
   const [aiReceipt, setAiReceipt] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
+  const [askFeedback, setAskFeedback] = useState(false);
 
   useEffect(() => {
     setTeacherName(window.localStorage.getItem("pandaikids-cikgu-display-name") ?? "");
@@ -133,10 +135,12 @@ export default function SemakAktivitiPage() {
     try { await navigator.clipboard.writeText(link); setMessage("✓ Pautan kuiz sudah disalin. Tampal terus dalam DELIMa."); }
     catch { window.prompt("Salin pautan kuiz ini", link); setMessage("Pautan kuiz sudah siap."); }
     setPublishing(false);
+    if (result.shouldAskFeedback === true) setAskFeedback(true);
   };
 
   if (!current) return <main className={styles.loading}><div><p>{message || "Memuatkan kuiz cikgu…"}</p>{message ? <a className={styles.loadingLink} href="/aktiviti/pilih/">← Pilih kuiz semula</a> : null}</div></main>;
   return <main className={styles.page}>
+    <QuickTeacherFeedback open={askFeedback} onClose={() => setAskFeedback(false)} />
     <header className={styles.header}><a href="/" className={styles.logo}><img src="/assets/pandaikids-logo-colour.png" alt="PandaiKids.com" /></a><a className={styles.exit} href={bankKey === "custom" ? "/aktiviti/bina/" : "/aktiviti/pilih/"}>← Kembali</a></header>
     <section className={styles.shell}>
       <div className={styles.intro}><span>LANGKAH AKHIR</span><h1>Semak sebelum kongsi.</h1><p>Cikgu boleh ubah soalan dahulu, kemudian terbitkan satu pautan untuk murid.</p></div>
