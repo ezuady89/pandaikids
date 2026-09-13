@@ -1336,17 +1336,16 @@
 /* Homepage conversion redesign — presentation only; product routes stay unchanged. */
 .hero {
   padding-bottom: 58px;
-  background:
-    radial-gradient(50% 58% at -4% 29%, rgba(255, 139, 126, 0.34), transparent 72%),
-    radial-gradient(39% 52% at 102% 48%, rgba(83, 207, 194, 0.19), transparent 70%),
-    radial-gradient(32% 38% at 76% 88%, rgba(255, 198, 112, 0.18), transparent 72%),
-    linear-gradient(125deg, #fff8f1 0%, #fffdf8 48%, #fffaf1 100%);
+  background-color: #fffaf3;
+  background-image: url("/assets/cikgu/hero-background-desktop-v2.webp");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .hero::after {
-  opacity: 0.14;
-  background-image: radial-gradient(rgba(13, 93, 83, 0.24) 0.6px, transparent 0.7px);
-  background-size: 13px 13px;
+  opacity: 0;
+  background-image: none;
 }
 
 .header {
@@ -1754,6 +1753,11 @@
 }
 
 @media (max-width: 980px) {
+  .hero {
+    background-image: url("/assets/cikgu/hero-background-mobile-v2.webp");
+    background-position: center top;
+  }
+
   .navigation {
     display: none;
   }
