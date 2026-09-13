@@ -2004,20 +2004,28 @@
   }
 
   .heroInner {
-    padding-top: 40px;
+    padding-top: 24px;
+    gap: 30px;
   }
 
   .heroCopy h1 {
+    margin-top: 10px;
     font-size: clamp(40px, 12.5vw, 50px);
   }
 
   .heroLead {
+    margin-top: 15px;
     font-size: 16px;
   }
 
   .heroPrimary {
+    margin-top: 20px;
     grid-template-columns: 22px 1fr 22px;
     font-size: 15px;
+  }
+
+  .heroAssurance {
+    margin-top: 14px;
   }
 
   .productPreview {
