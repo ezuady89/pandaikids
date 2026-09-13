@@ -148,36 +148,6 @@ const quizzes = [
   { name: "Pendidikan Islam", image: "/assets/cikgu/subjects/pendidikan-islam.webp" },
 ];
 
-const benefits = [
-  {
-    image: "/assets/cikgu/benefits/murid-tanpa-daftar.webp",
-    text: "Murid jawab tanpa daftar",
-  },
-  {
-    image: "/assets/cikgu/benefits/semak-dahulu.webp",
-    text: "Cikgu boleh ubah semua soalan",
-  },
-  {
-    image: "/assets/cikgu/benefits/kongsi-pautan.webp",
-    text: "Kongsi melalui DELIMa, Classroom & WhatsApp",
-  },
-];
-
-const microBenefits = [
-  {
-    text: "Murid tanpa daftar",
-    image: "/assets/cikgu/benefits/murid-tanpa-daftar.webp",
-  },
-  {
-    text: "Boleh semak dahulu",
-    image: "/assets/cikgu/benefits/semak-dahulu.webp",
-  },
-  {
-    text: "Sesuai untuk telefon",
-    image: "/assets/cikgu/benefits/telefon.webp",
-  },
-];
-
 const pricingPlans = [
   {
     name: "Percuma",
@@ -250,66 +220,54 @@ function ProductPreview() {
   return (
     <div
       className={styles.productPreview}
-      aria-label="Aliran membina kuiz daripada nota cikgu"
+      aria-label="Contoh nota Fotosintesis ditukarkan menjadi soalan kuiz"
     >
-      <article className={`${styles.previewCard} ${styles.noteCard}`}>
-        <header>
-          <span className={styles.previewIcon}>
-            <Image
-              src="/assets/cikgu/steps/masukkan-nota.webp"
-              alt=""
-              width={180}
-              height={180}
-            />
-          </span>
-          <span>
-            <small>LANGKAH 1</small>
-            <b>Masukkan nota</b>
-          </span>
-        </header>
-        <div className={`${styles.previewMedia} ${styles.noteMedia}`}>
+      <article className={`${styles.demoPanel} ${styles.notePanel}`}>
+        <span className={styles.previewTag}>NOTA CIKGU</span>
+        <div className={styles.demoMedia}>
           <Image
-            src="/assets/cikgu/hero-note-sirah.webp"
-            alt="Contoh nota bergambar Strategi Perang Uhud"
+            src="/assets/cikgu/hero-note.webp"
+            alt="Contoh nota Fotosintesis yang dimuat naik oleh guru"
             fill
-            sizes="(max-width: 760px) 84vw, 240px"
+            sizes="(max-width: 760px) 42vw, 280px"
           />
         </div>
+        <span className={styles.uploadTag}>
+          <Icon name="file" />
+          <b>Muat naik nota atau PDF</b>
+        </span>
       </article>
 
-      <span className={styles.flowArrow} aria-hidden="true">
-        <i />
-        <Icon name="arrow" />
-      </span>
+      <div className={styles.aiBridge} aria-hidden="true">
+        <span className={styles.aiBadge}>AI</span>
+        <span className={styles.demoArrow}><Icon name="arrow" /></span>
+      </div>
 
-      <article className={`${styles.previewCard} ${styles.questionCard}`}>
-        <header>
-          <span className={styles.previewIcon}>
-            <Image
-              src="/assets/cikgu/steps/soalan-siap.webp"
-              alt=""
-              width={180}
-              height={180}
-            />
-          </span>
-          <span>
-            <small>LANGKAH 2</small>
-            <b>Soalan terus siap</b>
-          </span>
-        </header>
-        <div className={`${styles.previewMedia} ${styles.quizMedia}`}>
+      <article className={`${styles.demoPanel} ${styles.quizPanel}`}>
+        <span className={styles.previewTag}>SOALAN AI</span>
+        <div className={styles.demoMedia}>
           <Image
-            src="/assets/cikgu/hero-quiz-perang-uhud.webp"
-            alt="Contoh soalan kuiz Perang Uhud yang dijana untuk murid"
+            src="/assets/cikgu/hero-quiz-fotosintesis.webp"
+            alt="Contoh soalan Fotosintesis yang dijana oleh AI"
             fill
-            sizes="(max-width: 760px) 84vw, 290px"
+            sizes="(max-width: 760px) 42vw, 280px"
           />
         </div>
-        <div className={styles.reviewNote}>
-          <Icon name="check" /> Cikgu boleh semak &amp; ubah
-        </div>
+        <span className={styles.reviewTag}><Icon name="check" /> Boleh semak &amp; ubah</span>
       </article>
     </div>
+  );
+}
+
+function ClassroomIcon() {
+  return (
+    <svg className={styles.classroomIcon} viewBox="0 0 48 48" aria-hidden="true">
+      <rect x="5" y="7" width="38" height="31" rx="3" fill="#22a366" />
+      <rect x="9" y="11" width="30" height="21" rx="1.5" fill="#f7fffb" />
+      <circle cx="24" cy="19" r="4" fill="#22a366" />
+      <path d="M15 30c1.6-5.3 5-7.3 9-7.3s7.4 2 9 7.3" fill="#22a366" />
+      <rect x="13" y="35" width="22" height="6" rx="1" fill="#f7b928" />
+    </svg>
   );
 }
 
@@ -337,120 +295,58 @@ export function CikguHomepage() {
             <a href="/aktiviti/bina/?cara=ai" data-track-click="AI">Bina dengan AI</a>
             <a href="#cara">Cara Guna</a>
             <a href="/harga/">Harga</a>
-            <a href="/log-masuk/?next=%2Fdashboard%2F">Dashboard Guru</a>
-            <a className={styles.headerCta} href="/aktiviti/bina/">
-              Bina Kuiz Percuma
+            <a className={styles.headerCta} href="/log-masuk/?next=%2Fdashboard%2F">
+              Log masuk
             </a>
           </nav>
-          <MobileNavigation />
+          <a className={styles.mobileLogin} href="/log-masuk/?next=%2Fdashboard%2F">
+            Log masuk
+          </a>
         </header>
 
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
-            <h1>
-              <span>Sediakan latihan untuk murid.</span>
-              <strong>Kongsi terus melalui DELIMa.</strong>
-            </h1>
+            <span className={styles.heroEyebrow}>KHAS UNTUK GURU SEKOLAH RENDAH</span>
+            <h1>Nota cikgu terus jadi kuiz.</h1>
             <p className={styles.heroLead}>
-              Pilih kuiz siap atau tukarkan nota, gambar dan PDF kepada latihan.
-              Cikgu boleh semak dahulu sebelum berkongsi.
+              Muat naik gambar atau PDF. AI sediakan soalan untuk cikgu semak
+              dan kongsi.
             </p>
-            <div className={styles.heroActions}>
-              <a className={styles.customButton} href="/aktiviti/bina/?cara=ai" data-track-click="AI">
-                <Icon name="sparkle" /> Bina dengan AI
-              </a>
-              <a className={styles.readyButton} href="#kuiz" data-track-click="READY">
-                Pilih Kuiz Siap
-              </a>
-            </div>
-            <div className={styles.microBenefits}>
-              {microBenefits.map((benefit) => (
-                <span key={benefit.text}>
-                  <Image
-                    className={styles.microIcon}
-                    src={benefit.image}
-                    alt=""
-                    width={180}
-                    height={180}
-                  />
-                  {benefit.text}
-                </span>
-              ))}
-            </div>
+            <a
+              className={styles.heroPrimary}
+              href="/aktiviti/bina/?cara=ai"
+              data-track-click="AI"
+            >
+              <Icon name="sparkle" />
+              Cuba Jana Soalan Percuma
+              <Icon name="arrow" />
+            </a>
+            <p className={styles.heroAssurance}>Percuma <i>•</i> Tiada kad diperlukan</p>
           </div>
           <ProductPreview />
         </div>
 
-        <div className={styles.benefitStrip}>
-          {benefits.map((benefit) => (
-            <div key={benefit.text}>
-              <Image
-                className={styles.benefitIcon}
-                src={benefit.image}
-                alt=""
-                width={180}
-                height={180}
-              />
-              <b>
-                <Icon name="check" /> {benefit.text}
-              </b>
-            </div>
-          ))}
+        <div className={styles.heroSteps} aria-label="Tiga langkah menggunakan Pandaikids">
+          <span><b>1</b> Muat naik nota</span>
+          <span><b>2</b> Semak soalan</span>
+          <span><b>3</b> Kongsi ke DELIMa</span>
         </div>
-        <a
-          href="#kuiz"
-          className={styles.scrollHint}
-          aria-label="Lihat aktiviti siap"
-        >
-          <Icon name="down" />
-        </a>
-      </section>
 
-      <section className={styles.howSection} id="cara">
-        <div className={styles.howIntro}>
-          <span>CARA GUNA PANDAIKIDS</span>
-          <h2>Tiga langkah, terus boleh dikongsi.</h2>
-          <p>
-            Tak perlu mahir teknologi. Cikgu hanya pilih bahan, semak soalan dan
-            kongsi pautan.
-          </p>
-        </div>
-        <div className={styles.howGrid}>
-          <article className={styles.howStep}>
-            <span>1</span>
-            <h3>Pilih cara bina</h3>
-            <p>
-              Gunakan kuiz siap, taip soalan sendiri atau jana daripada nota
-              dengan AI.
-            </p>
-          </article>
-          <article className={styles.howStep}>
-            <span>2</span>
-            <h3>Semak dan ubah</h3>
-            <p>
-              Cikgu boleh menyemak soalan, jawapan dan penerangan sebelum
-              diterbitkan.
-            </p>
-          </article>
-          <article className={styles.howStep}>
-            <span>3</span>
-            <h3>Kongsi kepada murid</h3>
-            <p>
-              Salin pautan dan kongsi melalui DELIMa, Google Classroom atau
-              WhatsApp.
-            </p>
-          </article>
+        <div className={styles.integrationStrip}>
+          <ClassroomIcon />
+          <span>Sesuai untuk <b>DELIMa</b> &amp; <b>Google Classroom</b></span>
         </div>
       </section>
 
       <section className={styles.quizzes} id="kuiz">
         <div className={styles.sectionLead}>
-          <h2>Mudah untuk cikgu. Seronok untuk murid.</h2>
+          <span>PILIHAN TANPA PERLU JANA</span>
+          <h2>Atau pilih kuiz yang sudah siap.</h2>
           <i />
         </div>
         <div className={styles.intro}>
           <h3>Pilih subjek untuk mula.</h3>
-          <p>Tahun 1 hingga 6 · pilih tajuk dan soalan sendiri.</p>
+          <p>Tahun 1 hingga 6 · pilih tajuk dan terus semak soalan.</p>
         </div>
         <div className={styles.quizGrid}>
           {quizzes.map((quiz) => (
@@ -473,6 +369,34 @@ export function CikguHomepage() {
               </b>
             </a>
           ))}
+        </div>
+      </section>
+
+      <section className={styles.howSection} id="cara">
+        <div className={styles.howIntro}>
+          <span>CARA GUNA PANDAIKIDS</span>
+          <h2>Tiga langkah, terus boleh dikongsi.</h2>
+          <p>
+            Tak perlu mahir teknologi. Cikgu hanya pilih bahan, semak soalan dan
+            kongsi pautan.
+          </p>
+        </div>
+        <div className={styles.howGrid}>
+          <article className={styles.howStep}>
+            <span>1</span>
+            <h3>Pilih bahan</h3>
+            <p>Muat naik nota, gambar atau PDF yang cikgu sudah ada.</p>
+          </article>
+          <article className={styles.howStep}>
+            <span>2</span>
+            <h3>Semak dan ubah</h3>
+            <p>Pastikan setiap soalan dan jawapan sesuai sebelum diterbitkan.</p>
+          </article>
+          <article className={styles.howStep}>
+            <span>3</span>
+            <h3>Kongsi kepada murid</h3>
+            <p>Kongsi pautan melalui DELIMa, Google Classroom atau WhatsApp.</p>
+          </article>
         </div>
       </section>
 
