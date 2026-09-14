@@ -44,40 +44,69 @@ export default async function SystemPage() {
         description="50 kiriman terbaru, bersama halaman tempat guru menghantarnya."
       >
         {d.feedback.length ? (
-          <TableWrap>
-            <table>
-              <thead>
-                <tr>
-                  <th>Masa</th>
-                  <th>Jenis</th>
-                  <th>Guru</th>
-                  <th>Penilaian</th>
-                  <th>Paling membantu</th>
-                  <th>Maklum balas</th>
-                  <th>Halaman</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {d.feedback.map((item) => (
-                  <tr key={item.id}>
-                    <td>{fmtDate(item.created_at)}</td>
-                    <td>{feedbackLabels[item.category] ?? "Lain-lain"}</td>
-                    <td>
-                      {item.name ?? "Guru"}
-                      <br />
-                      <small>{item.email ?? "—"}</small>
-                    </td>
-                    <td>{item.rating ? `${item.rating}/5 ★` : "—"}</td>
-                    <td>{helpfulLabels[item.helpful] ?? "—"}</td>
-                    <td>{item.message}</td>
-                    <td><small>{item.route}</small></td>
-                    <td><Badge value={item.status === "NEW" ? "Baharu" : item.status} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </TableWrap>
+          <>
+            <div className={styles.desktopTable}>
+              <TableWrap>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Masa</th>
+                      <th>Jenis</th>
+                      <th>Guru</th>
+                      <th>Penilaian</th>
+                      <th>Paling membantu</th>
+                      <th>Maklum balas</th>
+                      <th>Halaman</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {d.feedback.map((item) => (
+                      <tr key={item.id}>
+                        <td>{fmtDate(item.created_at)}</td>
+                        <td>{feedbackLabels[item.category] ?? "Lain-lain"}</td>
+                        <td>
+                          {item.name ?? "Guru"}
+                          <br />
+                          <small>{item.email ?? "—"}</small>
+                        </td>
+                        <td>{item.rating ? `${item.rating}/5 ★` : "—"}</td>
+                        <td>{helpfulLabels[item.helpful] ?? "—"}</td>
+                        <td>{item.message}</td>
+                        <td><small>{item.route}</small></td>
+                        <td><Badge value={item.status === "NEW" ? "Baharu" : item.status} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </TableWrap>
+            </div>
+
+            <div className={styles.mobileCards}>
+              {d.feedback.map((item) => (
+                <article key={item.id}>
+                  <header>
+                    <b>{feedbackLabels[item.category] ?? "Lain-lain"}</b>
+                    <Badge value={item.status === "NEW" ? "Baharu" : item.status} />
+                  </header>
+                  <small>Maklum balas guru</small>
+                  <p>{item.message || "Tiada mesej ditulis."}</p>
+                  <small>
+                    Penilaian: {item.rating ? `${item.rating}/5 ★` : "—"}
+                    {" · "}Paling membantu: {helpfulLabels[item.helpful] ?? "—"}
+                  </small>
+                  <footer>
+                    <small>
+                      {item.name ?? "Guru"}<br />
+                      {item.email ?? "—"}<br />
+                      {fmtDate(item.created_at)}
+                    </small>
+                    <small>{item.route || "—"}</small>
+                  </footer>
+                </article>
+              ))}
+            </div>
+          </>
         ) : (
           <Empty text="Belum ada cadangan atau aduan daripada guru." />
         )}
